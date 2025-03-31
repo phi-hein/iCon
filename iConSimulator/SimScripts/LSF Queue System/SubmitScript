@@ -1,0 +1,26 @@
+# Script zum automatischen Erstellen und Starten einer KMC-Rechnung
+#
+# Skript wird gestartet mit:
+# "./SubmitScript <JobScript-Pfad> <Exe-Pfad> <Job-Verzeichnis> <Job-Name> <Inputdatei-Pfad> <Logdatei-Pfad>"
+#
+#!/bin/sh
+echo
+echo ----------
+echo Submitting job: $4
+echo
+echo Script: $1
+echo Executable: $2
+echo Directory: $3
+echo Inputfile: $5
+echo Logfile: $6
+echo ----------
+echo
+cd $3
+rm -f $3/JobLog.txt
+bsub -o $3/JobLog.txt -J "$4" -W 24:00 -M 1500 $1 $2 $5 $6
+echo
+echo ----------
+echo Job sucessfully submitted to queue system
+echo ----------
+echo
+exit 0

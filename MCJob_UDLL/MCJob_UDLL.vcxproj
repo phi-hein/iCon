@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A8466DD5-53DC-4297-BA5F-22501DEE84BD}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>MCJob_UDLL</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>$(ProjectName)_D</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;MCJOB_UDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MCJOB_UDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="ErrorCodes.h" />
+    <ClInclude Include="GlobalDefinitions.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="T3DMovVector.h" />
+    <ClInclude Include="T3DVector.h" />
+    <ClInclude Include="T4DLatticeVector.h" />
+    <ClInclude Include="TCustomTime.h" />
+    <ClInclude Include="TElementsDesc.h" />
+    <ClInclude Include="TElements\TElements.h" />
+    <ClInclude Include="TElements\TElementsBase.h" />
+    <ClInclude Include="TElements\TElementsFunc.h" />
+    <ClInclude Include="TElements\TElementsOut.h" />
+    <ClInclude Include="TInteraction\TInteraction.h" />
+    <ClInclude Include="TInteraction\TInteractionBase.h" />
+    <ClInclude Include="TInteraction\TInteractionFunc.h" />
+    <ClInclude Include="TInteraction\TInteractionOut.h" />
+    <ClInclude Include="TJumps\TJumps.h" />
+    <ClInclude Include="TJumps\TJumpsBase.h" />
+    <ClInclude Include="TJumps\TJumpsFunc.h" />
+    <ClInclude Include="TJumps\TJumpsOut.h" />
+    <ClInclude Include="TJump\TJump.h" />
+    <ClInclude Include="TJump\TJumpBase.h" />
+    <ClInclude Include="TJump\TJumpFunc.h" />
+    <ClInclude Include="TJump\TJumpOut.h" />
+    <ClInclude Include="TKMCJob\IKMCJob.h" />
+    <ClInclude Include="TKMCJob\TKMCJob.h" />
+    <ClInclude Include="TKMCJob\TKMCJobBase.h" />
+    <ClInclude Include="TKMCJob\TKMCJobFunc.h" />
+    <ClInclude Include="TKMCJob\TKMCJobOut.h" />
+    <ClInclude Include="TResults\TResults.h" />
+    <ClInclude Include="TResults\TResultsBase.h" />
+    <ClInclude Include="TResults\TResultsFunc.h" />
+    <ClInclude Include="TResults\TResultsOut.h" />
+    <ClInclude Include="TSettings\TSettings.h" />
+    <ClInclude Include="TSettings\TSettingsBase.h" />
+    <ClInclude Include="TSettings\TSettingsFunc.h" />
+    <ClInclude Include="TSettings\TSettingsOut.h" />
+    <ClInclude Include="TSimulation\TSimJump.h" />
+    <ClInclude Include="TSimulation\TSimPhaseInfo.h" />
+    <ClInclude Include="TSimulation\TSimProb.h" />
+    <ClInclude Include="TSimulation\TSimulation.h" />
+    <ClInclude Include="TSimulation\TSimulationBase.h" />
+    <ClInclude Include="TSimulation\TSimulationFunc.h" />
+    <ClInclude Include="TSimulation\TSimulationOut.h" />
+    <ClInclude Include="TSimulation\TSimUniqueJump.h" />
+    <ClInclude Include="TStructure\TStructure.h" />
+    <ClInclude Include="TStructure\TStructureBase.h" />
+    <ClInclude Include="TStructure\TStructureFunc.h" />
+    <ClInclude Include="TStructure\TStructureOut.h" />
+    <ClInclude Include="TUniqueJumps\TUniqueJumps.h" />
+    <ClInclude Include="TUniqueJumps\TUniqueJumpsBase.h" />
+    <ClInclude Include="TUniqueJumps\TUniqueJumpsFunc.h" />
+    <ClInclude Include="TUniqueJumps\TUniqueJumpsOut.h" />
+    <ClInclude Include="TUniqueJump\TUniqueJump.h" />
+    <ClInclude Include="TUniqueJump\TUniqueJumpBase.h" />
+    <ClInclude Include="TUniqueJump\TUniqueJumpFunc.h" />
+    <ClInclude Include="TUniqueJump\TUniqueJumpOut.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GlobalDefinitions.cpp" />
+    <ClCompile Include="T3DMovVector.cpp" />
+    <ClCompile Include="T3DVector.cpp" />
+    <ClCompile Include="T4DLatticeVector.cpp" />
+    <ClCompile Include="TCustomTime.cpp" />
+    <ClCompile Include="TElementsDesc.cpp" />
+    <ClCompile Include="TElements\TElements.cpp" />
+    <ClCompile Include="TElements\TElementsBase.cpp" />
+    <ClCompile Include="TElements\TElementsFunc.cpp" />
+    <ClCompile Include="TElements\TElementsOut.cpp" />
+    <ClCompile Include="TInteraction\TInteraction.cpp" />
+    <ClCompile Include="TInteraction\TInteractionBase.cpp" />
+    <ClCompile Include="TInteraction\TInteractionFunc.cpp" />
+    <ClCompile Include="TInteraction\TInteractionOut.cpp" />
+    <ClCompile Include="TJumps\TJumps.cpp" />
+    <ClCompile Include="TJumps\TJumpsBase.cpp" />
+    <ClCompile Include="TJumps\TJumpsFunc.cpp" />
+    <ClCompile Include="TJumps\TJumpsOut.cpp" />
+    <ClCompile Include="TJump\TJump.cpp" />
+    <ClCompile Include="TJump\TJumpBase.cpp" />
+    <ClCompile Include="TJump\TJumpFunc.cpp" />
+    <ClCompile Include="TJump\TJumpOut.cpp" />
+    <ClCompile Include="TKMCJob\IKMCJob.cpp" />
+    <ClCompile Include="TKMCJob\TKMCJob.cpp" />
+    <ClCompile Include="TKMCJob\TKMCJobBase.cpp" />
+    <ClCompile Include="TKMCJob\TKMCJobFunc.cpp" />
+    <ClCompile Include="TKMCJob\TKMCJobOut.cpp" />
+    <ClCompile Include="TResults\TResults.cpp" />
+    <ClCompile Include="TResults\TResultsBase.cpp" />
+    <ClCompile Include="TResults\TResultsFunc.cpp" />
+    <ClCompile Include="TResults\TResultsOut.cpp" />
+    <ClCompile Include="TSettings\TSettings.cpp" />
+    <ClCompile Include="TSettings\TSettingsBase.cpp" />
+    <ClCompile Include="TSettings\TSettingsFunc.cpp" />
+    <ClCompile Include="TSettings\TSettingsOut.cpp" />
+    <ClCompile Include="TSimulation\TSimJump.cpp" />
+    <ClCompile Include="TSimulation\TSimPhaseInfo.cpp" />
+    <ClCompile Include="TSimulation\TSimProb.cpp" />
+    <ClCompile Include="TSimulation\TSimulation.cpp" />
+    <ClCompile Include="TSimulation\TSimulationBase.cpp" />
+    <ClCompile Include="TSimulation\TSimulationFunc.cpp" />
+    <ClCompile Include="TSimulation\TSimulationOut.cpp" />
+    <ClCompile Include="TSimulation\TSimUniqueJump.cpp" />
+    <ClCompile Include="TStructure\TStructure.cpp" />
+    <ClCompile Include="TStructure\TStructureBase.cpp" />
+    <ClCompile Include="TStructure\TStructureFunc.cpp" />
+    <ClCompile Include="TStructure\TStructureOut.cpp" />
+    <ClCompile Include="TUniqueJumps\TUniqueJumps.cpp" />
+    <ClCompile Include="TUniqueJumps\TUniqueJumpsBase.cpp" />
+    <ClCompile Include="TUniqueJumps\TUniqueJumpsFunc.cpp" />
+    <ClCompile Include="TUniqueJumps\TUniqueJumpsOut.cpp" />
+    <ClCompile Include="TUniqueJump\TUniqueJump.cpp" />
+    <ClCompile Include="TUniqueJump\TUniqueJumpBase.cpp" />
+    <ClCompile Include="TUniqueJump\TUniqueJumpFunc.cpp" />
+    <ClCompile Include="TUniqueJump\TUniqueJumpOut.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MCJob_UDLL.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

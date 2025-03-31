@@ -1,0 +1,38 @@
+# Script zum automatischen Erstellen und Starten einer KMC-Rechnung
+#
+# Skript wird gestartet mit:
+# "./SubmitScript <JobScript-Pfad> <Exe-Pfad> <Job-Verzeichnis> <Job-Name> <Inputdatei-Pfad> <Logdatei-Pfad>"
+#
+#!/bin/bash
+PATH=$PATH:/usr/sge
+export PATH
+SGE_CELL="bunnahabhain"
+SGE_CLUSTER_NAME="bunnahabhain"
+SGE_EXECD_PORT="12346"
+SGE_QMASTER_PORT="12345"
+SGE_ROOT="/usr/sge"
+export SGE_CELL
+export SGE_CLUSTER_NAME
+export SGE_EXECD_PORT
+export SGE_QMASTER_PORT
+export SGE_ROOT
+echo
+echo ----------
+echo Submitting job: $4
+echo
+echo Script: $1
+echo Executable: $2
+echo Directory: $3
+echo Inputfile: $5
+echo Logfile: $6
+echo ----------
+echo
+cd $3
+rm -f $3/JobLog.txt
+/usr/sge/bin/lx26-amd64/qsub -o $3/JobLog.txt -N "$4" $1 $2 $5 $6
+echo
+echo ----------
+echo Job sucessfully submitted to queue system
+echo ----------
+echo
+exit 0

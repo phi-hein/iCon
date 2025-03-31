@@ -1,0 +1,31 @@
+﻿<Window x:Class="iCon_General.ProgressDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:txtRes="clr-namespace:iCon_General.Properties"
+        Title="{x:Static txtRes:Resources.ProgressWindow_Title}" 
+        Height="300" 
+        Width="400" 
+        ShowInTaskbar="False" 
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="NoResize">
+    
+    <Window.Resources>
+        <ResourceDictionary Source="../Resources/GlobalDictionary.xaml"/>
+    </Window.Resources>
+    
+    <DockPanel Margin="5 5 5 5">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label Style="{StaticResource StdInputLabelStyle}" Content="{x:Static txtRes:Resources.ProgressWindow_Status}"/>
+            <Label Style="{StaticResource StdInputLabelStyle}" Content="{Binding ProgressStatus, Mode=OneWay}"/>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label Style="{StaticResource StdInputLabelStyle}" Content="{x:Static txtRes:Resources.ProgressWindow_Progress}"/>
+            <Label Style="{StaticResource StdInputLabelStyle}" Content="{Binding ProgressPercStr, Mode=OneWay}"/>
+        </StackPanel>
+        <ProgressBar DockPanel.Dock="Top" Value="{Binding ProgressPerc, Mode=OneWay}" Minimum="0" Maximum="100" Height="18" Margin="5 0 5 5"/>
+        <Label DockPanel.Dock="Top" Style="{StaticResource StdInputLabelStyle}" Content="{x:Static txtRes:Resources.ProgressWindow_Description}"/>
+        <Button DockPanel.Dock="Bottom" x:Name="btnCancel" Style="{StaticResource StdButtonStyle}" Content="{x:Static txtRes:Resources.ProgressWindow_CancelBtn}" 
+                HorizontalAlignment="Center" Margin="0 5 0 5"/>
+        <TextBox Text="{Binding ProgressDesc, Mode=OneWay}" Style="{StaticResource MultilineReadOnlyTextBoxStyle}" Margin="5 0 5 5"/>
+    </DockPanel>
+</Window>

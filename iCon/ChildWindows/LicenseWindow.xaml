@@ -1,0 +1,48 @@
+﻿<Window x:Class="iCon_General.LicenseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Info"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Height="500" Width="500">
+
+    <Window.Resources>
+        <ResourceDictionary Source="../Resources/GlobalDictionary.xaml"/>
+    </Window.Resources>
+
+    <DockPanel Margin="5 5 5 5">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Margin="5 8 5 5" TextWrapping="Wrap" TextAlignment="Left">
+                <Run Text="{Binding ProgramTitle}" FontWeight="Bold" FontSize="18"/><LineBreak/>
+                <Run Text="{Binding ProgramDescription}"/><LineBreak/>
+                <Run Text="Version: "/><Run Text="{Binding ProgramVersion}"/><LineBreak/>
+                <Run Text="Company: "/><Run Text="{Binding Company}"/><LineBreak/>
+                <Run Text="Developer Team:"/><LineBreak/><Run Text="Philipp Hein (M.Sc.), Benjamin O.H. Grope (Dipl.-Phys., MBA)"/><LineBreak/>
+                <Run Text="{Binding Copyright}"/>
+            </TextBlock>
+            <Image Grid.Column="1" Source="{StaticResource PNG_AppImageSmall}" VerticalAlignment="Center" 
+                   RenderOptions.BitmapScalingMode="Fant" Width="100" Margin="20 20 20 20"/>
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" >
+                <Label DockPanel.Dock="Top" Style="{StaticResource StdInputLabelStyle}" Content="Included Tools:"/>
+                <ListBox ItemsSource="{Binding LicensedTools}" DisplayMemberPath="Title" SelectionMode="Single" BorderBrush="LightGray" 
+                         SelectedItem="{Binding SelectedLicense, Mode=TwoWay}" Margin="5 0 5 5"/>
+            </DockPanel>
+            <DockPanel Grid.Row="1">
+                <Label DockPanel.Dock="Top" Style="{StaticResource StdInputLabelStyle}" Content="Tool License:"/>
+                <TextBox Text="{Binding SelectedLicense.LicenseText}" Style="{StaticResource MultilineReadOnlyTextBoxStyle}" Margin="5 0 5 5" 
+                         BorderBrush="LightGray"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>

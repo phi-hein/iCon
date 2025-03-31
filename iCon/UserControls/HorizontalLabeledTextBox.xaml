@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="iCon_General.UserControls.HorizontalLabeledTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        
+        <!-- Default style for the grid -->
+        <Style TargetType="{x:Type Grid}">
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="0 3 0 3"/>
+            
+            <Style.Resources>
+                
+                <!-- Default style for the label -->
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Margin" Value="0 0 10 0"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+                
+                <!-- Default style for the textbox -->
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Padding" Value="0 0 0 0"/>
+                    <Setter Property="Margin" Value="0 0 0 0"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+                
+            </Style.Resources>
+        </Style>
+    </UserControl.Resources>
+    
+
+    <!-- Content of the usercontrol -->
+    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="{Binding LabelText, Mode=TwoWay}"/>
+        <TextBox Grid.Column="1" Text="{Binding InputValue, Mode=TwoWay}"/>
+    </Grid>
+    
+</UserControl>

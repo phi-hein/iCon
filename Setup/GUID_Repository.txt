@@ -1,0 +1,10 @@
+﻿Vorgehensweise bei MajorUpgrade
+1. Versionsnummer von iCon.exe erhoehen (auf den ersten drei Stellen, Revisionsnummer wird ignoriert)
+2. Alte Product-ID in der untenstehenden Liste abspeichern
+3. Neue Product-ID (= neue GUID) setzen
+
+Liste der Product-IDs aller iCon-Versionen (Format: Version;GUID):
+0.9.0.5;D60AFEF9-7C38-4A97-B956-9CB41C773D9E
+0.9.1.0;CA237371-C1C3-4D13-A0AF-9A6064ED0BF6
+0.9.2.0;2F440630-792D-43E8-8480-9D994DD6B2BC
+0.9.3.0;631161FC-9054-4683-9630-5B9DDC6957FB

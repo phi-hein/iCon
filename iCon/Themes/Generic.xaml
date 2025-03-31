@@ -1,0 +1,31 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- This resource dictionary holds the default templates for custom controls -->
+    <ResourceDictionary.MergedDictionaries>
+        
+        <!-- Default template for TwoColumnGrid -->
+        <ResourceDictionary Source="/CustomControls/TwoColumnGrid/TwoColumnGrid.xaml"/>
+
+        <!-- Default template for ClosableTwoColumnGrid -->
+        <ResourceDictionary Source="/CustomControls/ClosableTwoColumnGrid/ClosableTwoColumnGrid.xaml"/>
+
+        <!-- Default template for TwoRowGrid -->
+        <ResourceDictionary Source="/CustomControls/TwoRowGrid/TwoRowGrid.xaml"/>
+
+        <!-- Default template for ClosableTwoRowGrid -->
+        <ResourceDictionary Source="/CustomControls/ClosableTwoRowGrid/ClosableTwoRowGrid.xaml"/>
+
+        <!-- Default template for OptionsGroupBox -->
+        <ResourceDictionary Source="/CustomControls/OptionsGroupBox/OptionsGroupBox.xaml"/>
+
+        <!-- Default template for ContentToggleButton -->
+        <ResourceDictionary Source="/CustomControls/ContentToggleButton/ContentToggleButton.xaml"/>
+
+        <!-- Default template for HorizontalLabeledControl -->
+        <ResourceDictionary Source="/CustomControls/HorizontalLabeledControl/HorizontalLabeledControl.xaml"/>
+
+    </ResourceDictionary.MergedDictionaries>
+    
+</ResourceDictionary>

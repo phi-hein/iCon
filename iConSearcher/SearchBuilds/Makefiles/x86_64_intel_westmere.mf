@@ -1,0 +1,79 @@
+# Architecture-dependent makefile for iConSearcher for Linux
+# Version: 0.9.0.5
+# -- Property of Workgroup Martin, RWTH Aachen University --
+# Developer: Philipp Hein
+
+# Builds iConSearcher for Intel Westmere CPUs in 64-bit mode
+# Example CPUs: Xeon X5675
+
+# -------------- Makro-Definitions --------------
+
+# Architecture name
+ARCH = x86_64_intel_westmere
+
+# Executable name
+EXENAME = $(EXENAME_BASE)_$(ARCH).exe
+
+# Compiler
+CC = $(HOME)/x-tools/x86_64-unknown-linux-gnu/bin/x86_64-unknown-linux-gnu-g++
+
+# Architecture-dependent compiler flags
+ARCH_CFLAGS = -m64 -march=westmere
+
+# Architecture-dependent linker flags
+ARCH_LDFLAGS = $(ARCH_CFLAGS)
+
+# Compiler flags
+CFLAGS = -std=c++11 -Wall -O2 -I $(SOURCEDIR) -D "NON_DLL_BUILD"
+
+# Linker flags
+LDFLAGS = -O2 -static-libgcc -static-libstdc++
+
+
+# -------------- FILE SETUP --------------
+
+# Combined directories
+ALL_SOURCEDIRS = $(SOURCEDIR) $(addprefix $(SOURCEDIR)/,$(INTERNALDIRS))
+ALL_BUILDDIRS = $(BUILDDIR)/$(ARCH) $(addprefix $(BUILDDIR)/$(ARCH)/,$(INTERNALDIRS))
+
+# Find all source files
+ALL_CPP_FILES = $(sort $(foreach dir_name,$(ALL_SOURCEDIRS),$(wildcard $(dir_name)/*.cpp)))
+
+# Create corresponding objects file paths
+ALL_OBJ_FILES = $(patsubst $(SOURCEDIR)/%.cpp,$(BUILDDIR)/$(ARCH)/%.o,$(ALL_CPP_FILES))
+
+# Create corresponding dependency file paths without build and arch directories
+ALL_DEP_FILES = $(patsubst $(SOURCEDIR)/%.cpp,$(BUILDDIR)/$(ARCH)/%.d,$(ALL_CPP_FILES))
+
+
+# -------------- COMPILATION TARGETS --------------
+
+# Initial makefile target
+.PHONY: all
+all: create_dirs $(EXENAME)
+
+# Create build directories (if not present)
+.PHONY: create_dirs
+create_dirs:
+	mkdir -p $(BUILDDIR) $(ALL_BUILDDIRS)
+
+# Link all obj-files to the executables
+$(EXENAME): $(ALL_OBJ_FILES)
+	$(CC) $(LDFLAGS) $(ARCH_LDFLAGS) $^ -o $@
+
+# Compile all cpp-files to obj-files (and create dependency files)
+$(ALL_OBJ_FILES): $(BUILDDIR)/$(ARCH)/%.o : $(SOURCEDIR)/%.cpp
+	$(CC) $(CFLAGS) $(ARCH_CFLAGS) -c $< -o $@ -MMD -MP -MF $(BUILDDIR)/$(ARCH)/$*.d
+
+# Include the dependency files
+-include $(ALL_DEP_FILES)
+
+
+# -------------- ADDITIONAL MAKE COMMANDS --------------
+
+.PHONY: clean
+clean:
+	rm -f $(ALL_OBJ_FILES) $(EXENAME) $(ALL_BUILDDIRS)
+
+
+# End of Makefile

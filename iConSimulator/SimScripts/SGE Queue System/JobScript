@@ -1,0 +1,31 @@
+# Script zum automatischen Durchfuehren einer KMC-Rechnung
+#
+# Skript wird gestartet mit:
+# "./JobScript <Exe-Pfad> <Inputdatei-Pfad> <Logdatei-Pfad>"
+#
+#!/bin/sh
+#$ -S /bin/sh
+#$ -j y
+#$ -m n
+#$ -r n
+#$ -l h_vmem=1500M
+#$ -q kmc
+#
+echo "Job started at:" `date`
+echo "Running on $HOSTNAME with job-ID = $JOB_ID ($JOB_NAME)"
+echo "Executable: $1"
+echo "Inputfile: $2"
+echo "Logfile: $3"
+#
+$1 $2 >> $3
+#
+excode=$?
+if test "$excode" -eq "0"
+then
+	echo "Job completed successfully (Exitcode 0)"
+else
+	echo "Job failed (Exitcode $excode)"
+fi
+#
+echo "Job ended at:" `date`
+exit $excode

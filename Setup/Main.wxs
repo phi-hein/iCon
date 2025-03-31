@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+	<Product Id="631161FC-9054-4683-9630-5B9DDC6957FB" 
+           Name="!(loc.AppName)" 
+           Manufacturer="!(loc.AppManufacturer)"
+           Language="1033"
+           Codepage="1252"
+           Version="!(bind.fileVersion.iCon.exe)"  
+           UpgradeCode="12F30CFF-C4EA-49C4-9B05-3D54AE7E5F61">
+    
+		<Package Id="*" 
+             Keywords="!(loc.InstallerName)"
+             Description="!(loc.AppName) !(bind.fileVersion.iCon.exe) !(loc.InstallerName)"
+             Manufacturer="!(loc.AppManufacturer)"
+             Comments="!(loc.InstallerComment)"
+             InstallerVersion="500" 
+             Languages="1033"
+             SummaryCodepage="1252"
+             Compressed="yes" 
+             InstallScope="perMachine"/>
+
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)"/>
+    
+		<MediaTemplate EmbedCab="yes"/>
+
+    <Icon Id="ApplicationIcon.ico"
+          SourceFile="$(var.iCon.TargetDir)Resources\ApplicationIcon.ico"/>
+    
+    <Condition Message="!(loc.WinVersionMessage)">
+      <![CDATA[Installed OR (VersionNT >= 601)]]>
+    </Condition>
+
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED"/>
+
+    <Condition Message="!(loc.NETFrameworkMessage)">
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED]]>
+    </Condition>
+
+    <DirectoryRef Id="TARGETDIR">
+      <Merge Id="VCRedist"
+             SourceFile="$(var.iCon.TargetDir)MergeModules\Microsoft_VC120_CRT_x86.msm"
+             DiskId="1"
+             Language="0"/>
+    </DirectoryRef>
+
+    <Feature Id="VCRedist"
+             Title="!(loc.VCRedistFeatureTitle)"
+             AllowAdvertise="no"
+             Display="hidden"
+             Level="1">
+      <MergeRef Id="VCRedist"/>
+    </Feature>
+
+		<Feature Id="BasicFeature" 
+             Title="!(loc.BasicFeatureTitle)" 
+             AllowAdvertise="no"
+             Absent="disallow"
+             Level="1">
+			<ComponentGroupRef Id="BaseComponents"/>
+            <ComponentGroupRef Id="SimComponents"/>
+            <ComponentGroupRef Id="SearchComponents"/>
+            <ComponentGroupRef Id="LSF_SimScriptComponents"/>
+            <ComponentGroupRef Id="SGE_SimScriptComponents"/>
+		</Feature>
+	</Product>
+</Wix>

@@ -1,0 +1,25 @@
+# Script zum automatischen Durchfuehren einer KMC-Rechnung
+#
+# Skript wird gestartet mit:
+# "./JobScript <Exe-Pfad> <Inputdatei-Pfad> <Logdatei-Pfad>"
+#
+#!/usr/bin/env zsh
+#
+echo "Job started at:" `date`
+echo "Running on $LSB_HOSTS with job-ID = $LSB_JOBID ($LSB_JOBNAME)"
+echo "Executable: $1"
+echo "Inputfile: $2"
+echo "Logfile: $3"
+#
+$1 $2 >> $3
+#
+excode=$?
+if test "$excode" -eq "0"
+then
+	echo "Job completed successfully (Exitcode 0)"
+else
+	echo "Job failed (Exitcode $excode)"
+fi
+#
+echo "Job ended at:" `date`
+exit $excode

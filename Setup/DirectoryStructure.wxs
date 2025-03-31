@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="!(loc.AppName)">
+          <Directory Id="SimFolder" Name="SimExecutables"/>
+          <Directory Id="SearchFolder" Name="SearchExecutables"/>
+          <Directory Id="SimScriptFolder" Name="SimScripts">
+            <Directory Id="LSF_SimScriptFolder" Name="LSF Queue System"/>
+            <Directory Id="SGE_SimScriptFolder" Name="SGE Queue System"/>
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="StartFolder" Name="!(loc.AppName)"/>
+      </Directory>
+
+      <Directory Id="DesktopFolder"/>
+    </Directory>
+  </Fragment>
+</Wix>

@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien\TElements">
+      <UniqueIdentifier>{87beb23e-8493-493b-80f6-1439872c9dd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TJump">
+      <UniqueIdentifier>{1ca59419-838d-4252-b5d7-999676b5e64c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TInteraction">
+      <UniqueIdentifier>{9c2a05b8-a5d8-4ede-aff1-481701935ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TElements">
+      <UniqueIdentifier>{31478917-8e79-4c16-aabe-c714ff9e1ce5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TInteraction">
+      <UniqueIdentifier>{9578aaa5-d58e-4dc9-9e17-ab7ead8ad5da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TJump">
+      <UniqueIdentifier>{76a9b926-d402-4640-adcc-66589471859b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TJumps">
+      <UniqueIdentifier>{bc6f03cf-f350-4912-b8bb-37dae3546b1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TKMCJob">
+      <UniqueIdentifier>{2d030921-f841-4a04-8203-dbe065ad5d1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TJumps">
+      <UniqueIdentifier>{f3684d10-817d-4f73-8fd0-2e57a6b3084f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TKMCJob">
+      <UniqueIdentifier>{4f08ad47-270c-4bf4-aa10-e19e01090b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TResults">
+      <UniqueIdentifier>{6f83a22a-a211-4382-bce8-893d83b34f69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TSettings">
+      <UniqueIdentifier>{763b0e09-f393-4323-8c19-43391192b1dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TSimulation">
+      <UniqueIdentifier>{28d75247-e9ff-469c-8492-59a9f1915798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TStructure">
+      <UniqueIdentifier>{31b0326f-52c2-48b4-b59e-2d9f53a9cd03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TUniqueJump">
+      <UniqueIdentifier>{b1964d68-553e-4d32-a526-91568729eb33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TUniqueJumps">
+      <UniqueIdentifier>{ce3abbd5-dfe5-41f3-af25-5c4df4475b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TResults">
+      <UniqueIdentifier>{0027e47d-3485-4258-a941-57aaeb265cbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TSettings">
+      <UniqueIdentifier>{1b7b9f46-fa22-4801-88e9-388c25f6a1dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TSimulation">
+      <UniqueIdentifier>{6eb325a9-721b-495e-9fde-082e366763d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TStructure">
+      <UniqueIdentifier>{bf96a693-0736-49db-955c-54d61ec12c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TUniqueJump">
+      <UniqueIdentifier>{e07f734a-b2cb-4632-9e3d-11281c5d4737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TUniqueJumps">
+      <UniqueIdentifier>{ccac9155-d1d5-451a-9600-bf422d1d6b3b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="iConSearcher.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\GlobalDefinitions.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\T3DMovVector.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\T3DVector.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\T4DLatticeVector.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TCustomTime.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TElementsDesc.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TElements\TElements.cpp">
+      <Filter>Quelldateien\TElements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TElements\TElementsBase.cpp">
+      <Filter>Quelldateien\TElements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TElements\TElementsFunc.cpp">
+      <Filter>Quelldateien\TElements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TElements\TElementsOut.cpp">
+      <Filter>Quelldateien\TElements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TJump\TJump.cpp">
+      <Filter>Quelldateien\TJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TJump\TJumpBase.cpp">
+      <Filter>Quelldateien\TJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TJump\TJumpFunc.cpp">
+      <Filter>Quelldateien\TJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TJump\TJumpOut.cpp">
+      <Filter>Quelldateien\TJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TInteraction\TInteraction.cpp">
+      <Filter>Quelldateien\TInteraction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TInteraction\TInteractionBase.cpp">
+      <Filter>Quelldateien\TInteraction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TInteraction\TInteractionFunc.cpp">
+      <Filter>Quelldateien\TInteraction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TInteraction\TInteractionOut.cpp">
+      <Filter>Quelldateien\TInteraction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TKMCJob\IKMCJob.cpp">
+      <Filter>Quelldateien\TKMCJob</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TKMCJob\TKMCJob.cpp">
+      <Filter>Quelldateien\TKMCJob</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TKMCJob\TKMCJobBase.cpp">
+      <Filter>Quelldateien\TKMCJob</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TKMCJob\TKMCJobFunc.cpp">
+      <Filter>Quelldateien\TKMCJob</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TKMCJob\TKMCJobOut.cpp">
+      <Filter>Quelldateien\TKMCJob</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TJumps\TJumps.cpp">
+      <Filter>Quelldateien\TJumps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TJumps\TJumpsBase.cpp">
+      <Filter>Quelldateien\TJumps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TJumps\TJumpsFunc.cpp">
+      <Filter>Quelldateien\TJumps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TJumps\TJumpsOut.cpp">
+      <Filter>Quelldateien\TJumps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TResults\TResults.cpp">
+      <Filter>Quelldateien\TResults</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TResults\TResultsBase.cpp">
+      <Filter>Quelldateien\TResults</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TResults\TResultsFunc.cpp">
+      <Filter>Quelldateien\TResults</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TResults\TResultsOut.cpp">
+      <Filter>Quelldateien\TResults</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSettings\TSettings.cpp">
+      <Filter>Quelldateien\TSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSettings\TSettingsBase.cpp">
+      <Filter>Quelldateien\TSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSettings\TSettingsFunc.cpp">
+      <Filter>Quelldateien\TSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSettings\TSettingsOut.cpp">
+      <Filter>Quelldateien\TSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSimulation\TSimJump.cpp">
+      <Filter>Quelldateien\TSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSimulation\TSimPhaseInfo.cpp">
+      <Filter>Quelldateien\TSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSimulation\TSimProb.cpp">
+      <Filter>Quelldateien\TSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSimulation\TSimulation.cpp">
+      <Filter>Quelldateien\TSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSimulation\TSimulationBase.cpp">
+      <Filter>Quelldateien\TSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSimulation\TSimulationFunc.cpp">
+      <Filter>Quelldateien\TSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSimulation\TSimulationOut.cpp">
+      <Filter>Quelldateien\TSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TSimulation\TSimUniqueJump.cpp">
+      <Filter>Quelldateien\TSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TStructure\TStructure.cpp">
+      <Filter>Quelldateien\TStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TStructure\TStructureBase.cpp">
+      <Filter>Quelldateien\TStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TStructure\TStructureFunc.cpp">
+      <Filter>Quelldateien\TStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TStructure\TStructureOut.cpp">
+      <Filter>Quelldateien\TStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TUniqueJump\TUniqueJump.cpp">
+      <Filter>Quelldateien\TUniqueJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TUniqueJump\TUniqueJumpBase.cpp">
+      <Filter>Quelldateien\TUniqueJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TUniqueJump\TUniqueJumpFunc.cpp">
+      <Filter>Quelldateien\TUniqueJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TUniqueJump\TUniqueJumpOut.cpp">
+      <Filter>Quelldateien\TUniqueJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TUniqueJumps\TUniqueJumps.cpp">
+      <Filter>Quelldateien\TUniqueJumps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TUniqueJumps\TUniqueJumpsBase.cpp">
+      <Filter>Quelldateien\TUniqueJumps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TUniqueJumps\TUniqueJumpsFunc.cpp">
+      <Filter>Quelldateien\TUniqueJumps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MCJob_UDLL\TUniqueJumps\TUniqueJumpsOut.cpp">
+      <Filter>Quelldateien\TUniqueJumps</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\MCJob_UDLL\GlobalDefinitions.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\T3DMovVector.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\T3DVector.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\T4DLatticeVector.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TCustomTime.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TElementsDesc.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\ErrorCodes.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TElements\TElements.h">
+      <Filter>Headerdateien\TElements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TElements\TElementsBase.h">
+      <Filter>Headerdateien\TElements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TElements\TElementsFunc.h">
+      <Filter>Headerdateien\TElements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TElements\TElementsOut.h">
+      <Filter>Headerdateien\TElements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TJump\TJump.h">
+      <Filter>Headerdateien\TJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TJump\TJumpBase.h">
+      <Filter>Headerdateien\TJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TJump\TJumpFunc.h">
+      <Filter>Headerdateien\TJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TJump\TJumpOut.h">
+      <Filter>Headerdateien\TJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TInteraction\TInteraction.h">
+      <Filter>Headerdateien\TInteraction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TInteraction\TInteractionBase.h">
+      <Filter>Headerdateien\TInteraction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TInteraction\TInteractionFunc.h">
+      <Filter>Headerdateien\TInteraction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TInteraction\TInteractionOut.h">
+      <Filter>Headerdateien\TInteraction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TKMCJob\IKMCJob.h">
+      <Filter>Headerdateien\TKMCJob</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TKMCJob\TKMCJob.h">
+      <Filter>Headerdateien\TKMCJob</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TKMCJob\TKMCJobBase.h">
+      <Filter>Headerdateien\TKMCJob</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TKMCJob\TKMCJobFunc.h">
+      <Filter>Headerdateien\TKMCJob</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TKMCJob\TKMCJobOut.h">
+      <Filter>Headerdateien\TKMCJob</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TJumps\TJumps.h">
+      <Filter>Headerdateien\TJumps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TJumps\TJumpsBase.h">
+      <Filter>Headerdateien\TJumps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TJumps\TJumpsFunc.h">
+      <Filter>Headerdateien\TJumps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TJumps\TJumpsOut.h">
+      <Filter>Headerdateien\TJumps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TResults\TResults.h">
+      <Filter>Headerdateien\TResults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TResults\TResultsBase.h">
+      <Filter>Headerdateien\TResults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TResults\TResultsFunc.h">
+      <Filter>Headerdateien\TResults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TResults\TResultsOut.h">
+      <Filter>Headerdateien\TResults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSettings\TSettings.h">
+      <Filter>Headerdateien\TSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSettings\TSettingsBase.h">
+      <Filter>Headerdateien\TSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSettings\TSettingsFunc.h">
+      <Filter>Headerdateien\TSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSettings\TSettingsOut.h">
+      <Filter>Headerdateien\TSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSimulation\TSimJump.h">
+      <Filter>Headerdateien\TSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSimulation\TSimPhaseInfo.h">
+      <Filter>Headerdateien\TSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSimulation\TSimProb.h">
+      <Filter>Headerdateien\TSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSimulation\TSimulation.h">
+      <Filter>Headerdateien\TSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSimulation\TSimulationBase.h">
+      <Filter>Headerdateien\TSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSimulation\TSimulationFunc.h">
+      <Filter>Headerdateien\TSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSimulation\TSimulationOut.h">
+      <Filter>Headerdateien\TSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TSimulation\TSimUniqueJump.h">
+      <Filter>Headerdateien\TSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TStructure\TStructure.h">
+      <Filter>Headerdateien\TStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TStructure\TStructureBase.h">
+      <Filter>Headerdateien\TStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TStructure\TStructureFunc.h">
+      <Filter>Headerdateien\TStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TStructure\TStructureOut.h">
+      <Filter>Headerdateien\TStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TUniqueJump\TUniqueJump.h">
+      <Filter>Headerdateien\TUniqueJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TUniqueJump\TUniqueJumpBase.h">
+      <Filter>Headerdateien\TUniqueJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TUniqueJump\TUniqueJumpFunc.h">
+      <Filter>Headerdateien\TUniqueJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TUniqueJump\TUniqueJumpOut.h">
+      <Filter>Headerdateien\TUniqueJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TUniqueJumps\TUniqueJumps.h">
+      <Filter>Headerdateien\TUniqueJumps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TUniqueJumps\TUniqueJumpsBase.h">
+      <Filter>Headerdateien\TUniqueJumps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TUniqueJumps\TUniqueJumpsFunc.h">
+      <Filter>Headerdateien\TUniqueJumps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MCJob_UDLL\TUniqueJumps\TUniqueJumpsOut.h">
+      <Filter>Headerdateien\TUniqueJumps</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SearchBuilds\Makefiles\Makefile" />
+    <None Include="SearchBuilds\Makefiles\x86_64_amd_k10.mf" />
+    <None Include="SearchBuilds\Makefiles\x86_64_amd_piledriver.mf" />
+    <None Include="SearchBuilds\Makefiles\x86_64_intel_ivybridge.mf" />
+    <None Include="SearchBuilds\Makefiles\x86_64_intel_nehalem.mf" />
+    <None Include="SearchBuilds\Makefiles\x86_64_intel_westmere.mf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="iConSearcher.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
