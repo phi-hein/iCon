@@ -146,7 +146,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Settings.cs" />
     <Compile Include="SingleInstance.cs" />
     <Compile Include="UserControls\HorizontalLabeledColorSelector.xaml.cs" />
     <Compile Include="UserControls\HorizontalLabeledComboBox.xaml.cs" />
