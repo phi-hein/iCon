@@ -15,6 +15,7 @@
         Height="800"
         MinWidth="1000"
         MinHeight="750"
+        WindowState="Maximized"
         Loaded="Window_Loaded" 
         Closing="Window_Closing">
 
@@ -65,7 +66,7 @@
                                              IsChecked="{Binding IsRightColumnVisible, ElementName=gridMain, Mode=TwoWay}"
                                              Click="btnHideMainColumn_Click"/>
 
-            <customContr:ClosableTwoColumnGrid x:Name="gridMain" Grid.Column="1" LeftColumnMinWidth="500" RightColumnMinWidth="450">
+            <customContr:ClosableTwoColumnGrid x:Name="gridMain" Grid.Column="1" LeftColumnMinWidth="500" RightColumnMinWidth="480">
 
                 <!-- ******************** LEFT GUI CONTENT FOR KMC JOB SPECIFICATION ******************** -->
                 <customContr:ClosableTwoColumnGrid.LeftColumn>
@@ -1437,17 +1438,17 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" Orientation="Horizontal">
                                             <Label Content="Type: " Style="{StaticResource StdInputLabelStyle}"/>
-                                            <RadioButton Content="Local    " IsChecked="{Binding Settings.CalcType, UpdateSourceTrigger=PropertyChanged}" GroupName="CalcType" 
-                                                     Style="{StaticResource StdInputRadioButtonStyle}" Margin="0 0 0 0">
-                                                <local:ToolTipHelper.MyToolTip>
-                                                    <TextBlock Text="The simulations will be executed on the local computer with an included queue system." 
-                                                           Style="{StaticResource StdToolTipStyle}"/>
-                                                </local:ToolTipHelper.MyToolTip>
-                                            </RadioButton>
-                                            <RadioButton Content="Cluster" GroupName="CalcType" Style="{StaticResource StdInputRadioButtonStyle}" Margin="0 0 0 0">
+                                            <RadioButton Content="Cluster    " IsChecked="{Binding Settings.CalcType, UpdateSourceTrigger=PropertyChanged}" 
+                                                         GroupName="CalcType" Style="{StaticResource StdInputRadioButtonStyle}" Margin="0 0 0 0">
                                                 <local:ToolTipHelper.MyToolTip>
                                                     <TextBlock Text="The simulations will be executed on a remote cluster using the cluster queue system (see also Extended Settings tab)." 
                                                            Style="{StaticResource StdToolTipStyle}"/>
+                                                </local:ToolTipHelper.MyToolTip>
+                                            </RadioButton>
+                                            <RadioButton Content="Local"  GroupName="CalcType" Style="{StaticResource StdInputRadioButtonStyle}" Margin="0 0 0 0">
+                                                <local:ToolTipHelper.MyToolTip>
+                                                    <TextBlock Text="The simulations will be executed on the local computer with an included queue system." 
+                                                            Style="{StaticResource StdToolTipStyle}"/>
                                                 </local:ToolTipHelper.MyToolTip>
                                             </RadioButton>
                                         </StackPanel>
@@ -2648,6 +2649,8 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -2755,7 +2758,15 @@
                                                 </local:ToolTipHelper.MyToolTip>
                                             </TextBox>
                                         </customContr:HorizontalLabeledControl>
-                                        <customContr:HorizontalLabeledControl Grid.Row="3" Grid.Column="2" LabelText="Password:" LabelMargin="5 0 5 0">
+                                        <CheckBox Grid.Row="4" Grid.Column="0" Content="Password Authentication" Style="{StaticResource StdCheckBoxStyle}"
+                                                  IsChecked="{Binding VMGUISettings.SelectedRemoteProfile.WithPassword, UpdateSourceTrigger=PropertyChanged}"
+                                                  IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <local:ToolTipHelper.MyToolTip>
+                                                <TextBlock Text="If checked, the specified password is used for authentication at the remote cluster. Note that some remote systems request the password via keyboard-interactive authentication." 
+                                                           Style="{StaticResource StdToolTipStyle}"/>
+                                            </local:ToolTipHelper.MyToolTip>
+                                        </CheckBox>
+                                        <customContr:HorizontalLabeledControl Grid.Row="4" Grid.Column="2" LabelText="Password:" LabelMargin="5 0 5 0">
                                             <PasswordBox Style="{StaticResource StdInputPasswordBoxStyle}" MaxLength="50"
                                                          local:PasswordBoxHelper.BindPassword="True"
                                                          local:PasswordBoxHelper.BoundPassword="{Binding VMGUISettings.SelectedRemoteProfile.UserPassword,
@@ -2767,15 +2778,15 @@
                                                 </local:ToolTipHelper.MyToolTip>
                                             </PasswordBox>
                                         </customContr:HorizontalLabeledControl>
-                                        <CheckBox Grid.Row="4" Grid.Column="0" Content="Auth. with OpenSSH Private Key" Style="{StaticResource StdCheckBoxStyle}"
+                                        <CheckBox Grid.Row="5" Grid.Column="0" Content="Private Key Authentication" Style="{StaticResource StdCheckBoxStyle}"
                                                   IsChecked="{Binding VMGUISettings.SelectedRemoteProfile.WithPrivateKey, UpdateSourceTrigger=PropertyChanged}"
                                                   IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                             <local:ToolTipHelper.MyToolTip>
-                                                <TextBlock Text="If checked, the private key (Format: OpenSSH) whose path is specified below, is used for authentication at the remote cluster." 
+                                                <TextBlock Text="If checked, the private key file whose path is specified below, is used for authentication at the remote cluster." 
                                                            Style="{StaticResource StdToolTipStyle}"/>
                                             </local:ToolTipHelper.MyToolTip>
                                         </CheckBox>
-                                        <customContr:HorizontalLabeledControl Grid.Row="4" Grid.Column="2" LabelText="Key Password:" LabelMargin="5 0 5 0">
+                                        <customContr:HorizontalLabeledControl Grid.Row="5" Grid.Column="2" LabelText="Key Password:" LabelMargin="5 0 5 0">
                                             <PasswordBox Style="{StaticResource StdInputPasswordBoxStyle}" MaxLength="50"
                                                          local:PasswordBoxHelper.BindPassword="True"
                                                          local:PasswordBoxHelper.BoundPassword="{Binding VMGUISettings.SelectedRemoteProfile.PrivateKeyPassword,
@@ -2787,7 +2798,7 @@
                                                 </local:ToolTipHelper.MyToolTip>
                                             </PasswordBox>
                                         </customContr:HorizontalLabeledControl>
-                                        <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3">
+                                        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
@@ -2805,7 +2816,15 @@
                                                     Click="BtnCmd_VMGUISettings_SetPrivateKeyPath"
                                                     IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         </Grid>
-                                        <customContr:HorizontalLabeledControl Grid.Row="6" Grid.Column="0" LabelText="Sim-Exe:" LabelMargin="5 0 5 0">
+                                        <CheckBox Grid.Row="7" Grid.Column="0" Content="Keyboard-Interactive Authentication" Style="{StaticResource StdCheckBoxStyle}"
+                                                  IsChecked="{Binding VMGUISettings.SelectedRemoteProfile.WithKeyboardInteractive, UpdateSourceTrigger=PropertyChanged}"
+                                                  IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <local:ToolTipHelper.MyToolTip>
+                                                <TextBlock Text="If checked, then keyboard-interactive authentication is used to connect to the remote cluster." 
+                                                           Style="{StaticResource StdToolTipStyle}"/>
+                                            </local:ToolTipHelper.MyToolTip>
+                                        </CheckBox>
+                                        <customContr:HorizontalLabeledControl Grid.Row="8" Grid.Column="0" LabelText="Sim-Exe:" LabelMargin="5 0 5 0">
                                             <ComboBox Style="{StaticResource StdOptionsComboBoxStyle}" ItemsSource="{Binding VMGUISettings.SimExeTypes}" 
                                                       SelectedItem="{Binding VMGUISettings.SelectedRemoteProfile.SelectedSimExe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       HorizontalAlignment="Stretch"
@@ -2816,7 +2835,7 @@
                                                 </local:ToolTipHelper.MyToolTip>
                                             </ComboBox>
                                         </customContr:HorizontalLabeledControl>
-                                        <customContr:HorizontalLabeledControl Grid.Row="6" Grid.Column="2" LabelText="Search-Exe:" LabelMargin="5 0 5 0">
+                                        <customContr:HorizontalLabeledControl Grid.Row="8" Grid.Column="2" LabelText="Search-Exe:" LabelMargin="5 0 5 0">
                                             <ComboBox Style="{StaticResource StdOptionsComboBoxStyle}" ItemsSource="{Binding VMGUISettings.SearchExeTypes}" 
                                                       SelectedItem="{Binding VMGUISettings.SelectedRemoteProfile.SelectedSearchExe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       HorizontalAlignment="Stretch"

@@ -61,6 +61,51 @@ namespace iCon_General.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cancel ähnelt.
+        /// </summary>
+        public static string AuthWindow_CancelBtn {
+            get {
+                return ResourceManager.GetString("AuthWindow_CancelBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notice: Separate authentication for SFTP and SSH is required. Do not use the same one-time code for both. The repeated prompts usually can be avoided by using private key auth. ähnelt.
+        /// </summary>
+        public static string AuthWindow_Notice {
+            get {
+                return ResourceManager.GetString("AuthWindow_Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die OK ähnelt.
+        /// </summary>
+        public static string AuthWindow_OKBtn {
+            get {
+                return ResourceManager.GetString("AuthWindow_OKBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Response: ähnelt.
+        /// </summary>
+        public static string AuthWindow_ResponseLbl {
+            get {
+                return ResourceManager.GetString("AuthWindow_ResponseLbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Keyboard-interactive authentication ähnelt.
+        /// </summary>
+        public static string AuthWindow_Title {
+            get {
+                return ResourceManager.GetString("AuthWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Add ähnelt.
         /// </summary>
         public static string Btn_Add {
@@ -232,7 +277,7 @@ namespace iCon_General.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity (BETA Version) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity ähnelt.
         /// </summary>
         public static string MainWindow_BaseTitle {
             get {

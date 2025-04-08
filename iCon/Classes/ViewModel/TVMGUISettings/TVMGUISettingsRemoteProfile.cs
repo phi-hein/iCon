@@ -41,10 +41,12 @@ namespace iCon_General
                 HostAdress = BaseProfile.HostAdress;
                 HostPort = BaseProfile.HostPort;
                 Username = BaseProfile.Username;
+                WithPassword = BaseProfile.WithPassword;
                 UserPassword = BaseProfile.UserPassword;
                 WithPrivateKey = BaseProfile.WithPrivateKey;
                 PrivateKeyPath = BaseProfile.PrivateKeyPath;
                 PrivateKeyPassword = BaseProfile.PrivateKeyPassword;
+                WithKeyboardInteractive = BaseProfile.WithKeyboardInteractive;
                 SelectedSimExe = BaseProfile.SelectedSimExe;
                 SelectedSearchExe = BaseProfile.SelectedSearchExe;
                 SimSubmitScript = BaseProfile.SimSubmitScript;
@@ -176,6 +178,26 @@ namespace iCon_General
             }
         }
 
+        protected bool _WithPassword = true;
+        /// <summary>
+        /// Flag, true = access cluster with password authentification
+        /// </summary>
+        public bool WithPassword
+        {
+            get
+            {
+                return _WithPassword;
+            }
+            set
+            {
+                if (value != _WithPassword)
+                {
+                    _WithPassword = value;
+                    Notify("WithPassword");
+                }
+            }
+        }
+
         protected string _UserPassword = "";
         /// <summary>
         /// Password for password-only access to the cluster
@@ -197,9 +219,9 @@ namespace iCon_General
             }
         }
 
-        protected bool _WithPrivateKey = true;
+        protected bool _WithPrivateKey = false;
         /// <summary>
-        /// Flag, true = access cluster with a private key authentification
+        /// Flag, true = access cluster with private key authentification
         /// </summary>
         public bool WithPrivateKey
         {
@@ -254,6 +276,26 @@ namespace iCon_General
                 {
                     _PrivateKeyPassword = value;
                     Notify("PrivateKeyPassword");
+                }
+            }
+        }
+
+        protected bool _WithKeyboardInteractive = true;
+        /// <summary>
+        /// Flag, true = access cluster with keyboard-interactive authentification
+        /// </summary>
+        public bool WithKeyboardInteractive
+        {
+            get
+            {
+                return _WithKeyboardInteractive;
+            }
+            set
+            {
+                if (value != _WithKeyboardInteractive)
+                {
+                    _WithKeyboardInteractive = value;
+                    Notify("WithKeyboardInteractive");
                 }
             }
         }
@@ -496,6 +538,7 @@ namespace iCon_General
             if (ValidateObject() == false) return false;
 
             // Save current scripts
+            /*
             SaveScripts();
 
             // Check if scripts and selected executables exist in the appropriate folders
@@ -519,6 +562,7 @@ namespace iCon_General
             {
                 return false;
             }
+            */
 
             // Check if private key exists if enabled
             if (_WithPrivateKey == true)
@@ -563,6 +607,14 @@ namespace iCon_General
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTADRESS + " " + _HostAdress.Trim());
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_PORT + " " + _HostPort.ToString());
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_USERNAME + " " + _Username.Trim());
+                    if (_WithPassword == true)
+                    {
+                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHPW + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_TRUE);
+                    }
+                    else
+                    {
+                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHPW + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
+                    }
                     if (_WithPrivateKey == true)
                     {
                         swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHKEY + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_TRUE);
@@ -572,6 +624,14 @@ namespace iCon_General
                         swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHKEY + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
                     }
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_PRIVATEKEY + " " + _PrivateKeyPath.Trim());
+                    if (_WithKeyboardInteractive == true)
+                    {
+                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_TRUE);
+                    }
+                    else
+                    {
+                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
+                    }
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_END);
                 }
 
@@ -634,8 +694,10 @@ namespace iCon_General
             string t_HostAdress = "";
             string t_HostPort = "";
             string t_Username = "";
+            string t_WithPassword = "";
             string t_WithPrivateKey = "";
             string t_PrivateKeyPath = "";
+            string t_WithKeyboardInteractive = "";
             try
             {
                 using (StreamReader sreader = new StreamReader(RemoteProfileIniPath))
@@ -683,6 +745,10 @@ namespace iCon_General
                         {
                             t_Username = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_USERNAME.Length).Trim();
                         }
+                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_WITHPW) == true))
+                        {
+                            t_WithPassword = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_WITHPW.Length).Trim();
+                        }
                         if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_WITHKEY) == true))
                         {
                             t_WithPrivateKey = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_WITHKEY.Length).Trim();
@@ -690,6 +756,10 @@ namespace iCon_General
                         if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_PRIVATEKEY) == true))
                         {
                             t_PrivateKeyPath = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_PRIVATEKEY.Length).Trim();
+                        }
+                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT) == true))
+                        {
+                            t_WithKeyboardInteractive = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT.Length).Trim();
                         }
                     }
                 }
@@ -699,16 +769,26 @@ namespace iCon_General
                 throw new ApplicationException("Error during reading of remote profile (TVMGUISettingsRemoteProfile.LoadFromIniFile)", e);
             }
 
-            // Parse port and private key flag
+            // Parse port and auth flags
             int tp_HostPort = 0;
             if (int.TryParse(t_HostPort, out tp_HostPort) == false)
             {
                 tp_HostPort = 22;
             }
+            bool tp_WithPassword = true;
+            if (t_WithPassword == ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE)
+            {
+                tp_WithPassword = false;
+            }
             bool tp_WithPrivateKey = true;
             if (t_WithPrivateKey == ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE)
             {
                 tp_WithPrivateKey = false;
+            }
+            bool tp_WithKeyboardInteractive = true;
+            if (t_WithKeyboardInteractive == ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE)
+            {
+                tp_WithKeyboardInteractive = false;
             }
 
             // Check if private key file exists
@@ -745,10 +825,12 @@ namespace iCon_General
             HostAdress = t_HostAdress;
             HostPort = tp_HostPort;
             Username = t_Username;
+            WithPassword = tp_WithPassword;
             UserPassword = "";
             WithPrivateKey = tp_WithPrivateKey;
             PrivateKeyPath = t_PrivateKeyPath;
             PrivateKeyPassword = "";
+            WithKeyboardInteractive = tp_WithKeyboardInteractive;
 
             // Load scripts if they exist
             LoadScripts();

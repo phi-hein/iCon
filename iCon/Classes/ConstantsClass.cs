@@ -131,17 +131,23 @@
         /// <summary> Inifile-Identifier for cluster profile user name </summary>
         public const string SC_KMC_OUT_CPROFILE_USERNAME = @"User:";
 
-        /// <summary> Inifile-Identifier for cluster profile: if with private key </summary>
-        public const string SC_KMC_OUT_CPROFILE_WITHKEY = @"WithKey:";
-
         /// <summary> Inifile-Identifier for cluster profile boolean: true </summary>
         public const string SC_KMC_OUT_CPROFILE_TRUE = @"yes";
 
         /// <summary> Inifile-Identifier for cluster profile boolean: false </summary>
         public const string SC_KMC_OUT_CPROFILE_FALSE = @"no";
 
+        /// <summary> Inifile-Identifier for cluster profile: if with password auth </summary>
+        public const string SC_KMC_OUT_CPROFILE_WITHPW = @"WithPassword:";
+
+        /// <summary> Inifile-Identifier for cluster profile: if with private key auth </summary>
+        public const string SC_KMC_OUT_CPROFILE_WITHKEY = @"WithKey:";
+
         /// <summary> Inifile-Identifier for cluster profile key file path </summary>
         public const string SC_KMC_OUT_CPROFILE_PRIVATEKEY = @"PrivateKey:";
+
+        /// <summary> Inifile-Identifier for cluster profile: if with keyboard-interactive auth </summary>
+        public const string SC_KMC_OUT_CPROFILE_WITHINTERACT = @"WithInteractive:";
 
         #endregion Output Constants
 

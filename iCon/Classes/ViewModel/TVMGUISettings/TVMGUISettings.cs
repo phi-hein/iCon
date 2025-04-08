@@ -434,8 +434,8 @@ namespace iCon_General
         /// <summary>
         /// Validate the job-submit-related properties of this object and of all required sub-objects
         /// </summary>
-        /// <param name="OnlyLocalSimulation">true = check if valid for local simulation only</param>
-        public bool ValidateForSubmit(bool OnlyLocalSimulation)
+        /// <param name="isRemoteSimulation">true = check if valid for remote simulation</param>
+        public bool ValidateForSubmit(bool isRemoteSimulation)
         {
             if (ValidateProperty("LocalWorkspace", _LocalWorkspace) == false) return false;
             try
@@ -447,7 +447,7 @@ namespace iCon_General
                 throw new ApplicationException("Failed to create local workspace directory (TVMGUISettings.ValidateForSubmit)", e);
             }
 
-            if (OnlyLocalSimulation == false)
+            if (isRemoteSimulation == true)
             {
                 // Check if everything ready for remote simulation
                 if (_SelectedRemoteProfile != null)

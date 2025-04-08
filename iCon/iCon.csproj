@@ -146,6 +146,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="ChildWindows\AuthDialog.xaml.cs">
+      <DependentUpon>AuthDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SingleInstance.cs" />
     <Compile Include="UserControls\HorizontalLabeledColorSelector.xaml.cs" />
     <Compile Include="UserControls\HorizontalLabeledComboBox.xaml.cs" />
@@ -153,6 +156,10 @@
     <Compile Include="ValidationAttributes\DoubleRangeAttribute.cs" />
     <Compile Include="ValidationAttributes\IntRangeAttribute.cs" />
     <Compile Include="ValidationAttributes\LongRangeAttribute.cs" />
+    <Page Include="ChildWindows\AuthDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ChildWindows\LicenseWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

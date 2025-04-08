@@ -125,7 +125,7 @@ namespace iCon_General
 
         protected bool _CalcType;
         /// <summary> 
-        /// Calculation type, true = local calculation, false = submission to cluster
+        /// Calculation type, true = submission to cluster, false = local calculation
         /// </summary>
         public bool CalcType
         {
@@ -396,7 +396,7 @@ namespace iCon_General
             }
 
             // Call local or remote submission routine
-            if (_CalcType == true)
+            if (_CalcType == false)
             {
                 Console.WriteLine("Job Submission: local");
                 Console.WriteLine("Number of jobs: " + _JobList.Count.ToString());
@@ -457,203 +457,14 @@ namespace iCon_General
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(5, "Loading authentication data ... ");
 
-            // Create desired authentication method lists
-            List<AuthenticationMethod> ssh_auth_methods = new List<AuthenticationMethod>();
-            List<AuthenticationMethod> sftp_auth_methods = new List<AuthenticationMethod>();
-
-            // Create authentication methods
-            if (ExtendedSettings.SelectedRemoteProfile.WithPrivateKey == true)
-            {
-                Console.WriteLine("Authentication method: private key");
-
-                // Check if private key file exists
-                if (File.Exists(ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim()) == false)
-                {
-                    Console.WriteLine("Error: Private key file (" + ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim() + ") is missing.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Private key file does not exist\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-
-                // Create keyfiles
-                PrivateKeyFile ssh_keyfile = null;
-                PrivateKeyFile sftp_keyfile = null;
-                try
-                {
-                    ssh_keyfile = new PrivateKeyFile(ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim(),
-                        ExtendedSettings.SelectedRemoteProfile.PrivateKeyPassword.Trim());
-                    sftp_keyfile = new PrivateKeyFile(ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim(),
-                        ExtendedSettings.SelectedRemoteProfile.PrivateKeyPassword.Trim());
-                }
-                catch (SshException ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file\n(see console for details)\n.",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-                catch (NotSupportedException ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine("Error: Private key file path has zero length, contains only white space or contains one or more invalid characters.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-                catch (PathTooLongException)
-                {
-                    Console.WriteLine("Error: Private key file path exceeds the system-defined maximum path length.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    Console.WriteLine("Error: Directory of the private key file does not exist.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    Console.WriteLine("Error: Private key file access permissions prevent loading of the file.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-                catch (FileNotFoundException)
-                {
-                    Console.WriteLine("Error: Private key file not found.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-                catch (IOException)
-                {
-                    Console.WriteLine("Error: IO-error when opening private key file.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-
-                // Add key file authentication methods
-                try
-                {
-                    ssh_auth_methods.Add(new PrivateKeyAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim(), ssh_keyfile));
-                    sftp_auth_methods.Add(new PrivateKeyAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim(), sftp_keyfile));
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine("Error: User name (" + ExtendedSettings.SelectedRemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Authentication method: password");
-
-                // Add password authentication methods
-                try
-                {
-                    ssh_auth_methods.Add(new PasswordAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim(), 
-                        ExtendedSettings.SelectedRemoteProfile.UserPassword.Trim()));
-                    sftp_auth_methods.Add(new PasswordAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim(), 
-                        ExtendedSettings.SelectedRemoteProfile.UserPassword.Trim()));
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine("Error: User name (" + ExtendedSettings.SelectedRemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-            }
-
-            // Create connection info objects
-            ConnectionInfo ssh_coninfo = null;
-            ConnectionInfo sftp_coninfo = null;
-            try
-            {
-                ssh_coninfo = new ConnectionInfo(ExtendedSettings.SelectedRemoteProfile.HostAdress.Trim(), ExtendedSettings.SelectedRemoteProfile.HostPort, 
-                    ExtendedSettings.SelectedRemoteProfile.Username.Trim(), ssh_auth_methods.ToArray());
-                sftp_coninfo = new ConnectionInfo(ExtendedSettings.SelectedRemoteProfile.HostAdress.Trim(), ExtendedSettings.SelectedRemoteProfile.HostPort,
-                    ExtendedSettings.SelectedRemoteProfile.Username.Trim(), sftp_auth_methods.ToArray());
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine("Error: Invalid connection setting: " + ex.Message);
-                e.Result = new BWorkerResultMessage("Invalid Input", "Invalid connection settings\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
-                return;
-            }
-
-            BWorker.ReportProgress(10, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
-            if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
-            BWorker.ReportProgress(10, "Connecting to cluster ... ");
-
             // Create client objects
-            using (SshClient sshcl = new SshClient(ssh_coninfo))
-            using (SftpClient sftpcl = new SftpClient(sftp_coninfo))
+            using (SshClient sshcl = CreateSSHClient(ExtendedSettings, BWorker, e))
+            using (SftpClient sftpcl = CreateSFTPClient(ExtendedSettings, BWorker, e))
             {
-                // Set keep alive intervals
-                sshcl.KeepAliveInterval = new TimeSpan(0, 0, 10);
-                sftpcl.KeepAliveInterval = new TimeSpan(0, 0, 10);
-
-                // Host key validation (only for first connect)
-                sshcl.HostKeyReceived += delegate(object sender, HostKeyEventArgs exp)
-                {
-                    // The code below works but CanTrust = false throws an exception that causes hanging of the implicit sshcl.Dispose() 
-                    // method at the end of the using block
-
-                    // Check for fingerprint
-                    if (exp.FingerPrint.Length == 0)
-                    {
-                        exp.CanTrust = false;
-                        return;
-                    }
-
-                    // Create host key fingerprint string
-                    StringBuilder str_builder = new StringBuilder();
-                    str_builder.AppendFormat("{0} {1} {2:x}", exp.HostKeyName, exp.KeyLength.ToString(), exp.FingerPrint[0]);
-                    if (exp.FingerPrint.Length > 1)
-                    {
-                        for (int i = 1; i < exp.FingerPrint.Length; i++)
-                        {
-                            str_builder.AppendFormat(":{0:X2}", exp.FingerPrint[i]);
-                        }
-                    }
-                    Console.WriteLine("Host key fingerprint: " + str_builder.ToString());
-
-                    // TODO: check trusted key here
-
-                    /* Doing this will cause a connection timeout (but it works)
-                    bool if_trust = (bool)Application.Current.Dispatcher.Invoke(new Func<string, bool>((string fingerprint) => {
-                        MessageBoxResult res = MessageBox.Show("Host ssh key fingerprint is: " + fingerprint + "\nIs this the desired host?", "Host validation", 
-                            MessageBoxButton.YesNo, MessageBoxImage.Question);
-                        if (res == MessageBoxResult.Yes)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }), DispatcherPriority.Normal, str_builder.ToString());
-                    */
-
-                    // TODO: save fingerprint as trusted if if_trust == true
-
-                    exp.CanTrust = true;
-                };
+                BWorker.ReportProgress(10, "OK\n");
+                System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+                if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
+                BWorker.ReportProgress(10, "Connecting to cluster ... ");
 
                 // Connect to cluster
                 try
@@ -665,6 +476,7 @@ namespace iCon_General
                             ConstantsClass.KMCERR_INVALID_INPUT, false);
                         return;
                     }
+                    /*
                     sftpcl.Connect();
                     if (sftpcl.IsConnected == false)
                     {
@@ -672,6 +484,7 @@ namespace iCon_General
                             ConstantsClass.KMCERR_INVALID_INPUT, false);
                         return;
                     }
+                    */
                 }
                 catch (SshException ex)
                 {
@@ -681,6 +494,27 @@ namespace iCon_General
                     return;
                 }
                 Console.WriteLine("Cluster connection established.");
+
+                // Test connection
+                try
+                {
+                    SshCommand test_cmd = sshcl.CreateCommand("ls");
+                    string test_result = test_cmd.Execute();
+                    Console.WriteLine(test_result);
+                }
+                catch (SshException ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                    e.Result = new BWorkerResultMessage("SSH Error", "Connection test failed\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return;
+                }
+
+                // Abort connection
+                Console.WriteLine("Aborting test connection.");
+                e.Result = new BWorkerResultMessage("Connection Abort", "Test connection finished.",
+                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                return;
 
                 // Path Convention:
                 // Remote, BaseDirectory = abs: BaseDirectory/Job_XXXX/JobNamePrefix_XXXX.kmc
@@ -872,9 +706,6 @@ namespace iCon_General
                     BWorker.ReportProgress(Convert.ToInt32(Math.Floor(subProgress)), "OK\n");
                 }
                 Console.WriteLine("All jobs submitted.");
-
-                sshcl.Disconnect();
-                sftpcl.Disconnect();        // This will throw a silent, first-chance SshConnectionException (which is recorded in the ErrorLog)
             }
 
             // Retrieve data from MCDLL
@@ -888,6 +719,333 @@ namespace iCon_General
         #endregion Submit Methods
 
         #region Helper Methods
+
+        /// <summary>
+        /// Create SshClient object
+        /// </summary>
+        /// <returns>SshClient object (if successful) or null (if error)</returns>
+        protected static SshClient CreateSSHClient(TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e)
+        {
+            // Obtain ConnectionInfo
+            var coninfo = CreateConnectionInfo(ExtendedSettings, BWorker, e, "SSH");
+            if (coninfo == null)
+            {
+                if (e.Result == null)
+                {
+                    Console.WriteLine("Error: Creation of connection info object for SSH failed.");
+                    e.Result = new BWorkerResultMessage("Unknown error", "SSH setup failed\n(see console for details)\n",
+                    ConstantsClass.KMCERR_OBJECT_NOT_READY, false);
+                }
+                return null;
+            }
+
+            // Create client
+            SshClient client = new SshClient(coninfo);
+
+            // Set keep alive interval
+            client.KeepAliveInterval = TimeSpan.FromSeconds(10);
+
+            // Specify host key validation
+            client.HostKeyReceived += delegate (object sender, HostKeyEventArgs eventargs)
+            {
+                // The code below works but CanTrust = false throws an exception that causes hanging of the implicit sshcl.Dispose() 
+                // method at the end of the using block
+
+                // Check for fingerprint
+                if (eventargs.FingerPrint.Length == 0)
+                {
+                    eventargs.CanTrust = false;
+                    return;
+                }
+
+                // Create host key fingerprint string
+                StringBuilder str_builder = new StringBuilder();
+                str_builder.AppendFormat("{0} {1} {2:x}", eventargs.HostKeyName, eventargs.KeyLength.ToString(), eventargs.FingerPrint[0]);
+                if (eventargs.FingerPrint.Length > 1)
+                {
+                    for (int i = 1; i < eventargs.FingerPrint.Length; i++)
+                    {
+                        str_builder.AppendFormat(":{0:X2}", eventargs.FingerPrint[i]);
+                    }
+                }
+                Console.WriteLine("Host key fingerprint: " + str_builder.ToString());
+
+                // TODO: check trusted key here
+
+                /* Doing this will cause a connection timeout (but it works)
+                bool if_trust = (bool)Application.Current.Dispatcher.Invoke(new Func<string, bool>((string fingerprint) => {
+                    MessageBoxResult res = MessageBox.Show("Host ssh key fingerprint is: " + fingerprint + "\nIs this the desired host?", "Host validation", 
+                        MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (res == MessageBoxResult.Yes)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }), DispatcherPriority.Normal, str_builder.ToString());
+                */
+
+                // TODO: save fingerprint as trusted if if_trust == true
+
+                eventargs.CanTrust = true;
+            };
+
+            return client;
+        }
+
+        /// <summary>
+        /// Create SftpClient object
+        /// </summary>
+        /// <returns>SftpClient object (if successful) or null (if error)</returns>
+        protected static SftpClient CreateSFTPClient(TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e)
+        {
+            // Obtain ConnectionInfo
+            var coninfo = CreateConnectionInfo(ExtendedSettings, BWorker, e, "SFTP");
+            if (coninfo == null)
+            {
+                if (e.Result == null)
+                {
+                    Console.WriteLine("Error: Creation of connection info object for SFTP failed.");
+                    e.Result = new BWorkerResultMessage("Unknown error", "SSH setup failed\n(see console for details)\n",
+                    ConstantsClass.KMCERR_OBJECT_NOT_READY, false);
+                }
+                return null;
+            }
+
+            // Create client
+            SftpClient client = new SftpClient(coninfo);
+
+            // Set keep alive interval
+            client.KeepAliveInterval = TimeSpan.FromSeconds(10);
+
+            // Specify host key validation
+            client.HostKeyReceived += delegate (object sender, HostKeyEventArgs eventargs)
+            {
+                // The code below works but CanTrust = false throws an exception that causes hanging of the implicit sshcl.Dispose() 
+                // method at the end of the using block
+
+                // Check for fingerprint
+                if (eventargs.FingerPrint.Length == 0)
+                {
+                    eventargs.CanTrust = false;
+                    return;
+                }
+
+                // Create host key fingerprint string
+                StringBuilder str_builder = new StringBuilder();
+                str_builder.AppendFormat("{0} {1} {2:x}", eventargs.HostKeyName, eventargs.KeyLength.ToString(), eventargs.FingerPrint[0]);
+                if (eventargs.FingerPrint.Length > 1)
+                {
+                    for (int i = 1; i < eventargs.FingerPrint.Length; i++)
+                    {
+                        str_builder.AppendFormat(":{0:X2}", eventargs.FingerPrint[i]);
+                    }
+                }
+                Console.WriteLine("Host key fingerprint: " + str_builder.ToString());
+
+                // TODO: check trusted key here
+
+                /* Doing this will cause a connection timeout (but it works)
+                bool if_trust = (bool)Application.Current.Dispatcher.Invoke(new Func<string, bool>((string fingerprint) => {
+                    MessageBoxResult res = MessageBox.Show("Host ssh key fingerprint is: " + fingerprint + "\nIs this the desired host?", "Host validation", 
+                        MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (res == MessageBoxResult.Yes)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }), DispatcherPriority.Normal, str_builder.ToString());
+                */
+
+                // TODO: save fingerprint as trusted if if_trust == true
+
+                eventargs.CanTrust = true;
+            };
+
+            return client;
+        }
+
+        /// <summary>
+        /// Creates ConnectionInfo object with server authentication settings
+        /// </summary>
+        /// <returns>ConnectionInfo object (if successful) or null (if error)</returns>
+        protected static ConnectionInfo CreateConnectionInfo(TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e, string clienttype)
+        {
+            // Create desired authentication method list
+            List<AuthenticationMethod> auth_methods = new List<AuthenticationMethod>();
+
+            // Create password authentication method
+            if (ExtendedSettings.SelectedRemoteProfile.WithPassword == true)
+            {
+                // Add password authentication method
+                try
+                {
+                    auth_methods.Add(new PasswordAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim(),
+                        ExtendedSettings.SelectedRemoteProfile.UserPassword.Trim()));
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("Error: User name (" + ExtendedSettings.SelectedRemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+            }
+
+            // Create private key authentication method
+            if (ExtendedSettings.SelectedRemoteProfile.WithPrivateKey == true)
+            {
+                // Check if private key file exists
+                if (File.Exists(ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim()) == false)
+                {
+                    Console.WriteLine("Error: Private key file (" + ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim() + ") is missing.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Private key file does not exist\n(see console for details)\n",
+                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+
+                // Create keyfiles
+                PrivateKeyFile keyfile = null;
+                try
+                {
+                    keyfile = new PrivateKeyFile(ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim(),
+                        ExtendedSettings.SelectedRemoteProfile.PrivateKeyPassword.Trim());
+                }
+                catch (SshException ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file\n(see console for details)\n.",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+                catch (NotSupportedException ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("Error: Private key file path has zero length, contains only white space or contains one or more invalid characters.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+                catch (PathTooLongException)
+                {
+                    Console.WriteLine("Error: Private key file path exceeds the system-defined maximum path length.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Console.WriteLine("Error: Directory of the private key file does not exist.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    Console.WriteLine("Error: Private key file access permissions prevent loading of the file.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+                catch (FileNotFoundException)
+                {
+                    Console.WriteLine("Error: Private key file not found.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("Error: IO-error when opening private key file.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+
+                // Add key file authentication method
+                try
+                {
+                    auth_methods.Add(new PrivateKeyAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim(), keyfile));
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("Error: User name (" + ExtendedSettings.SelectedRemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+            }
+
+            // Create keyboard-interactive authentication method
+            if (ExtendedSettings.SelectedRemoteProfile.WithKeyboardInteractive == true)
+            {
+                // Add keyboard-interactive auth method
+                try
+                {
+                    var keyint_auth = new KeyboardInteractiveAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim());
+                    keyint_auth.AuthenticationPrompt += delegate (object sender, AuthenticationPromptEventArgs eventargs)
+                    {
+                        foreach (AuthenticationPrompt prompt in eventargs.Prompts)
+                        {
+                            if (string.IsNullOrWhiteSpace(prompt.Request)) continue;
+
+                            if ((ExtendedSettings.SelectedRemoteProfile.WithPassword == true) &&
+                                (prompt.Request.IndexOf("password", StringComparison.InvariantCultureIgnoreCase) != -1))
+                            {
+                                prompt.Response = ExtendedSettings.SelectedRemoteProfile.UserPassword.Trim();
+                            }
+                            else
+                            {
+                                prompt.Response = (string)Application.Current.Dispatcher.Invoke(
+                                    new Func<string, string, string>((string cltype, string question) =>
+                                    {
+                                        return AuthDialog.Prompt("Server request for " + cltype + " authentication:", question);
+                                    }), DispatcherPriority.Normal, clienttype, prompt.Request);
+                            }
+                        }
+                    };
+                    auth_methods.Add(keyint_auth);
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("Error: User name (" + ExtendedSettings.SelectedRemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return null;
+                }
+            }
+
+            // Create connection info object
+            ConnectionInfo coninfo = null;
+            try
+            {
+                coninfo = new ConnectionInfo(ExtendedSettings.SelectedRemoteProfile.HostAdress.Trim(), ExtendedSettings.SelectedRemoteProfile.HostPort,
+                    ExtendedSettings.SelectedRemoteProfile.Username.Trim(), auth_methods.ToArray());
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine("Error: Invalid connection setting: " + ex.Message);
+                e.Result = new BWorkerResultMessage("Invalid Input", "Invalid connection settings\n(see console for details)\n",
+                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                return null;
+            }
+
+            // Set connection timeout
+            coninfo.Timeout = TimeSpan.FromMinutes(10);
+
+            return coninfo;
+        }
 
         /// <summary>
         /// Check if the unix path is an absolute path
