@@ -160,6 +160,69 @@ namespace iCon_General.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deny ähnelt.
+        /// </summary>
+        public static string FingerPrintWindow_CancelBtn {
+            get {
+                return ResourceManager.GetString("FingerPrintWindow_CancelBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Host fingerprint (SHA-256): ähnelt.
+        /// </summary>
+        public static string FingerPrintWindow_HostFingerPrint {
+            get {
+                return ResourceManager.GetString("FingerPrintWindow_HostFingerPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Host key length: ähnelt.
+        /// </summary>
+        public static string FingerPrintWindow_HostKeyLength {
+            get {
+                return ResourceManager.GetString("FingerPrintWindow_HostKeyLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Host key type: ähnelt.
+        /// </summary>
+        public static string FingerPrintWindow_HostKeyType {
+            get {
+                return ResourceManager.GetString("FingerPrintWindow_HostKeyType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Host name: ähnelt.
+        /// </summary>
+        public static string FingerPrintWindow_HostName {
+            get {
+                return ResourceManager.GetString("FingerPrintWindow_HostName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Allow ähnelt.
+        /// </summary>
+        public static string FingerPrintWindow_OKBtn {
+            get {
+                return ResourceManager.GetString("FingerPrintWindow_OKBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unknown host fingerprint ähnelt.
+        /// </summary>
+        public static string FingerPrintWindow_Title {
+            get {
+                return ResourceManager.GetString("FingerPrintWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _File ähnelt.
         /// </summary>
         public static string MainMenu_File {

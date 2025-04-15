@@ -149,6 +149,9 @@
         /// <summary> Inifile-Identifier for cluster profile: if with keyboard-interactive auth </summary>
         public const string SC_KMC_OUT_CPROFILE_WITHINTERACT = @"WithInteractive:";
 
+        /// <summary> Inifile-Identifier for cluster profile: accepted host fingerprint </summary>
+        public const string SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT = @"HostFingerPrint:";
+
         #endregion Output Constants
 
         // ********************** Numeric Values ********************** //

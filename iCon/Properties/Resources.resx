@@ -150,6 +150,27 @@
   <data name="Btn_Submit" xml:space="preserve">
     <value>Submit Jobs</value>
   </data>
+  <data name="FingerPrintWindow_CancelBtn" xml:space="preserve">
+    <value>Deny</value>
+  </data>
+  <data name="FingerPrintWindow_HostFingerPrint" xml:space="preserve">
+    <value>Host fingerprint (SHA-256):</value>
+  </data>
+  <data name="FingerPrintWindow_HostKeyLength" xml:space="preserve">
+    <value>Host key length:</value>
+  </data>
+  <data name="FingerPrintWindow_HostKeyType" xml:space="preserve">
+    <value>Host key type:</value>
+  </data>
+  <data name="FingerPrintWindow_HostName" xml:space="preserve">
+    <value>Host name:</value>
+  </data>
+  <data name="FingerPrintWindow_OKBtn" xml:space="preserve">
+    <value>Allow</value>
+  </data>
+  <data name="FingerPrintWindow_Title" xml:space="preserve">
+    <value>Unknown host fingerprint</value>
+  </data>
   <data name="MainMenu_File" xml:space="preserve">
     <value>_File</value>
   </data>

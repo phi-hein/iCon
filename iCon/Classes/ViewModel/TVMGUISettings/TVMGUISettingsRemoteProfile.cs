@@ -47,6 +47,7 @@ namespace iCon_General
                 PrivateKeyPath = BaseProfile.PrivateKeyPath;
                 PrivateKeyPassword = BaseProfile.PrivateKeyPassword;
                 WithKeyboardInteractive = BaseProfile.WithKeyboardInteractive;
+                HostFingerPrint = BaseProfile.HostFingerPrint;
                 SelectedSimExe = BaseProfile.SelectedSimExe;
                 SelectedSearchExe = BaseProfile.SelectedSearchExe;
                 SimSubmitScript = BaseProfile.SimSubmitScript;
@@ -296,6 +297,26 @@ namespace iCon_General
                 {
                     _WithKeyboardInteractive = value;
                     Notify("WithKeyboardInteractive");
+                }
+            }
+        }
+
+        protected string _HostFingerPrint = "";
+        /// <summary>
+        /// Stores the user-accepted host fingerprint
+        /// </summary>
+        public string HostFingerPrint
+        {
+            get
+            {
+                return _HostFingerPrint;
+            }
+            set
+            {
+                if (value != _HostFingerPrint)
+                {
+                    _HostFingerPrint = value;
+                    Notify("HostFingerPrint");
                 }
             }
         }
@@ -632,6 +653,7 @@ namespace iCon_General
                     {
                         swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
                     }
+                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT + " " + _HostFingerPrint.Trim());
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_END);
                 }
 
@@ -698,6 +720,7 @@ namespace iCon_General
             string t_WithPrivateKey = "";
             string t_PrivateKeyPath = "";
             string t_WithKeyboardInteractive = "";
+            string t_HostFingerPrint = "";
             try
             {
                 using (StreamReader sreader = new StreamReader(RemoteProfileIniPath))
@@ -760,6 +783,10 @@ namespace iCon_General
                         if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT) == true))
                         {
                             t_WithKeyboardInteractive = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT.Length).Trim();
+                        }
+                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT) == true))
+                        {
+                            t_HostFingerPrint = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT.Length).Trim();
                         }
                     }
                 }
@@ -831,6 +858,7 @@ namespace iCon_General
             PrivateKeyPath = t_PrivateKeyPath;
             PrivateKeyPassword = "";
             WithKeyboardInteractive = tp_WithKeyboardInteractive;
+            HostFingerPrint = t_HostFingerPrint;
 
             // Load scripts if they exist
             LoadScripts();

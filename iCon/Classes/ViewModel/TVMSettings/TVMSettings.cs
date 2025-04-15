@@ -476,7 +476,8 @@ namespace iCon_General
                             ConstantsClass.KMCERR_INVALID_INPUT, false);
                         return;
                     }
-                    /*
+                    if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
+
                     sftpcl.Connect();
                     if (sftpcl.IsConnected == false)
                     {
@@ -484,7 +485,7 @@ namespace iCon_General
                             ConstantsClass.KMCERR_INVALID_INPUT, false);
                         return;
                     }
-                    */
+                    if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
                 }
                 catch (SshException ex)
                 {
@@ -494,27 +495,6 @@ namespace iCon_General
                     return;
                 }
                 Console.WriteLine("Cluster connection established.");
-
-                // Test connection
-                try
-                {
-                    SshCommand test_cmd = sshcl.CreateCommand("ls");
-                    string test_result = test_cmd.Execute();
-                    Console.WriteLine(test_result);
-                }
-                catch (SshException ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("SSH Error", "Connection test failed\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-
-                // Abort connection
-                Console.WriteLine("Aborting test connection.");
-                e.Result = new BWorkerResultMessage("Connection Abort", "Test connection finished.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
-                return;
 
                 // Path Convention:
                 // Remote, BaseDirectory = abs: BaseDirectory/Job_XXXX/JobNamePrefix_XXXX.kmc
@@ -748,48 +728,38 @@ namespace iCon_General
             // Specify host key validation
             client.HostKeyReceived += delegate (object sender, HostKeyEventArgs eventargs)
             {
-                // The code below works but CanTrust = false throws an exception that causes hanging of the implicit sshcl.Dispose() 
-                // method at the end of the using block
-
-                // Check for fingerprint
+                // Primitive fingerprint check
                 if (eventargs.FingerPrint.Length == 0)
                 {
+                    Console.WriteLine("Error: No host fingerprint received.");
                     eventargs.CanTrust = false;
                     return;
                 }
 
-                // Create host key fingerprint string
-                StringBuilder str_builder = new StringBuilder();
-                str_builder.AppendFormat("{0} {1} {2:x}", eventargs.HostKeyName, eventargs.KeyLength.ToString(), eventargs.FingerPrint[0]);
-                if (eventargs.FingerPrint.Length > 1)
+                // Check against stored fingerprint
+                if ((string.IsNullOrWhiteSpace(ExtendedSettings.SelectedRemoteProfile.HostFingerPrint) == false) &&
+                    (eventargs.FingerPrintSHA256 == ExtendedSettings.SelectedRemoteProfile.HostFingerPrint))
                 {
-                    for (int i = 1; i < eventargs.FingerPrint.Length; i++)
-                    {
-                        str_builder.AppendFormat(":{0:X2}", eventargs.FingerPrint[i]);
-                    }
+                    eventargs.CanTrust = true;
+                    return;
                 }
-                Console.WriteLine("Host key fingerprint: " + str_builder.ToString());
 
-                // TODO: check trusted key here
-
-                /* Doing this will cause a connection timeout (but it works)
-                bool if_trust = (bool)Application.Current.Dispatcher.Invoke(new Func<string, bool>((string fingerprint) => {
-                    MessageBoxResult res = MessageBox.Show("Host ssh key fingerprint is: " + fingerprint + "\nIs this the desired host?", "Host validation", 
-                        MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (res == MessageBoxResult.Yes)
+                // Show fingerprint dialog
+                eventargs.CanTrust = (bool)Application.Current.Dispatcher.Invoke(
+                    new Func<string, string, string, string, bool>((string hostname, string keytype, string keylength, string fingerprint) =>
                     {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }), DispatcherPriority.Normal, str_builder.ToString());
-                */
+                        return FingerPrintDialog.Prompt(hostname, keytype, keylength, fingerprint);
+                    }), 
+                    DispatcherPriority.Normal,
+                    ExtendedSettings.SelectedRemoteProfile.HostAdress,
+                    eventargs.HostKeyName,
+                    eventargs.KeyLength.ToString(),
+                    eventargs.FingerPrintSHA256);
 
-                // TODO: save fingerprint as trusted if if_trust == true
-
-                eventargs.CanTrust = true;
+                if (eventargs.CanTrust == true)
+                {
+                    ExtendedSettings.SelectedRemoteProfile.HostFingerPrint = eventargs.FingerPrintSHA256;
+                }
             };
 
             return client;
@@ -823,48 +793,38 @@ namespace iCon_General
             // Specify host key validation
             client.HostKeyReceived += delegate (object sender, HostKeyEventArgs eventargs)
             {
-                // The code below works but CanTrust = false throws an exception that causes hanging of the implicit sshcl.Dispose() 
-                // method at the end of the using block
-
-                // Check for fingerprint
+                // Primitive fingerprint check
                 if (eventargs.FingerPrint.Length == 0)
                 {
+                    Console.WriteLine("Error: No host fingerprint received.");
                     eventargs.CanTrust = false;
                     return;
                 }
 
-                // Create host key fingerprint string
-                StringBuilder str_builder = new StringBuilder();
-                str_builder.AppendFormat("{0} {1} {2:x}", eventargs.HostKeyName, eventargs.KeyLength.ToString(), eventargs.FingerPrint[0]);
-                if (eventargs.FingerPrint.Length > 1)
+                // Check against stored fingerprint
+                if ((string.IsNullOrWhiteSpace(ExtendedSettings.SelectedRemoteProfile.HostFingerPrint) == false) &&
+                    (eventargs.FingerPrintSHA256 == ExtendedSettings.SelectedRemoteProfile.HostFingerPrint))
                 {
-                    for (int i = 1; i < eventargs.FingerPrint.Length; i++)
-                    {
-                        str_builder.AppendFormat(":{0:X2}", eventargs.FingerPrint[i]);
-                    }
+                    eventargs.CanTrust = true;
+                    return;
                 }
-                Console.WriteLine("Host key fingerprint: " + str_builder.ToString());
 
-                // TODO: check trusted key here
-
-                /* Doing this will cause a connection timeout (but it works)
-                bool if_trust = (bool)Application.Current.Dispatcher.Invoke(new Func<string, bool>((string fingerprint) => {
-                    MessageBoxResult res = MessageBox.Show("Host ssh key fingerprint is: " + fingerprint + "\nIs this the desired host?", "Host validation", 
-                        MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (res == MessageBoxResult.Yes)
+                // Show fingerprint dialog
+                eventargs.CanTrust = (bool)Application.Current.Dispatcher.Invoke(
+                    new Func<string, string, string, string, bool>((string hostname, string keytype, string keylength, string fingerprint) =>
                     {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }), DispatcherPriority.Normal, str_builder.ToString());
-                */
+                        return FingerPrintDialog.Prompt(hostname, keytype, keylength, fingerprint);
+                    }),
+                    DispatcherPriority.Normal,
+                    ExtendedSettings.SelectedRemoteProfile.HostAdress,
+                    eventargs.HostKeyName,
+                    eventargs.KeyLength.ToString(),
+                    eventargs.FingerPrintSHA256);
 
-                // TODO: save fingerprint as trusted if if_trust == true
-
-                eventargs.CanTrust = true;
+                if (eventargs.CanTrust == true)
+                {
+                    ExtendedSettings.SelectedRemoteProfile.HostFingerPrint = eventargs.FingerPrintSHA256;
+                }
             };
 
             return client;
