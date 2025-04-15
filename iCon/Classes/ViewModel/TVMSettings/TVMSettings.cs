@@ -1001,6 +1001,7 @@ namespace iCon_General
                             if (string.IsNullOrWhiteSpace(prompt.Request)) continue;
 
                             if ((ExtendedSettings.SelectedRemoteProfile.WithPassword == true) &&
+                                (string.IsNullOrWhiteSpace(ExtendedSettings.SelectedRemoteProfile.UserPassword) == false) &&
                                 (prompt.Request.IndexOf("password", StringComparison.InvariantCultureIgnoreCase) != -1))
                             {
                                 prompt.Response = ExtendedSettings.SelectedRemoteProfile.UserPassword.Trim();
@@ -1010,7 +1011,7 @@ namespace iCon_General
                                 prompt.Response = (string)Application.Current.Dispatcher.Invoke(
                                     new Func<string, string, string>((string cltype, string question) =>
                                     {
-                                        return AuthDialog.Prompt("Server request for " + cltype + " authentication:", question);
+                                        return AuthDialog.Prompt("Server request (" + cltype + ")", question);
                                     }), DispatcherPriority.Normal, clienttype, prompt.Request);
                             }
                         }

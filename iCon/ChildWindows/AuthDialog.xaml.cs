@@ -11,9 +11,8 @@ namespace iCon_General
         {
             InitializeComponent();
 
-            // Initialize texts
-            txtPromptLabel.Content = label;
-            txtPromptQuestion.Text = question;
+            // Initialize prompt text
+            txtPromptQuestion.Text = label + ": " + question.TrimEnd(new char[] { ':',' '});
 
             // Set cursor to password box
             pwbPromptResponse.Focus();

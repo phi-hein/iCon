@@ -28,7 +28,7 @@
           SourceFile="$(var.iCon.TargetDir)Resources\ApplicationIcon.ico"/>
     
     <Condition Message="!(loc.WinVersionMessage)">
-      <![CDATA[Installed OR (VersionNT >= 601)]]>
+      <![CDATA[Installed OR (VersionNT &gt;= 601)]]>
     </Condition>
 
     <PropertyRef Id="WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED"/>
