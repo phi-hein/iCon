@@ -79,7 +79,6 @@ class TUniqueJumpBase {
 		int SetCodeEnergy (int UCodeID, double Energy);									// Code-Energie für bestimmte UniqueCodeID setzen
 
 		TUniqueJumpBase (TKMCJob * pJob);		// Constructor, Ready = false setzen
-		~TUniqueJumpBase ();					// Destructor
 		bool IfEnvReady ();						// Rueckgabe von EnvReady
 		bool IfJumpReady ();					// Rueckgabe von JumpReady
 		bool IfCodesReady ();					// Rueckgabe von CodesReady
@@ -88,6 +87,8 @@ class TUniqueJumpBase {
 		int LoadCodesFromStream (istream &input);						// UniqueJump - Codierung aus einem Stream laden
 
 	protected:
+		~TUniqueJumpBase();					// Destructor
+
 		void RecursivePermutCodeGen (string recstr, int depth, vector<string> *outstr, vector<vector<int>> *dmap);		// Liefert rekursiv alle Code-Permutationen
 };
 

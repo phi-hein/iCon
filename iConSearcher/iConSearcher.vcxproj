@@ -18,6 +18,7 @@
     <SccProvider>SAK</SccProvider>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>iConSearcher</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -45,12 +46,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>$(ProjectName)_Win_D</TargetName>
-    <OutDir>$(SolutionDir)$(Configuration)\SearchExecutables\</OutDir>
+    <TargetName>$(ProjectName)_Win</TargetName>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)\SearchExecutables\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_Win</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -59,15 +60,16 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;NON_DLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_HAS_STD_BYTE=0;NON_DLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)MCJob_UDLL\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)SearchBuilds\*.exe" "$(SolutionDir)$(Configuration)\SearchExecutables" /y /i /r /d /f</Command>
+      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src" /y /i /r /d /f</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,8 +80,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;NON_DLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;_HAS_STD_BYTE=0;NON_DLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)MCJob_UDLL\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -88,7 +91,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)SearchBuilds\*.exe" "$(SolutionDir)$(Configuration)\SearchExecutables" /y /i /r /d /f</Command>
+      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src" /y /i /r /d /f</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -207,14 +210,6 @@
     <ClInclude Include="..\MCJob_UDLL\TUniqueJump\TUniqueJumpFunc.h" />
     <ClInclude Include="..\MCJob_UDLL\TUniqueJump\TUniqueJumpOut.h" />
     <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SearchBuilds\Makefiles\Makefile" />
-    <None Include="SearchBuilds\Makefiles\x86_64_amd_k10.mf" />
-    <None Include="SearchBuilds\Makefiles\x86_64_amd_piledriver.mf" />
-    <None Include="SearchBuilds\Makefiles\x86_64_intel_ivybridge.mf" />
-    <None Include="SearchBuilds\Makefiles\x86_64_intel_nehalem.mf" />
-    <None Include="SearchBuilds\Makefiles\x86_64_intel_westmere.mf" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iConSearcher.rc" />

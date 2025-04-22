@@ -38,6 +38,7 @@ namespace iCon_General
             {
                 Name = BaseProfile.Name;
                 RemoteWorkspace = BaseProfile.RemoteWorkspace;
+                RemoteBuildDir = BaseProfile.RemoteBuildDir;
                 HostAdress = BaseProfile.HostAdress;
                 HostPort = BaseProfile.HostPort;
                 Username = BaseProfile.Username;
@@ -48,11 +49,9 @@ namespace iCon_General
                 PrivateKeyPassword = BaseProfile.PrivateKeyPassword;
                 WithKeyboardInteractive = BaseProfile.WithKeyboardInteractive;
                 HostFingerPrint = BaseProfile.HostFingerPrint;
-                SelectedSimExe = BaseProfile.SelectedSimExe;
-                SelectedSearchExe = BaseProfile.SelectedSearchExe;
                 SimSubmitScript = BaseProfile.SimSubmitScript;
                 SimJobScript = BaseProfile.SimJobScript;
-                SearchScript = BaseProfile.SearchScript;
+                BuildScript = BaseProfile.BuildScript;
             }
         }
 
@@ -108,7 +107,7 @@ namespace iCon_General
 
         protected string _RemoteWorkspace = "";
         /// <summary>
-        /// Relative or absolute path to remote linux workspace directory (if relative, then relative to user home directory)
+        /// Relative or absolute path to remote workspace directory (if relative, then relative to user home directory)
         /// </summary>
         [StringLength(250, ErrorMessage = "Remote workspace directory path has to contain 250 characters or less.")]
         [RegularExpression(@"^[A-Za-z0-9_/\-\(\)\s]*$", ErrorMessage = @"Allowed characters: a-z, A-Z, 0-9, _/-() and space.")]
@@ -121,6 +120,25 @@ namespace iCon_General
             set
             {
                 ValidateNotify("RemoteWorkspace", value, ref _RemoteWorkspace);
+            }
+        }
+
+        protected string _RemoteBuildDir = "build";
+        /// <summary>
+        /// Relative path to remote build directory (relative to remote workspace directory)
+        /// </summary>
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Enter valid build directory.")]
+        [StringLength(100, ErrorMessage = "Remote build path has to contain 100 characters or less.")]
+        [RegularExpression(@"^[A-Za-z0-9_/\-\(\)\s]*$", ErrorMessage = @"Allowed characters: a-z, A-Z, 0-9, _/-() and space.")]
+        public string RemoteBuildDir
+        {
+            get
+            {
+                return _RemoteBuildDir;
+            }
+            set
+            {
+                ValidateNotify("RemoteBuildDir", value, ref _RemoteBuildDir);
             }
         }
 
@@ -321,38 +339,6 @@ namespace iCon_General
             }
         }
 
-        protected string _SelectedSimExe = "";
-        /// <summary>
-        /// Selected simulation executable specifier
-        /// </summary>
-        public string SelectedSimExe
-        {
-            get
-            {
-                return _SelectedSimExe;
-            }
-            set
-            {
-                ValidateNotify("SelectedSimExe", value, ref _SelectedSimExe);
-            }
-        }
-
-        protected string _SelectedSearchExe = "";
-        /// <summary>
-        /// Selected searcher executable specifier
-        /// </summary>
-        public string SelectedSearchExe
-        {
-            get
-            {
-                return _SelectedSearchExe;
-            }
-            set
-            {
-                ValidateNotify("SelectedSearchExe", value, ref _SelectedSearchExe);
-            }
-        }
-
         protected string _SimSubmitScript = "";
         /// <summary>
         /// Script to submit simulation job to queue system
@@ -385,19 +371,19 @@ namespace iCon_General
             }
         }
 
-        protected string _SearchScript = "";
+        protected string _BuildScript = "";
         /// <summary>
-        /// Script to execute searcher executable
+        /// Script to carry out remote compilation
         /// </summary>
-        public string SearchScript
+        public string BuildScript
         {
             get
             {
-                return _SearchScript;
+                return _BuildScript;
             }
             set
             {
-                ValidateNotify("SearchScript", value, ref _SearchScript);
+                ValidateNotify("BuildScript", value, ref _BuildScript);
             }
         }
 
@@ -410,7 +396,7 @@ namespace iCon_General
         /// </summary>
         /// <param name="i_ID">Number of the profile</param>
         /// <returns>Path to the profile folder</returns>
-        protected string GetBaseFolder(int i_ID)
+        protected static string GetBaseFolder(int i_ID)
         {
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -418,6 +404,19 @@ namespace iCon_General
                 ConstantsClass.SC_KMC_APPDATA_INNERFOLDER,
                 ConstantsClass.SC_KMC_USERSCRIPTS_DIR,
                 ConstantsClass.SC_KMC_REMOTEPROFILE_DIR + i_ID.ToString(ConstantsClass.SC_KMC_REMOTEPROFILE_ID_FORMAT));
+        }
+
+        /// <summary>
+        /// Create a path for a file residing in the default scripts folder
+        /// </summary>
+        /// <param name="i_Filename">Filename to append to scripts folder</param>
+        /// <returns>Path for the script file</returns>
+        protected static string GetDefaultScriptPath(string i_Filename)
+        {
+            return Path.Combine(
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                ConstantsClass.SC_KMC_SCRIPTSFOLDER,
+                i_Filename);
         }
 
         /// <summary>
@@ -433,77 +432,7 @@ namespace iCon_General
         }
 
         /// <summary>
-        /// Creates the name of a simulation executable
-        /// </summary>
-        public string GetSimExecutableName(string ArchSpecifier)
-        {
-            return ConstantsClass.SC_KMC_BASESIMEXE + ArchSpecifier.Trim() + ConstantsClass.SC_KMC_EXTSIMEXE;
-        }
-
-        /// <summary>
-        /// Creates the name of a searcher executable
-        /// </summary>
-        public string GetSearchExecutableName(string ArchSpecifier)
-        {
-            return ConstantsClass.SC_KMC_BASESEARCHEXE + ArchSpecifier.Trim() + ConstantsClass.SC_KMC_EXTSEARCHEXE;
-        }
-
-        /// <summary>
-        /// Creates the name of the selected simulation executable
-        /// </summary>
-        public string GetSelectedSimExecutableName()
-        {
-            return GetSimExecutableName(_SelectedSimExe);
-        }
-
-        /// <summary>
-        /// Creates the name of the selected searcher executable
-        /// </summary>
-        public string GetSelectedSearchExecutableName()
-        {
-            return GetSearchExecutableName(_SelectedSearchExe);
-        }
-
-        /// <summary>
-        /// Creates a path to a simulation executable
-        /// </summary>
-        public string GetSimExecutablePath(string ArchSpecifier)
-        {
-            return Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                ConstantsClass.SC_KMC_SIMEXEFOLDER,
-                GetSimExecutableName(ArchSpecifier));
-        }
-
-        /// <summary>
-        /// Creates a path to a searcher executable
-        /// </summary>
-        public string GetSearchExecutablePath(string ArchSpecifier)
-        {
-            return Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                ConstantsClass.SC_KMC_SEARCHEXEFOLDER,
-                GetSearchExecutableName(ArchSpecifier));
-        }
-
-        /// <summary>
-        /// Creates a path to the selected simulation executable
-        /// </summary>
-        public string GetSelectedSimExecutablePath()
-        {
-            return GetSimExecutablePath(_SelectedSimExe);
-        }
-
-        /// <summary>
-        /// Creates a path to the selected searcher executable
-        /// </summary>
-        public string GetSelectedSearchExecutablePath()
-        {
-            return GetSearchExecutablePath(_SelectedSearchExe);
-        }
-
-        /// <summary>
-        /// Save submit, job and search script to remote profile folder
+        /// Save submit, job and build script to remote profile folder
         /// </summary>
         public void SaveScripts()
         {
@@ -513,11 +442,11 @@ namespace iCon_General
             // Write scripts to file
             File.WriteAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT), _SimSubmitScript);
             File.WriteAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT), _SimJobScript);
-            File.WriteAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SEARCHSCRIPT), _SearchScript);
+            File.WriteAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_BUILDSCRIPT), _BuildScript);
         }
 
         /// <summary>
-        /// Load submit, job and search script from remote profile folder (if they exist)
+        /// Load submit, job and build script from remote profile folder (if they exist)
         /// </summary>
         public void LoadScripts()
         {
@@ -530,10 +459,21 @@ namespace iCon_General
             {
                 SimJobScript = File.ReadAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT));
             }
-            if (File.Exists(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SEARCHSCRIPT)) == true)
+            if (File.Exists(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_BUILDSCRIPT)) == true)
             {
-                SearchScript = File.ReadAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SEARCHSCRIPT));
+                BuildScript = File.ReadAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_BUILDSCRIPT));
             }
+        }
+
+        /// <summary>
+        /// Load default submit, job and build scripts
+        /// </summary>
+        public void LoadDefaultScripts()
+        {
+            // Load scripts from files
+            SimSubmitScript = File.ReadAllText(GetDefaultScriptPath(ConstantsClass.SC_KMC_SUBMITSCRIPT));
+            SimJobScript = File.ReadAllText(GetDefaultScriptPath(ConstantsClass.SC_KMC_JOBSCRIPT));
+            BuildScript = File.ReadAllText(GetDefaultScriptPath(ConstantsClass.SC_KMC_BUILDSCRIPT));
         }
 
         /// <summary>
@@ -559,31 +499,7 @@ namespace iCon_General
             if (ValidateObject() == false) return false;
 
             // Save current scripts
-            /*
             SaveScripts();
-
-            // Check if scripts and selected executables exist in the appropriate folders
-            if (File.Exists(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT)) == false)
-            {
-                return false;
-            }
-            if (File.Exists(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT)) == false)
-            {
-                return false;
-            }
-            if (File.Exists(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SEARCHSCRIPT)) == false)
-            {
-                return false;
-            }
-            if (File.Exists(GetSelectedSimExecutablePath()) == false)
-            {
-                return false;
-            }
-            if (File.Exists(GetSelectedSimExecutablePath()) == false)
-            {
-                return false;
-            }
-            */
 
             // Check if private key exists if enabled
             if (_WithPrivateKey == true)
@@ -622,9 +538,8 @@ namespace iCon_General
                     // Write information to stream
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_START);
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_NAME + " " + _Name.Trim());
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_SIMEXE + " " + _SelectedSimExe.Trim());
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_SEARCHEXE + " " + _SelectedSearchExe.Trim());
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WORKSPACE + " " + _RemoteWorkspace.Trim());
+                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_BUILDDIR + " " + _RemoteBuildDir.Trim());
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTADRESS + " " + _HostAdress.Trim());
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_PORT + " " + _HostPort.ToString());
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_USERNAME + " " + _Username.Trim());
@@ -710,9 +625,8 @@ namespace iCon_General
 
             // Initialize new data
             string t_Name = "";
-            string t_SelectedSimExe = "";
-            string t_SelectedSearchExe = "";
             string t_RemoteWorkspace = "";
+            string t_RemoteBuildDir = "";
             string t_HostAdress = "";
             string t_HostPort = "";
             string t_Username = "";
@@ -744,17 +658,13 @@ namespace iCon_General
                         {
                             t_Name = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_NAME.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_SIMEXE) == true))
-                        {
-                            t_SelectedSimExe = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_SIMEXE.Length).Trim();
-                        }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_SEARCHEXE) == true))
-                        {
-                            t_SelectedSearchExe = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_SEARCHEXE.Length).Trim();
-                        }
                         if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_WORKSPACE) == true))
                         {
                             t_RemoteWorkspace = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_WORKSPACE.Length).Trim();
+                        }
+                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_BUILDDIR) == true))
+                        {
+                            t_RemoteBuildDir = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_BUILDDIR.Length).Trim();
                         }
                         if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTADRESS) == true))
                         {
@@ -824,31 +734,14 @@ namespace iCon_General
                 t_PrivateKeyPath = "";
             }
 
-            // Check if sim and search executables exist
-            if (string.IsNullOrWhiteSpace(t_SelectedSimExe) == false)
-            {
-                if (File.Exists(GetSimExecutablePath(t_SelectedSimExe)) == false)
-                {
-                    t_SelectedSimExe = "";
-                }
-            }
-            if (string.IsNullOrWhiteSpace(t_SelectedSearchExe) == false)
-            {
-                if (File.Exists(GetSearchExecutablePath(t_SelectedSearchExe)) == false)
-                {
-                    t_SelectedSearchExe = "";
-                }
-            }
-
             // Set profile ID (without triggering directory renaming)
             _ID = t_ID;
             Notify("ID");
 
             // Transfer data
             Name = t_Name;
-            SelectedSimExe = t_SelectedSimExe;
-            SelectedSearchExe = t_SelectedSearchExe;
             RemoteWorkspace = t_RemoteWorkspace;
+            RemoteBuildDir = t_RemoteBuildDir;
             HostAdress = t_HostAdress;
             HostPort = tp_HostPort;
             Username = t_Username;

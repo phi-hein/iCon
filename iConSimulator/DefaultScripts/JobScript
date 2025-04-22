@@ -1,18 +1,13 @@
-# Script zum automatischen Durchfuehren einer KMC-Rechnung
+# Script for the execution of a queued KMC simulation
+# (adjusted for a SLURM queue system)
 #
-# Skript wird gestartet mit:
-# "./JobScript <Exe-Pfad> <Inputdatei-Pfad> <Logdatei-Pfad>"
+# Script is executed as:
+# "./JobScript <ExePath> <InputfilePath> <LogfilePath>"
 #
-#!/bin/sh
-#$ -S /bin/sh
-#$ -j y
-#$ -m n
-#$ -r n
-#$ -l h_vmem=1500M
-#$ -q kmc
+#!/usr/bin/zsh
 #
 echo "Job started at:" `date`
-echo "Running on $HOSTNAME with job-ID = $JOB_ID ($JOB_NAME)"
+echo "Running on $SLURM_JOB_NODELIST with job-ID = $SLURM_JOB_ID ($SLURM_JOB_NAME)"
 echo "Executable: $1"
 echo "Inputfile: $2"
 echo "Logfile: $3"

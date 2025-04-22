@@ -34,10 +34,12 @@ class TSimulationFunc: public TSimulationBase {
 	public:
 		// NON-PUBLISHED
 		TSimulationFunc (TKMCJob * pJob);			// Constructor
-		~TSimulationFunc ();						// Destructor
 
 		int GetMovementResults(vector<double> *o_results) const;	// Ergebnisse der Hauptsimulation ausgeben
 		int GetMainSimStatus(TSimPhaseInfo &o_phase) const;			// Status der Hauptsimulation ausgeben
+
+	protected:
+		~TSimulationFunc();						// Destructor
 };
 
 #endif

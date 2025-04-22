@@ -2629,7 +2629,7 @@ int TSimulationBase::ValidateLattice(vector<vector<vector<vector<int>>>> *i_latt
 	}
 
 	// Zaehler aufsetzen
-	long long i_VacAnz = 0LL;
+	unsigned long long i_VacAnz = 0LL;
 	vector<long long> i_DopandAnz;
 	if (t_DopedID.size() != 0) i_DopandAnz = vector<long long> (t_DopedID.size(), 0LL);
 

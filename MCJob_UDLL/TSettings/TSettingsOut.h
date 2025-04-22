@@ -52,6 +52,8 @@ class TSettingsOut: public TSettingsFunc {
 		
 		// NON-PUBLISHED
 		TSettingsOut (TKMCJob * pJob);		// Constructor
+
+	protected:
 		~TSettingsOut ();					// Destructor
 };
 

@@ -424,14 +424,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SearchBuilds\Makefiles\Makefile" />
-    <None Include="SearchBuilds\Makefiles\x86_64_amd_k10.mf" />
-    <None Include="SearchBuilds\Makefiles\x86_64_amd_piledriver.mf" />
-    <None Include="SearchBuilds\Makefiles\x86_64_intel_ivybridge.mf" />
-    <None Include="SearchBuilds\Makefiles\x86_64_intel_nehalem.mf" />
-    <None Include="SearchBuilds\Makefiles\x86_64_intel_westmere.mf" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="iConSearcher.rc">
       <Filter>Ressourcendateien</Filter>
     </ResourceCompile>

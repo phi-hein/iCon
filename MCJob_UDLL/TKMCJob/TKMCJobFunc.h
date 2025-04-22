@@ -31,6 +31,8 @@ class TKMCJobFunc: public TKMCJobBase {
 	public:
 		// NON-PUBLISHED
 		TKMCJobFunc ();			// Constructor
+
+	protected:
 		~TKMCJobFunc ();		// Destructor
 };
 

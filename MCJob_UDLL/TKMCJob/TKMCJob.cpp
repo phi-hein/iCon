@@ -79,7 +79,14 @@ TKMCJob::~TKMCJob () {
 
 // **************************** PUBLISHED ********************************* //
 
-
+// Wichtig: Destructor-Methode gegen Memory Leaks (Instance suicide)
+void TKMCJob::Release() {
+	try {
+		delete this;
+	}
+	catch (exception& e) { StdExceptionHandler(e); }
+	catch (...) { ExceptionHandler(); }
+}
 
 // ***************************** PUBLIC *********************************** //
 

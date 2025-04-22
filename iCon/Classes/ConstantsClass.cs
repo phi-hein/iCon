@@ -12,17 +12,8 @@
         /// <summary> Directory name for inner AppData-Folder where settings etc. should be stored (Program name)</summary>
         public const string SC_KMC_APPDATA_INNERFOLDER = @"iCon";
 
-        /// <summary> Directory name where simulation executables are stored (relative to application folder) </summary>
-        public const string SC_KMC_SIMEXEFOLDER = @"SimExecutables";
-
-        /// <summary> Directory name where searcher executables are stored (relative to application folder) </summary>
-        public const string SC_KMC_SEARCHEXEFOLDER = @"SearchExecutables";
-
-        /// <summary> Directory name where default simulation scripts are stored (relative to application folder) </summary>
-        public const string SC_KMC_SIMSCRIPTSFOLDER = @"SimScripts";
-
-        /// <summary> Directory name where default searcher scripts are stored (relative to application folder) </summary>
-        public const string SC_KMC_SEARCHSCRIPTSFOLDER = @"SearchScripts";
+        /// <summary> Directory name where default scripts are stored (relative to application folder) </summary>
+        public const string SC_KMC_SCRIPTSFOLDER = @"DefaultScripts";
 
         /// <summary> Filename for saving input between sessions </summary>
         public const string SC_KMC_LASTSESSION_FILE = @"Current.kmc";
@@ -36,7 +27,7 @@
         /// <summary> Name of the scripts folder of the user </summary>
         public const string SC_KMC_USERSCRIPTS_DIR = @"UserScripts";
 
-        /// <summary> Prefix to the remote profile scripts folder </summary>
+        /// <summary> Prefix to the remote profile scripts folder (within userscripts directory) </summary>
         public const string SC_KMC_REMOTEPROFILE_DIR = @"RemoteProfile_";
 
         /// <summary> Format string for remote profile ID </summary>
@@ -51,20 +42,17 @@
         /// <summary> Name of the job script </summary>
         public const string SC_KMC_JOBSCRIPT = @"JobScript";
 
-        /// <summary> Name of the searcher script </summary>
-        public const string SC_KMC_SEARCHSCRIPT = @"SearchScript";
+        /// <summary> Name of the build script </summary>
+        public const string SC_KMC_BUILDSCRIPT = @"BuildScript";
 
-        /// <summary> Base name of the simulation executables </summary>
-        public const string SC_KMC_BASESIMEXE = @"iConSimulator_";
+        /// <summary> Name of the source file archive for the remote executables (in application folder) </summary>
+        public const string SC_KMC_SOURCEARCHIVE = @"Source.zip";
 
-        /// <summary> Extension of the simulation executables </summary>
-        public const string SC_KMC_EXTSIMEXE = @".exe";
+        /// <summary> Filename of simulation executable for remote execution </summary>
+        public const string SC_KMC_REMOTESIMEXE = @"iConSimulator.exe";
 
-        /// <summary> Base name of the searcher executables </summary>
-        public const string SC_KMC_BASESEARCHEXE = @"iConSearcher_";
-
-        /// <summary> Extension of the searcher executables </summary>
-        public const string SC_KMC_EXTSEARCHEXE = @".exe";
+        /// <summary> Filename of searcher executable for remote execution </summary>
+        public const string SC_KMC_REMOTESEARCHEXE = @"iConSearcher.exe";
 
         /// <summary> Filename of simulation executable for local execution </summary>
         public const string SC_KMC_LOCALSIMEXE = @"iConSimulator_Win.exe";
@@ -113,14 +101,11 @@
         /// <summary> Inifile-Identifier for cluster profile name </summary>
         public const string SC_KMC_OUT_CPROFILE_NAME = @"Name:";
 
-        /// <summary> Inifile-Identifier for cluster profile simulation executable </summary>
-        public const string SC_KMC_OUT_CPROFILE_SIMEXE = @"SimExe:";
-
-        /// <summary> Inifile-Identifier for cluster profile searcher executable </summary>
-        public const string SC_KMC_OUT_CPROFILE_SEARCHEXE = @"SearchExe:";
-
         /// <summary> Inifile-Identifier for cluster profile remote workspace </summary>
         public const string SC_KMC_OUT_CPROFILE_WORKSPACE = @"Workspace(remote):";
+
+        /// <summary> Inifile-Identifier for cluster profile remote build directory </summary>
+        public const string SC_KMC_OUT_CPROFILE_BUILDDIR = @"BuildDir:";
 
         /// <summary> Inifile-Identifier for cluster profile host adress </summary>
         public const string SC_KMC_OUT_CPROFILE_HOSTADRESS = @"Host:";

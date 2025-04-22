@@ -113,7 +113,6 @@ class TSimulationBase {
 		
 		// NON-PUBLISHED
 		TSimulationBase (TKMCJob * pJob);		// Constructor, Ready = false setzen
-		~TSimulationBase ();					// Destructor
 		bool IfReady ();						// Rueckgabe von Ready
 		bool IfCompleted ();					// Rueckgabe von Completed
 
@@ -154,6 +153,8 @@ class TSimulationBase {
 
 	// Member functions
 	protected:
+		~TSimulationBase();					// Destructor
+
 		// Helper functions
 		int MovLatticeAnalysis(const vector<vector<vector<vector<int>>>> *i_lattice, 
 			const vector<vector<vector<vector<T3DMovVector>>>> *i_movlattice, vector<double> *o_results) const;			// Bewegungsstatistik ausgeben

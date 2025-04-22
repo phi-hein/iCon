@@ -44,6 +44,8 @@ class TStructureOut: public TStructureFunc {
 		
 		// NON-PUBLISHED
 		TStructureOut (TKMCJob * pJob);		// Constructor
+
+	protected:
 		~TStructureOut ();					// Destructor
 };
 

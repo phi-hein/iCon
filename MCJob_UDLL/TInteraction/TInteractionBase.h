@@ -53,11 +53,12 @@ class TInteractionBase {
 		int Compare (TInteraction &toInteraction);		// Interaction mit anderer Interaction vergleichen
 
 		TInteractionBase (TKMCJob * pJob);				// Constructor, Ready = false setzen
-		~TInteractionBase ();							// Destructor
 		bool IfReady ();								// Rueckgabe von Ready
 		int SaveToStream (ostream &output, int InteractionID, int offset);		// Interaction in einen Stream schreiben, nur bei Ready == true moeglich
 		int LoadFromStream (istream &input);									// Interaction aus einem Stream laden, nur bei Ready == false moeglich
 
+	protected:
+		~TInteractionBase();							// Destructor
 };
 
 #endif

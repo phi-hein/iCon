@@ -53,11 +53,12 @@ class TJumpBase {
 		int SetUniqueJump (int ID, vector<int> *mapping);	// UniqueJumpID setzen und EnvPos entsprechend mapping umordnen
 
 		TJumpBase (TKMCJob * pJob);				// Constructor, Ready = false setzen
-		~TJumpBase ();							// Destructor
 		bool IfReady ();						// Rueckgabe von Ready
 		int SaveToStream (ostream &output, int AtomID, int DirID, int offset);		// Elemente in einen Stream schreiben, nur bei Ready == true moeglich
 		int LoadFromStream (istream &input);										// Elemente aus einem Stream laden, nur bei Ready == true moeglich
 
+	protected:
+		~TJumpBase();							// Destructor
 };
 
 #endif

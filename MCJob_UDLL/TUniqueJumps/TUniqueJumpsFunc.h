@@ -40,6 +40,8 @@ class TUniqueJumpsFunc: public TUniqueJumpsBase {
 		int GetCodeEnvIDs (int JumpID, vector<int> *o_codeenvids);										// Liste ausgeben, die jede CoordID eines UniqueJump angibt, fuer die das Atom nicht-ignoriert und nicht-additiv ist (d.h. Teil der kodierten Umgebung)
 
 		TUniqueJumpsFunc (TKMCJob * pJob);			// Constructor
+
+	protected:
 		~TUniqueJumpsFunc ();						// Destructor
 
 };

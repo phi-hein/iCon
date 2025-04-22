@@ -34,11 +34,13 @@ class TElementsFunc: public TElementsBase {
 	public:
 		// NON-PUBLISHED
 		TElementsFunc (TKMCJob * pJob);			// Constructor
-		~TElementsFunc ();						// Destructor
 
 		int GetElemID (string i_symbol, string i_name, double i_charge);	// ElemID zu Symbol, Name, Charge finden
 		int GetMovCharge (double &o_charge);								// Ladung der beweglichen Spezies ausgeben
 		int GetElemDesc(int i_ElemID, string &o_Desc);						// Elementbeschreibung ausgeben
+
+	protected:
+		~TElementsFunc();						// Destructor
 };
 
 #endif

@@ -39,6 +39,8 @@ class TInteractionOut: public TInteractionFunc {
 		int GetInteractionDestEnvAtom (int ID, int &o_ElemID, double &o_X, double &o_Y, double &o_Z);		// Atom aus der DestAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
 
 		TInteractionOut (TKMCJob * pJob);		// Constructor
+
+	protected:
 		~TInteractionOut ();					// Destructor
 };
 

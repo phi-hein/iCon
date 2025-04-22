@@ -70,41 +70,22 @@ namespace iCon_General
             }
 
             // Check if all required dlls are there
-            #if DEBUG
-                if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCJob_MDLL_D.dll")) == false)
-                {
-                    throw new ApplicationException("MCJob-Assembly is missing (MainWindow Constructor)");
-                }
-                if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCJob_UDLL_D.dll")) == false)
-                {
-                    throw new ApplicationException("MCJob-DLL is missing (MainWindow Constructor)");
-                }
-                if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCMisc_MDLL_D.dll")) == false)
-                {
-                    throw new ApplicationException("MCMisc-Assembly is missing (MainWindow Constructor)");
-                }
-                if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCMisc_UDLL_D.dll")) == false)
-                {
-                    throw new ApplicationException("MCMisc-DLL is missing (MainWindow Constructor)");
-                }
-            #else
-                if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCJob_MDLL.dll")) == false)
-                {
-                    throw new ApplicationException("MCJob-Assembly is missing (MainWindow Constructor)");
-                }
-                if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCJob_UDLL.dll")) == false)
-                {
-                    throw new ApplicationException("MCJob-DLL is missing (MainWindow Constructor)");
-                }
-                if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCMisc_MDLL.dll")) == false)
-                {
-                    throw new ApplicationException("MCMisc-Assembly is missing (MainWindow Constructor)");
-                }
-                if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCMisc_UDLL.dll")) == false)
-                {
-                    throw new ApplicationException("MCMisc-DLL is missing (MainWindow Constructor)");
-                }
-            #endif
+            if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCJob_MDLL.dll")) == false)
+            {
+                throw new ApplicationException("MCJob-Assembly is missing (MainWindow Constructor)");
+            }
+            if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCJob_UDLL.dll")) == false)
+            {
+                throw new ApplicationException("MCJob-DLL is missing (MainWindow Constructor)");
+            }
+            if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCMisc_MDLL.dll")) == false)
+            {
+                throw new ApplicationException("MCMisc-Assembly is missing (MainWindow Constructor)");
+            }
+            if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MCMisc_UDLL.dll")) == false)
+            {
+                throw new ApplicationException("MCMisc-DLL is missing (MainWindow Constructor)");
+            }
 
             // Set culture
             CultureInfo culture = new CultureInfo("en-US");

@@ -35,6 +35,8 @@ class TSimulationOut: public TSimulationFunc {
 
 		// NON-PUBLISHED
 		TSimulationOut (TKMCJob * pJob);	// Constructor
+
+	protected:
 		~TSimulationOut ();					// Destructor
 };
 

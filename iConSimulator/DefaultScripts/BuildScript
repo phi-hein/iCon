@@ -1,0 +1,46 @@
+# Script for compiling the remote executables
+# (be careful with modifications to this script)
+#
+# Script is executed as:
+# "./BuildScript"
+# (without input parameters)
+#
+#!/bin/sh
+
+echo "Build process started at:" `date`
+
+# Copy older executables to archive folder
+if test -f iConSimulator.exe
+then
+	oldver=$(./iConSimulator.exe -version)
+	mkdir -p archive
+	mv -f iConSimulator.exe "archive/iConSimulator_${oldver}.exe"
+	echo "Older iConSimulator.exe moved to archive/iConSimulator_${oldver}.exe"
+fi
+if test -f iConSearcher.exe
+then
+	oldver=$(./iConSearcher.exe -version)
+	mkdir -p archive
+	mv -f iConSearcher.exe "archive/iConSearcher_${oldver}.exe"
+	echo "Older iConSearcher.exe moved to archive/iConSearcher_${oldver}.exe"
+fi
+
+# Remove prior source and binary files
+rm -rf src bin
+
+# Unzip source files
+unzip -e -q -o Source.zip
+
+# Compile
+make &> build.log
+
+excode=$?
+if test "$excode" -eq "0"
+then
+	echo "Compiling completed successfully (exitcode 0)."
+else
+	echo "Compiling failed (exitcode $excode). See build.log file for details."
+fi
+
+echo "Build process finished at:" `date`
+exit $excode

@@ -24,6 +24,31 @@ using namespace std;
 
 int main (int argc, char *argv[]) {
 
+	// Kommandozeilenargumente verarbeiten (argv[0] = Programmpfad, argv[1] = Argument)
+	if (argc != 2) {
+		cout << "Error: Invalid number of command line arguments. Use -help or -h for further information." << endl;
+		return 1;
+	}
+	string CmdArg = Trim(argv[1]);
+	if ((CmdArg == "-help") || (CmdArg == "-h")) {
+		cout << "iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity" << endl;
+		cout << "Copyright 2014" << endl;
+		cout << "RWTH Aachen, IPC, Workgroup Martin" << endl;
+		cout << KMCOUT_VERSION << " " << KMC_VERSION << endl;
+		cout << endl;
+		cout << "Available command line arguments:" << endl;
+		cout << "-help / -h: Show this help text." << endl;
+		cout << "-version: Show plain version number." << endl;
+		cout << "<file path>: Path of the job file (*.kmc) that should be processed." << endl;
+		return 0;
+	}
+	if (CmdArg == "-version") {
+		cout << KMC_VERSION << endl;
+		return 0;
+	}
+	string JobPath = CmdArg;
+	int ErrorCode = KMCERR_OK;
+
 	// Log-File-Header ausgeben
 	cout << "SIMULATION LOG" << endl;
 	cout << "iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity" << endl;
@@ -33,18 +58,6 @@ int main (int argc, char *argv[]) {
 	cout << "Start-Time: ";
 	TCustomTime StartTime = TCustomTime::GetCurrentTime(true);
 	cout << endl << endl;
-
-	int ErrorCode = KMCERR_OK;
-
-	// Anzahl an Kommandozeilenargumenten pruefen (argv[0] = Programmpfad, argv[1] = Pfad der zu verarbeitenden Datei)
-	if (argc != 2) {
-		cout << "Error: Invalid number of command line arguments. There should be exactly one" << endl;
-		cout << "argument, namely the path of the job file (*.kmc) that should be processed." << endl;
-		cout << endl;
-		cout << "Program terminated." << endl;
-		return 1;
-	}
-	string JobPath = argv[1];
 
 	// KMC-Job Objekt erstellen
 	TKMCJob KMCJob;

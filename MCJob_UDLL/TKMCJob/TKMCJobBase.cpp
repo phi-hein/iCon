@@ -73,12 +73,6 @@ TKMCJobBase::~TKMCJobBase () {try {
 
 // **************************** PUBLISHED ********************************* //
 
-// Wichtig: Destructor-Methode gegen Memory Leaks (Instance suicide)
-void TKMCJobBase::Release () {try {
-	delete this;
-} catch (exception &e) {StdExceptionHandler(e);} catch (...) {ExceptionHandler();}
-}
-
 // Projektnamen setzen
 int TKMCJobBase::SetProjectName (string Name) {try {
 	// Input prüfen

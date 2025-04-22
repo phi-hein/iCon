@@ -18,6 +18,7 @@
     <SccProvider>SAK</SccProvider>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>iConSimulator</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -45,12 +46,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)\SimExecutables\</OutDir>
-    <TargetName>$(ProjectName)_Win_D</TargetName>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)_Win</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)\SimExecutables\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_Win</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -59,18 +60,22 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;NON_DLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_HAS_STD_BYTE=0;NON_DLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)MCJob_UDLL\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)SimBuilds\*.exe" "$(SolutionDir)$(Configuration)\SimExecutables" /y /i /r /d /f</Command>
+      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src\" /y /i /r /d /f
+xcopy "$(ProjectDir)Makefile" "$(SolutionDir)$(Configuration)\Source\" /y /i /r /d /f
+xcopy "$(ProjectDir)DefaultScripts" "$(SolutionDir)$(Configuration)\DefaultScripts" /y /i /r /d /f</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy "$(ProjectDir)SimScripts" "$(SolutionDir)$(Configuration)\SimScripts" /e /y /i /r /d /f</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,8 +86,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;NON_DLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;_HAS_STD_BYTE=0;NON_DLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)MCJob_UDLL\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,10 +97,13 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)SimBuilds\*.exe" "$(SolutionDir)$(Configuration)\SimExecutables" /y /i /r /d /f</Command>
+      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src\" /y /i /r /d /f
+xcopy "$(ProjectDir)Makefile" "$(SolutionDir)$(Configuration)\Source\" /y /i /r /d /f
+xcopy "$(ProjectDir)DefaultScripts" "$(SolutionDir)$(Configuration)\DefaultScripts" /y /i /r /d /f</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy "$(ProjectDir)SimScripts" "$(SolutionDir)$(Configuration)\SimScripts" /e /y /i /r /d /f</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -215,20 +224,10 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SimBuilds\Makefiles\Makefile" />
-    <None Include="SimBuilds\Makefiles\x86_64_amd_k10.mf" />
-    <None Include="SimBuilds\Makefiles\x86_64_amd_piledriver.mf" />
-    <None Include="SimBuilds\Makefiles\x86_64_intel_ivybridge.mf" />
-    <None Include="SimBuilds\Makefiles\x86_64_intel_nehalem.mf" />
-    <None Include="SimBuilds\Makefiles\x86_64_intel_westmere.mf" />
-    <None Include="SimScripts\LSF Queue System\JobScript" />
-    <None Include="SimScripts\LSF Queue System\SubmitScript" />
-    <None Include="SimScripts\SGE Queue System\JobScript">
-      <FileType>Text</FileType>
-    </None>
-    <None Include="SimScripts\SGE Queue System\SubmitScript">
-      <FileType>Text</FileType>
-    </None>
+    <None Include="Makefile" />
+    <None Include="DefaultScripts\BuildScript" />
+    <None Include="DefaultScripts\JobScript" />
+    <None Include="DefaultScripts\SubmitScript" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iConSimulator.rc" />

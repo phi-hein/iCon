@@ -424,16 +424,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SimScripts\LSF Queue System\JobScript" />
-    <None Include="SimScripts\LSF Queue System\SubmitScript" />
-    <None Include="SimScripts\SGE Queue System\JobScript" />
-    <None Include="SimScripts\SGE Queue System\SubmitScript" />
-    <None Include="SimBuilds\Makefiles\Makefile" />
-    <None Include="SimBuilds\Makefiles\x86_64_amd_k10.mf" />
-    <None Include="SimBuilds\Makefiles\x86_64_amd_piledriver.mf" />
-    <None Include="SimBuilds\Makefiles\x86_64_intel_ivybridge.mf" />
-    <None Include="SimBuilds\Makefiles\x86_64_intel_nehalem.mf" />
-    <None Include="SimBuilds\Makefiles\x86_64_intel_westmere.mf" />
+    <None Include="DefaultScripts\JobScript" />
+    <None Include="DefaultScripts\SubmitScript" />
+    <None Include="Makefile" />
+    <None Include="DefaultScripts\BuildScript" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iConSimulator.rc">

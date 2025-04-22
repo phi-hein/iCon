@@ -501,36 +501,39 @@ namespace iCon_General
                 // Remote, BaseDirectory = rel, Workspace = abs: RemoteWorkspace/BaseDirectory/Job_XXXX/JobNamePrefix_XXXX.kmc
                 // Remote, BaseDirectory = rel, Workspace = rel: UserHome/RemoteWorkspace/BaseDirectory/Job_XXXX/JobNamePrefix_XXXX.kmc
 
-                // Create complete base path and a list of all sub-directories which should be created eventually (without user home directory)
+                // Create full paths and lists of all sub-directories which should be created eventually (without user home directory)
                 string totalBasePath = "";
-                List<string> createDirs = null;
+                List<string> createBaseDirs = null;
+                string totalBuildPath = "";
+                List<string> createBuildDirs = null;
                 try
                 {
-                    totalBasePath = CombineUnixPaths(ExtendedSettings.SelectedRemoteProfile.RemoteWorkspace.Trim(), _BaseDirectory.Trim()).Trim();
-                    createDirs = GetSubDirectories(totalBasePath);
-                    for (int i = 0; i < createDirs.Count; i++)
-                    {
-                        createDirs[i] = CombineUnixPaths(sftpcl.WorkingDirectory, createDirs[i]);
-                    }
-                    totalBasePath = createDirs[createDirs.Count - 1];
+                    createBaseDirs = ConstructRemoteDirectoryList(sftpcl.WorkingDirectory,
+                        ExtendedSettings.SelectedRemoteProfile.RemoteWorkspace, _BaseDirectory);
+                    totalBasePath = createBaseDirs[createBaseDirs.Count - 1];
+
+                    createBuildDirs = ConstructRemoteDirectoryList(sftpcl.WorkingDirectory,
+                        ExtendedSettings.SelectedRemoteProfile.RemoteWorkspace, 
+                        ExtendedSettings.SelectedRemoteProfile.RemoteBuildDir);
+                    totalBuildPath = createBuildDirs[createBuildDirs.Count - 1];
                 }
                 catch (Exception)
                 {
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid submit path\n",
+                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid directory specifications\n",
                             ConstantsClass.KMCERR_INVALID_INPUT, false);
                     return;
                 }
-                Console.WriteLine("Project base path: " + totalBasePath);
 
                 // Create project base directory
+                Console.WriteLine("Project base path: " + totalBasePath);
                 Console.Write("Creating project base directory ... ");
                 try
                 {
-                    for (int i = 0; i < createDirs.Count; i++)
+                    for (int i = 0; i < createBaseDirs.Count; i++)
                     {
-                        if (sftpcl.Exists(createDirs[i]) == false)
+                        if (sftpcl.Exists(createBaseDirs[i]) == false)
                         {
-                            sftpcl.CreateDirectory(createDirs[i]);
+                            sftpcl.CreateDirectory(createBaseDirs[i]);
                         }
                     }
                 }
@@ -544,30 +547,116 @@ namespace iCon_General
                 }
                 Console.WriteLine("OK.");
 
-                // Create remote paths for executables and scripts (placed in base directory)
-                string simExePath = CombineUnixPaths(totalBasePath, ExtendedSettings.SelectedRemoteProfile.GetSelectedSimExecutableName());
-                string searchExePath = CombineUnixPaths(totalBasePath, ExtendedSettings.SelectedRemoteProfile.GetSelectedSearchExecutableName());
-                string submitScriptPath = CombineUnixPaths(totalBasePath, ConstantsClass.SC_KMC_SUBMITSCRIPT);
-                string jobScriptPath = CombineUnixPaths(totalBasePath, ConstantsClass.SC_KMC_JOBSCRIPT);
+                // Create remote paths for executables
+                string simExePath = CombineRemotePaths(totalBasePath, ConstantsClass.SC_KMC_REMOTESIMEXE);
+                string searchExePath = CombineRemotePaths(totalBasePath, ConstantsClass.SC_KMC_REMOTESEARCHEXE);
+                string simExeBuildPath = CombineRemotePaths(totalBuildPath, ConstantsClass.SC_KMC_REMOTESIMEXE);
+                string searchExeBuildPath = CombineRemotePaths(totalBuildPath, ConstantsClass.SC_KMC_REMOTESEARCHEXE);
 
-                // Transfer executables and scripts to base directory
-                Console.Write("Uploading executables and scripts ... ");
+                // Check whether remote executables are present and up-to-date
+                Console.WriteLine("Remote build path: " + totalBuildPath);
+                Console.Write("Check remote executables ... ");
+                bool buildRequired = true;
                 try
                 {
-                    // Simulation executable
-                    using (FileStream exe_stream = File.OpenRead(ExtendedSettings.SelectedRemoteProfile.GetSelectedSimExecutablePath()))
+                    // Check job base folder first
+                    if (sftpcl.Exists(simExePath) && sftpcl.Exists(searchExePath))
                     {
-                        sftpcl.UploadFile(exe_stream, simExePath, true);
-                        sftpcl.ChangePermissions(simExePath, 744);
+                        SshCommand sim_version_cmd = sshcl.CreateCommand("\"" + simExePath + "\" -version");
+                        Version sim_version = new Version(sim_version_cmd.Execute());
+
+                        SshCommand search_version_cmd = sshcl.CreateCommand("\"" + searchExePath + "\" -version");
+                        Version search_version = new Version(search_version_cmd.Execute());
+
+                        Version req_version = Assembly.GetExecutingAssembly().GetName().Version;
+                        if ((sim_version >= req_version) && (search_version >= req_version))
+                        {
+                            buildRequired = false;
+                            Console.WriteLine("OK.");
+                        }
                     }
 
-                    // Searcher executable
-                    using (FileStream exe_stream = File.OpenRead(ExtendedSettings.SelectedRemoteProfile.GetSelectedSearchExecutablePath()))
+                    // Check build folder (and copy eventually)
+                    if (buildRequired == true)
                     {
-                        sftpcl.UploadFile(exe_stream, searchExePath, true);
-                        sftpcl.ChangePermissions(searchExePath, 744);
-                    }
+                        if (sftpcl.Exists(simExeBuildPath) && sftpcl.Exists(searchExeBuildPath))
+                        {
+                            SshCommand sim_version_cmd = sshcl.CreateCommand("\"" + simExeBuildPath + "\" -version");
+                            Version sim_version = new Version(sim_version_cmd.Execute());
 
+                            SshCommand search_version_cmd = sshcl.CreateCommand("\"" + searchExeBuildPath + "\" -version");
+                            Version search_version = new Version(search_version_cmd.Execute());
+
+                            Version req_version = Assembly.GetExecutingAssembly().GetName().Version;
+                            if ((sim_version >= req_version) && (search_version >= req_version))
+                            {
+                                SshCommand sim_copy_cmd = sshcl.CreateCommand("cp -p \"" + simExeBuildPath + "\" \"" +
+                                    simExePath + "\"");
+                                sim_copy_cmd.Execute();
+
+                                SshCommand search_copy_cmd = sshcl.CreateCommand("cp -p \"" + searchExeBuildPath + "\" \"" +
+                                    searchExePath + "\"");
+                                search_copy_cmd.Execute();
+
+                                buildRequired = false;
+                                Console.WriteLine("OK.");
+                            }
+                            else Console.WriteLine("Old version.");
+                        }
+                        else Console.WriteLine("Not found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Error: " + ex.Message);
+                    e.Result = new BWorkerResultMessage("Error", "Could not check remote executables\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return;
+                }
+
+                // Preliminary abort here (for testing)
+                if (buildRequired == true)
+                {
+                    Console.WriteLine("Build required.");
+                }
+                e.Result = new BWorkerResultMessage("OK", "Build required",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                return;
+
+                // (later) Create build directory (like above for base directory)
+
+                // (later) Upload source and compile the executables
+
+                /* TODO (old upload code)
+                // Simulation executable
+                using (FileStream exe_stream = File.OpenRead(ExtendedSettings.SelectedRemoteProfile.GetSelectedSimExecutablePath()))
+                {
+                    sftpcl.UploadFile(exe_stream, simExePath, true);
+                    sftpcl.ChangePermissions(simExePath, 744);
+                }
+
+                // Searcher executable
+                using (FileStream exe_stream = File.OpenRead(ExtendedSettings.SelectedRemoteProfile.GetSelectedSearchExecutablePath()))
+                {
+                    sftpcl.UploadFile(exe_stream, searchExePath, true);
+                    sftpcl.ChangePermissions(searchExePath, 744);
+                }
+                */
+
+                /*
+                ... = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                        ConstantsClass.SC_KMC_SOURCEARCHIVE);
+                */
+
+                // Create remote paths for scripts (placed in base directory)
+                string submitScriptPath = CombineRemotePaths(totalBasePath, ConstantsClass.SC_KMC_SUBMITSCRIPT);
+                string jobScriptPath = CombineRemotePaths(totalBasePath, ConstantsClass.SC_KMC_JOBSCRIPT);
+
+                // Transfer scripts to base directory
+                Console.Write("Uploading scripts ... ");
+                try
+                {
                     // Submit script
                     using (FileStream subscr_stream = File.OpenRead(
                         ExtendedSettings.SelectedRemoteProfile.GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT)))
@@ -588,7 +677,7 @@ namespace iCon_General
                 {
                     Console.WriteLine();
                     Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("SFTP Error", "Executable and/or script transmission failed\n(see console for details)\n.",
+                    e.Result = new BWorkerResultMessage("SFTP Error", "Script transmission failed\n(see console for details)\n.",
                         ConstantsClass.KMCERR_INVALID_INPUT, false);
                     return;
                 }
@@ -624,7 +713,7 @@ namespace iCon_General
                     Console.WriteLine("OK.");
 
                     // Create job folder
-                    string jobDirectory = CombineUnixPaths(totalBasePath, "Job_" + _JobList[i].ID.ToString("0000"));
+                    string jobDirectory = CombineRemotePaths(totalBasePath, "Job_" + _JobList[i].ID.ToString("0000"));
                     Console.Write("Creating job folder (" + jobDirectory + ") ... ");
                     try
                     {
@@ -645,8 +734,8 @@ namespace iCon_General
 
                     // Create file paths and job name
                     string jobName = _JobNamePrefix + "_" + _JobList[i].ID.ToString("0000");
-                    string jobInputPath = CombineUnixPaths(jobDirectory, jobName + ".kmc");
-                    string jobLogPath = CombineUnixPaths(jobDirectory, jobName + ".log");
+                    string jobInputPath = CombineRemotePaths(jobDirectory, jobName + ".kmc");
+                    string jobLogPath = CombineRemotePaths(jobDirectory, jobName + ".log");
 
                     // Transfer input file
                     Console.Write("Uploading job file ... ");
@@ -1009,9 +1098,9 @@ namespace iCon_General
         }
 
         /// <summary>
-        /// Check if the unix path is an absolute path
+        /// Check if the remote path is an absolute path
         /// </summary>
-        protected bool IsUnixPathRooted(string i_path)
+        protected bool IsRemotePathRooted(string i_path)
         {
             if (string.IsNullOrWhiteSpace(i_path) == true)
             {
@@ -1047,9 +1136,9 @@ namespace iCon_General
         }
 
         /// <summary>
-        /// Combine two unix paths (if the second one is an absolute path, then this returns the second path), the result has no directory delimiter at the end
+        /// Combine two remote paths (if the second one is an absolute path, then this returns the second path), the result has no directory delimiter at the end
         /// </summary>
-        protected string CombineUnixPaths(string i_path1, string i_path2)
+        protected string CombineRemotePaths(string i_path1, string i_path2)
         {
             string t_path1 = RemoveEndSlash(i_path1);
             string t_path2 = RemoveEndSlash(i_path2);
@@ -1064,7 +1153,7 @@ namespace iCon_General
                 return t_path1;
             }
 
-            if (IsUnixPathRooted(t_path2) == true)
+            if (IsRemotePathRooted(t_path2) == true)
             {
                 return t_path2;
             }
@@ -1073,12 +1162,13 @@ namespace iCon_General
         }
 
         /// <summary>
-        /// Create a list of all directories that are contained in a path
+        /// Create a list of all directories that are contained in a combined path.
+        /// The last entry contains the full path.
         /// </summary>
-        protected List<string> GetSubDirectories(string i_path)
+        protected List<string> ConstructRemoteDirectoryList(string i_homedir, string i_workspace, string i_basedir)
         {
-            string t_path = i_path.Trim();
-            bool is_absolute = IsUnixPathRooted(t_path);
+            string t_path = CombineRemotePaths(i_workspace.Trim(), i_basedir.Trim()).Trim();
+            bool is_absolute = IsRemotePathRooted(t_path);
 
             char[] delim = new char[] {'/'};
             string[] dirs = t_path.Split(delim, StringSplitOptions.RemoveEmptyEntries);
@@ -1106,6 +1196,10 @@ namespace iCon_General
             if (t_result.Count == 0)
             {
                 t_result.Add("");
+            }
+            for (int i = 0; i < t_result.Count; i++)
+            {
+                t_result[i] = CombineRemotePaths(i_homedir.Trim(), t_result[i]);
             }
 
             return t_result;

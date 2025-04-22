@@ -29,10 +29,11 @@ class TKMCJob: public TKMCJobOut {
 	// Member functions
 	public:
 		// PUBLISHED
+		void Release();									// Wichtig: Destructor-Methode gegen Memory Leaks (Instance suicide)
 		
 		// NON-PUBLISHED
-		TKMCJob ();			// Constructor
-		~TKMCJob ();		// Destructor
+		TKMCJob ();					// Constructor
+		virtual ~TKMCJob ();		// Destructor
 };
 
 #endif

@@ -40,6 +40,8 @@ class TSettingsFunc: public TSettingsBase {
 		int GetShortSummary(string i_ValDelimiter, string &o_Summary);			// Wichtigste Einstellungen mit ValDelimiter getrennt ausgeben
 
 		TSettingsFunc (TKMCJob * pJob);			// Constructor
+
+	protected:
 		~TSettingsFunc ();						// Destructor
 };
 

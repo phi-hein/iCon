@@ -75,10 +75,12 @@ class TResultsBase {
 		int MakeResults ();				// Ergebnisse aus abgeschlossener Simulation laden
 
 		TResultsBase (TKMCJob * pJob);			// Constructor, Ready = false setzen
-		~TResultsBase ();						// Destructor
 		bool IfReady ();						// Rueckgabe von Ready
 		int SaveToStream (ostream &output, int offset);		// Ergebnisse in einen Stream schreiben, nur bei Ready == true moeglich (offset = zusaetzliche Leerstellen vor jeder Zeile)
 		int LoadFromStream (istream &input);				// Ergebnisse aus einem Stream laden
+
+	protected:
+		~TResultsBase();						// Destructor
 };
 
 #endif

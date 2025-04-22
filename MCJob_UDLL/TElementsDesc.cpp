@@ -16,9 +16,6 @@
 // Includes:
 #include <fstream>
 #include <string>
-#ifdef _WIN32
-#include <Windows.h>
-#endif
 
 // Eigene Includes:
 #include "GlobalDefinitions.h"

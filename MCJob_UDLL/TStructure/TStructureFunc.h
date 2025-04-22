@@ -49,6 +49,8 @@ class TStructureFunc: public TStructureBase {
 		int GetDopingDesc(int i_DopID, string &o_Desc);			// Beschreibung der Dotierung im Format: Dopand <- Doped ausgeben
 
 		TStructureFunc (TKMCJob * pJob);		// Constructor
+
+	protected:
 		~TStructureFunc ();						// Destructor
 };
 

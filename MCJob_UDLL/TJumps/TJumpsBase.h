@@ -51,11 +51,12 @@ class TJumpsBase {
 		int SetUniqueJumps (vector<vector<int>> *IDs, vector<vector<vector<int>>> *Mappings);	// in Jumps UniqueJumpIDs setzen und EnvPos entsprechend Mappings umordnen	
 
 		TJumpsBase (TKMCJob * pJob);			// Constructor, Ready = false setzen
-		~TJumpsBase ();							// Destructor
 		bool IfReady ();						// Rueckgabe von Ready, incl. aller Jumps
 		int SaveToStream (ostream &output, int offset);		// Jumps in einen Stream schreiben, nur bei Ready == true moeglich
 		int LoadFromStream (istream &input);				// Jumps aus einem Stream laden, nur bei Ready == false moeglich
 
+	protected:
+		~TJumpsBase();							// Destructor
 };
 
 #endif

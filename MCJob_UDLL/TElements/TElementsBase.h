@@ -66,10 +66,12 @@ class TElementsBase {
 
 		// NON-PUBLISHED
 		TElementsBase (TKMCJob * pJob);			// Constructor, Ready = false setzen
-		~TElementsBase ();						// Destructor
 		bool IfReady ();						// Rueckgabe von Ready
 		int SaveToStream (ostream &output, int offset);		// Elemente in einen Stream schreiben, nur bei Ready == true moeglich (offset = zusaetzliche Leerstellen vor jeder Zeile)
 		int LoadFromStream (istream &input);				// Elemente aus einem Stream laden, nur bei Ready == false moeglich
+
+	protected:
+		~TElementsBase();						// Destructor
 };
 
 #endif

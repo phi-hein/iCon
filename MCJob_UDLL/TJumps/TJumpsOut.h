@@ -44,6 +44,8 @@ class TJumpsOut: public TJumpsFunc {
 
 		// NON-PUBLISHED
 		TJumpsOut (TKMCJob * pJob);		// Constructor
+
+	protected:
 		~TJumpsOut ();					// Destructor
 };
 

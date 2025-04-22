@@ -359,4 +359,7 @@
       <Filter>Ressourcendateien</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="xcopy_exclude.txt" />
+  </ItemGroup>
 </Project>

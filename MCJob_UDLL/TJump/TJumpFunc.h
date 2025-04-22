@@ -38,7 +38,6 @@ class TJumpFunc: public TJumpBase {
 	public:
 		// NON-PUBLISHED
 		TJumpFunc (TKMCJob * pJob);			// Constructor
-		~TJumpFunc ();						// Destructor
 
 		int GetStartPos (T4DLatticeVector &pos);					// absolute 4D-Position des Startatoms zurueckgeben (Vektor von (0,0,0,0) zu Startatom)
 		int GetDestPos (T4DLatticeVector &pos);						// absolute 4D-Position des Zielatoms zurueckgeben (Vektor von (0,0,0,0) zu Zielatom)
@@ -46,6 +45,9 @@ class TJumpFunc: public TJumpBase {
 		int GetUniqueJumpID (int &ID);								// UniqueJumpID ausgeben
 		int GetEFieldProjection (T3DVector &efield, double &proj);	// Skalarprodukt [V] von E-Feld-Vektor [V/cm] und Sprungvektor [cm] ausgeben
 		int CreateSimJump(TSimJump &o_simjump);						// Minimalbeschreibung fuer die Simulation erstellen
+
+	protected:
+		~TJumpFunc();						// Destructor
 };
 
 #endif

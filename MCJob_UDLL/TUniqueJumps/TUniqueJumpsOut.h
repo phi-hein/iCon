@@ -64,6 +64,8 @@ class TUniqueJumpsOut: public TUniqueJumpsFunc {
 
 		// NON-PUBLISHED
 		TUniqueJumpsOut (TKMCJob * pJob);			// Constructor
+
+	protected:
 		~TUniqueJumpsOut ();						// Destructor
 };
 

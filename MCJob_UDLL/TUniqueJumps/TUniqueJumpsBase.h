@@ -58,12 +58,13 @@ class TUniqueJumpsBase {
 
 		// NON-PUBLISHED
 		TUniqueJumpsBase (TKMCJob * pJob);		// Constructor, Ready = false setzen
-		~TUniqueJumpsBase ();					// Destructor
 		bool IfJumpsReady ();					// Rueckgabe von JumpsReady
 		bool IfCodesReady ();					// Rueckgabe von CodesReady
 		int SaveToStream (ostream &output, int offset);		// Elemente in einen Stream schreiben
 		int LoadFromStream (istream &input);				// Elemente aus einem Stream laden
 
+	protected:
+		~TUniqueJumpsBase();					// Destructor
 };
 
 #endif

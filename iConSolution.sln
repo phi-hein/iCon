@@ -1,12 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iCon", "iCon\iCon.csproj", "{10E1D71D-9D36-4BDD-9408-DB581A58BD56}"
 	ProjectSection(ProjectDependencies) = postProject
-		{985B6C68-6803-48BC-97FF-A36C31215600} = {985B6C68-6803-48BC-97FF-A36C31215600}
 		{3FAE127E-454D-4B2F-BCB1-0A426362A421} = {3FAE127E-454D-4B2F-BCB1-0A426362A421}
+		{41B89E88-B350-4829-96AB-83C2024A4305} = {41B89E88-B350-4829-96AB-83C2024A4305}
+		{985B6C68-6803-48BC-97FF-A36C31215600} = {985B6C68-6803-48BC-97FF-A36C31215600}
+		{F3208D2B-834D-4D93-8728-AF205F153667} = {F3208D2B-834D-4D93-8728-AF205F153667}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MCJob_UDLL", "MCJob_UDLL\MCJob_UDLL.vcxproj", "{A8466DD5-53DC-4297-BA5F-22501DEE84BD}"
@@ -153,5 +155,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {55FB46EE-3050-4823-8596-D46DEB8A60BC}
 	EndGlobalSection
 EndGlobal

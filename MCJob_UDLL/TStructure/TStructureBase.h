@@ -60,10 +60,12 @@ class TStructureBase {
 
 		// NON-PUBLISHED
 		TStructureBase (TKMCJob * pJob);		// Constructor, Ready = false setzen
-		~TStructureBase ();						// Destructor
 		bool IfReady ();						// Rueckgabe von Ready
 		int SaveToStream (ostream &output, int offset);		// Struktur in einen Stream schreiben, nur bei Ready == true moeglich (offset = zusaetzliche Leerstellen vor jeder Zeile)
 		int LoadFromStream (istream &input);				// Struktur aus einem Stream laden, nur bei Ready == false moeglich
+
+	protected:
+		~TStructureBase();						// Destructor
 };
 
 #endif

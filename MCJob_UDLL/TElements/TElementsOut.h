@@ -45,6 +45,8 @@ class TElementsOut: public TElementsFunc {
 		
 		// NON-PUBLISHED
 		TElementsOut (TKMCJob * pJob);		// Constructor
+
+	protected:
 		~TElementsOut ();					// Destructor
 };
 

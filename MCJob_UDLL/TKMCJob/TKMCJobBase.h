@@ -62,7 +62,6 @@ class TKMCJobBase: public IKMCJob {
 	// Member functions
 	public:
 		// PUBLISHED
-		void Release ();									// Wichtig: Destructor-Methode gegen Memory Leaks (Instance suicide)
 		bool IfReady ();									// Rueckgabe von Ready
 
 		int SetProjectName (string Name);					// Projektnamen setzen
@@ -131,9 +130,10 @@ class TKMCJobBase: public IKMCJob {
 
 		// NON-PUBLISHED
 		TKMCJobBase ();		// Constructor -> Initialisierung, falls erfolgreich, Ready = true setzen
-		~TKMCJobBase ();	// Destructor -> Destructor der Member-Variablen aufrufen
 
 	protected:
+		~TKMCJobBase ();	// Destructor -> Destructor der Member-Variablen aufrufen
+
 		int SaveToStream (ostream &output, int offset);		// Projekt in einen Stream schreiben
 		int LoadFromStream (istream &input);				// Projekt aus einem Stream laden
 

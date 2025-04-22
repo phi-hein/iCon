@@ -51,6 +51,8 @@ class TUniqueJumpOut: public TUniqueJumpFunc {
 		int GetFCode (int CodeID, string &Code, int &UCodeID);						// UCodeID und Code für einen FullCode ausgeben
 
 		TUniqueJumpOut (TKMCJob * pJob);		// Constructor
+
+	protected:
 		~TUniqueJumpOut ();						// Destructor
 };
 

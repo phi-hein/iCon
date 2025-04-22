@@ -90,13 +90,13 @@ class TSettingsBase {
 		
 		// NON-PUBLISHED
 		TSettingsBase (TKMCJob * pJob);						// Constructor, Ready = false setzen
-		~TSettingsBase ();									// Destructor
 		bool IfReady ();									// Rueckgabe von Ready
 		int SaveToStream (ostream &output, int offset);		// Einstellungen in einen Stream schreiben, nur bei Ready == true moeglich (offset = zusaetzliche Leerstellen vor jeder Zeile)
 		int LoadFromStream (istream &input);				// Einstellungen aus einem Stream laden, nur bei Ready == false moeglich
 
 	protected:
 		// PROTECTED
+		~TSettingsBase();						// Destructor
 		int SyncDopandVectors();				// DopandConc und DopandAnz mit Anzahl der Dotierungen in m_Job->m_Structure synchronisieren
 
 	private:

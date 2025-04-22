@@ -49,6 +49,8 @@ class TJumpsFunc: public TJumpsBase {
 		int CreateSimJumps (int last_movstacksize, TSimJump **&o_simjumps, TSimUniqueJump *&o_simuniquejumps);		// Minimalbeschreibung aller aktiven Spruenge und einzigartigen Spruenge fuer die Simulation erstellen
 
 		TJumpsFunc (TKMCJob * pJob);		// Constructor
+
+	protected:
 		~TJumpsFunc ();						// Destructor
 };
 

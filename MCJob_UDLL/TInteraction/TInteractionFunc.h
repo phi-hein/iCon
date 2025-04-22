@@ -37,6 +37,8 @@ class TInteractionFunc: public TInteractionBase {
 		int GetWWShells (vector<T3DVector> *o_StartWWCoord, vector<int> *o_StartWWElemID, vector<T3DVector> *o_DestWWCoord, vector<int> *o_DestWWElemID);		// WW-Schalen zurückgeben
 
 		TInteractionFunc (TKMCJob * pJob);			// Constructor
+
+	protected:
 		~TInteractionFunc ();						// Destructor
 
 };

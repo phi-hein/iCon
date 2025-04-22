@@ -15,20 +15,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
-
-// Windows-Includes
-#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
-
-#include <Windows.h>
-
-#endif
-
-// Linux-Includes
-#if (defined(__linux__) || defined(__linux))
-
-#include <ftw.h>
-
-#endif
+#include <filesystem>
 
 // Eigene Includes
 #include "TKMCJob/TKMCJob.h"
@@ -37,123 +24,94 @@
 
 using namespace std;
 
-// ************************************************************************* //
-//					Global variables										 //
-// ************************************************************************* //
-
-vector<string> os_FileList;		// Liste aller .kmc-Dateien im Ordner in dem diese Anwendung gespeichert ist (und in allen Unterordnern)
-
-
-// ************************************************************************* //
-//					Get KMC files in Windows								 //
-// ************************************************************************* //
-
-#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
-
-// Rekursive Dateisuche (WINDOWS)
-void RecursiveFileSearch(const string &dir) 
+void GetKMCFiles(const filesystem::path& dir, vector<string>& file_list)
 {
-	string s_dir = dir + "\\*";
-
-	WIN32_FIND_DATAA findfiledata;
-    HANDLE hFind = INVALID_HANDLE_VALUE;
-    hFind = FindFirstFileA((LPCSTR)s_dir.c_str(), &findfiledata);
-	
-    if (hFind != INVALID_HANDLE_VALUE) {
-        do {
-			if (findfiledata.cFileName[0] != '.') {
-				if ((findfiledata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0) {
-					RecursiveFileSearch(dir + "\\" + string(findfiledata.cFileName));
-				} else {
-					string s_file(findfiledata.cFileName);
-					if (s_file.length() > 4) {
-						if (s_file.substr(s_file.length() - 4) == ".kmc") {
-							os_FileList.push_back(dir + "\\" + s_file);
-						}
-					}
-				}
-			}
-		} while (FindNextFileA(hFind, &findfiledata) != 0);
-		FindClose(hFind);
-    }
-}
-
-// KMC-Dateien finden (WINDOWS)
-void GetKMCFiles(const string& path) 
-{
-	os_FileList.clear();
-	RecursiveFileSearch(path);
-}
-
-#endif
-
-// ************************************************************************* //
-//					Get KMC files in Linux									 //
-// ************************************************************************* //
-
-#if (defined(__linux__) || defined(__linux))
-
-// ftw-callback (LINUX)
-int ftwfunc (const char *fpath, const struct stat *sb, int typeflag) 
-{
-	if (typeflag == FTW_F) {
-		string s_fpath(fpath);
-		if (s_fpath.length() > 4) {
-			if (s_fpath.substr(s_fpath.length() - 4) == ".kmc") {
-				os_FileList.push_back(s_fpath);
-			}
+	for (const auto& file : filesystem::recursive_directory_iterator(dir)) {
+		if ((filesystem::is_regular_file(file)) && (file.path().extension() == ".kmc")) {
+			file_list.push_back(file.path().string());
 		}
 	}
-	return 0;
 }
-
-// KMC-Dateien finden (LINUX)
-void GetKMCFiles(const string& path) 
-{
-    os_FileList.clear();
-	ftw(path.c_str(),ftwfunc,10);
-}
-
-#endif
 
 int main (int argc, char *argv[]) 
 {
+	// Default ist das aktuelle Arbeitsverzeichnis
+	filesystem::path RootDir = filesystem::current_path();
+
+	// Kommandozeilenargumente verarbeiten (argv[0] = Programmpfad, argv[1] = optionales Argument)
+	if (argc > 2) {
+		cout << "Error: Invalid number of command line arguments. Use -help or -h for further information." << endl;
+		return 1;
+	}
+	if (argc == 2) {
+		string CmdArg = Trim(argv[1]);
+		if ((CmdArg == "-help") || (CmdArg == "-h")) {
+			cout << "iConSearcher" << endl;
+			cout << "Retrieval tool for iConSimulator results." << endl;
+			cout << KMCOUT_VERSION << " " << KMC_VERSION << endl;
+			cout << "Collects the KMC results from a certain directory and from all sub-directories into a summary file." << endl;
+			cout << endl;
+			cout << "Available command line arguments:" << endl;
+			cout << "-help / -h: Show this help text." << endl;
+			cout << "-version: Show plain version number." << endl;
+			cout << "<directory path>: Path of the directory whose *.kmc files should be collected." << endl;
+			cout << "If no directory is specified, then it defaults to the current working directory." << endl;
+			return 0;
+		}
+		if (CmdArg == "-version") {
+			cout << KMC_VERSION << endl;
+			return 0;
+		}
+		try {
+			RootDir = CmdArg;
+		}
+		catch (const exception& e)
+		{
+			cout << "Error: Invalid directory path as command line argument (" << CmdArg << ")." << endl;
+			cout << e.what() << endl;
+			cout << endl;
+			cout << "Program terminated." << endl;
+			return 1;
+		}
+	}
+
 	cout << "iConSearcher" << endl;
 	cout << "Retrieval tool for iConSimulator results." << endl;
 	cout << KMCOUT_VERSION << " " << KMC_VERSION << endl;
 	cout << endl;
 
-	// Exe-Pfad ermitteln
-	cout << "Find application path ... ";
-	string app_path;
+	// Pruefen ob Ordner existiert
 	try {
-		if (GetApplicationPath(app_path) == false) {
+		if (filesystem::exists(RootDir) == false) {
+			cout << "Error: Specified directory does not exist (" << RootDir << ")." << endl;
 			cout << endl;
-			cout << "Critical Error: Failed to retrieve exe path." << endl;
-			cout << "Contact the developers!" << endl;
+			cout << "Program terminated." << endl;
+			return 1;
+		}
+		if (filesystem::is_directory(RootDir) == false) {
+			cout << "Error: Specified path is not a directory (" << RootDir << ")." << endl;
 			cout << endl;
 			cout << "Program terminated." << endl;
 			return 1;
 		}
 	} 
-	catch (exception e)
+	catch (const exception& e)
 	{
 		cout << endl;
-		cout << "Critical Error: Exception during exe path retrieval:" << endl;
+		cout << "Critical Error: Exception during directory validation:" << endl;
 		cout << e.what() << endl;
-		cout << "Contact the developers!" << endl;
 		cout << endl;
 		cout << "Program terminated." << endl;
 		return 1;
 	}
-	cout << "OK" << endl;
-	cout << "Application path: " << app_path << endl;
+	cout << "Search folder: " << RootDir << endl;
 
 	// Dateiliste (*.kmc) erstellen
-	cout << "Retrieving *.kmc files in application folder and all subdirectories ... ";
+	vector<string> FileList;
+	cout << "Retrieving *.kmc files in search folder and all subdirectories ... ";
 	try {
-		GetKMCFiles(app_path);
-		if (os_FileList.size() == 0) {
+		GetKMCFiles(RootDir,FileList);
+		if (FileList.size() == 0) {
 			cout << endl;
 			cout << "No *.kmc files found." << endl;
 			cout << endl;
@@ -161,18 +119,17 @@ int main (int argc, char *argv[])
 			return 0;
 		}
 	} 
-	catch (exception e)
+	catch (const exception& e)
 	{
 		cout << endl;
 		cout << "Critical Error: Exception during file search:" << endl;
 		cout << e.what() << endl;
-		cout << "Contact the developers!" << endl;
 		cout << endl;
 		cout << "Program terminated." << endl;
 		return 1;
 	}
 	cout << "OK" << endl;
-	cout << "Number of *.kmc files: " << os_FileList.size() << endl;
+	cout << "Number of *.kmc files: " << FileList.size() << endl;
 
 	int ErrorCode = KMCERR_OK;
 
@@ -189,7 +146,8 @@ int main (int argc, char *argv[])
 	// Zusammenfassungsdatei oeffnen
 	ofstream summaryfile;
 	try {
-		summaryfile.open(KMCPATH_DEFAULT_SUMMARY);
+		filesystem::path summarypath = RootDir / KMCPATH_DEFAULT_SUMMARY;
+		summaryfile.open(summarypath);
 		if (summaryfile.is_open() == false) {
 			cout << "Critical Error: Failed to open summary file." << endl;
 			cout << "Contact the developers!" << endl;
@@ -198,7 +156,7 @@ int main (int argc, char *argv[])
 			return 1;
 		}
 	} 
-	catch (exception e)
+	catch (const exception& e)
 	{
 		summaryfile.close();
 		cout << "Critical Error: Exception when opening summary file:" << endl;
@@ -212,12 +170,12 @@ int main (int argc, char *argv[])
 	// Dateien laden und Ergebnisse speichern
 	int doping_count = -1;
 	cout << "Loading files ... " << endl;
-	for (size_t i = 0; i < os_FileList.size(); i++) {
+	for (const string& filepath : FileList) {
 
 		// Job-Datei laden
-		ErrorCode = KMCJob.LoadFromFile(os_FileList[i]);
+		ErrorCode = KMCJob.LoadFromFile(filepath);
 		if (ErrorCode != KMCERR_OK) {
-			cout << "Invalid job file (" << ErrorCode << "): " << os_FileList[i] << endl;
+			cout << "Invalid job file (" << ErrorCode << "): " << filepath << endl;
 			continue;
 		}
 
@@ -225,11 +183,11 @@ int main (int argc, char *argv[])
 		int job_status = 0;
 		ErrorCode = KMCJob.GetProjectState(job_status);
 		if (ErrorCode != KMCERR_OK) {
-			cout << "Invalid job status (" << ErrorCode << "): " << os_FileList[i] << endl;
+			cout << "Invalid job status (" << ErrorCode << "): " << filepath << endl;
 			continue;
 		}
 		if (job_status < 9) {
-			cout << "Simulation incomplete (" << job_status << "): " << os_FileList[i] << endl;
+			cout << "Simulation incomplete (" << job_status << "): " << filepath << endl;
 			continue;
 		}
 
@@ -237,7 +195,7 @@ int main (int argc, char *argv[])
 		int t_dop_count = -1;
 		ErrorCode = KMCJob.GetDopingCount(t_dop_count);
 		if (ErrorCode != KMCERR_OK) {
-			cout << "Invalid doping (" << ErrorCode << "): " << os_FileList[i] << endl;
+			cout << "Invalid doping (" << ErrorCode << "): " << filepath << endl;
 			continue;
 		}
 		if (doping_count == -1) {     // d.h. noch kein Job geschrieben
@@ -246,7 +204,7 @@ int main (int argc, char *argv[])
 			string t_summarydesc = "";
 			ErrorCode = KMCJob.GetResultSummaryDesc(" ; ", t_summarydesc);
 			if (ErrorCode != KMCERR_OK) {
-				cout << "Invalid summary description (" << ErrorCode << "): " << os_FileList[i] << endl;
+				cout << "Invalid summary description (" << ErrorCode << "): " << filepath << endl;
 				continue;
 			}
 
@@ -254,7 +212,7 @@ int main (int argc, char *argv[])
 			try {
 				summaryfile << t_summarydesc << endl;
 			}
-			catch (exception e)
+			catch (const exception& e)
 			{
 				summaryfile.close();
 				cout << "Error: Exception when writing to file:" << endl;
@@ -271,7 +229,7 @@ int main (int argc, char *argv[])
 
 			// Dotierungsanzahl pruefen
 			if (t_dop_count != doping_count) {
-				cout << "Inconsistent: " << os_FileList[i] << endl;
+				cout << "Inconsistent: " << filepath << endl;
 				continue;
 			}
 		}
@@ -280,7 +238,7 @@ int main (int argc, char *argv[])
 		string t_summary = "";
 		ErrorCode = KMCJob.GetResultSummary(" ; ", t_summary);
 		if (ErrorCode != KMCERR_OK) {
-			cout << "Invalid summary (" << ErrorCode << "): " << os_FileList[i] << endl;
+			cout << "Invalid summary (" << ErrorCode << "): " << filepath << endl;
 			continue;
 		}
 
@@ -288,7 +246,7 @@ int main (int argc, char *argv[])
 		try {
 			summaryfile << t_summary << endl;
 		}
-		catch (exception e)
+		catch (const exception& e)
 		{
 			summaryfile.close();
 			cout << "Error: Exception when writing to file:" << endl;
@@ -298,7 +256,7 @@ int main (int argc, char *argv[])
 			return 1;
 		}
 
-		cout << "Added job: " << os_FileList[i] << endl;
+		cout << "Added job: " << filepath << endl;
 	}
 
 	// Datei schließen

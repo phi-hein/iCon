@@ -37,6 +37,8 @@ class TResultsOut: public TResultsFunc {
 		
 		// NON-PUBLISHED
 		TResultsOut (TKMCJob * pJob);		// Constructor
+
+	protected:
 		~TResultsOut ();					// Destructor
 };
 

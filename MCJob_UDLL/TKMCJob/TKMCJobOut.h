@@ -122,6 +122,8 @@ class TKMCJobOut: public TKMCJobFunc {
 
 		// NON-PUBLISHED
 		TKMCJobOut ();		// Constructor
+
+	protected:
 		~TKMCJobOut ();		// Destructor
 };
 

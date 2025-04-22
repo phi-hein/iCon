@@ -79,46 +79,6 @@ namespace iCon_General
             }
         }
 
-        protected ObservableCollection<string> _SimExeTypes = null;
-        /// <summary>
-        /// List of all possible simulation executables (without base name and extension)
-        /// </summary>
-        public ObservableCollection<string> SimExeTypes
-        {
-            get
-            {
-                return _SimExeTypes;
-            }
-            set
-            {
-                if (value != _SimExeTypes)
-                {
-                    _SimExeTypes = value;
-                    Notify("SimExeTypes");
-                }
-            }
-        }
-
-        protected ObservableCollection<string> _SearchExeTypes = null;
-        /// <summary>
-        /// List of all possible searcher executables (without base name and extension)
-        /// </summary>
-        public ObservableCollection<string> SearchExeTypes
-        {
-            get
-            {
-                return _SearchExeTypes;
-            }
-            set
-            {
-                if (value != _SearchExeTypes)
-                {
-                    _SearchExeTypes = value;
-                    Notify("SearchExeTypes");
-                }
-            }
-        }
-
         protected string _LocalWorkspace = "";
         /// <summary>
         /// Local workspace (absolute or relative to standard workspace directory)
@@ -172,72 +132,6 @@ namespace iCon_General
         }
 
         /// <summary>
-        /// Creates a list of the available simulation executables
-        /// </summary>
-        /// <returns>List of simulation executable types</returns>
-        protected string [] GetSimExeTypes()
-        {
-            string i_exedir = Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                ConstantsClass.SC_KMC_SIMEXEFOLDER);
-
-            string[] i_exefiles = new string[0];
-
-            // Get a list of executables
-            if (Directory.Exists(i_exedir) == true)
-            {
-                i_exefiles = Directory.GetFiles(
-                    i_exedir,
-                    ConstantsClass.SC_KMC_BASESIMEXE + "*" + ConstantsClass.SC_KMC_EXTSIMEXE,
-                    SearchOption.AllDirectories);
-            }
-
-            // Convert executable list to list of exe types
-            for (int i = 0; i < i_exefiles.Length; ++i)
-            {
-                i_exefiles[i] = Path.GetFileName(i_exefiles[i]);
-                i_exefiles[i] = i_exefiles[i].Replace(ConstantsClass.SC_KMC_BASESIMEXE, "");
-                i_exefiles[i] = i_exefiles[i].Replace(ConstantsClass.SC_KMC_EXTSIMEXE, "");
-                i_exefiles[i] = i_exefiles[i].Trim();
-            }
-
-            return i_exefiles;
-        }
-
-        /// <summary>
-        /// Creates a list of the available search executables
-        /// </summary>
-        /// <returns>List of search executable types</returns>
-        protected string[] GetSearchExeTypes()
-        {
-            string i_exedir = Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                ConstantsClass.SC_KMC_SEARCHEXEFOLDER);
-
-            string[] i_exefiles = new string[0];
-
-            // Get a list of executables
-            if (Directory.Exists(i_exedir) == true)
-            {
-                i_exefiles = Directory.GetFiles(
-                    i_exedir,
-                    ConstantsClass.SC_KMC_BASESEARCHEXE + "*" + ConstantsClass.SC_KMC_EXTSEARCHEXE,
-                    SearchOption.AllDirectories);
-            }
-
-            // Convert executable list to list of exe types
-            for (int i = 0; i < i_exefiles.Length; ++i)
-            {
-                i_exefiles[i] = Path.GetFileName(i_exefiles[i]);
-                i_exefiles[i] = i_exefiles[i].Replace(ConstantsClass.SC_KMC_BASESEARCHEXE, "");
-                i_exefiles[i] = i_exefiles[i].Replace(ConstantsClass.SC_KMC_EXTSEARCHEXE, "");
-                i_exefiles[i] = i_exefiles[i].Trim();
-            }
-
-            return i_exefiles;
-        }
-
-        /// <summary>
         /// Adjust the remote profile IDs so there are no unused IDs inbetween
         /// </summary>
         protected void AdjustProfileIDs()
@@ -275,7 +169,6 @@ namespace iCon_General
         {
             return Path.Combine(
                 Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                ConstantsClass.SC_KMC_SIMEXEFOLDER,
                 ConstantsClass.SC_KMC_LOCALSIMEXE);
         }
 
@@ -286,7 +179,6 @@ namespace iCon_General
         {
             return Path.Combine(
                 Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                ConstantsClass.SC_KMC_SEARCHEXEFOLDER,
                 ConstantsClass.SC_KMC_LOCALSEARCHEXE);
         }
 
@@ -354,6 +246,9 @@ namespace iCon_General
 
             // Add an new profile
             RemoteProfiles.Add(new TVMGUISettingsRemoteProfile(_ViewModel, t_NextID));
+
+            // Load default scripts
+            RemoteProfiles.Last<TVMGUISettingsRemoteProfile>().LoadDefaultScripts();
 
             // Select the added profile
             SelectedRemoteProfile = _RemoteProfiles.Last<TVMGUISettingsRemoteProfile>();
@@ -597,13 +492,7 @@ namespace iCon_General
                 t_Profiles.Add(t_RemoteProfile);
             }
 
-            // Collect simulation and searcher executable types
-            ObservableCollection<string> t_SimExeTypes = new ObservableCollection<string>(GetSimExeTypes());
-            ObservableCollection<string> t_SearchExeTypes = new ObservableCollection<string>(GetSearchExeTypes());
-
             // Transfer data
-            SimExeTypes = t_SimExeTypes;
-            SearchExeTypes = t_SearchExeTypes;
             RemoteProfiles = t_Profiles;
             LocalWorkspace = t_LocalWorkspace;
 
