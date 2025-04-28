@@ -406,7 +406,7 @@ namespace iCon_General
             {
                 Console.WriteLine("Job Submission: cluster");
                 Console.WriteLine("Number of jobs: " + _JobList.Count.ToString());
-                SubmitRemoteJobs(MCDLL, ExtendedSettings, BWorker, e);
+                SubmitRemoteJobs(MCDLL, ExtendedSettings.SelectedRemoteProfile, BWorker, e);
             }
         }
 
@@ -449,7 +449,7 @@ namespace iCon_General
         /// <summary>
         /// Start remote simulations for the jobs in the job list (use only on a background worker thread)
         /// </summary>
-        protected void SubmitRemoteJobs(TMCJobWrapper MCDLL, TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e)
+        protected void SubmitRemoteJobs(TMCJobWrapper MCDLL, TVMGUISettingsRemoteProfile RemoteProfile, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
             int ErrorCode = ConstantsClass.KMCERR_OK;
             BWorker.ReportProgress(5, "OK\n");
@@ -457,230 +457,144 @@ namespace iCon_General
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(5, "Loading authentication data ... ");
 
-            // Create client objects
-            using (SshClient sshcl = CreateSSHClient(ExtendedSettings, BWorker, e))
-            using (SftpClient sftpcl = CreateSFTPClient(ExtendedSettings, BWorker, e))
+            // Create remote cluster object
+            using (RemoteCluster cluster = new RemoteCluster())
             {
+                // Initialize the connection settings
+                if (!cluster.Initialize(e, RemoteProfile)) return;
+
+                BWorker.ReportProgress(7, "OK\n");
+                System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+                if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
+                BWorker.ReportProgress(7, "Connecting to cluster ... ");
+
+                // Connect to cluster
+                if (!cluster.Connect(e)) return;
+                Console.WriteLine("Cluster connection established.");
+
                 BWorker.ReportProgress(10, "OK\n");
                 System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
                 if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
-                BWorker.ReportProgress(10, "Connecting to cluster ... ");
-
-                // Connect to cluster
-                try
-                {
-                    sshcl.Connect();
-                    if (sshcl.IsConnected == false)
-                    {
-                        e.Result = new BWorkerResultMessage("Invalid Input", "Cannot connect to specified server\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
-                        return;
-                    }
-                    if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
-
-                    sftpcl.Connect();
-                    if (sftpcl.IsConnected == false)
-                    {
-                        e.Result = new BWorkerResultMessage("Invalid Input", "Cannot connect to specified server\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
-                        return;
-                    }
-                    if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
-                }
-                catch (SshException ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("Connection Error", "Cannot connect to specified server\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
-                Console.WriteLine("Cluster connection established.");
+                BWorker.ReportProgress(10, "Preparing executables and scripts ... ");
 
                 // Path Convention:
                 // Remote, BaseDirectory = abs: BaseDirectory/Job_XXXX/JobNamePrefix_XXXX.kmc
                 // Remote, BaseDirectory = rel, Workspace = abs: RemoteWorkspace/BaseDirectory/Job_XXXX/JobNamePrefix_XXXX.kmc
                 // Remote, BaseDirectory = rel, Workspace = rel: UserHome/RemoteWorkspace/BaseDirectory/Job_XXXX/JobNamePrefix_XXXX.kmc
 
-                // Create full paths and lists of all sub-directories which should be created eventually (without user home directory)
-                string totalBasePath = "";
-                List<string> createBaseDirs = null;
-                string totalBuildPath = "";
-                List<string> createBuildDirs = null;
-                try
-                {
-                    createBaseDirs = ConstructRemoteDirectoryList(sftpcl.WorkingDirectory,
-                        ExtendedSettings.SelectedRemoteProfile.RemoteWorkspace, _BaseDirectory);
-                    totalBasePath = createBaseDirs[createBaseDirs.Count - 1];
-
-                    createBuildDirs = ConstructRemoteDirectoryList(sftpcl.WorkingDirectory,
-                        ExtendedSettings.SelectedRemoteProfile.RemoteWorkspace, 
-                        ExtendedSettings.SelectedRemoteProfile.RemoteBuildDir);
-                    totalBuildPath = createBuildDirs[createBuildDirs.Count - 1];
-                }
-                catch (Exception)
-                {
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid directory specifications\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
+                // Create full paths for the job base directory and the build directory
+                string totalBasePath = RemotePaths.Combine(cluster.HomeDirectory,
+                        RemoteProfile.RemoteWorkspace, _BaseDirectory);
+                string totalBuildPath = RemotePaths.Combine(cluster.HomeDirectory,
+                        RemoteProfile.RemoteWorkspace, RemoteProfile.RemoteBuildDir);
 
                 // Create project base directory
                 Console.WriteLine("Project base path: " + totalBasePath);
                 Console.Write("Creating project base directory ... ");
-                try
-                {
-                    for (int i = 0; i < createBaseDirs.Count; i++)
-                    {
-                        if (sftpcl.Exists(createBaseDirs[i]) == false)
-                        {
-                            sftpcl.CreateDirectory(createBaseDirs[i]);
-                        }
-                    }
-                }
-                catch (SshException ex)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("SFTP Error", "Creating project directory failed\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
+                if (!cluster.CreateDirectory(e, totalBasePath)) return;
                 Console.WriteLine("OK.");
 
                 // Create remote paths for executables
-                string simExePath = CombineRemotePaths(totalBasePath, ConstantsClass.SC_KMC_REMOTESIMEXE);
-                string searchExePath = CombineRemotePaths(totalBasePath, ConstantsClass.SC_KMC_REMOTESEARCHEXE);
-                string simExeBuildPath = CombineRemotePaths(totalBuildPath, ConstantsClass.SC_KMC_REMOTESIMEXE);
-                string searchExeBuildPath = CombineRemotePaths(totalBuildPath, ConstantsClass.SC_KMC_REMOTESEARCHEXE);
+                string simExePath = RemotePaths.Combine(totalBasePath, ConstantsClass.SC_KMC_REMOTESIMEXE);
+                string searchExePath = RemotePaths.Combine(totalBasePath, ConstantsClass.SC_KMC_REMOTESEARCHEXE);
+                string simExeBuildPath = RemotePaths.Combine(totalBuildPath, ConstantsClass.SC_KMC_REMOTESIMEXE);
+                string searchExeBuildPath = RemotePaths.Combine(totalBuildPath, ConstantsClass.SC_KMC_REMOTESEARCHEXE);
 
                 // Check whether remote executables are present and up-to-date
                 Console.WriteLine("Remote build path: " + totalBuildPath);
                 Console.Write("Check remote executables ... ");
                 bool buildRequired = true;
-                try
+                
+                // Check job base folder first
+                if (cluster.Exists(simExePath) && cluster.Exists(searchExePath))
                 {
-                    // Check job base folder first
-                    if (sftpcl.Exists(simExePath) && sftpcl.Exists(searchExePath))
-                    {
-                        SshCommand sim_version_cmd = sshcl.CreateCommand("\"" + simExePath + "\" -version");
-                        Version sim_version = new Version(sim_version_cmd.Execute());
+                    Version sim_version = new Version(
+                        cluster.ExecuteCommandSilent(e, "\"" + simExePath + "\" -version"));
 
-                        SshCommand search_version_cmd = sshcl.CreateCommand("\"" + searchExePath + "\" -version");
-                        Version search_version = new Version(search_version_cmd.Execute());
+                    Version search_version = new Version(
+                        cluster.ExecuteCommandSilent(e, "\"" + searchExePath + "\" -version"));
+
+                    Version req_version = Assembly.GetExecutingAssembly().GetName().Version;
+                    if ((sim_version >= req_version) && (search_version >= req_version))
+                    {
+                        buildRequired = false;
+                        Console.WriteLine("OK.");
+                    }
+                }
+
+                // Check build folder (and copy eventually)
+                if (buildRequired == true)
+                {
+                    if (cluster.Exists(simExeBuildPath) && cluster.Exists(searchExeBuildPath))
+                    {
+                        Version sim_version = new Version(
+                        cluster.ExecuteCommandSilent(e, "\"" + simExeBuildPath + "\" -version"));
+
+                        Version search_version = new Version(
+                            cluster.ExecuteCommandSilent(e, "\"" + searchExeBuildPath + "\" -version"));
 
                         Version req_version = Assembly.GetExecutingAssembly().GetName().Version;
                         if ((sim_version >= req_version) && (search_version >= req_version))
                         {
+                            if (!cluster.ExecuteCommand(e, "cp -p \"" + simExeBuildPath + "\" \"" + simExePath + "\"")) return;
+                            if (!cluster.ExecuteCommand(e, "cp -p \"" + searchExeBuildPath + "\" \"" + searchExePath + "\"")) return;
+
                             buildRequired = false;
                             Console.WriteLine("OK.");
                         }
+                        else Console.WriteLine("Old version.");
                     }
-
-                    // Check build folder (and copy eventually)
-                    if (buildRequired == true)
-                    {
-                        if (sftpcl.Exists(simExeBuildPath) && sftpcl.Exists(searchExeBuildPath))
-                        {
-                            SshCommand sim_version_cmd = sshcl.CreateCommand("\"" + simExeBuildPath + "\" -version");
-                            Version sim_version = new Version(sim_version_cmd.Execute());
-
-                            SshCommand search_version_cmd = sshcl.CreateCommand("\"" + searchExeBuildPath + "\" -version");
-                            Version search_version = new Version(search_version_cmd.Execute());
-
-                            Version req_version = Assembly.GetExecutingAssembly().GetName().Version;
-                            if ((sim_version >= req_version) && (search_version >= req_version))
-                            {
-                                SshCommand sim_copy_cmd = sshcl.CreateCommand("cp -p \"" + simExeBuildPath + "\" \"" +
-                                    simExePath + "\"");
-                                sim_copy_cmd.Execute();
-
-                                SshCommand search_copy_cmd = sshcl.CreateCommand("cp -p \"" + searchExeBuildPath + "\" \"" +
-                                    searchExePath + "\"");
-                                search_copy_cmd.Execute();
-
-                                buildRequired = false;
-                                Console.WriteLine("OK.");
-                            }
-                            else Console.WriteLine("Old version.");
-                        }
-                        else Console.WriteLine("Not found.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("Error", "Could not check remote executables\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
+                    else Console.WriteLine("Not found.");
                 }
 
-                // Preliminary abort here (for testing)
+                if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
+
+                // Build remote executables and copy to job base directory
                 if (buildRequired == true)
                 {
-                    Console.WriteLine("Build required.");
+                    Console.Write("Creating remote build directory ... ");
+                    if (!cluster.CreateDirectory(e, totalBuildPath)) return;
+                    Console.WriteLine("OK.");
+
+                    Console.Write("Uploading source files ... ");
+                    string sourceArchivePath = RemotePaths.Combine(totalBuildPath, ConstantsClass.SC_KMC_SOURCEARCHIVE);
+                    string buildScriptPath = RemotePaths.Combine(totalBuildPath, ConstantsClass.SC_KMC_BUILDSCRIPT);
+
+                    // Source archive
+                    if (!cluster.UploadFile(e, Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                        ConstantsClass.SC_KMC_SOURCEARCHIVE), sourceArchivePath, 644)) return;
+
+                    // Build script
+                    if (!cluster.UploadFile(e, RemoteProfile.GetRemoteProfileFilePath(ConstantsClass.SC_KMC_BUILDSCRIPT),
+                        buildScriptPath, 744)) return;
+                    
+                    Console.WriteLine("OK.");
+
+                    if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
+
+                    Console.WriteLine("Compiling remote executables:");
+                    if (!cluster.ExecuteCommand(e, "sh \"" + buildScriptPath + "\"")) return;
+
+                    if (!cluster.ExecuteCommand(e, "cp -p \"" + simExeBuildPath + "\" \"" + simExePath + "\"")) return;
+
+                    if (!cluster.ExecuteCommand(e, "cp -p \"" + searchExeBuildPath + "\" \"" + searchExePath + "\"")) return;
                 }
-                e.Result = new BWorkerResultMessage("OK", "Build required",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                return;
 
-                // (later) Create build directory (like above for base directory)
-
-                // (later) Upload source and compile the executables
-
-                /* TODO (old upload code)
-                // Simulation executable
-                using (FileStream exe_stream = File.OpenRead(ExtendedSettings.SelectedRemoteProfile.GetSelectedSimExecutablePath()))
-                {
-                    sftpcl.UploadFile(exe_stream, simExePath, true);
-                    sftpcl.ChangePermissions(simExePath, 744);
-                }
-
-                // Searcher executable
-                using (FileStream exe_stream = File.OpenRead(ExtendedSettings.SelectedRemoteProfile.GetSelectedSearchExecutablePath()))
-                {
-                    sftpcl.UploadFile(exe_stream, searchExePath, true);
-                    sftpcl.ChangePermissions(searchExePath, 744);
-                }
-                */
-
-                /*
-                ... = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                        ConstantsClass.SC_KMC_SOURCEARCHIVE);
-                */
-
-                // Create remote paths for scripts (placed in base directory)
-                string submitScriptPath = CombineRemotePaths(totalBasePath, ConstantsClass.SC_KMC_SUBMITSCRIPT);
-                string jobScriptPath = CombineRemotePaths(totalBasePath, ConstantsClass.SC_KMC_JOBSCRIPT);
+                if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
 
                 // Transfer scripts to base directory
                 Console.Write("Uploading scripts ... ");
-                try
-                {
-                    // Submit script
-                    using (FileStream subscr_stream = File.OpenRead(
-                        ExtendedSettings.SelectedRemoteProfile.GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT)))
-                    {
-                        sftpcl.UploadFile(subscr_stream, submitScriptPath, true);
-                        sftpcl.ChangePermissions(submitScriptPath, 744);
-                    }
+                string submitScriptPath = RemotePaths.Combine(totalBasePath, ConstantsClass.SC_KMC_SUBMITSCRIPT);
+                string jobScriptPath = RemotePaths.Combine(totalBasePath, ConstantsClass.SC_KMC_JOBSCRIPT);
+                
+                // Submit script
+                if (!cluster.UploadFile(e, RemoteProfile.GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT), 
+                    submitScriptPath, 744)) return;
 
-                    // Job script
-                    using (FileStream jobscr_stream = File.OpenRead(
-                        ExtendedSettings.SelectedRemoteProfile.GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT)))
-                    {
-                        sftpcl.UploadFile(jobscr_stream, jobScriptPath, true);
-                        sftpcl.ChangePermissions(jobScriptPath, 744);
-                    }
-                }
-                catch (SshException ex)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("SFTP Error", "Script transmission failed\n(see console for details)\n.",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return;
-                }
+                // Job script
+                if (!cluster.UploadFile(e, RemoteProfile.GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT), 
+                    jobScriptPath, 744)) return;
+                
                 Console.WriteLine("OK.");
 
                 // Submit all jobs
@@ -713,63 +627,25 @@ namespace iCon_General
                     Console.WriteLine("OK.");
 
                     // Create job folder
-                    string jobDirectory = CombineRemotePaths(totalBasePath, "Job_" + _JobList[i].ID.ToString("0000"));
+                    string jobDirectory = RemotePaths.Combine(totalBasePath, "Job_" + _JobList[i].ID.ToString("0000"));
                     Console.Write("Creating job folder (" + jobDirectory + ") ... ");
-                    try
-                    {
-                        if (sftpcl.Exists(jobDirectory) == false)
-                        {
-                            sftpcl.CreateDirectory(jobDirectory);
-                        }
-                    }
-                    catch (SshException ex)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine("Error: " + ex.Message);
-                        e.Result = new BWorkerResultMessage("SFTP Error", "Creating job directory failed\n(see console for details)\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
-                        return;
-                    }
+                    if (!cluster.CreateSingleDirectory(e, jobDirectory)) return;
                     Console.WriteLine("OK.");
 
                     // Create file paths and job name
                     string jobName = _JobNamePrefix + "_" + _JobList[i].ID.ToString("0000");
-                    string jobInputPath = CombineRemotePaths(jobDirectory, jobName + ".kmc");
-                    string jobLogPath = CombineRemotePaths(jobDirectory, jobName + ".log");
+                    string jobInputPath = RemotePaths.Combine(jobDirectory, jobName + ".kmc");
+                    string jobLogPath = RemotePaths.Combine(jobDirectory, jobName + ".log");
 
                     // Transfer input file
                     Console.Write("Uploading job file ... ");
-                    try
-                    {
-                        // Job input file
-                        sftpcl.WriteAllText(jobInputPath, inp_file_str);
-                        sftpcl.ChangePermissions(jobInputPath, 744);
-                    }
-                    catch (SshException ex)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine("Error: " + ex.Message);
-                        e.Result = new BWorkerResultMessage("SFTP Error", "Job file transmission failed\n(see console for details)\n.",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
-                        return;
-                    }
+                    if (!cluster.CreateTextFile(e, jobInputPath, inp_file_str, 744)) return;
                     Console.WriteLine("OK.");
 
                     // Submit job to queue
-                    try
-                    {
-                        SshCommand submit_cmd = sshcl.CreateCommand("sh \"" + submitScriptPath + "\" \"" + jobScriptPath + "\" \"" + simExePath + "\" \"" + 
-                            jobDirectory + "\" \"" + jobName + "\" \"" + jobInputPath + "\" \"" + jobLogPath + "\"");
-                        string submit_result = submit_cmd.Execute();
-                        Console.WriteLine(submit_result);
-                    }
-                    catch (SshException ex)
-                    {
-                        Console.WriteLine("Error: " + ex.Message);
-                        e.Result = new BWorkerResultMessage("SSH Error", "Job submission failed\n(see console for details)\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
-                        return;
-                    }
+                    if (!cluster.ExecuteCommand(e, "sh \"" + submitScriptPath + "\" \"" + jobScriptPath + "\" \"" + 
+                        simExePath + "\" \"" + jobDirectory + "\" \"" + jobName + "\" \"" + jobInputPath + 
+                        "\" \"" + jobLogPath + "\"")) return;
 
                     subProgress += jobPercInc;
                     BWorker.ReportProgress(Convert.ToInt32(Math.Floor(subProgress)), "OK\n");
@@ -786,425 +662,5 @@ namespace iCon_General
         }
 
         #endregion Submit Methods
-
-        #region Helper Methods
-
-        /// <summary>
-        /// Create SshClient object
-        /// </summary>
-        /// <returns>SshClient object (if successful) or null (if error)</returns>
-        protected static SshClient CreateSSHClient(TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e)
-        {
-            // Obtain ConnectionInfo
-            var coninfo = CreateConnectionInfo(ExtendedSettings, BWorker, e, "SSH");
-            if (coninfo == null)
-            {
-                if (e.Result == null)
-                {
-                    Console.WriteLine("Error: Creation of connection info object for SSH failed.");
-                    e.Result = new BWorkerResultMessage("Unknown error", "SSH setup failed\n(see console for details)\n",
-                    ConstantsClass.KMCERR_OBJECT_NOT_READY, false);
-                }
-                return null;
-            }
-
-            // Create client
-            SshClient client = new SshClient(coninfo);
-
-            // Set keep alive interval
-            client.KeepAliveInterval = TimeSpan.FromSeconds(10);
-
-            // Specify host key validation
-            client.HostKeyReceived += delegate (object sender, HostKeyEventArgs eventargs)
-            {
-                // Primitive fingerprint check
-                if (eventargs.FingerPrint.Length == 0)
-                {
-                    Console.WriteLine("Error: No host fingerprint received.");
-                    eventargs.CanTrust = false;
-                    return;
-                }
-
-                // Check against stored fingerprint
-                if ((string.IsNullOrWhiteSpace(ExtendedSettings.SelectedRemoteProfile.HostFingerPrint) == false) &&
-                    (eventargs.FingerPrintSHA256 == ExtendedSettings.SelectedRemoteProfile.HostFingerPrint))
-                {
-                    eventargs.CanTrust = true;
-                    return;
-                }
-
-                // Show fingerprint dialog
-                eventargs.CanTrust = (bool)Application.Current.Dispatcher.Invoke(
-                    new Func<string, string, string, string, bool>((string hostname, string keytype, string keylength, string fingerprint) =>
-                    {
-                        return FingerPrintDialog.Prompt(hostname, keytype, keylength, fingerprint);
-                    }), 
-                    DispatcherPriority.Normal,
-                    ExtendedSettings.SelectedRemoteProfile.HostAdress,
-                    eventargs.HostKeyName,
-                    eventargs.KeyLength.ToString(),
-                    eventargs.FingerPrintSHA256);
-
-                if (eventargs.CanTrust == true)
-                {
-                    ExtendedSettings.SelectedRemoteProfile.HostFingerPrint = eventargs.FingerPrintSHA256;
-                }
-            };
-
-            return client;
-        }
-
-        /// <summary>
-        /// Create SftpClient object
-        /// </summary>
-        /// <returns>SftpClient object (if successful) or null (if error)</returns>
-        protected static SftpClient CreateSFTPClient(TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e)
-        {
-            // Obtain ConnectionInfo
-            var coninfo = CreateConnectionInfo(ExtendedSettings, BWorker, e, "SFTP");
-            if (coninfo == null)
-            {
-                if (e.Result == null)
-                {
-                    Console.WriteLine("Error: Creation of connection info object for SFTP failed.");
-                    e.Result = new BWorkerResultMessage("Unknown error", "SSH setup failed\n(see console for details)\n",
-                    ConstantsClass.KMCERR_OBJECT_NOT_READY, false);
-                }
-                return null;
-            }
-
-            // Create client
-            SftpClient client = new SftpClient(coninfo);
-
-            // Set keep alive interval
-            client.KeepAliveInterval = TimeSpan.FromSeconds(10);
-
-            // Specify host key validation
-            client.HostKeyReceived += delegate (object sender, HostKeyEventArgs eventargs)
-            {
-                // Primitive fingerprint check
-                if (eventargs.FingerPrint.Length == 0)
-                {
-                    Console.WriteLine("Error: No host fingerprint received.");
-                    eventargs.CanTrust = false;
-                    return;
-                }
-
-                // Check against stored fingerprint
-                if ((string.IsNullOrWhiteSpace(ExtendedSettings.SelectedRemoteProfile.HostFingerPrint) == false) &&
-                    (eventargs.FingerPrintSHA256 == ExtendedSettings.SelectedRemoteProfile.HostFingerPrint))
-                {
-                    eventargs.CanTrust = true;
-                    return;
-                }
-
-                // Show fingerprint dialog
-                eventargs.CanTrust = (bool)Application.Current.Dispatcher.Invoke(
-                    new Func<string, string, string, string, bool>((string hostname, string keytype, string keylength, string fingerprint) =>
-                    {
-                        return FingerPrintDialog.Prompt(hostname, keytype, keylength, fingerprint);
-                    }),
-                    DispatcherPriority.Normal,
-                    ExtendedSettings.SelectedRemoteProfile.HostAdress,
-                    eventargs.HostKeyName,
-                    eventargs.KeyLength.ToString(),
-                    eventargs.FingerPrintSHA256);
-
-                if (eventargs.CanTrust == true)
-                {
-                    ExtendedSettings.SelectedRemoteProfile.HostFingerPrint = eventargs.FingerPrintSHA256;
-                }
-            };
-
-            return client;
-        }
-
-        /// <summary>
-        /// Creates ConnectionInfo object with server authentication settings
-        /// </summary>
-        /// <returns>ConnectionInfo object (if successful) or null (if error)</returns>
-        protected static ConnectionInfo CreateConnectionInfo(TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e, string clienttype)
-        {
-            // Create desired authentication method list
-            List<AuthenticationMethod> auth_methods = new List<AuthenticationMethod>();
-
-            // Create password authentication method
-            if (ExtendedSettings.SelectedRemoteProfile.WithPassword == true)
-            {
-                // Add password authentication method
-                try
-                {
-                    auth_methods.Add(new PasswordAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim(),
-                        ExtendedSettings.SelectedRemoteProfile.UserPassword.Trim()));
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine("Error: User name (" + ExtendedSettings.SelectedRemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-            }
-
-            // Create private key authentication method
-            if (ExtendedSettings.SelectedRemoteProfile.WithPrivateKey == true)
-            {
-                // Check if private key file exists
-                if (File.Exists(ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim()) == false)
-                {
-                    Console.WriteLine("Error: Private key file (" + ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim() + ") is missing.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Private key file does not exist\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-
-                // Create keyfiles
-                PrivateKeyFile keyfile = null;
-                try
-                {
-                    keyfile = new PrivateKeyFile(ExtendedSettings.SelectedRemoteProfile.PrivateKeyPath.Trim(),
-                        ExtendedSettings.SelectedRemoteProfile.PrivateKeyPassword.Trim());
-                }
-                catch (SshException ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file\n(see console for details)\n.",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-                catch (NotSupportedException ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine("Error: Private key file path has zero length, contains only white space or contains one or more invalid characters.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-                catch (PathTooLongException)
-                {
-                    Console.WriteLine("Error: Private key file path exceeds the system-defined maximum path length.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    Console.WriteLine("Error: Directory of the private key file does not exist.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    Console.WriteLine("Error: Private key file access permissions prevent loading of the file.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-                catch (FileNotFoundException)
-                {
-                    Console.WriteLine("Error: Private key file not found.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-                catch (IOException)
-                {
-                    Console.WriteLine("Error: IO-error when opening private key file.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-
-                // Add key file authentication method
-                try
-                {
-                    auth_methods.Add(new PrivateKeyAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim(), keyfile));
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine("Error: User name (" + ExtendedSettings.SelectedRemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-            }
-
-            // Create keyboard-interactive authentication method
-            if (ExtendedSettings.SelectedRemoteProfile.WithKeyboardInteractive == true)
-            {
-                // Add keyboard-interactive auth method
-                try
-                {
-                    var keyint_auth = new KeyboardInteractiveAuthenticationMethod(ExtendedSettings.SelectedRemoteProfile.Username.Trim());
-                    keyint_auth.AuthenticationPrompt += delegate (object sender, AuthenticationPromptEventArgs eventargs)
-                    {
-                        foreach (AuthenticationPrompt prompt in eventargs.Prompts)
-                        {
-                            if (string.IsNullOrWhiteSpace(prompt.Request)) continue;
-
-                            if ((ExtendedSettings.SelectedRemoteProfile.WithPassword == true) &&
-                                (string.IsNullOrWhiteSpace(ExtendedSettings.SelectedRemoteProfile.UserPassword) == false) &&
-                                (prompt.Request.IndexOf("password", StringComparison.InvariantCultureIgnoreCase) != -1))
-                            {
-                                prompt.Response = ExtendedSettings.SelectedRemoteProfile.UserPassword.Trim();
-                            }
-                            else
-                            {
-                                prompt.Response = (string)Application.Current.Dispatcher.Invoke(
-                                    new Func<string, string, string>((string cltype, string question) =>
-                                    {
-                                        return AuthDialog.Prompt("Server request (" + cltype + ")", question);
-                                    }), DispatcherPriority.Normal, clienttype, prompt.Request);
-                            }
-                        }
-                    };
-                    auth_methods.Add(keyint_auth);
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine("Error: User name (" + ExtendedSettings.SelectedRemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
-                    e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
-                    return null;
-                }
-            }
-
-            // Create connection info object
-            ConnectionInfo coninfo = null;
-            try
-            {
-                coninfo = new ConnectionInfo(ExtendedSettings.SelectedRemoteProfile.HostAdress.Trim(), ExtendedSettings.SelectedRemoteProfile.HostPort,
-                    ExtendedSettings.SelectedRemoteProfile.Username.Trim(), auth_methods.ToArray());
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine("Error: Invalid connection setting: " + ex.Message);
-                e.Result = new BWorkerResultMessage("Invalid Input", "Invalid connection settings\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
-                return null;
-            }
-
-            // Set connection timeout
-            coninfo.Timeout = TimeSpan.FromMinutes(10);
-
-            return coninfo;
-        }
-
-        /// <summary>
-        /// Check if the remote path is an absolute path
-        /// </summary>
-        protected bool IsRemotePathRooted(string i_path)
-        {
-            if (string.IsNullOrWhiteSpace(i_path) == true)
-            {
-                return false;
-            }
-
-            string t_path = i_path.Trim();
-            if (t_path[0] == '/')
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Removes slash(es) at the end of a path
-        /// </summary>
-        protected string RemoveEndSlash(string i_path)
-        {
-            if (string.IsNullOrWhiteSpace(i_path) == true)
-            {
-                return "";
-            }
-
-            string t_path = i_path.Trim();
-            while ((t_path.Length > 0) && (t_path[t_path.Length - 1] == '/'))
-            {
-                t_path = t_path.Remove(t_path.Length - 1);
-            }
-
-            return t_path;
-        }
-
-        /// <summary>
-        /// Combine two remote paths (if the second one is an absolute path, then this returns the second path), the result has no directory delimiter at the end
-        /// </summary>
-        protected string CombineRemotePaths(string i_path1, string i_path2)
-        {
-            string t_path1 = RemoveEndSlash(i_path1);
-            string t_path2 = RemoveEndSlash(i_path2);
-
-            if (string.IsNullOrWhiteSpace(t_path1) == true)
-            {
-                return t_path2;
-            }
-
-            if (string.IsNullOrWhiteSpace(i_path2) == true)
-            {
-                return t_path1;
-            }
-
-            if (IsRemotePathRooted(t_path2) == true)
-            {
-                return t_path2;
-            }
-
-            return t_path1 + "/" + t_path2;
-        }
-
-        /// <summary>
-        /// Create a list of all directories that are contained in a combined path.
-        /// The last entry contains the full path.
-        /// </summary>
-        protected List<string> ConstructRemoteDirectoryList(string i_homedir, string i_workspace, string i_basedir)
-        {
-            string t_path = CombineRemotePaths(i_workspace.Trim(), i_basedir.Trim()).Trim();
-            bool is_absolute = IsRemotePathRooted(t_path);
-
-            char[] delim = new char[] {'/'};
-            string[] dirs = t_path.Split(delim, StringSplitOptions.RemoveEmptyEntries);
-
-            List<string> t_result = new List<string>();
-            if (dirs.Length == 0)
-            {
-                t_result.Add("");
-            }
-            else
-            {
-                string t_concatstr = "";
-                if (is_absolute == true)
-                {
-                    t_concatstr += "/";
-                }
-                for (int i = 0; i < dirs.Length; i++)
-                {
-                    if (string.IsNullOrWhiteSpace(dirs[i]) == true) continue;
-                    string t_adddir = t_concatstr + dirs[i];
-                    t_result.Add(t_adddir);
-                    t_concatstr += dirs[i] + "/";
-                }
-            }
-            if (t_result.Count == 0)
-            {
-                t_result.Add("");
-            }
-            for (int i = 0; i < t_result.Count; i++)
-            {
-                t_result[i] = CombineRemotePaths(i_homedir.Trim(), t_result[i]);
-            }
-
-            return t_result;
-        }
-
-        #endregion Helper Methods
     }
 }

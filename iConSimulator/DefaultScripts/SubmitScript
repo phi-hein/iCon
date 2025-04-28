@@ -2,7 +2,7 @@
 # (adjusted for a SLURM queue system)
 #
 # Script is executed as:
-# "./SubmitScript <JobScriptPath> <ExePath> <JobDir> <JobName> <InputfilePath> <LogfilePath>"
+# "sh <SubmitScriptPath> <JobScriptPath> <ExePath> <JobDir> <JobName> <InputfilePath> <LogfilePath>"
 #
 #!/bin/sh
 echo
@@ -19,9 +19,17 @@ echo
 cd $3
 rm -f $3/JobLog.txt
 sbatch --output=$3/JobLog.txt --job-name="$4" --time=1-00 --mem-per-cpu=1500M $1 $2 $5 $6
+excode=$?
 echo
-echo ----------
-echo Job sucessfully submitted to queue system
-echo ----------
+if test "$excode" -eq "0"
+then
+	echo ----------
+	echo Job sucessfully submitted to queue system
+	echo ----------
+else
+	echo ----------
+	echo "Job submission failed (Exitcode $excode)"
+	echo ----------
+fi
 echo
-exit 0
+exit $excode

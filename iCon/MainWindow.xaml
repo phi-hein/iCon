@@ -2883,7 +2883,7 @@
                                                     HorizontalScrollBarVisibility="Auto"
                                                     Text="{Binding VMGUISettings.SelectedRemoteProfile.BuildScript}">
                                                 <local:ToolTipHelper.MyToolTip>
-                                                    <TextBlock Text="Bash script that is executed within the build directory on the remote host, without any parameters, in order to generate the required remote executables. Be careful with modifications to this script."
+                                                    <TextBlock Text="Bash script that is executed within the build directory on the remote host, with the sh-command and without any parameters, in order to generate the required remote executables. Be careful with modifications to this script."
                                                                Style="{StaticResource StdToolTipStyle}"/>
                                                 </local:ToolTipHelper.MyToolTip>
                                             </TextBox>

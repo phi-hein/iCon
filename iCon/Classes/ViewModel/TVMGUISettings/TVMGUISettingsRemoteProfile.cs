@@ -439,6 +439,11 @@ namespace iCon_General
             // Create folder if not present
             Directory.CreateDirectory(GetBaseFolder(_ID));
 
+            // Replace newline characters
+            SimSubmitScript = _SimSubmitScript.Replace("\r\n", "\n");
+            SimJobScript = _SimJobScript.Replace("\r\n", "\n");
+            BuildScript = _BuildScript.Replace("\r\n", "\n");
+
             // Write scripts to file
             File.WriteAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT), _SimSubmitScript);
             File.WriteAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT), _SimJobScript);

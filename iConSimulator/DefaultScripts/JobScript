@@ -1,10 +1,10 @@
+#!/usr/bin/zsh
+#
 # Script for the execution of a queued KMC simulation
 # (adjusted for a SLURM queue system)
 #
 # Script is executed as:
 # "./JobScript <ExePath> <InputfilePath> <LogfilePath>"
-#
-#!/usr/bin/zsh
 #
 echo "Job started at:" `date`
 echo "Running on $SLURM_JOB_NODELIST with job-ID = $SLURM_JOB_ID ($SLURM_JOB_NAME)"

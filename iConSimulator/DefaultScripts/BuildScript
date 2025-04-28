@@ -2,12 +2,15 @@
 # (be careful with modifications to this script)
 #
 # Script is executed as:
-# "./BuildScript"
+# "sh <BuildScriptPath>"
 # (without input parameters)
 #
 #!/bin/sh
 
 echo "Build process started at:" `date`
+
+# Set working directory to script location
+cd "$(dirname "$0")"
 
 # Copy older executables to archive folder
 if test -f iConSimulator.exe

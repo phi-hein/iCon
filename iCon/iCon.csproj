@@ -152,6 +152,8 @@
     <Compile Include="ChildWindows\FingerPrintDialog.xaml.cs">
       <DependentUpon>FingerPrintDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\ViewModel\Helpers\RemoteCluster.cs" />
+    <Compile Include="Classes\ViewModel\Helpers\RemotePaths.cs" />
     <Compile Include="SingleInstance.cs" />
     <Compile Include="UserControls\HorizontalLabeledColorSelector.xaml.cs" />
     <Compile Include="UserControls\HorizontalLabeledComboBox.xaml.cs" />
