@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -504,47 +505,86 @@ namespace iCon_General
                 Console.WriteLine("Remote build path: " + totalBuildPath);
                 Console.Write("Check remote executables ... ");
                 bool buildRequired = true;
-                
-                // Check job base folder first
-                if (cluster.Exists(simExePath) && cluster.Exists(searchExePath))
+
+                // The try-catch clause is just for the Exists and ExecuteCommandSilent requests
+                try
                 {
-                    Version sim_version = new Version(
-                        cluster.ExecuteCommandSilent(e, "\"" + simExePath + "\" -version"));
-
-                    Version search_version = new Version(
-                        cluster.ExecuteCommandSilent(e, "\"" + searchExePath + "\" -version"));
-
-                    Version req_version = Assembly.GetExecutingAssembly().GetName().Version;
-                    if ((sim_version >= req_version) && (search_version >= req_version))
-                    {
-                        buildRequired = false;
-                        Console.WriteLine("OK.");
-                    }
-                }
-
-                // Check build folder (and copy eventually)
-                if (buildRequired == true)
-                {
-                    if (cluster.Exists(simExeBuildPath) && cluster.Exists(searchExeBuildPath))
+                    // Check job base folder first
+                    if (cluster.Exists(simExePath) && cluster.Exists(searchExePath))
                     {
                         Version sim_version = new Version(
-                        cluster.ExecuteCommandSilent(e, "\"" + simExeBuildPath + "\" -version"));
+                            cluster.ExecuteCommandSilent(e, "\"" + simExePath + "\" -version"));
 
                         Version search_version = new Version(
-                            cluster.ExecuteCommandSilent(e, "\"" + searchExeBuildPath + "\" -version"));
+                            cluster.ExecuteCommandSilent(e, "\"" + searchExePath + "\" -version"));
 
                         Version req_version = Assembly.GetExecutingAssembly().GetName().Version;
                         if ((sim_version >= req_version) && (search_version >= req_version))
                         {
-                            if (!cluster.ExecuteCommand(e, "cp -p \"" + simExeBuildPath + "\" \"" + simExePath + "\"")) return;
-                            if (!cluster.ExecuteCommand(e, "cp -p \"" + searchExeBuildPath + "\" \"" + searchExePath + "\"")) return;
-
                             buildRequired = false;
                             Console.WriteLine("OK.");
                         }
-                        else Console.WriteLine("Old version.");
                     }
-                    else Console.WriteLine("Not found.");
+
+                    // Check build folder (and copy eventually)
+                    if (buildRequired == true)
+                    {
+                        if (cluster.Exists(simExeBuildPath) && cluster.Exists(searchExeBuildPath))
+                        {
+                            Version sim_version = new Version(
+                            cluster.ExecuteCommandSilent(e, "\"" + simExeBuildPath + "\" -version"));
+
+                            Version search_version = new Version(
+                                cluster.ExecuteCommandSilent(e, "\"" + searchExeBuildPath + "\" -version"));
+
+                            Version req_version = Assembly.GetExecutingAssembly().GetName().Version;
+                            if ((sim_version >= req_version) && (search_version >= req_version))
+                            {
+                                if (!cluster.ExecuteCommand(e, "cp -p \"" + simExeBuildPath + "\" \"" + simExePath + "\"")) return;
+                                if (!cluster.ExecuteCommand(e, "cp -p \"" + searchExeBuildPath + "\" \"" + searchExePath + "\"")) return;
+
+                                buildRequired = false;
+                                Console.WriteLine("OK.");
+                            }
+                            else Console.WriteLine("Old version.");
+                        }
+                        else Console.WriteLine("Not found.");
+                    }
+                }
+                catch (SshConnectionException ex)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Error: " + ex.Message);
+                    e.Result = new BWorkerResultMessage("SSH Error", "SSH connection is invalid\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return;
+                }
+                catch (SftpPermissionDeniedException ex)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Error: " + ex.Message);
+                    e.Result = new BWorkerResultMessage("SFTP Error", "SFTP permission denied\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return;
+                }
+                catch (SshException ex)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Error: " + ex.Message);
+                    e.Result = new BWorkerResultMessage("SSH Error", "An SSH error occured\n(see console for details)\n",
+                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    return;
+                }
+                catch (ArgumentNullException ex)
+                {
+                    if (e.Result == null)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("Error: " + ex.Message);
+                        e.Result = new BWorkerResultMessage("SSH Error", "Failed to retrieve version number\n(see console for details)\n",
+                            ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    }
+                    return;
                 }
 
                 if (BWorker.CancellationPending == true) { e.Cancel = true; return; }

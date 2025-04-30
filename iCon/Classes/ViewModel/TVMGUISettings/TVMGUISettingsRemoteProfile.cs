@@ -165,7 +165,7 @@ namespace iCon_General
         /// <summary>
         /// Port that is used to connect to the cluster
         /// </summary>
-        [IntRange(0, true, 70000, true, ErrorMessage = "Port number has to be in the interval [0, 70000].")]
+        [IntRange(0, true, 65535, true, ErrorMessage = "Port number has to be in the interval [0, 65535].")]
         public int HostPort
         {
             get
