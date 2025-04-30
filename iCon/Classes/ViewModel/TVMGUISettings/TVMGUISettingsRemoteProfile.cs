@@ -101,7 +101,7 @@ namespace iCon_General
             }
             set
             {
-                ValidateNotify("Name", value, ref _Name);
+                ValidateNotify("Name", value.Trim(), ref _Name);
             }
         }
 
@@ -119,7 +119,7 @@ namespace iCon_General
             }
             set
             {
-                ValidateNotify("RemoteWorkspace", value, ref _RemoteWorkspace);
+                ValidateNotify("RemoteWorkspace", value.Trim(), ref _RemoteWorkspace);
             }
         }
 
@@ -138,7 +138,7 @@ namespace iCon_General
             }
             set
             {
-                ValidateNotify("RemoteBuildDir", value, ref _RemoteBuildDir);
+                ValidateNotify("RemoteBuildDir", value.Trim(), ref _RemoteBuildDir);
             }
         }
 
@@ -147,8 +147,8 @@ namespace iCon_General
         /// Adress of the cluster (e.g. IP)
         /// </summary>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter valid remote host adress.")]
-        [StringLength(100, ErrorMessage = "Remote host adress has to contain 100 characters or less.")]
-        [RegularExpression(@"^[A-Za-z0-9_/~\.\-\(\)\s]*$", ErrorMessage = @"Allowed characters: a-z, A-Z, 0-9, _~./-() and space.")]
+        [StringLength(253, ErrorMessage = "Remote host adress has to contain 253 characters or less.")]
+        [RegularExpression(@"^[A-Za-z0-9_\.\-]*$", ErrorMessage = @"Allowed characters: a-z, A-Z, 0-9, _.-.")]
         public string HostAdress
         {
             get
@@ -157,7 +157,7 @@ namespace iCon_General
             }
             set
             {
-                ValidateNotify("HostAdress", value, ref _HostAdress);
+                ValidateNotify("HostAdress", value.Trim(), ref _HostAdress);
             }
         }
 
@@ -193,7 +193,7 @@ namespace iCon_General
             }
             set
             {
-                ValidateNotify("Username", value, ref _Username);
+                ValidateNotify("Username", value.Trim(), ref _Username);
             }
         }
 
