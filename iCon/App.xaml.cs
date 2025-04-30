@@ -54,7 +54,7 @@ namespace iCon_General
             app_wnd.Show();
         }
 
-#region ISingleInstanceApp Implementation
+        #region ISingleInstanceApp Implementation
 
         /// <summary>
         /// This method gets called when a second instance is opened
@@ -75,9 +75,9 @@ namespace iCon_General
             return true;
         }
 
-#endregion ISingleInstanceApp Implementation
+        #endregion ISingleInstanceApp Implementation
 
-#region Unhandled Exceptions
+        #region Unhandled Exceptions
 
         /// <summary>
         /// Catches unhandled exceptions on main UI thread
@@ -86,13 +86,14 @@ namespace iCon_General
         {
             // Create error text
             Exception curr_exept = e.Exception;
-            string ErrorMsg = "iCon-Exception (" + DateTime.Now.ToString() + "): " + curr_exept.Message;
+            string ErrorMsg = "iCon-Exception on main UI thread (" + DateTime.Now.ToString() + ") = "
+                + curr_exept.GetType().Name + ": " + curr_exept.Message;
             string PreSpace = "";
             while (curr_exept.InnerException != null)
             {
                 curr_exept = curr_exept.InnerException;
                 PreSpace += "  ";
-                ErrorMsg += Environment.NewLine + PreSpace + "-> " + curr_exept.Message;
+                ErrorMsg += Environment.NewLine + PreSpace + "-> " + curr_exept.GetType().Name + ": " + curr_exept.Message;
             }
 
             // Notify user
@@ -117,13 +118,14 @@ namespace iCon_General
         {
             // Create error text
             Exception curr_exept = (Exception)e.ExceptionObject;
-            string ErrorMsg = "iCon-Exception (" + DateTime.Now.ToString() + "): " + curr_exept.Message;
+            string ErrorMsg = "iCon-Exception (" + DateTime.Now.ToString() + ") = "
+                + curr_exept.GetType().Name + ": " + curr_exept.Message;
             string PreSpace = "";
             while (curr_exept.InnerException != null)
             {
                 curr_exept = curr_exept.InnerException;
                 PreSpace += "  ";
-                ErrorMsg += Environment.NewLine + PreSpace + "-> " + curr_exept.Message;
+                ErrorMsg += Environment.NewLine + PreSpace + "-> " + curr_exept.GetType().Name + ": " + curr_exept.Message;
             }
 
             // Notify user
@@ -145,13 +147,14 @@ namespace iCon_General
         {
             // Create error text
             Exception curr_exept = e.Exception;
-            string ErrorMsg = "iCon-Exception (" + DateTime.Now.ToString() + "): " + curr_exept.Message + Environment.NewLine;
+            string ErrorMsg = "iCon-Exception (" + DateTime.Now.ToString() + ") = "
+                + curr_exept.GetType().Name + ": " + curr_exept.Message + Environment.NewLine;
             string PreSpace = "";
             while (curr_exept.InnerException != null)
             {
                 curr_exept = curr_exept.InnerException;
                 PreSpace += "  ";
-                ErrorMsg += PreSpace + "-> " + curr_exept.Message + Environment.NewLine;
+                ErrorMsg += PreSpace + "-> " + curr_exept.GetType().Name + ": " + curr_exept.Message + Environment.NewLine;
             }
 
             // Create app data folder if necessary
@@ -164,11 +167,7 @@ namespace iCon_General
             File.AppendAllText(LogPath, ErrorMsg);
         }
 
-#endregion Unhandled Exceptions
-   
-    
+        #endregion Unhandled Exceptions
+
     }
-
-
-
 }
