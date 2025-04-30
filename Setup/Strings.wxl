@@ -1,0 +1,38 @@
+﻿<!-- Copyright (c) P. Hein, IPC, RWTH Aachen University. -->
+<!-- Distributed under GPL v3 license (see LICENSE.txt file in the solution root folder). -->
+
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl">
+	<String Id="AppName" 
+			Value="iCon" />
+	
+	<String Id="AppManufacturer" 
+			Value="Workgroup Martin, IPC, RWTH Aachen University" />
+
+	<String Id="InstallerName" 
+			Value="Installer" />
+	
+	<String Id="InstallerComment" 
+			Value="All rights reserved by Workgroup Martin, IPC, RWTH Aachen University" />
+	
+	<String Id="DowngradeErrorMessage" 
+			Value="A newer version of iCon is already installed." />
+	
+	<String Id="WinVersionMessage" 
+			Value="This application is only supported on Windows 7 or higher." />
+	
+	<String Id="NETFrameworkMessage" 
+			Value="This application requires .NET Framework 4.8 or later. Please install the .NET Framework and run this installer again." />
+
+	<String Id="VCRedistMessage"
+			Value="This application requires Microsoft Visual C++ 2015-2022 (x86) Redistributable 14.30 or later. Please install the Visual C++ Redistributable (x86, even on x64 systems) and run this installer again."/>
+	
+	<String Id="BasicFeatureTitle" 
+			Value="iCon Program" />
+
+	<String Id="UninstallShortcutTitle" 
+			Value="Uninstall iCon" />
+	
+	<String Id="UninstallShortcutDescription" 
+			Value="Uninstalls iCon application." />
+	
+</WixLocalization>

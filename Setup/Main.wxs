@@ -1,67 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-	<Product Id="631161FC-9054-4683-9630-5B9DDC6957FB" 
-           Name="!(loc.AppName)" 
-           Manufacturer="!(loc.AppManufacturer)"
-           Language="1033"
-           Codepage="1252"
-           Version="!(bind.fileVersion.iCon.exe)"  
-           UpgradeCode="12F30CFF-C4EA-49C4-9B05-3D54AE7E5F61">
+﻿<!-- Copyright (c) P. Hein, IPC, RWTH Aachen University. -->
+<!-- Distributed under GPL v3 license (see LICENSE.txt file in the solution root folder). -->
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+	 xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+	<Package Name="!(loc.AppName)" 
+			 Manufacturer="!(loc.AppManufacturer)" 
+			 Language="1033" 
+			 Version="!(bind.FileVersion.iCon.exe)" 
+			 UpgradeCode="12F30CFF-C4EA-49C4-9B05-3D54AE7E5F61" 
+			 ProductCode="631161FC-9054-4683-9630-5B9DDC6957FB">
+		
+		<SummaryInformation Keywords="!(loc.InstallerName)" 
+							Description="!(loc.AppName) !(bind.FileVersion.iCon.exe) !(loc.InstallerName)" 
+							Manufacturer="!(loc.AppManufacturer)"
+							Comments="!(loc.InstallerComment)" />
+
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
     
-		<Package Id="*" 
-             Keywords="!(loc.InstallerName)"
-             Description="!(loc.AppName) !(bind.fileVersion.iCon.exe) !(loc.InstallerName)"
-             Manufacturer="!(loc.AppManufacturer)"
-             Comments="!(loc.InstallerComment)"
-             InstallerVersion="500" 
-             Languages="1033"
-             SummaryCodepage="1252"
-             Compressed="yes" 
-             InstallScope="perMachine"/>
+		<MediaTemplate EmbedCab="yes" />
 
-		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)"/>
-    
-		<MediaTemplate EmbedCab="yes"/>
+		<Icon Id="ApplicationIcon.exe" 
+			  SourceFile="$(iCon.TargetDir)Resources\ApplicationIcon.ico" />
+		<Property Id="ARPPRODUCTICON" Value="ApplicationIcon.exe" />
+		
+		<!-- Setup-UI -->
+		<ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+		<WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+		<WixVariable Id="WixUIBannerBmp" Value="TopBanner.jpg" />
+		<WixVariable Id="WixUIDialogBmp" Value="SideBanner.jpg" />
+		
+		<!-- Requires Windows 7 or higher -->
+		<Launch Condition="Installed OR (VersionNT &gt;= 601)" 
+				Message="!(loc.WinVersionMessage)" />
 
-    <Icon Id="ApplicationIcon.ico"
-          SourceFile="$(var.iCon.TargetDir)Resources\ApplicationIcon.ico"/>
-    
-    <Condition Message="!(loc.WinVersionMessage)">
-      <![CDATA[Installed OR (VersionNT &gt;= 601)]]>
-    </Condition>
+		<!-- Requires .NET framework 4.8 or higher -->
+		<PropertyRef Id="WIX_IS_NETFRAMEWORK_48_OR_LATER_INSTALLED" />
+		<Launch Condition="Installed OR WIX_IS_NETFRAMEWORK_48_OR_LATER_INSTALLED" 
+				Message="!(loc.NETFrameworkMessage)" />
 
-    <PropertyRef Id="WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED"/>
+		<!-- Requires C++ runtime distributables v143 or higher -->
+		<!-- UpgradeCode for vc_redist.x86.exe: 65E5BD06-6392-3027-8C26-853107D3CF1A -->
+		<!-- UpgradeCode for vc_redist.x64.exe: 36F68A90-239C-34DF-B58C-64B30153CE35 -->
+		<Upgrade Id="65E5BD06-6392-3027-8C26-853107D3CF1A">
+			<UpgradeVersion OnlyDetect="yes" 
+							Property="IS_VCREDIST_X86_INSTALLED" 
+							Minimum="14.30.0.0" />
+		</Upgrade>
+		<Launch Condition="Installed OR IS_VCREDIST_X86_INSTALLED" 
+				Message="!(loc.VCRedistMessage)" />
 
-    <Condition Message="!(loc.NETFrameworkMessage)">
-      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED]]>
-    </Condition>
-
-    <DirectoryRef Id="TARGETDIR">
-      <Merge Id="VCRedist"
-             SourceFile="$(var.iCon.TargetDir)MergeModules\Microsoft_VC120_CRT_x86.msm"
-             DiskId="1"
-             Language="0"/>
-    </DirectoryRef>
-
-    <Feature Id="VCRedist"
-             Title="!(loc.VCRedistFeatureTitle)"
-             AllowAdvertise="no"
-             Display="hidden"
-             Level="1">
-      <MergeRef Id="VCRedist"/>
-    </Feature>
-
+		<!-- Features -->
 		<Feature Id="BasicFeature" 
-             Title="!(loc.BasicFeatureTitle)" 
-             AllowAdvertise="no"
-             Absent="disallow"
-             Level="1">
-			<ComponentGroupRef Id="BaseComponents"/>
-            <ComponentGroupRef Id="SimComponents"/>
-            <ComponentGroupRef Id="SearchComponents"/>
-            <ComponentGroupRef Id="LSF_SimScriptComponents"/>
-            <ComponentGroupRef Id="SGE_SimScriptComponents"/>
+				 Title="!(loc.BasicFeatureTitle)" 
+				 AllowAdvertise="no" 
+				 Level="1" 
+				 AllowAbsent="no">
+			<ComponentGroupRef Id="BaseComponents" />
+            <ComponentGroupRef Id="ScriptComponents" />
 		</Feature>
-	</Product>
+	
+    </Package>
 </Wix>

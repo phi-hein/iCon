@@ -1,207 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<!-- Copyright (c) P. Hein, IPC, RWTH Aachen University. -->
+<!-- Distributed under GPL v3 license (see LICENSE.txt file in the solution root folder). -->
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 	<Fragment>
-    <ComponentGroup Id="BaseComponents" 
-                    Directory="INSTALLFOLDER">
+    <ComponentGroup Id="BaseComponents" Directory="INSTALLFOLDER">
       
-      <Component Id="iCon.exe" Guid="84B588AE-FD82-41BE-B25F-FF9D2BF66CE1">
-        <File Id="iCon.exe"
-              Source="$(var.iCon.TargetDir)iCon.exe"
-              KeyPath="yes"
-              Checksum="yes">
-          <Shortcut Id="StartMenuExeShortcut"
-                    Name="!(loc.AppName)"
-                    Directory="StartFolder"
-                    WorkingDirectory="INSTALLFOLDER"
-                    Icon="ApplicationIcon.ico"
-                    IconIndex="0"
-                    Advertise="yes"/>
-          <Shortcut Id="DesktopExeShortcut"
-                    Name="!(loc.AppName)"
-                    Directory="DesktopFolder"
-                    WorkingDirectory="INSTALLFOLDER"
-                    Icon="ApplicationIcon.ico"
-                    IconIndex="0"
-                    Advertise="yes"/>
-        </File>
-        <RemoveFolder Id="StartFolder" Directory="StartFolder" On="uninstall"/>
-      </Component>
+        <Component>
+            <File Id="iCon.exe" 
+			      Source="$(iCon.TargetDir)iCon.exe" 
+			      KeyPath="yes" 
+			      Checksum="yes">
+                <Shortcut Name="!(loc.AppName)" 
+				          Directory="ProgramMenuFolder" 
+				          WorkingDirectory="INSTALLFOLDER" 
+				          Icon="ApplicationIcon.exe" 
+				          IconIndex="0" 
+				          Advertise="yes" />
+            </File>
+        </Component>
+
+		<File Source="$(iCon.TargetDir)iCon.exe.config" />
+
+        <Files Include="$(iCon.TargetDir)*.dll" />
+
+		<File Source="$(iCon.TargetDir)iConSimulator_Win.exe" Checksum="yes" />
+		<File Source="$(iCon.TargetDir)iConSearcher_Win.exe" Checksum="yes" />
+
+		<File Source="$(iCon.TargetDir)Source.zip" />
       
-      <Component Id="HelixToolkit.dll" Guid="26A82F29-FB63-40AC-BE65-CC7FDDD25209">
-        <File Id="HelixToolkit.dll"
-              Source="$(var.iCon.TargetDir)HelixToolkit.dll"
-              KeyPath="yes"/>
-      </Component>
+        <File Source="$(iCon.TargetDir)ElementsDrawInfo.ini" />
+
+		<File Source="LICENSE.rtf" />
+		
+	</ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+    <ComponentGroup Id="ScriptComponents" Directory="ScriptsFolder">
+
+        <Files Include="$(iCon.TargetDir)DefaultScripts\*" />
       
-      <Component Id="HelixToolkit.Wpf.dll" Guid="8F6094B1-8A21-494E-82CB-A6B9AEE2D697">
-        <File Id="HelixToolkit.Wpf.dll"
-              Source="$(var.iCon.TargetDir)HelixToolkit.Wpf.dll"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="Renci.SshNet.dll" Guid="BACF41F2-F705-4204-8C65-5EE619C1F72F">
-        <File Id="Renci.SshNet.dll"
-              Source="$(var.iCon.TargetDir)Renci.SshNet.dll"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="Xceed.Wpf.Toolkit.dll" Guid="4243CC75-C0A7-401D-A9BE-E98165EB52FB">
-        <File Id="Xceed.Wpf.Toolkit.dll"
-              Source="$(var.iCon.TargetDir)Xceed.Wpf.Toolkit.dll"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="MCJob_UDLL.dll" Guid="9204C438-A110-48FC-8209-8B947951D571">
-        <File Id="MCJob_UDLL.dll"
-              Source="$(var.iCon.TargetDir)MCJob_UDLL.dll"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="MCJob_MDLL.dll" Guid="896AAE5E-1F4F-4669-80A2-33314F38FDC1">
-        <File Id="MCJob_MDLL.dll"
-              Source="$(var.iCon.TargetDir)MCJob_MDLL.dll"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="MCMisc_UDLL.dll" Guid="C8AC0C3D-FE59-4365-BBDE-2DCC20A5B057">
-        <File Id="MCMisc_UDLL.dll"
-              Source="$(var.iCon.TargetDir)MCMisc_UDLL.dll"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="MCMisc_MDLL.dll" Guid="163948F7-4D9E-4F45-87F5-D7E31499C255">
-        <File Id="MCMisc_MDLL.dll"
-              Source="$(var.iCon.TargetDir)MCMisc_MDLL.dll"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="ElementsDrawInfo.ini" Guid="3AB3E8AD-BE81-421D-B636-15CC6130A1AB">
-        <File Id="ElementsDrawInfo.ini"
-              Source="$(var.iCon.TargetDir)ElementsDrawInfo.ini"
-              KeyPath="yes"/>
-      </Component>
     </ComponentGroup>
-	</Fragment>
+    </Fragment>
 
-  <Fragment>
-    <ComponentGroup Id="SimComponents"
-                    Directory="SimFolder">
-
-      <Component Id="iConSimulator_Win.exe" Guid="371BE8AA-82F7-4730-823B-4899A4D95AC9">
-        <File Id="iConSimulator_Win.exe"
-              Source="$(var.iCon.TargetDir)SimExecutables\iConSimulator_Win.exe"
-              KeyPath="yes"
-              Checksum="yes"/>
-      </Component>
-
-      <Component Id="iConSimulator_Lin_x86_64_amd_k10.exe" Guid="720066F2-7CD3-4C7F-B1C4-8A2020825327">
-        <File Id="iConSimulator_Lin_x86_64_amd_k10.exe"
-              Source="$(var.iCon.TargetDir)SimExecutables\iConSimulator_Lin_x86_64_amd_k10.exe"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="iConSimulator_Lin_x86_64_amd_piledriver.exe" Guid="C636159A-A522-49C3-9795-FCB354D9CC52">
-        <File Id="iConSimulator_Lin_x86_64_amd_piledriver.exe"
-              Source="$(var.iCon.TargetDir)SimExecutables\iConSimulator_Lin_x86_64_amd_piledriver.exe"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="iConSimulator_Lin_x86_64_intel_ivybridge.exe" Guid="9AD09224-7A83-426F-AB25-CE8D6531F3BD">
-        <File Id="iConSimulator_Lin_x86_64_intel_ivybridge.exe"
-              Source="$(var.iCon.TargetDir)SimExecutables\iConSimulator_Lin_x86_64_intel_ivybridge.exe"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="iConSimulator_Lin_x86_64_intel_nehalem.exe" Guid="4837FD3D-D54C-4414-8E98-FB74C576F32E">
-        <File Id="iConSimulator_Lin_x86_64_intel_nehalem.exe"
-              Source="$(var.iCon.TargetDir)SimExecutables\iConSimulator_Lin_x86_64_intel_nehalem.exe"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="iConSimulator_Lin_x86_64_intel_westmere.exe" Guid="16777B07-1374-418C-A323-185C7342397C">
-        <File Id="iConSimulator_Lin_x86_64_intel_westmere.exe"
-              Source="$(var.iCon.TargetDir)SimExecutables\iConSimulator_Lin_x86_64_intel_westmere.exe"
-              KeyPath="yes"/>
-      </Component>
-    </ComponentGroup>
-  </Fragment>
-
-  <Fragment>
-    <ComponentGroup Id="SearchComponents"
-                    Directory="SearchFolder">
-
-      <Component Id="iConSearcher_Win.exe" Guid="809934B6-790C-4B78-AE88-8C8FFB46C7E5">
-        <File Id="iConSearcher_Win.exe"
-              Source="$(var.iCon.TargetDir)SearchExecutables\iConSearcher_Win.exe"
-              KeyPath="yes"
-              Checksum="yes"/>
-      </Component>
-
-      <Component Id="iConSearcher_Lin_x86_64_amd_k10.exe" Guid="32E3FA42-2B3F-4AD5-A9EE-E2065A15CBB8">
-        <File Id="iConSearcher_Lin_x86_64_amd_k10.exe"
-              Source="$(var.iCon.TargetDir)SearchExecutables\iConSearcher_Lin_x86_64_amd_k10.exe"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="iConSearcher_Lin_x86_64_amd_piledriver.exe" Guid="8482E22B-8029-4CDB-8AA9-D4871C6F5031">
-        <File Id="iConSearcher_Lin_x86_64_amd_piledriver.exe"
-              Source="$(var.iCon.TargetDir)SearchExecutables\iConSearcher_Lin_x86_64_amd_piledriver.exe"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="iConSearcher_Lin_x86_64_intel_ivybridge.exe" Guid="277B3064-084B-4DF4-AD17-520527E59AAF">
-        <File Id="iConSearcher_Lin_x86_64_intel_ivybridge.exe"
-              Source="$(var.iCon.TargetDir)SearchExecutables\iConSearcher_Lin_x86_64_intel_ivybridge.exe"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="iConSearcher_Lin_x86_64_intel_nehalem.exe" Guid="DBA9DF56-E67D-4865-8244-8CF94BA81FC5">
-        <File Id="iConSearcher_Lin_x86_64_intel_nehalem.exe"
-              Source="$(var.iCon.TargetDir)SearchExecutables\iConSearcher_Lin_x86_64_intel_nehalem.exe"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="iConSearcher_Lin_x86_64_intel_westmere.exe" Guid="8E142F15-8E16-4D9D-B116-A9A5D1F6F43B">
-        <File Id="iConSearcher_Lin_x86_64_intel_westmere.exe"
-              Source="$(var.iCon.TargetDir)SearchExecutables\iConSearcher_Lin_x86_64_intel_westmere.exe"
-              KeyPath="yes"/>
-      </Component>
-    </ComponentGroup>
-  </Fragment>
-
-  <Fragment>
-    <ComponentGroup Id="LSF_SimScriptComponents"
-                    Directory="LSF_SimScriptFolder">
-
-      <Component Id="LSF_JobScript" Guid="F41BFFA9-F41E-4F09-BF01-A277F2342071">
-        <File Id="LSF_JobScript"
-              Source="$(var.iCon.TargetDir)SimScripts\LSF Queue System\JobScript"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="LSF_SubmitScript" Guid="EB9F6DC9-9B5E-471F-A1C0-CA55C94DEAD4">
-        <File Id="LSF_SubmitScript"
-              Source="$(var.iCon.TargetDir)SimScripts\LSF Queue System\SubmitScript"
-              KeyPath="yes"/>
-      </Component>
-    </ComponentGroup>
-  </Fragment>
-
-  <Fragment>
-    <ComponentGroup Id="SGE_SimScriptComponents"
-                    Directory="SGE_SimScriptFolder">
-
-      <Component Id="SGE_JobScript" Guid="E6A7D1E9-BCFC-4017-B13A-0DA858453C7F">
-        <File Id="SGE_JobScript"
-              Source="$(var.iCon.TargetDir)SimScripts\SGE Queue System\JobScript"
-              KeyPath="yes"/>
-      </Component>
-
-      <Component Id="SGE_SubmitScript" Guid="CE68ADF7-207E-4074-8D34-FCCD136FEE43">
-        <File Id="SGE_SubmitScript"
-              Source="$(var.iCon.TargetDir)SimScripts\SGE Queue System\SubmitScript"
-              KeyPath="yes"/>
-      </Component>
-    </ComponentGroup>
-  </Fragment>
 </Wix>

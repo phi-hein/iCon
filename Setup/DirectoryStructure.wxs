@@ -1,23 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<!-- Copyright (c) P. Hein, IPC, RWTH Aachen University. -->
+<!-- Distributed under GPL v3 license (see LICENSE.txt file in the solution root folder). -->
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 	<Fragment>
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
+      <StandardDirectory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="!(loc.AppName)">
-          <Directory Id="SimFolder" Name="SimExecutables"/>
-          <Directory Id="SearchFolder" Name="SearchExecutables"/>
-          <Directory Id="SimScriptFolder" Name="SimScripts">
-            <Directory Id="LSF_SimScriptFolder" Name="LSF Queue System"/>
-            <Directory Id="SGE_SimScriptFolder" Name="SGE Queue System"/>
-          </Directory>
+          <Directory Id="ScriptsFolder" Name="DefaultScripts" />
         </Directory>
-      </Directory>
-
-      <Directory Id="ProgramMenuFolder">
-        <Directory Id="StartFolder" Name="!(loc.AppName)"/>
-      </Directory>
-
-      <Directory Id="DesktopFolder"/>
-    </Directory>
-  </Fragment>
+      </StandardDirectory>
+    </Fragment>
 </Wix>
