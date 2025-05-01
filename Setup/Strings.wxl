@@ -18,7 +18,7 @@
 			Value="A newer version of iCon is already installed." />
 	
 	<String Id="WinVersionMessage" 
-			Value="This application is only supported on Windows 7 or higher." />
+			Value="This application is only supported on Windows 10 or higher." />
 	
 	<String Id="NETFrameworkMessage" 
 			Value="This application requires .NET Framework 4.8 or later. Please install the .NET Framework and run this installer again." />

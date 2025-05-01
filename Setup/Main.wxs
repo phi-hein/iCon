@@ -7,8 +7,7 @@
 			 Manufacturer="!(loc.AppManufacturer)" 
 			 Language="1033" 
 			 Version="!(bind.FileVersion.iCon.exe)" 
-			 UpgradeCode="12F30CFF-C4EA-49C4-9B05-3D54AE7E5F61" 
-			 ProductCode="631161FC-9054-4683-9630-5B9DDC6957FB">
+			 UpgradeCode="12F30CFF-C4EA-49C4-9B05-3D54AE7E5F61">
 		
 		<SummaryInformation Keywords="!(loc.InstallerName)" 
 							Description="!(loc.AppName) !(bind.FileVersion.iCon.exe) !(loc.InstallerName)" 
@@ -29,8 +28,8 @@
 		<WixVariable Id="WixUIBannerBmp" Value="TopBanner.jpg" />
 		<WixVariable Id="WixUIDialogBmp" Value="SideBanner.jpg" />
 		
-		<!-- Requires Windows 7 or higher -->
-		<Launch Condition="Installed OR (VersionNT &gt;= 601)" 
+		<!-- Requires Windows 10 or higher -->
+		<Launch Condition="Installed OR (VersionNT &gt;= 603)" 
 				Message="!(loc.WinVersionMessage)" />
 
 		<!-- Requires .NET framework 4.8 or higher -->

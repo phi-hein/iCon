@@ -77,7 +77,4 @@
     <PackageReference Include="WixToolset.NetFx.wixext" Version="6.0.0" />
     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="GUID_Repository.txt" />
-  </ItemGroup>
 </Project>
