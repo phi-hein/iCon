@@ -1,13 +1,14 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TConsoleWrapper											//
-//	Autor: Philipp Hein												//
-//	Datum: 15.09.2012												//
-//  Aufgabe:														//
-//    Managed C++/CLI-Assembly (Managed DLL) als Wrapper fuer die	//
-//	  TConsole-Klasse der unmanaged DLL								//
+//	Class: TConsoleWrapper											//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Managed C++/CLI assembly (managed DLL) as wrapper for the		//
+//	  TConsole class of the unmanaged DLL							//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -16,11 +17,12 @@
 
 // Includes:
 
-// Eigene Includes:
+// Own includes:
 #include "..\MCMisc_UDLL\TConsole\IConsole.h"
 
-// Klassendeklaration:
-public ref class TConsoleWrapper {
+// Class declaration:
+public ref class TConsoleWrapper 
+{
 protected:
 	IConsole * m_Console;
 
@@ -28,15 +30,15 @@ protected:
 	void String_U2M(std::string in_str, System::String ^ % out_str);
 
 public:
-	TConsoleWrapper();			// Constructor
+	TConsoleWrapper();		// Constructor
 	~TConsoleWrapper();		// Destructor
 	!TConsoleWrapper();		// Finalizer
 
-	int Show();										// Konsolenfenster anzeigen
-	int Hide();										// Konsolenfenster nicht anzeigen
-	int Status();									// Status ausgeben
-	int SetBufferSize(int Rows, int Columns);		// Groesse des Konsolenpuffers veraendern
-	int SetTitle(System::String ^Title);			// Konsolentitel setzen
+	int Show();										// Show console window
+	int Hide();										// Hide console window
+	int Status();									// Get console status
+	int SetBufferSize(int rows, int columns);		// Change size of console screen buffer
+	int SetTitle(System::String ^title);			// Set console window title
 };
 
 #endif

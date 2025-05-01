@@ -1,28 +1,35 @@
 // **************************************************************** //
 //																	//
-//	Klasse: IConsole												//
-//	Autor: Philipp Hein												//
-//	Datum: 15.09.2012												//
-//  Aufgabe:														//
-//    Abstract base class zur Abstraktion der internen Klassen von	//
-//	  den aufrufbaren Methoden (sodass kein Export aller internen	//
-//	  Klassen noetig)												//
+//	Class: IConsole													//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Abstract base class for separating internal classes from		//
+//	  callable methods (to avoid exposing of internal classes)		//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
-// Deklarierte Klasse:
+// Declared class:
 #include "TConsole\IConsole.h"
 
-// Eigene Includes:
+// Own includes:
 #include "TConsole\TConsole.h"
-
-using namespace std;
 
 #pragma comment (linker, "/export:CreateConsole=_CreateConsole@0")
 
-// Exportierte Funktion zur Erstellung einer Instanz der Klasse
+// Exported factory function for creating a TConsole object
 DECLSPEC IConsole * __stdcall CreateConsole () {
-	return new TConsole;
+	IConsole* o_Console = NULL;
+	try
+	{
+		o_Console = new TConsole;
+	}
+	catch (...)
+	{
+		return NULL;
+	}
+	return o_Console;
 }

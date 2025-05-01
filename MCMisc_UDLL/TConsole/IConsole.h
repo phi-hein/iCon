@@ -1,14 +1,14 @@
 // **************************************************************** //
 //																	//
-//	Klasse: IConsole												//
-//	Autor: Philipp Hein												//
-//	Datum: 15.09.2012												//
-//  Aufgabe:														//
-//    Abstract base class zur Abstraktion der internen Klassen von	//
-//	  den aufrufbaren Methoden (sodass kein Export aller internen	//
-//	  Klassen noetig)												//
+//	Class: IConsole													//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Abstract base class for separating internal classes from		//
+//	  callable methods (to avoid exposing of internal classes)		//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -24,21 +24,19 @@
 // Includes:
 #include <string>
 
-using namespace std;
-
-// Klassendeklaration:
+// Class declaration:
 struct IConsole {
-	// Deklaration der published-Member-Funktionen als pure virtual (d.h. virtual ... = 0)
-	virtual void Release () = 0;								// Wichtig: Destructor-Methode gegen Memory Leaks (Instance suicide)
+	// Declaration of published member functions as pure virtual (i.e. virtual ... = 0)
+	virtual void Release () = 0;								// Destructor method against memory leaks (instance suicide)
 
-	virtual int Show() = 0;										// Konsolenfenster anzeigen
-    virtual int Hide() = 0;										// Konsolenfenster nicht anzeigen
-    virtual int Status() = 0;									// Status ausgeben
-	virtual int SetBufferSize (int Rows, int Columns) = 0;		// Groesse des Konsolenpuffers veraendern
-	virtual int SetTitle (std::string Title) = 0;				// Konsolentitel setzen
+	virtual int Show() = 0;										// Show console window
+    virtual int Hide() = 0;										// Hide console window
+    virtual int Status() const = 0;								// Get console status
+	virtual int SetBufferSize(int rows, int columns) = 0;		// Change size of console screen buffer
+	virtual int SetTitle(std::string title) = 0;				// Set console window title
 };
 
-// Exportierte Funktion zur Erstellung einer Instanz der Klasse
+// Exported factory function for creating a TConsole object
 extern "C" DECLSPEC IConsole * __stdcall CreateConsole ();
 
 #endif
