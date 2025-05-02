@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.Win32;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace iCon_General
 {
@@ -241,17 +242,17 @@ namespace iCon_General
             int t_NextID = 0;
             if (_RemoteProfiles.Count > 0)
             {
-                t_NextID = _RemoteProfiles.Last<TVMGUISettingsRemoteProfile>().ID + 1;
+                t_NextID = _RemoteProfiles.Last().ID + 1;
             }
 
             // Add an new profile
             RemoteProfiles.Add(new TVMGUISettingsRemoteProfile(_ViewModel, t_NextID));
 
             // Load default scripts
-            RemoteProfiles.Last<TVMGUISettingsRemoteProfile>().LoadDefaultScripts();
+            RemoteProfiles.Last().LoadDefaultScripts();
 
             // Select the added profile
-            SelectedRemoteProfile = _RemoteProfiles.Last<TVMGUISettingsRemoteProfile>();
+            SelectedRemoteProfile = _RemoteProfiles.Last();
         }
 
         /// <summary>
@@ -274,13 +275,13 @@ namespace iCon_General
             if (_RemoteProfiles.Count >= ConstantsClass.MAX_REMOTEPROFILE_COUNT) return;
 
             // Determine next ID value
-            int t_NextID = _RemoteProfiles.Last<TVMGUISettingsRemoteProfile>().ID + 1;
+            int t_NextID = _RemoteProfiles.Last().ID + 1;
 
             // Add a copy of selected profile
             RemoteProfiles.Add(new TVMGUISettingsRemoteProfile(_ViewModel, _SelectedRemoteProfile, t_NextID));
 
             // Select the added profile
-            SelectedRemoteProfile = _RemoteProfiles.Last<TVMGUISettingsRemoteProfile>();
+            SelectedRemoteProfile = _RemoteProfiles.Last();
         }
 
         /// <summary>
@@ -468,7 +469,7 @@ namespace iCon_General
             }
 
             // Parse selected remote profile
-            int t_SelProfileID = 0;
+            int t_SelProfileID;
             try
             {
                 t_SelProfileID = int.Parse(t_SelectedRemoteProfile);
@@ -478,18 +479,51 @@ namespace iCon_General
                 throw new ApplicationException("Error during parsing of selected profile ID (TVMGUISettings.LoadFromIniFile)", e);
             }
 
-            // Load remote profiles
+            // Load remote profiles (and find selected profile)
             string[] t_ProfileFilepaths = GetRemoteProfilePaths();
             if (t_ProfileFilepaths.Length > ConstantsClass.MAX_REMOTEPROFILE_COUNT)
             {
                 throw new ApplicationException("Too many remote profiles (TVMGUISettings.LoadFromIniFile)");
             }
+            TVMGUISettingsRemoteProfile t_SelProfile = null;
             ObservableCollection<TVMGUISettingsRemoteProfile> t_Profiles = new ObservableCollection<TVMGUISettingsRemoteProfile>();
             for (int i = 0; i < t_ProfileFilepaths.Length; ++i)
             {
                 TVMGUISettingsRemoteProfile t_RemoteProfile = new TVMGUISettingsRemoteProfile(_ViewModel, 0);
                 t_RemoteProfile.LoadFromIniFile(t_ProfileFilepaths[i]);
                 t_Profiles.Add(t_RemoteProfile);
+
+                if (t_SelProfileID == t_Profiles[i].ID) t_SelProfile = t_Profiles[i];
+            }
+
+            // Check whether any profiles have the same ID (as a result of parsing directory name)
+            for (int i = 0; i < t_Profiles.Count; ++i)
+            {
+                for (int j = i + 1; j < t_Profiles.Count; ++j)
+                {
+                    if (t_Profiles[i].ID == t_Profiles[j].ID)
+                    {
+                        throw new ApplicationException("Duplicate profile IDs parsed from directory names (TVMGUISettings.LoadFromIniFile)");
+                    }
+                }
+            }
+
+            // Check whether any directory name differs from desired format and rename the directory accordingly
+            for (int i = 0; i < t_Profiles.Count; ++i)
+            {
+                string current_dir_path = Path.GetDirectoryName(t_ProfileFilepaths[i]);
+                string desired_dir_path = TVMGUISettingsRemoteProfile.GetBaseFolder(t_Profiles[i].ID);
+                if (Path.GetFullPath(current_dir_path) != Path.GetFullPath(desired_dir_path))
+                {
+                    if ((Directory.Exists(current_dir_path) == true) && (Directory.Exists(desired_dir_path) == false))
+                    {
+                        Directory.Move(current_dir_path, desired_dir_path);
+                    }
+                    else
+                    {
+                        throw new ApplicationException("Invalid remote profile directory layout (TVMGUISettings.LoadFromIniFile)");
+                    }
+                }
             }
 
             // Transfer data
@@ -497,20 +531,21 @@ namespace iCon_General
             LocalWorkspace = t_LocalWorkspace;
 
             // Select remote profile
-            if ((t_SelProfileID >= 0) && (t_SelProfileID < _RemoteProfiles.Count))
+            if (t_SelProfile != null)
+            {  
+                SelectedRemoteProfile = t_SelProfile;
+            }
+            else if ((t_SelProfileID >= 0) && (t_SelProfileID < _RemoteProfiles.Count))
             {
                 SelectedRemoteProfile = _RemoteProfiles[t_SelProfileID];
             }
+            else if (_RemoteProfiles.Count > 0)
+            {
+                SelectedRemoteProfile = _RemoteProfiles[0];
+            }
             else
             {
-                if (_RemoteProfiles.Count > 0)
-                {
-                    SelectedRemoteProfile = _RemoteProfiles[0];
-                }
-                else
-                {
-                    SelectedRemoteProfile = null;
-                }
+                SelectedRemoteProfile = null;
             }
 
             // Correct profile ordering and IDs
