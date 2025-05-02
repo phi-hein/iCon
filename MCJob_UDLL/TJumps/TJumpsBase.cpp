@@ -349,11 +349,11 @@ int TJumpsBase::SaveToStream (ostream &output, int offset) {
 	// Ausgabe der Sprunganzahlen pro Mov-Atom der Elementarzelle
 	int ID_space = IntToStr((int) Jumps.size()).length();
 	if (ID_space < (int) ((string) KMCOUT_TJUMPS_ATOMID).length()) ID_space = ((string) KMCOUT_TJUMPS_ATOMID).length();
-	int Count_space = ((string) KMCOUT_TJUMPS_COUNT).length();
+	int Count_space = KMCOUT_TJUMPS_COUNT.front().length();
 	for (int i = 0; i < (int) Jumps.size(); i++) {
 		if (Count_space < (int) IntToStr((int) Jumps[i].size()).length()) Count_space = IntToStr((int) Jumps[i].size()).length();
 	}
-	output << s_offset << sub_offset << setw(((string) KMCOUT_TJUMPS_JUMPCOUNT).length() + 1) << " ";
+	output << s_offset << sub_offset << setw(KMCOUT_TJUMPS_JUMPCOUNT.front().length() + 1) << " ";
 	output << setw(ID_space) << KMCOUT_TJUMPS_ATOMID << " " << setw(Count_space) << KMCOUT_TJUMPS_COUNT << endl;
 	for (int i = 0; i < (int) Jumps.size(); i++) {
 		output << s_offset << sub_offset << KMCOUT_TJUMPS_JUMPCOUNT << " ";

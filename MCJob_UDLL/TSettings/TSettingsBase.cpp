@@ -396,7 +396,7 @@ int TSettingsBase::SaveToStream (ostream &output, int offset) {
 	if (x_space < (int) ((string) KMCOUT_TSETTINGS_EFIELDX).length()) x_space = ((string) KMCOUT_TSETTINGS_EFIELDX).length();
 	if (y_space < (int) ((string) KMCOUT_TSETTINGS_EFIELDY).length()) y_space = ((string) KMCOUT_TSETTINGS_EFIELDY).length();
 	if (z_space < (int) ((string) KMCOUT_TSETTINGS_EFIELDZ).length()) z_space = ((string) KMCOUT_TSETTINGS_EFIELDZ).length();
-	output << s_offset << sub_offset << setw(((string) KMCOUT_TSETTINGS_EFIELD).length() + 1) << " " << "( ";
+	output << s_offset << sub_offset << setw(KMCOUT_TSETTINGS_EFIELD.front().length() + 1) << " " << "( ";
 	output << setw(x_space) << KMCOUT_TSETTINGS_EFIELDX << " ";
 	output << setw(y_space) << KMCOUT_TSETTINGS_EFIELDY << " ";
 	output << setw(z_space) << KMCOUT_TSETTINGS_EFIELDZ << " )" << endl;
@@ -407,14 +407,14 @@ int TSettingsBase::SaveToStream (ostream &output, int offset) {
 	// Ausgabe der Dotierkonzentrationen
 	if (DopandAnz.size() != 0) {
 		int ID_space = IntToStr(((int) DopandAnz.size()) - 1).length();
-		if (ID_space < (int) ((string) KMCOUT_TSETTINGS_DOPING).length()) ID_space = ((string) KMCOUT_TSETTINGS_DOPING).length();
+		if (ID_space < (int)KMCOUT_TSETTINGS_DOPING.front().length()) ID_space = KMCOUT_TSETTINGS_DOPING.front().length();
 		int conc_space = (int) output.precision() + 7;
-		if (conc_space < (int) ((string) KMCOUT_TSETTINGS_CONC).length()) conc_space = ((string) KMCOUT_TSETTINGS_CONC).length();
-		int anz_space = ((string) KMCOUT_TSETTINGS_ANZ).length();
+		if (conc_space < (int)KMCOUT_TSETTINGS_CONC.front().length()) conc_space = KMCOUT_TSETTINGS_CONC.front().length();
+		int anz_space = KMCOUT_TSETTINGS_ANZ.front().length();
 		for (int i = 0; i < (int) DopandAnz.size(); i++) {
 			if ((int) LongLongToStr(DopandAnz[i]).length() > anz_space) anz_space = LongLongToStr(DopandAnz[i]).length();
 		}
-		output << s_offset << sub_offset << setw(((string) KMCOUT_TSETTINGS_CONCENTRATION).length() + 1) << " ";
+		output << s_offset << sub_offset << setw(KMCOUT_TSETTINGS_CONCENTRATION.front().length() + 1) << " ";
 		output << setw(ID_space) << KMCOUT_TSETTINGS_DOPING << " ";
 		output << setw(conc_space) << KMCOUT_TSETTINGS_CONC << " ";
 		output << setw(anz_space) << KMCOUT_TSETTINGS_ANZ << endl;

@@ -449,7 +449,7 @@ int TJumpBase::SaveToStream (ostream &output, int AtomID, int DirID, int offset)
 	if (y_space < (int) ((string) KMCOUT_TJUMP_Y).length()) y_space = ((string) KMCOUT_TJUMP_Y).length();
 	if (z_space < (int) ((string) KMCOUT_TJUMP_Z).length()) z_space = ((string) KMCOUT_TJUMP_Z).length();
 	if (s_space < (int) ((string) KMCOUT_TJUMP_S).length()) s_space = ((string) KMCOUT_TJUMP_S).length();
-	output << s_offset << sub_offset << setw(((string) KMCOUT_TJUMP_STARTATOM).length() + 1) << " " << "( ";
+	output << s_offset << sub_offset << setw(KMCOUT_TJUMP_STARTATOM.front().length() + 1) << " " << "( ";
 	output << setw(x_space) << KMCOUT_TJUMP_X << " ";
 	output << setw(y_space) << KMCOUT_TJUMP_Y << " ";
 	output << setw(z_space) << KMCOUT_TJUMP_Z << " ";
@@ -468,7 +468,7 @@ int TJumpBase::SaveToStream (ostream &output, int AtomID, int DirID, int offset)
 	if (y_space < (int) ((string) KMCOUT_TJUMP_RELY).length()) y_space = ((string) KMCOUT_TJUMP_RELY).length();
 	if (z_space < (int) ((string) KMCOUT_TJUMP_RELZ).length()) z_space = ((string) KMCOUT_TJUMP_RELZ).length();
 	if (s_space < (int) ((string) KMCOUT_TJUMP_RELS).length()) s_space = ((string) KMCOUT_TJUMP_RELS).length();
-	output << s_offset << sub_offset << setw(((string) KMCOUT_TJUMP_DESTATOM).length() + 1) << " " << "( ";
+	output << s_offset << sub_offset << setw(KMCOUT_TJUMP_DESTATOM.front().length() + 1) << " " << "( ";
 	output << setw(x_space) << KMCOUT_TJUMP_RELX << " ";
 	output << setw(y_space) << KMCOUT_TJUMP_RELY << " ";
 	output << setw(z_space) << KMCOUT_TJUMP_RELZ << " ";
@@ -491,7 +491,7 @@ int TJumpBase::SaveToStream (ostream &output, int AtomID, int DirID, int offset)
 	}
 	int ID_space = IntToStr((int) EnvPos.size()).length();
 	if (ID_space < (int) ((string) KMCOUT_TJUMP_ENVATOMID).length()) ID_space = ((string) KMCOUT_TJUMP_ENVATOMID).length();
-	output << s_offset << sub_offset << setw(((string) KMCOUT_TJUMP_ENVATOM).length() + 1) << " ";
+	output << s_offset << sub_offset << setw(KMCOUT_TJUMP_ENVATOM.front().length() + 1) << " ";
 	output << setw(ID_space) << KMCOUT_TJUMP_ENVATOMID << " ( ";
 	output << setw(x_space) << KMCOUT_TJUMP_RELX << " ";
 	output << setw(y_space) << KMCOUT_TJUMP_RELY << " ";

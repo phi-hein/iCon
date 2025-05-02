@@ -462,7 +462,7 @@ int TElementsBase::SaveToStream(ostream& output, int offset)
 		if ((int)Name[i].length() > Name_space) Name_space = Name[i].length();
 	}
 	int Charge_space = (int)output.precision() + 7;
-	if (Charge_space < (int)((string)KMCOUT_TELEMENTS_CHARGE).length()) Charge_space = ((string)KMCOUT_TELEMENTS_CHARGE).length();
+	if (Charge_space < (int)KMCOUT_TELEMENTS_CHARGE.front().length()) Charge_space = KMCOUT_TELEMENTS_CHARGE.front().length();
 
 	// Ausgabe der Erkennungszeile und der Kopfzeile
 	output << s_offset << KMCOUT_TELEMENTS_START << endl;

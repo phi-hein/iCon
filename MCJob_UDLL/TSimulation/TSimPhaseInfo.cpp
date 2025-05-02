@@ -16,6 +16,7 @@
 
 // Includes:
 #include <sstream>
+#include <algorithm>
 
 // Eigene Includes:
 #include "GlobalDefinitions.h"
@@ -426,9 +427,8 @@ int TSimPhaseInfo::LoadFromStream(istream& input, int lattice_size, int stack_si
 			while (s_temp != KMCOUT_TSIMPHASEINFO_ATTEMPTPROB_END)
 			{
 				t_attemptprobs.push_back(TSimProb());
-				if (((size_t)t_attemptprobs.size() > (size_t)KMCVAL_TSETTINGS_MAX_PRERECORDANZ) &&
-					((size_t)t_attemptprobs.size() > (size_t)KMCVAL_TSETTINGS_MAX_NORMRECORDANZ) &&
-					((size_t)t_attemptprobs.size() > (size_t)KMCVAL_TSETTINGS_MAX_RECORDANZ))
+				if ((size_t)t_attemptprobs.size() > (size_t)std::max({ KMCVAL_TSETTINGS_MAX_PRERECORDANZ,
+					KMCVAL_TSETTINGS_MAX_NORMRECORDANZ, KMCVAL_TSETTINGS_MAX_RECORDANZ }))
 				{
 					if_failed = true;
 					break;
@@ -479,9 +479,8 @@ int TSimPhaseInfo::LoadFromStream(istream& input, int lattice_size, int stack_si
 			while (s_temp != KMCOUT_TSIMPHASEINFO_MCSPROB_END)
 			{
 				t_acceptedprobs.push_back(TSimProb());
-				if (((size_t)t_acceptedprobs.size() > (size_t)KMCVAL_TSETTINGS_MAX_PRERECORDANZ) &&
-					((size_t)t_acceptedprobs.size() > (size_t)KMCVAL_TSETTINGS_MAX_NORMRECORDANZ) &&
-					((size_t)t_acceptedprobs.size() > (size_t)KMCVAL_TSETTINGS_MAX_RECORDANZ))
+				if ((size_t)t_acceptedprobs.size() > (size_t)std::max({ KMCVAL_TSETTINGS_MAX_PRERECORDANZ,
+					KMCVAL_TSETTINGS_MAX_NORMRECORDANZ, KMCVAL_TSETTINGS_MAX_RECORDANZ }))
 				{
 					if_failed = true;
 					break;

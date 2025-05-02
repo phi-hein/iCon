@@ -16,6 +16,7 @@
 // Includes:
 #include <string>
 #include <string_view>
+#include <array>
 
 using namespace std::literals;
 
@@ -249,17 +250,17 @@ constexpr std::string_view KMCOUT_TKMCJOB_END = "</KMCJob>"sv;
 // Relativer Offset des untergeordneten Outputs
 constexpr int KMCOUT_TKMCJOB_OFFSET = 2;
 // Bezeichner fuer Projektname
-constexpr std::string_view KMCOUT_TKMCJOB_NAME = "Projektname:"sv;
+constexpr std::array KMCOUT_TKMCJOB_NAME = { "ProjectName:"sv, "Projektname:"sv };
 // Bezeichner fuer Username
 constexpr std::string_view KMCOUT_TKMCJOB_USERNAME = "User:"sv;
 // Bezeichner fuer Datum
-constexpr std::string_view KMCOUT_TKMCJOB_DATE = "Erstellungsdatum:"sv;
+constexpr std::array KMCOUT_TKMCJOB_DATE = { "CreationDate:"sv, "Erstellungsdatum:"sv };
 // Bezeichner fuer Projektpfad
-constexpr std::string_view KMCOUT_TKMCJOB_PATH = "Projektpfad:"sv;
+constexpr std::array KMCOUT_TKMCJOB_PATH = { "ProjectPath:"sv, "Projektpfad:"sv };
 // Bezeichner fuer Projektbeschreibungsstart
-constexpr std::string_view KMCOUT_TKMCJOB_DESCSTART = "<Projektbeschreibung>"sv;
+constexpr std::array KMCOUT_TKMCJOB_DESCSTART = { "<ProjectDescription>"sv, "<Projektbeschreibung>"sv };
 // Bezeichner fuer Projektbeschreibungsende
-constexpr std::string_view KMCOUT_TKMCJOB_DESCEND = "</Projektbeschreibung>"sv;
+constexpr std::array KMCOUT_TKMCJOB_DESCEND = { "</ProjectDescription>"sv, "</Projektbeschreibung>"sv };
 // Maximalanzahl an signifikanten Stellen von double-Variablen bei cout-Ausgabe von TKMCJob
 constexpr int KMCOUT_TKMCJOB_COUT_PRECISION = 6;
 
@@ -279,21 +280,21 @@ constexpr std::string_view KMCOUT_TELEMENTS_SYMBOL = "Symbol"sv;
 // Bezeichner fuer Name bei Stream-Ausgabe
 constexpr std::string_view KMCOUT_TELEMENTS_NAME = "Name"sv;
 // Bezeichner fuer Charge bei Stream-Ausgabe
-constexpr std::string_view KMCOUT_TELEMENTS_CHARGE = "Ladung"sv;
+constexpr std::array KMCOUT_TELEMENTS_CHARGE = { "Charge"sv, "Ladung"sv };
 // Maximalanzahl an signifikanten Stellen von double-Variablen bei cout-Ausgabe von TElements
 constexpr int KMCOUT_TELEMENTS_COUT_PRECISION = 6;
 
 // --- TStructure ---
 // Erkennungsstring fuer TStructure-Start
-constexpr std::string_view KMCOUT_TSTRUCTURE_START = "<StrukturInfo>"sv;
+constexpr std::array KMCOUT_TSTRUCTURE_START = { "<StructureInfo>"sv, "<StrukturInfo>"sv };
 // Erkennungsstring fuer TStructure-Ende
-constexpr std::string_view KMCOUT_TSTRUCTURE_END = "</StrukturInfo>"sv;
+constexpr std::array KMCOUT_TSTRUCTURE_END = { "</StructureInfo>"sv, "</StrukturInfo>"sv };
 // Relativer Offset des untergeordneten Outputs
 constexpr int KMCOUT_TSTRUCTURE_OFFSET = 2;
 // Bezeichner fuer Strukturname
 constexpr std::string_view KMCOUT_TSTRUCTURE_NAME = "Name:"sv;
 // Bezeichner fuer Basisvektoren
-constexpr std::string_view KMCOUT_TSTRUCTURE_BASIS = "Basisvektor:"sv;
+constexpr std::array KMCOUT_TSTRUCTURE_BASIS = { "LatticeVector:"sv, "Basisvektor:"sv };
 // Bezeichner fuer Basisvektor a
 constexpr std::string_view KMCOUT_TSTRUCTURE_BASISA = "a"sv;
 // Bezeichner fuer Basisvektor b
@@ -319,11 +320,11 @@ constexpr std::string_view KMCOUT_TSTRUCTURE_ZREL = "c"sv;
 // Bezeichner fuer ElemID
 constexpr std::string_view KMCOUT_TSTRUCTURE_ELEMID = "ElemID"sv;
 // Bezeichner fuer Dotierung
-constexpr std::string_view KMCOUT_TSTRUCTURE_DOPING = "Dotierung:"sv;
+constexpr std::array KMCOUT_TSTRUCTURE_DOPING = { "Doping:"sv, "Dotierung:"sv };
 // Bezeichner fuer Dotierungs-ID
 constexpr std::string_view KMCOUT_TSTRUCTURE_DOPINGID = "ID"sv;
 // Bezeichner fuer dotiertes Element
-constexpr std::string_view KMCOUT_TSTRUCTURE_DOPEDID = "DotiertID"sv;
+constexpr std::array KMCOUT_TSTRUCTURE_DOPEDID = { "DopedID"sv, "DotiertID"sv };
 // Bezeichner fuer Dopand
 constexpr std::string_view KMCOUT_TSTRUCTURE_DOPANDID = "DopandID"sv;
 // Bezeichner fuer Dopand-Leerstellen-Verhaeltnis
@@ -343,19 +344,19 @@ constexpr int KMCOUT_TJUMP_OFFSET = 2;
 // Bezeichner fuer Atom-ID
 constexpr std::string_view KMCOUT_TJUMP_ATOMID = "Atom="sv;
 // Bezeichner fuer Richtungs-ID
-constexpr std::string_view KMCOUT_TJUMP_DIRID = "Richtung="sv;
+constexpr std::array KMCOUT_TJUMP_DIRID = { "Direction="sv, "Richtung="sv };
 // Bezeichner fuer Ruecksprung-DirID
-constexpr std::string_view KMCOUT_TJUMP_BACKJUMPDIRID = "RuecksprungrichtungsID:"sv;
+constexpr std::array KMCOUT_TJUMP_BACKJUMPDIRID = { "BackjumpDirectionID:"sv, "RuecksprungrichtungsID:"sv };
 // Bezeichner fuer UniqueJump-ID
-constexpr std::string_view KMCOUT_TJUMP_UNIQUEID = "SprungID:"sv;
+constexpr std::array KMCOUT_TJUMP_UNIQUEID = { "JumpID:"sv, "SprungID:"sv };
 // Wert fuer undefinierte UniqueJump-ID
-constexpr std::string_view KMCOUT_TJUMP_UNIQUEID_UNDEF = "unbekannt"sv;
+constexpr std::array KMCOUT_TJUMP_UNIQUEID_UNDEF = { "undefined"sv, "unbekannt"sv };
 // Bezeichner fuer Startatom
-constexpr std::string_view KMCOUT_TJUMP_STARTATOM = "Startatom:"sv;
+constexpr std::array KMCOUT_TJUMP_STARTATOM = { "StartAtom:"sv, "Startatom:"sv };
 // Bezeichner fuer Zielatom
-constexpr std::string_view KMCOUT_TJUMP_DESTATOM = "Zielatom:"sv;
+constexpr std::array KMCOUT_TJUMP_DESTATOM = { "EndAtom:"sv, "Zielatom:"sv };
 // Bezeichner fuer Umgebungsatom
-constexpr std::string_view KMCOUT_TJUMP_ENVATOM = "Umgebungsatom:"sv;
+constexpr std::array KMCOUT_TJUMP_ENVATOM = { "EnvAtom:"sv, "Umgebungsatom:"sv };
 // Bezeichner fuer Umgebungsatom-ID
 constexpr std::string_view KMCOUT_TJUMP_ENVATOMID = "ID"sv;
 // Bezeichner fuer Atom-x-Koordinate in 4D
@@ -385,19 +386,19 @@ constexpr std::string_view KMCOUT_TJUMPS_END = "</JumpsInfo>"sv;
 // Relativer Offset des untergeordneten Outputs
 constexpr int KMCOUT_TJUMPS_OFFSET = 2;
 // Bezeichner fuer Sprungrichtungsschalen-Anzahl
-constexpr std::string_view KMCOUT_TJUMPS_MOVSHELLCOUNT = "Sprungrichtungsschalenanzahl:"sv;
+constexpr std::array KMCOUT_TJUMPS_MOVSHELLCOUNT = { "MovShellCount:"sv, "Sprungrichtungsschalenanzahl:"sv };
 // Bezeichner fuer Sprungumgebungsschalen-Anzahl
-constexpr std::string_view KMCOUT_TJUMPS_JUMPSTARTSHELLCOUNT = "Sprungstart-Umgebungsschalenanzahl:"sv;
+constexpr std::array KMCOUT_TJUMPS_JUMPSTARTSHELLCOUNT = { "EnvShellCount-Start:"sv, "Sprungstart-Umgebungsschalenanzahl:"sv };
 // Bezeichner fuer Sprungumgebungsschalen-Anzahl
-constexpr std::string_view KMCOUT_TJUMPS_JUMPTSSHELLCOUNT = "Sprungmitte-Umgebungsschalenanzahl:"sv;
+constexpr std::array KMCOUT_TJUMPS_JUMPTSSHELLCOUNT = { "EnvShellCount-Center:"sv, "Sprungmitte-Umgebungsschalenanzahl:"sv };
 // Bezeichner fuer Sprungumgebungsschalen-Anzahl
-constexpr std::string_view KMCOUT_TJUMPS_JUMPDESTSHELLCOUNT = "Sprungziel-Umgebungsschalenanzahl:"sv;
+constexpr std::array KMCOUT_TJUMPS_JUMPDESTSHELLCOUNT = { "EnvShellCount-End:"sv, "Sprungziel-Umgebungsschalenanzahl:"sv };
 // Bezeichner fuer Sprunganzahl
-constexpr std::string_view KMCOUT_TJUMPS_JUMPCOUNT = "Sprunganzahl:"sv;
+constexpr std::array KMCOUT_TJUMPS_JUMPCOUNT = { "JumpCount:"sv, "Sprunganzahl:"sv };
 // Bezeichner fuer AtomID
 constexpr std::string_view KMCOUT_TJUMPS_ATOMID = "AtomID"sv;
 // Bezeichner fuer Anzahl
-constexpr std::string_view KMCOUT_TJUMPS_COUNT = "Anzahl"sv;
+constexpr std::array KMCOUT_TJUMPS_COUNT = { "Count"sv, "Anzahl"sv };
 // Maximalanzahl an signifikanten Stellen von double-Variablen bei cout-Ausgabe von TJumps
 constexpr int KMCOUT_TJUMPS_COUT_PRECISION = 4;
 
@@ -413,15 +414,15 @@ constexpr int KMCOUT_TUNIQUEJUMP_OFFSET = 2;
 // Bezeichner fuer UniqueJump-ID
 constexpr std::string_view KMCOUT_TUNIQUEJUMP_JUMPID = "UniqueJump="sv;
 // Bezeichner fuer Sprunglänge
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_LENGTH = "Laenge:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_LENGTH = { "Length:"sv, "Laenge:"sv };
 // Bezeichner fuer Sprungaktivierungszustand
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_JUMPACTIVE = "Sprung-Zustand:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_JUMPACTIVE = { "JumpStatus:"sv, "Sprung-Zustand:"sv };
 // true-Bezeichner fuer JumpActive == true
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_JUMPACTIVE_TRUE = "aktiv"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_JUMPACTIVE_TRUE = { "active"sv, "aktiv"sv };
 // false-Bezeichner fuer JumpActive == false
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_JUMPACTIVE_FALSE = "inaktiv"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_JUMPACTIVE_FALSE = { "inactive"sv, "inaktiv"sv };
 // Bezeichner fuer Umgebungsatom
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_COORD = "Umgebungsatom:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_COORD = { "EnvAtom:"sv, "Umgebungsatom:"sv };
 // Bezeichner fuer CoordID
 constexpr std::string_view KMCOUT_TUNIQUEJUMP_COORDID = "ID"sv;
 // Bezeichner fuer ElemID
@@ -433,45 +434,45 @@ constexpr std::string_view KMCOUT_TUNIQUEJUMP_Y = "y"sv;
 // Bezeichner fuer z-Koordinate in Sprungkoordinatensystem (Zylinderkoordinatensystem)
 constexpr std::string_view KMCOUT_TUNIQUEJUMP_Z = "z"sv;
 // Bezeichner fuer Atomignorierungszustand
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_ATOMIGNORE = "Ignoriert"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_ATOMIGNORE = { "Ignored"sv, "Ignoriert"sv };
 // true-Bezeichner fuer AtomIgnore == true
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_ATOMIGNORE_TRUE = "ja"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_ATOMIGNORE_TRUE = { "yes"sv, "ja"sv };
 // false-Bezeichner fuer AtomIgnore == false
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_ATOMIGNORE_FALSE = "nein"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_ATOMIGNORE_FALSE = { "no"sv, "nein"sv };
 // Bezeichner fuer Atomadditivitätszustand
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_ATOMADDITIVE = "Additiv"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_ATOMADDITIVE = { "Additive"sv, "Additiv"sv };
 // true-Bezeichner fuer AtomActive == true
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_ATOMADDITIVE_TRUE = "ja"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_ATOMADDITIVE_TRUE = { "yes"sv, "ja"sv };
 // false-Bezeichner fuer AtomActive == false
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_ATOMADDITIVE_FALSE = "nein"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_ATOMADDITIVE_FALSE = { "no"sv, "nein"sv };
 // Bezeichner fuer Atomaktivierungszustand
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_ATOMACTIVE = "Aktiv"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_ATOMACTIVE = { "Active"sv, "Aktiv"sv };
 // true-Bezeichner fuer AtomActive == true
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_ATOMACTIVE_TRUE = "ja"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_ATOMACTIVE_TRUE = { "yes"sv, "ja"sv };
 // false-Bezeichner fuer AtomActive == false
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_ATOMACTIVE_FALSE = "nein"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_ATOMACTIVE_FALSE = { "no"sv, "nein"sv };
 // Bezeichner fuer WW-Umgebungsatom
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_INTERACTIONATOM = "WW-Atom:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_INTERACTIONATOM = { "InteractAtom:"sv, "WW-Atom:"sv };
 // Bezeichner fuer WW-Atom-ID
 constexpr std::string_view KMCOUT_TUNIQUEJUMP_INTERACTIONATOM_ID = "ID"sv;
 // Bezeichner fuer WW-Map
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_INTERACTIONMAP = "WWID"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_INTERACTIONMAP = { "InteractID"sv, "WWID"sv };
 // Bezeichner fuer WW-Energie-Anzahl
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_INTERACTIONENERGYCOUNT = "Anz."sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_INTERACTIONENERGYCOUNT = { "Count"sv, "Anz."sv };
 // Bezeichner fuer WW-Energie-ElemID
 constexpr std::string_view KMCOUT_TUNIQUEJUMP_INTERACTIONELEMID = "ElemID"sv;
 // Bezeichner fuer WW-Energie
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_INTERACTIONENERGY = "Energie"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_INTERACTIONENERGY = { "Energy"sv, "Energie"sv };
 // Bezeichner fuer UniqueCodes
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_UNIQUECODE = "Unique-Codierung:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_UNIQUECODE = { "Unique-Code:"sv, "Unique-Codierung:"sv };
 // Bezeichner fuer UniqueJumpID
 constexpr std::string_view KMCOUT_TUNIQUEJUMP_UNIQUEID = "ID"sv;
 // Bezeichner fuer UniqueEnergy
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_UNIQUEENERGY = "Aktivierungsenergie"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_UNIQUEENERGY = { "ActivationEnergy"sv, "Aktivierungsenergie"sv };
 // Bezeichner fuer Codes
 constexpr std::string_view KMCOUT_TUNIQUEJUMP_CODE = "Code"sv;
 // Bezeichner fuer FullCodes
-constexpr std::string_view KMCOUT_TUNIQUEJUMP_FULLCODE = "Codierung:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMP_FULLCODE = { "FullCode:"sv, "Codierung:"sv };
 // Bezeichner fuer FullCodeID
 constexpr std::string_view KMCOUT_TUNIQUEJUMP_FULLCODEID = "ID"sv;
 // Bezeichner fuer FullToUniqueMap
@@ -491,13 +492,13 @@ constexpr int KMCOUT_TINTERACTION_OFFSET = 2;
 // Bezeichner fuer Interaction-ID
 constexpr std::string_view KMCOUT_TINTERACTION_ID = "Interaction="sv;
 // Bezeichner fuer ElemID
-constexpr std::string_view KMCOUT_TINTERACTION_WWELEMID = "Umgebungsatom-ElemID:"sv;
+constexpr std::array KMCOUT_TINTERACTION_WWELEMID = { "EnvAtom-ElemID:"sv, "Umgebungsatom-ElemID:"sv };
 // Bezeichner fuer StartDist
-constexpr std::string_view KMCOUT_TINTERACTION_STARTDIST = "Sprungstart-Abstand:"sv;
+constexpr std::array KMCOUT_TINTERACTION_STARTDIST = { "DistanceStart:"sv, "Sprungstart-Abstand:"sv };
 // Bezeichner fuer DestDist
-constexpr std::string_view KMCOUT_TINTERACTION_DESTDIST = "Sprungziel-Abstand:"sv;
+constexpr std::array KMCOUT_TINTERACTION_DESTDIST = { "DistanceEnd:"sv, "Sprungziel-Abstand:"sv };
 // Bezeichner fuer Start-VV-WW-Umgebungsatom
-constexpr std::string_view KMCOUT_TINTERACTION_STARTWW = "Sprungstart-WW-Umgebungsatom:"sv;
+constexpr std::array KMCOUT_TINTERACTION_STARTWW = { "StartInteraction-EnvAtom:"sv, "Sprungstart-WW-Umgebungsatom:"sv };
 // Bezeichner fuer Umgebungsatom-ID
 constexpr std::string_view KMCOUT_TINTERACTION_WWID = "ID"sv;
 // Bezeichner fuer Umgebungsatom-ElemID
@@ -509,7 +510,7 @@ constexpr std::string_view KMCOUT_TINTERACTION_Y = "y"sv;
 // Bezeichner fuer z-Koordinate in Sprungkoordinatensystem (Zylinderkoordinatensystem)
 constexpr std::string_view KMCOUT_TINTERACTION_Z = "z"sv;
 // Bezeichner fuer Ziel-WW-Umgebungsatom
-constexpr std::string_view KMCOUT_TINTERACTION_DESTWW = "Sprungziel-WW-Umgebungsatom:"sv;
+constexpr std::array KMCOUT_TINTERACTION_DESTWW = { "EndInteraction-EnvAtom:"sv, "Sprungziel-WW-Umgebungsatom:"sv };
 // Maximalanzahl an signifikanten Stellen von double-Variablen bei cout-Ausgabe von TInteraction
 constexpr int KMCOUT_TINTERACTION_COUT_PRECISION = 6;
 
@@ -521,17 +522,17 @@ constexpr std::string_view KMCOUT_TUNIQUEJUMPS_END = "</UniqueJumpsInfo>"sv;
 // Relativer Offset des untergeordneten Outputs
 constexpr int KMCOUT_TUNIQUEJUMPS_OFFSET = 2;
 // Bezeichner fuer Leerstellen-Leerstellen-Wechselwirkungsschalen-Anzahl
-constexpr std::string_view KMCOUT_TUNIQUEJUMPS_INTERACTIONSHELLCOUNT = "WW-Schalenanzahl:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMPS_INTERACTIONSHELLCOUNT = { "InteractionShellCount:"sv, "WW-Schalenanzahl:"sv };
 // Bezeichner, ob Codierung erfolgt ist
-constexpr std::string_view KMCOUT_TUNIQUEJUMPS_CODESREADY = "Codierung:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMPS_CODESREADY = { "CodesReady:"sv, "Codierung:"sv };
 // Bezeichner, dass Codierung erfolgt ist
-constexpr std::string_view KMCOUT_TUNIQUEJUMPS_CODESREADY_TRUE = "ja"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMPS_CODESREADY_TRUE = { "yes"sv, "ja"sv };
 // Bezeichner, dass Codierung nicht erfolgt ist
-constexpr std::string_view KMCOUT_TUNIQUEJUMPS_CODESREADY_FALSE = "nein"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMPS_CODESREADY_FALSE = { "no"sv, "nein"sv };
 // Anzahl der UJump
-constexpr std::string_view KMCOUT_TUNIQUEJUMPS_UJUMPCOUNT = "Sprunganzahl:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMPS_UJUMPCOUNT = { "UniqueJumpCount:"sv, "Sprunganzahl:"sv };
 // Anzahl der VVShells
-constexpr std::string_view KMCOUT_TUNIQUEJUMPS_INTERACTIONCOUNT = "WW-Anzahl:"sv;
+constexpr std::array KMCOUT_TUNIQUEJUMPS_INTERACTIONCOUNT = { "InteractionCount:"sv, "WW-Anzahl:"sv };
 // Maximalanzahl an signifikanten Stellen von double-Variablen bei cout-Ausgabe von TUniqueJumps
 constexpr int KMCOUT_TUNIQUEJUMPS_COUT_PRECISION = 6;
 
@@ -543,13 +544,13 @@ constexpr std::string_view KMCOUT_TSETTINGS_END = "</Settings>"sv;
 // Relativer Offset des untergeordneten Outputs
 constexpr int KMCOUT_TSETTINGS_OFFSET = 2;
 // Bezeichner fuer Simulationstemperatur
-constexpr std::string_view KMCOUT_TSETTINGS_TEMPERATURE = "Temperatur:"sv;
+constexpr std::array KMCOUT_TSETTINGS_TEMPERATURE = { "Temperature:"sv, "Temperatur:"sv };
 // Bezeichner fuer Sprungversuchsfrequenz
-constexpr std::string_view KMCOUT_TSETTINGS_ATTEMPTFREQUENCY = "Sprungversuchsfrequenz:"sv;
+constexpr std::array KMCOUT_TSETTINGS_ATTEMPTFREQUENCY = { "AttemptFrequency:"sv, "Sprungversuchsfrequenz:"sv };
 // Bezeichner fuer E-Feld-Staerke [in kT]
-constexpr std::string_view KMCOUT_TSETTINGS_EFIELDSTRENGTH = "E-Feld-Staerke:"sv;
+constexpr std::array KMCOUT_TSETTINGS_EFIELDSTRENGTH = { "E-Field-Strength:"sv, "E-Feld-Staerke:"sv };
 // Bezeichner fuer E-Feld
-constexpr std::string_view KMCOUT_TSETTINGS_EFIELD = "E-Feld:"sv;
+constexpr std::array KMCOUT_TSETTINGS_EFIELD = { "E-Field:"sv, "E-Feld:"sv };
 // Bezeichner fuer E-Feld x-Koordinate
 constexpr std::string_view KMCOUT_TSETTINGS_EFIELDX = "x"sv;
 // Bezeichner fuer E-Feld y-Koordinate
@@ -557,49 +558,49 @@ constexpr std::string_view KMCOUT_TSETTINGS_EFIELDY = "y"sv;
 // Bezeichner fuer E-Feld z-Koordinate
 constexpr std::string_view KMCOUT_TSETTINGS_EFIELDZ = "z"sv;
 // Bezeichner fuer Gittergroesse
-constexpr std::string_view KMCOUT_TSETTINGS_LATTICESIZE = "Gittergroesse:"sv;
+constexpr std::array KMCOUT_TSETTINGS_LATTICESIZE = { "LatticeSize:"sv, "Gittergroesse:"sv };
 // Bezeichner fuer Zusatzleerstellen
-constexpr std::string_view KMCOUT_TSETTINGS_ADDVACANZ = "Zusatzleerstellen:"sv;
+constexpr std::array KMCOUT_TSETTINGS_ADDVACANZ = { "AdditionalVacancies:"sv, "Zusatzleerstellen:"sv };
 // Bezeichner fuer Leerstellengesamtkonzentration
-constexpr std::string_view KMCOUT_TSETTINGS_TOTALVACCONC = "Leerstellengesamtkonzentration:"sv;
+constexpr std::array KMCOUT_TSETTINGS_TOTALVACCONC = { "TotalVacancyConcentration:"sv, "Leerstellengesamtkonzentration:"sv };
 // Bezeichner fuer Leerstellengesamtanzahl
-constexpr std::string_view KMCOUT_TSETTINGS_TOTALVACANZ = "Leerstellengesamtanzahl:"sv;
+constexpr std::array KMCOUT_TSETTINGS_TOTALVACANZ = { "TotalVacancyCount:"sv, "Leerstellengesamtanzahl:"sv };
 // Bezeichner fuer Volumenkonzentration der beweglichen Spezies [1/cm^3]
-constexpr std::string_view KMCOUT_TSETTINGS_MOVVOLCONC = "Mov-Volumenkonzentration:"sv;
+constexpr std::array KMCOUT_TSETTINGS_MOVVOLCONC = { "MovingSpeciesConcentration:"sv, "Mov-Volumenkonzentration:"sv };
 // Bezeichner fuer Dopandenkonzentration
-constexpr std::string_view KMCOUT_TSETTINGS_CONCENTRATION = "Dopandenkonzentration:"sv;
+constexpr std::array KMCOUT_TSETTINGS_CONCENTRATION = { "DopingConcentration:"sv, "Dopandenkonzentration:"sv };
 // Bezeichner fuer Dotierung
-constexpr std::string_view KMCOUT_TSETTINGS_DOPING = "DotierungID"sv;
+constexpr std::array KMCOUT_TSETTINGS_DOPING = { "DopingID"sv, "DotierungID"sv };
 // Bezeichner fuer Konzentration
-constexpr std::string_view KMCOUT_TSETTINGS_CONC = "Konz."sv;
+constexpr std::array KMCOUT_TSETTINGS_CONC = { "Conc."sv, "Konz."sv };
 // Bezeichner fuer Anzahl
-constexpr std::string_view KMCOUT_TSETTINGS_ANZ = "Anzahl"sv;
+constexpr std::array KMCOUT_TSETTINGS_ANZ = { "Count"sv, "Anzahl"sv };
 // Bezeichner fuer Checkpoint-Schreiben
-constexpr std::string_view KMCOUT_TSETTINGS_WRITECHK = "Checkpoint-Speichern:"sv;
+constexpr std::array KMCOUT_TSETTINGS_WRITECHK = { "SaveCheckpoint:"sv, "Checkpoint-Speichern:"sv };
 // Bezeichner fuer Checkpoint-Laden
-constexpr std::string_view KMCOUT_TSETTINGS_LOADCHK = "Checkpoint-Laden:"sv;
+constexpr std::array KMCOUT_TSETTINGS_LOADCHK = { "LoadCheckpoint:"sv, "Checkpoint-Laden:"sv };
 // Bezeichner fuer DoPrerun-Flag
-constexpr std::string_view KMCOUT_TSETTINGS_DOPRERUN = "Vorlauf:"sv;
+constexpr std::array KMCOUT_TSETTINGS_DOPRERUN = { "PreRun:"sv, "Vorlauf:"sv };
 // Bezeichner fuer "durchfuehren"
-constexpr std::string_view KMCOUT_TSETTINGS_DO_TRUE = "ja"sv;
+constexpr std::array KMCOUT_TSETTINGS_DO_TRUE = { "yes"sv, "ja"sv };
 // Bezeichner fuer "nicht durchfuehren"
-constexpr std::string_view KMCOUT_TSETTINGS_DO_FALSE = "nein"sv;
+constexpr std::array KMCOUT_TSETTINGS_DO_FALSE = { "no"sv, "nein"sv };
 // Bezeichner fuer Vorlauf-MCSP
-constexpr std::string_view KMCOUT_TSETTINGS_PREMCSP = "Vorlauf-MCSP:"sv;
+constexpr std::array KMCOUT_TSETTINGS_PREMCSP = { "PreRun-MCSP:"sv, "Vorlauf-MCSP:"sv };
 // Bezeichner fuer Vorlauf-Wahrscheinlichkeitsliste
-constexpr std::string_view KMCOUT_TSETTINGS_PRERECORDANZ = "Vorlauf-Wahrscheinlichkeitsliste:"sv;
+constexpr std::array KMCOUT_TSETTINGS_PRERECORDANZ = { "PreRun-ProbabilityList:"sv, "Vorlauf-Wahrscheinlichkeitsliste:"sv };
 // Bezeichner fuer DoDynNorm-Flag
-constexpr std::string_view KMCOUT_TSETTINGS_DODYNNORM = "DynNormierung:"sv;
+constexpr std::array KMCOUT_TSETTINGS_DODYNNORM = { "DynamicNormalization:"sv, "DynNormierung:"sv };
 // Bezeichner fuer DynNorm-Attempt-Anzahl
-constexpr std::string_view KMCOUT_TSETTINGS_DYNATTEMPTANZ = "DynNorm-Sprungversuche:"sv;
+constexpr std::array KMCOUT_TSETTINGS_DYNATTEMPTANZ = { "DynNorm-JumpAttempts:"sv, "DynNorm-Sprungversuche:"sv };
 // Bezeichner fuer DynNorm-Wahrscheinlichkeitsliste
-constexpr std::string_view KMCOUT_TSETTINGS_DYNRECORDANZ = "DynNorm-Wahrscheinlichkeitsliste:"sv;
+constexpr std::array KMCOUT_TSETTINGS_DYNRECORDANZ = { "DynNorm-ProbabilityList:"sv, "DynNorm-Wahrscheinlichkeitsliste:"sv };
 // Bezeichner fuer DynNorm-Wahrscheinlichkeitseintrag
-constexpr std::string_view KMCOUT_TSETTINGS_DYNNORMNUM = "DynNorm-Wahrscheinlichkeitseintrag:"sv;
+constexpr std::array KMCOUT_TSETTINGS_DYNNORMNUM = { "DynNorm-ListEntry:"sv, "DynNorm-Wahrscheinlichkeitseintrag:"sv };
 // Bezeichner fuer MCSP der Hauptsimulation
 constexpr std::string_view KMCOUT_TSETTINGS_MAINMCSP = "MCSP:"sv;
 // Bezeichner fuer Wahrscheinlichkeitsliste der Hauptsimulation
-constexpr std::string_view KMCOUT_TSETTINGS_MAINRECORDANZ = "Wahrscheinlichkeitsliste:"sv;
+constexpr std::array KMCOUT_TSETTINGS_MAINRECORDANZ = { "ProbabilityList:"sv, "Wahrscheinlichkeitsliste:"sv };
 // Maximalanzahl an signifikanten Stellen von double-Variablen bei cout-Ausgabe von TSettings
 constexpr int KMCOUT_TSETTINGS_COUT_PRECISION = 6;
 
@@ -613,9 +614,9 @@ constexpr int KMCOUT_TSIMULATION_CHK_OFFSET = 2;
 // Relativer Offset des untergeordneten Phasen-Outputs
 constexpr int KMCOUT_TSIMULATION_PHASE_OFFSET = 2;
 // Erkennungsstring fuer Startgitter-Start
-constexpr std::string_view KMCOUT_TSIMULATION_STARTLATTICE_START = "<Startgitterbesetzung>"sv;
+constexpr std::array KMCOUT_TSIMULATION_STARTLATTICE_START = { "<InitialLattice>"sv, "<Startgitterbesetzung>"sv };
 // Erkennungsstring fuer TSimPhaseInfo-Gitter-Ende
-constexpr std::string_view KMCOUT_TSIMULATION_STARTLATTICE_END = "</Startgitterbesetzung>"sv;
+constexpr std::array KMCOUT_TSIMULATION_STARTLATTICE_END = { "</InitialLattice>"sv, "</Startgitterbesetzung>"sv };
 // Erkennungsstring fuer TSimulation-PrerunPhase-Start
 constexpr std::string_view KMCOUT_TSIMULATION_PRERUN_START = "<Prerun-Phase>"sv;
 // Erkennungsstring fuer TSimulation-PrerunPhase-Ende
@@ -633,69 +634,69 @@ constexpr std::string_view KMCOUT_TSIMULATION_MAIN_END = "</Main-Phase>"sv;
 // Bezeichner fuer die aktuellen MCSP der Phase
 constexpr std::string_view KMCOUT_TSIMPHASEINFO_MCSP = "MCSP:"sv;
 // Bezeichner fuer die aktuellen Sprungversuche der Phase
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_JUMPATTEMPTS = "Sprungversuche:"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_JUMPATTEMPTS = { "JumpAttempts:"sv, "Sprungversuche:"sv };
 // Bezeichner fuer die aktuellen Site-Blocking der Phase
 constexpr std::string_view KMCOUT_TSIMPHASEINFO_SITEBLOCKING = "Site-Blocking:"sv;
 // Bezeichner fuer die aktuellen Nonsense-Sprungversuche der Phase
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_NONSENSE = "Undef.-Zielplatz(Eakt,rueck<=0):"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_NONSENSE = { "UndefinedEndPosition(dE_backward<=0):"sv, "Undef.-Zielplatz(Eakt,rueck<=0):"sv };
 // Bezeichner fuer die aktuellen Overkill-Sprungversuche der Phase
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_OVERKILL = "Undef.-Startplatz(Eakt,hin<=0):"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_OVERKILL = { "UndefinedStartPosition(dE_forward<=0):"sv, "Undef.-Startplatz(Eakt,hin<=0):"sv };
 // Bezeichner fuer die aktuellen Normierung der Phase
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_NORM = "Normierung:"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_NORM = { "Normalization:"sv, "Normierung:"sv };
 // Bezeichner fuer die Summe des Attempt-Pfad-Quotienten der Phase
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_TIMESUM = "Versuch-Pfad-Quotient:"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_TIMESUM = { "Attempts-Paths-Ratio:"sv, "Versuch-Pfad-Quotient:"sv };
 // Bezeichner fuer die aktuellen Laufzeit der Phase
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_RUNTIME = "Laufzeit:"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_RUNTIME = { "Runtime:"sv, "Laufzeit:"sv };
 // Erkennungsstring fuer TSimPhaseInfo-Gitter-Start
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_LATTICE_START = "<Gitterbesetzung>"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_LATTICE_START = { "<CurrentLattice>"sv, "<Gitterbesetzung>"sv };
 // Erkennungsstring fuer TSimPhaseInfo-Gitter-Ende
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_LATTICE_END = "</Gitterbesetzung>"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_LATTICE_END = { "</CurrentLattice>"sv, "</Gitterbesetzung>"sv };
 // Erkennungsstring fuer TSimPhaseInfo-Bewegungsspeicherung-Start
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_MOVLATTICE_START = "<Atombewegung>"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_MOVLATTICE_START = { "<AtomMovements>"sv, "<Atombewegung>"sv };
 // Erkennungsstring fuer TSimPhaseInfo-Bewegungsspeicherung-Ende
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_MOVLATTICE_END = "</Atombewegung>"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_MOVLATTICE_END = { "</AtomMovements>"sv, "</Atombewegung>"sv };
 // Erkennungsstring fuer TSimPhaseInfo-Sprungversuchswahrscheinlichkeiten-Start
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_ATTEMPTPROB_START = "<Sprungversuchswahrscheinlichkeiten>"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_ATTEMPTPROB_START = { "<AttemptProbabilities>"sv, "<Sprungversuchswahrscheinlichkeiten>"sv };
 // Erkennungsstring fuer TSimPhaseInfo-Sprungversuchswahrscheinlichkeiten-Ende
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_ATTEMPTPROB_END = "</Sprungversuchswahrscheinlichkeiten>"sv;
-// Erkennungsstring fuer TSimPhaseInfo-Sprungversuchswahrscheinlichkeiten-Start
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_MCSPROB_START = "<MCS-Wahrscheinlichkeiten>"sv;
-// Erkennungsstring fuer TSimPhaseInfo-Sprungversuchswahrscheinlichkeiten-Ende
-constexpr std::string_view KMCOUT_TSIMPHASEINFO_MCSPROB_END = "</MCS-Wahrscheinlichkeiten>"sv;
+constexpr std::array KMCOUT_TSIMPHASEINFO_ATTEMPTPROB_END = { "</AttemptProbabilities>"sv, "</Sprungversuchswahrscheinlichkeiten>"sv };
+// Erkennungsstring fuer TSimPhaseInfo-Sprungwahrscheinlichkeiten-Start
+constexpr std::array KMCOUT_TSIMPHASEINFO_MCSPROB_START = { "<JumpProbabilities>"sv, "<MCS-Wahrscheinlichkeiten>"sv };
+// Erkennungsstring fuer TSimPhaseInfo-Sprungwahrscheinlichkeiten-Ende
+constexpr std::array KMCOUT_TSIMPHASEINFO_MCSPROB_END = { "</JumpProbabilities>"sv, "</MCS-Wahrscheinlichkeiten>"sv };
 
 // -- TResults ---
 // Erkennungsstring fuer TResults-Start
-constexpr std::string_view KMCOUT_TRESULTS_START = "<Ergebnisse>"sv;
+constexpr std::array KMCOUT_TRESULTS_START = { "<Results>"sv, "<Ergebnisse>"sv };
 // Erkennungsstring fuer TResults-Ende
-constexpr std::string_view KMCOUT_TRESULTS_END = "</Ergebnisse>"sv;
+constexpr std::array KMCOUT_TRESULTS_END = { "</Results>"sv, "</Ergebnisse>"sv };
 // Relativer Offset des untergeordneten Outputs
 constexpr int KMCOUT_TRESULTS_OFFSET = 2;
 // Bezeichner fuer Conductivity
-constexpr std::string_view KMCOUT_TRESULTS_COND = "Leitfaehigkeit:"sv;
+constexpr std::array KMCOUT_TRESULTS_COND = { "Conductivity:"sv, "Leitfaehigkeit:"sv };
 // Bezeichner fuer SimulatedTime
-constexpr std::string_view KMCOUT_TRESULTS_SIMTIME = "Zeitspanne:"sv;
+constexpr std::array KMCOUT_TRESULTS_SIMTIME = { "SimulatedTimespan:"sv, "Zeitspanne:"sv };
 // Bezeichner fuer MCSP
 constexpr std::string_view KMCOUT_TRESULTS_MCSP = "MCSP:"sv;
 // Bezeichner fuer JumpAttempts
-constexpr std::string_view KMCOUT_TRESULTS_JUMPATTEMPTS = "Sprungversuche:"sv;
+constexpr std::array KMCOUT_TRESULTS_JUMPATTEMPTS = { "JumpAttempts:"sv, "Sprungversuche:"sv };
 // Bezeichner fuer NonsenseJumpAttempts
-constexpr std::string_view KMCOUT_TRESULTS_NONSENSEATTEMPTS = "Undef.-Zielplatz(Eakt,rueck<=0):"sv;
+constexpr std::array KMCOUT_TRESULTS_NONSENSEATTEMPTS = { "UndefinedEndPosition(dE_backward<=0):"sv, "Undef.-Zielplatz(Eakt,rueck<=0):"sv };
 // Bezeichner fuer OverkillJumpAttempts
-constexpr std::string_view KMCOUT_TRESULTS_OVERKILLATTEMPTS = "Undef.-Startplatz(Eakt,hin<=0):"sv;
+constexpr std::array KMCOUT_TRESULTS_OVERKILLATTEMPTS = { "UndefinedStartPosition(dE_forward<=0):"sv, "Undef.-Startplatz(Eakt,hin<=0):"sv };
 // Bezeichner fuer SiteBlocking
 constexpr std::string_view KMCOUT_TRESULTS_SITEBLOCKING = "Site-Blocking:"sv;
 // Bezeichner fuer Normierung
-constexpr std::string_view KMCOUT_TRESULTS_NORMALIZATION = "Normierung:"sv;
+constexpr std::array KMCOUT_TRESULTS_NORMALIZATION = { "Normalization:"sv, "Normierung:"sv };
 // Bezeichner fuer Laufzeit
-constexpr std::string_view KMCOUT_TRESULTS_RUNTIME = "Laufzeit:"sv;
+constexpr std::array KMCOUT_TRESULTS_RUNTIME = { "Runtime:"sv, "Laufzeit:"sv };
 // Bezeichner fuer mittlere Sprunganzahl (bewegliche Spezies)
-constexpr std::string_view KMCOUT_TRESULTS_MOV_MEANJUMPCOUNT = "Mov-<Sprunganzahl>:"sv;
+constexpr std::array KMCOUT_TRESULTS_MOV_MEANJUMPCOUNT = { "Mov-<JumpCount>:"sv, "Mov-<Sprunganzahl>:"sv };
 // Bezeichner fuer mittleren Verschiebungsvektor (bewegliche Spezies)
 constexpr std::string_view KMCOUT_TRESULTS_MOV_MEANDISPVEC = "Mov-(<x>,<y>,<z>):"sv;
 // Bezeichner fuer Komponente des mittleren Verschiebungsvektors parallel zum E-Feld (bewegliche Spezies)
-constexpr std::string_view KMCOUT_TRESULTS_MOV_DISPPARALLEL = "Mov-Verschiebungskomp.(parallel):"sv;
+constexpr std::array KMCOUT_TRESULTS_MOV_DISPPARALLEL = { "Mov-<ParallelDisplacement>:"sv, "Mov-Verschiebungskomp.(parallel):"sv };
 // Bezeichner fuer Komponente des mittleren Verschiebungsvektors senkrecht zum E-Feld (bewegliche Spezies)
-constexpr std::string_view KMCOUT_TRESULTS_MOV_DISPPERPENDICULAR = "Mov-Verschiebungskomp.(senkrecht):"sv;
+constexpr std::array KMCOUT_TRESULTS_MOV_DISPPERPENDICULAR = { "Mov-<PerpendicularDisplacement>:"sv, "Mov-Verschiebungskomp.(senkrecht):"sv };
 // Bezeichner fuer mittlere Verschiebung (bewegliche Spezies)
 constexpr std::string_view KMCOUT_TRESULTS_MOV_MEANDISP = "Mov-<sqrt(x*x+y*y+z*z)>:"sv;
 // Bezeichner fuer mittlere quadratische Verschiebung (bewegliche Spezies)
@@ -703,13 +704,13 @@ constexpr std::string_view KMCOUT_TRESULTS_MOV_MEANSQUAREDDISP = "Mov-<x*x+y*y+z
 // Bezeichner fuer Schwerpunktverschiebungsvektor (bewegliche Spezies)
 constexpr std::string_view KMCOUT_TRESULTS_MOV_COMDISPVEC = "Mov-(sum(x),sum(y),sum(z)):"sv;
 // Bezeichner fuer mittlere Sprunganzahl (Leerstellen)
-constexpr std::string_view KMCOUT_TRESULTS_VAC_MEANJUMPCOUNT = "Vac-<Sprunganzahl>:"sv;
+constexpr std::array KMCOUT_TRESULTS_VAC_MEANJUMPCOUNT = { "Vac-<JumpCount>:"sv, "Vac-<Sprunganzahl>:"sv };
 // Bezeichner fuer mittleren Verschiebungsvektor (Leerstellen)
 constexpr std::string_view KMCOUT_TRESULTS_VAC_MEANDISPVEC = "Vac-(<x>,<y>,<z>):"sv;
 // Bezeichner fuer Komponente des mittleren Verschiebungsvektors parallel zum E-Feld (Leerstellen)
-constexpr std::string_view KMCOUT_TRESULTS_VAC_DISPPARALLEL = "Vac-Verschiebungskomp.(parallel):"sv;
+constexpr std::array KMCOUT_TRESULTS_VAC_DISPPARALLEL = { "Vac-<ParallelDisplacement>:"sv, "Vac-Verschiebungskomp.(parallel):"sv };
 // Bezeichner fuer Komponente des mittleren Verschiebungsvektors senkrecht zum E-Feld (Leerstellen)
-constexpr std::string_view KMCOUT_TRESULTS_VAC_DISPPERPENDICULAR = "Vac-Verschiebungskomp.(senkrecht):"sv;
+constexpr std::array KMCOUT_TRESULTS_VAC_DISPPERPENDICULAR = { "Vac-<PerpendicularDisplacement>:"sv, "Vac-Verschiebungskomp.(senkrecht):"sv };
 // Bezeichner fuer mittlere Verschiebung (Leerstellen)
 constexpr std::string_view KMCOUT_TRESULTS_VAC_MEANDISP = "Vac-<sqrt(x*x+y*y+z*z)>:"sv;
 // Bezeichner fuer mittlere quadratische Verschiebung (Leerstellen)
@@ -723,6 +724,34 @@ constexpr std::string_view KMCOUT_TRESULTS_VAC_COMDISPVEC = "Vac-(sum(x),sum(y),
 constexpr std::string_view KMCERRSTR_STDERR = "Exception occured:"sv;
 // Text bei unbekannter Exception
 constexpr std::string_view KMCERRSTR_UNKNOWNERR = "Unknown exception occured!"sv;
+
+// ************************ Translate-Fallback ************************* //
+
+template<std::size_t N>
+std::ostream& operator<<(std::ostream& os, const std::array<std::string_view, N>& arr)
+{
+    // Use the first identifier for output
+    os << arr.front();
+    return os;
+}
+
+template<std::size_t N>
+constexpr bool operator==(std::string_view lhs, const std::array<std::string_view, N>& rhs)
+{
+    // Use all identifiers for input comparison (true if any match)
+    for (std::string_view rstr : rhs)
+        if (lhs == rstr)
+            return true;
+
+    return false;
+}
+
+template<std::size_t N>
+constexpr bool operator!=(std::string_view lhs, const std::array<std::string_view, N>& rhs)
+{
+    // Use all identifiers for input comparison (false if any match)
+    return !(lhs == rhs);
+}
 
 // ************************* Hilfsfunktionen *************************** //
 

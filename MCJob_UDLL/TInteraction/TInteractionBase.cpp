@@ -545,7 +545,7 @@ int TInteractionBase::SaveToStream (ostream &output, int InteractionID, int offs
 		if (y_space < (int) ((string) KMCOUT_TINTERACTION_Y).length()) y_space = ((string) KMCOUT_TINTERACTION_Y).length();
 		if (z_space < (int) ((string) KMCOUT_TINTERACTION_Z).length()) z_space = ((string) KMCOUT_TINTERACTION_Z).length();
 		output << endl;
-		output << s_offset << sub_offset << setw(((string) KMCOUT_TINTERACTION_STARTWW).length() + 1) << " ";
+		output << s_offset << sub_offset << setw(KMCOUT_TINTERACTION_STARTWW.front().length() + 1) << " ";
 		output << setw(ID_space) << KMCOUT_TINTERACTION_WWID << " ";
 		output << setw(ElemID_space) << KMCOUT_TINTERACTION_ELEMID << " ( ";
 		output << setw(x_space) << KMCOUT_TINTERACTION_X << " ";
@@ -574,7 +574,7 @@ int TInteractionBase::SaveToStream (ostream &output, int InteractionID, int offs
 		if (y_space < (int) ((string) KMCOUT_TINTERACTION_Y).length()) y_space = ((string) KMCOUT_TINTERACTION_Y).length();
 		if (z_space < (int) ((string) KMCOUT_TINTERACTION_Z).length()) z_space = ((string) KMCOUT_TINTERACTION_Z).length();
 		output << endl;
-		output << s_offset << sub_offset << setw(((string) KMCOUT_TINTERACTION_DESTWW).length() + 1) << " ";
+		output << s_offset << sub_offset << setw(KMCOUT_TINTERACTION_DESTWW.front().length() + 1) << " ";
 		output << setw(ID_space) << KMCOUT_TINTERACTION_WWID << " ";
 		output << setw(ElemID_space) << KMCOUT_TINTERACTION_ELEMID << " ( ";
 		output << setw(x_space) << KMCOUT_TINTERACTION_X << " ";

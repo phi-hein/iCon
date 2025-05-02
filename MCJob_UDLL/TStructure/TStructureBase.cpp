@@ -746,7 +746,7 @@ int TStructureBase::SaveToStream (ostream &output, int offset) {
 	int basis_space = (int) ((string) KMCOUT_TSTRUCTURE_BASISA).length();
 	if (basis_space < (int) ((string) KMCOUT_TSTRUCTURE_BASISB).length()) basis_space = ((string) KMCOUT_TSTRUCTURE_BASISB).length();
 	if (basis_space < (int) ((string) KMCOUT_TSTRUCTURE_BASISC).length()) basis_space = ((string) KMCOUT_TSTRUCTURE_BASISC).length();
-	output << s_offset << sub_offset << setw(((string) KMCOUT_TSTRUCTURE_BASIS).length() + basis_space + 4) << " " << "( ";
+	output << s_offset << sub_offset << setw(KMCOUT_TSTRUCTURE_BASIS.front().length() + basis_space + 4) << " " << "( ";
 	output << setw(x_space) << KMCOUT_TSTRUCTURE_XCOORD << " ";
 	output << setw(y_space) << KMCOUT_TSTRUCTURE_YCOORD << " ";
 	output << setw(z_space) << KMCOUT_TSTRUCTURE_ZCOORD << " )" << endl;
@@ -791,7 +791,7 @@ int TStructureBase::SaveToStream (ostream &output, int offset) {
 	if ((int) DopedID.size() != 0) {
 		ID_space = IntToStr(((int) DopedID.size()) - 1).length();
 		if (ID_space < (int) ((string) KMCOUT_TSTRUCTURE_DOPINGID).length()) ID_space = ((string) KMCOUT_TSTRUCTURE_DOPINGID).length();
-		int dopedID_space = ((string) KMCOUT_TSTRUCTURE_DOPEDID).length();
+		int dopedID_space = KMCOUT_TSTRUCTURE_DOPEDID.front().length();
 		for (int i = 0; i < (int) DopedID.size(); i++) {
 			if ((int) IntToStr(DopedID[i]).length() > dopedID_space) dopedID_space = IntToStr(DopedID[i]).length();
 		}
@@ -801,7 +801,7 @@ int TStructureBase::SaveToStream (ostream &output, int offset) {
 		}
 		int Ratio_space = (int) output.precision() + 7;
 		if (Ratio_space < (int) ((string) KMCOUT_TSTRUCTURE_VACDOPRATIO).length()) Ratio_space = ((string) KMCOUT_TSTRUCTURE_VACDOPRATIO).length();
-		output << s_offset << sub_offset << setw(((string) KMCOUT_TSTRUCTURE_DOPING).length() + 1) << " ";
+		output << s_offset << sub_offset << setw(KMCOUT_TSTRUCTURE_DOPING.front().length() + 1) << " ";
 		output << setw(ID_space) << KMCOUT_TSTRUCTURE_DOPINGID << " ";
 		output << setw(dopedID_space) << KMCOUT_TSTRUCTURE_DOPEDID << " ";
 		output << setw(dopandID_space) << KMCOUT_TSTRUCTURE_DOPANDID << " ";
