@@ -16,6 +16,7 @@
 // Includes:
 #include <fstream>
 #include <string>
+#include <string_view>
 
 // Eigene Includes:
 #include "GlobalDefinitions.h"
@@ -26,16 +27,18 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TElementsDesc::TElementsDesc () {
+TElementsDesc::TElementsDesc()
+{
 	Initialize();
 	LoadFromFile(KMCPATH_ELEMDESC);
 	Ready = true;
 }
 
 // Destructor
-TElementsDesc::~TElementsDesc () {
+TElementsDesc::~TElementsDesc()
+{
 
-}	
+}
 
 // **************************** PUBLISHED ********************************* //
 
@@ -44,18 +47,23 @@ TElementsDesc::~TElementsDesc () {
 // ***************************** PUBLIC *********************************** //
 
 // Ready-Status ausgeben
-bool TElementsDesc::IfReady () {
+bool TElementsDesc::IfReady()
+{
 	return Ready;
 }
 
 // Radius (atomar) und Farbe eines Elements ausgeben
-int TElementsDesc::GetElementDesc (string input_symbol, double &radius, double &red, double &green, double &blue) {
+int TElementsDesc::GetElementDesc(string_view input_symbol, double& radius, double& red, double& green, double& blue)
+{
 
 	// Element suchen
 	int desc_index = -1;
-	if (Symbol.size() != 0) {
-		for (int i = 0; i < (int) Symbol.size(); i++) {
-			if (Symbol[i] == input_symbol) {
+	if (Symbol.size() != 0)
+	{
+		for (int i = 0; i < (int)Symbol.size(); i++)
+		{
+			if (Symbol[i] == input_symbol)
+			{
 				desc_index = i;
 				break;
 			}
@@ -63,12 +71,15 @@ int TElementsDesc::GetElementDesc (string input_symbol, double &radius, double &
 	}
 
 	// Beschreibung ausgeben
-	if (desc_index < 0) {
+	if (desc_index < 0)
+	{
 		radius = DefaultAtomicRadius;
 		red = DefaultRed;
 		green = DefaultGreen;
 		blue = DefaultBlue;
-	} else {
+	}
+	else
+	{
 		radius = AtomicRadius[desc_index];
 		red = Red[desc_index];
 		green = Green[desc_index];
@@ -81,7 +92,8 @@ int TElementsDesc::GetElementDesc (string input_symbol, double &radius, double &
 // ***************************** PROTECTED ********************************** //
 
 // Standardwerte setzen
-void TElementsDesc::Initialize() {
+void TElementsDesc::Initialize()
+{
 	// Default-Element setzen
 	DefaultOrdnungszahl = 0;
 	DefaultSymbol = KMCVAR_ARBITRARYSYMBOL;
@@ -105,14 +117,15 @@ void TElementsDesc::Initialize() {
 
 
 // Versuchen, zusaetzliche Elementbeschreibungen aus der Datei zu lesen
-void TElementsDesc::LoadFromFile(string Filename) {
+void TElementsDesc::LoadFromFile(string_view Filename)
+{
 
 	// Moeglichst Umwandeln in absoluten Pfad (verhindert Probleme beim Aendern des Arbeitsverzeichnisses)
 	string t_filepath = PrependAppPath(Filename);
 
 	// Datei oeffnen
 	ifstream infile;
-	infile.open(Trim(t_filepath));
+	infile.open(std::string(Trim(t_filepath)));
 	if (infile.is_open() == false) return;
 
 	// Eingabevariablen
@@ -124,63 +137,75 @@ void TElementsDesc::LoadFromFile(string Filename) {
 	vector<double> i_Red;
 	vector<double> i_Green;
 	vector<double> i_Blue;
-	
+
 	// Datei einlesen
 	bool if_failed = false;
-	while (infile.eof() == false) {
+	while (infile.eof() == false)
+	{
 		i_Ordnungszahl.push_back(0);
-		if ((infile >> i_Ordnungszahl.back()).fail() == true) {
+		if ((infile >> i_Ordnungszahl.back()).fail() == true)
+		{
 			if_failed = true;
 			break;
 		}
 		i_Symbol.push_back("");
-		if ((infile >> i_Symbol.back()).fail() == true) {
+		if ((infile >> i_Symbol.back()).fail() == true)
+		{
 			if_failed = true;
 			break;
 		}
 		i_AtomicRadius.push_back(0);
-		if ((infile >> i_AtomicRadius.back()).fail() == true) {
+		if ((infile >> i_AtomicRadius.back()).fail() == true)
+		{
 			if_failed = true;
 			break;
 		}
-		if (i_AtomicRadius.back() <= 0) {
+		if (i_AtomicRadius.back() <= 0)
+		{
 			if_failed = true;
 			break;
 		}
 		i_VdWRadius.push_back(0);
-		if ((infile >> i_VdWRadius.back()).fail() == true) {
+		if ((infile >> i_VdWRadius.back()).fail() == true)
+		{
 			if_failed = true;
 			break;
 		}
-		if (i_VdWRadius.back() <= 0) {
+		if (i_VdWRadius.back() <= 0)
+		{
 			if_failed = true;
 			break;
 		}
 		i_IonicRadius.push_back(0);
-		if ((infile >> i_IonicRadius.back()).fail() == true) {
+		if ((infile >> i_IonicRadius.back()).fail() == true)
+		{
 			if_failed = true;
 			break;
 		}
-		if (i_IonicRadius.back() <= 0) {
+		if (i_IonicRadius.back() <= 0)
+		{
 			if_failed = true;
 			break;
 		}
 		i_Red.push_back(0);
-		if ((infile >> i_Red.back()).fail() == true) {
+		if ((infile >> i_Red.back()).fail() == true)
+		{
 			if_failed = true;
 			break;
 		}
 		if (i_Red.back() < 0) i_Red.back() = 0;
 		if (i_Red.back() > 1) i_Red.back() = 1;
 		i_Green.push_back(0);
-		if ((infile >> i_Green.back()).fail() == true) {
+		if ((infile >> i_Green.back()).fail() == true)
+		{
 			if_failed = true;
 			break;
 		}
 		if (i_Green.back() < 0) i_Green.back() = 0;
 		if (i_Green.back() > 1) i_Green.back() = 1;
 		i_Blue.push_back(0);
-		if ((infile >> i_Blue.back()).fail() == true) {
+		if ((infile >> i_Blue.back()).fail() == true)
+		{
 			if_failed = true;
 			break;
 		}
@@ -189,8 +214,8 @@ void TElementsDesc::LoadFromFile(string Filename) {
 		infile >> ws;
 	}
 	infile.close();
-	if ((if_failed == true) || 
-		((int) i_Ordnungszahl.size() == 0) ||
+	if ((if_failed == true) ||
+		((int)i_Ordnungszahl.size() == 0) ||
 		(i_Symbol.size() != i_Ordnungszahl.size()) ||
 		(i_AtomicRadius.size() != i_Ordnungszahl.size()) ||
 		(i_VdWRadius.size() != i_Ordnungszahl.size()) ||

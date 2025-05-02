@@ -13,6 +13,7 @@
 // Standard-Includes
 #include <iostream>
 #include <string>
+#include <string_view>
 
 // Eigene Includes
 #include "TKMCJob/TKMCJob.h"
@@ -29,7 +30,7 @@ int main (int argc, char *argv[]) {
 		cout << "Error: Invalid number of command line arguments. Use -help or -h for further information." << endl;
 		return 1;
 	}
-	string CmdArg = Trim(argv[1]);
+	string_view CmdArg = Trim(argv[1]);
 	if ((CmdArg == "-help") || (CmdArg == "-h")) {
 		cout << "iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity" << endl;
 		cout << "Copyright 2014" << endl;
@@ -46,7 +47,7 @@ int main (int argc, char *argv[]) {
 		cout << KMC_VERSION << endl;
 		return 0;
 	}
-	string JobPath = CmdArg;
+	string JobPath = std::string(CmdArg);
 	int ErrorCode = KMCERR_OK;
 
 	// Log-File-Header ausgeben

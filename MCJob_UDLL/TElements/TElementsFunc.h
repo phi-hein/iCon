@@ -19,6 +19,7 @@
 
 // Includes:
 #include <string>
+#include <string_view>
 
 // Eigene Includes:
 #include "TElements/TElementsBase.h"
@@ -29,18 +30,19 @@ using namespace std;
 class TKMCJob;
 
 // Klassendeklaration:
-class TElementsFunc: public TElementsBase {
+class TElementsFunc : public TElementsBase
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		TElementsFunc (TKMCJob * pJob);			// Constructor
+public:
+	// NON-PUBLISHED
+	TElementsFunc(TKMCJob* pJob);			// Constructor
 
-		int GetElemID (string i_symbol, string i_name, double i_charge);	// ElemID zu Symbol, Name, Charge finden
-		int GetMovCharge (double &o_charge);								// Ladung der beweglichen Spezies ausgeben
-		int GetElemDesc(int i_ElemID, string &o_Desc);						// Elementbeschreibung ausgeben
+	int GetElemID(string_view i_symbol, string_view i_name, double i_charge);	// ElemID zu Symbol, Name, Charge finden
+	int GetMovCharge(double& o_charge);											// Ladung der beweglichen Spezies ausgeben
+	int GetElemDesc(int i_ElemID, string& o_Desc);								// Elementbeschreibung ausgeben
 
-	protected:
-		~TElementsFunc();						// Destructor
+protected:
+	~TElementsFunc();						// Destructor
 };
 
 #endif

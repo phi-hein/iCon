@@ -15,6 +15,7 @@
 
 // Includes:
 #include <string>
+#include <string_view>
 #include <vector>
 
 // Eigene Includes:
@@ -50,11 +51,11 @@ class TElementsDesc {
 		~TElementsDesc ();							// Destructor
 		bool IfReady ();							// Ready ausgeben
 
-		int GetElementDesc (string input_symbol, double &radius, double &red, double &green, double &blue);		// Radius (atomar) und Farbe eines Elements ausgeben
+		int GetElementDesc(string_view input_symbol, double &radius, double &red, double &green, double &blue);		// Radius (atomar) und Farbe eines Elements ausgeben
 
 	protected:
 		void Initialize();							// Standardwerte setzen
-		void LoadFromFile(string Filename);			// Versuchen, zusaetzliche Elementbeschreibungen aus der Datei zu lesen
+		void LoadFromFile(string_view Filename);	// Versuchen, zusaetzliche Elementbeschreibungen aus der Datei zu lesen
 };
 
 #endif

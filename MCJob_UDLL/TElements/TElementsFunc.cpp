@@ -30,13 +30,15 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TElementsFunc::TElementsFunc (TKMCJob * pJob): TElementsBase (pJob) {
-	
+TElementsFunc::TElementsFunc(TKMCJob* pJob) : TElementsBase(pJob)
+{
+
 }
 
 // Destructor
-TElementsFunc::~TElementsFunc () {
-	
+TElementsFunc::~TElementsFunc()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
@@ -46,26 +48,30 @@ TElementsFunc::~TElementsFunc () {
 // ***************************** PUBLIC *********************************** //
 
 // ElemID zu Symbol, Name, Charge finden
-int TElementsFunc::GetElemID (string i_symbol, string i_name, double i_charge) {
+int TElementsFunc::GetElemID(string_view i_symbol, string_view i_name, double i_charge)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 	int ID = -1;
-	for (int i = 0; i < (int) Symbol.size(); i++) {
+	for (int i = 0; i < (int)Symbol.size(); i++)
+	{
 		if ((Trim(i_symbol) == Symbol[i]) &&
 			(Trim(i_name) == Name[i]) &&
 			(i_charge > Charge[i] - KMCVAR_EQTHRESHOLD_CHARGE) &&
-			(i_charge < Charge[i] + KMCVAR_EQTHRESHOLD_CHARGE)) {
-				ID = i;
-				break;
+			(i_charge < Charge[i] + KMCVAR_EQTHRESHOLD_CHARGE))
+		{
+			ID = i;
+			break;
 		}
 	}
 	if (ID == -1) return KMCERR_ELEMENT_NOT_FOUND;
-	
+
 	return ID;
 }
 
 // Ladung der beweglichen Spezies ausgeben
-int TElementsFunc::GetMovCharge (double &o_charge) {
+int TElementsFunc::GetMovCharge(double& o_charge)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 	o_charge = MovCharge;
@@ -74,15 +80,17 @@ int TElementsFunc::GetMovCharge (double &o_charge) {
 }
 
 // Elementbeschreibung ausgeben
-int TElementsFunc::GetElemDesc(int i_ElemID, string &o_Desc) {
+int TElementsFunc::GetElemDesc(int i_ElemID, string& o_Desc)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
-	if ((i_ElemID < 0) || (i_ElemID >= (int) Symbol.size())) return KMCERR_INVALID_INPUT_CRIT;
+	if ((i_ElemID < 0) || (i_ElemID >= (int)Symbol.size())) return KMCERR_INVALID_INPUT_CRIT;
 
 	stringstream t_Desc;
 	t_Desc.precision(2);
 	t_Desc << Symbol[i_ElemID] << "[";
-	if (Name[i_ElemID] != "") {
+	if (Name[i_ElemID] != "")
+	{
 		t_Desc << Name[i_ElemID] << ",";
 	}
 	t_Desc << Charge[i_ElemID] << "]";

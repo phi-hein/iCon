@@ -16,6 +16,7 @@
 
 // Includes:
 #include <string>
+#include <string_view>
 #include <vector>
 
 // Eigene Includes:
@@ -26,31 +27,32 @@
 using namespace std;
 
 // Klassendeklaration:
-class TSimPhaseInfo {
-	public:
+class TSimPhaseInfo
+{
+public:
 
-		// Variablen:
-		bool HasValidData;													// Flag: true = Daten sind vorhanden
-		double UsedNorm;													// verwendete Normierung der Wahrscheinlichkeiten
-		double CurrentAttemptPathRatioSum;									// aktuelle Summe des Quotienten aus Sprungversuchen und Sprungmoeglichkeiten (ueber alle MCS)
-		unsigned long long CurrentMCSP;										// aktuelle MCSP
-		unsigned long long CurrentJumpAttempts;								// aktuelle Sprungversuchsanzahl
-		unsigned long long CurrentNonsenseJumpAttempts;						// aktuelle Anzahl an Sprungversuchen mit Ruecksprungwahrscheinlichkeit >= 1 (sind nicht in CurrentJumpAttempts enthalten)
-		unsigned long long CurrentOverkillJumpAttempts;						// aktuelle Anzahl an Sprungversuchen mit Hinsprungwahrscheinlichkeit >= 1 (sind nicht in CurrentJumpAttempts enthalten)
-		unsigned long long CurrentSiteBlockingCounter;						// aktuelle Anzahl an SiteBlocking, d.h. Zielort schon von Leerstelle besetzt (sind in CurrentJumpAttempts enthalten)
-		vector<vector<vector<vector<int>>>> CurrentLattice;					// aktueller Gitterzustand
-		vector<vector<vector<vector<T3DMovVector>>>> CurrentMovLattice;		// aktuelle Atomverschiebungsvektoren
-		vector<TSimProb> CurrentAttemptProbList;							// aktuelle Liste der Sprungversuchswahrscheinlichkeiten 
-		vector<TSimProb> CurrentAcceptedProbList;							// aktuelle Liste der Wahrscheinlichkeiten der akzeptierten Spruenge
-		TCustomTime CurrentRunTime;											// aktuelle Laufzeit
+	// Variablen:
+	bool HasValidData;													// Flag: true = Daten sind vorhanden
+	double UsedNorm;													// verwendete Normierung der Wahrscheinlichkeiten
+	double CurrentAttemptPathRatioSum;									// aktuelle Summe des Quotienten aus Sprungversuchen und Sprungmoeglichkeiten (ueber alle MCS)
+	unsigned long long CurrentMCSP;										// aktuelle MCSP
+	unsigned long long CurrentJumpAttempts;								// aktuelle Sprungversuchsanzahl
+	unsigned long long CurrentNonsenseJumpAttempts;						// aktuelle Anzahl an Sprungversuchen mit Ruecksprungwahrscheinlichkeit >= 1 (sind nicht in CurrentJumpAttempts enthalten)
+	unsigned long long CurrentOverkillJumpAttempts;						// aktuelle Anzahl an Sprungversuchen mit Hinsprungwahrscheinlichkeit >= 1 (sind nicht in CurrentJumpAttempts enthalten)
+	unsigned long long CurrentSiteBlockingCounter;						// aktuelle Anzahl an SiteBlocking, d.h. Zielort schon von Leerstelle besetzt (sind in CurrentJumpAttempts enthalten)
+	vector<vector<vector<vector<int>>>> CurrentLattice;					// aktueller Gitterzustand
+	vector<vector<vector<vector<T3DMovVector>>>> CurrentMovLattice;		// aktuelle Atomverschiebungsvektoren
+	vector<TSimProb> CurrentAttemptProbList;							// aktuelle Liste der Sprungversuchswahrscheinlichkeiten 
+	vector<TSimProb> CurrentAcceptedProbList;							// aktuelle Liste der Wahrscheinlichkeiten der akzeptierten Spruenge
+	TCustomTime CurrentRunTime;											// aktuelle Laufzeit
 
-		// Member functions:
-		void Clear();																			// Alle Daten auf Standardwerte setzen
-		int SaveToStream (ostream &output, int offset, string start_key, string end_key);							// Simulationsphase in einen Stream schreiben
-		int LoadFromStream (istream &input, int lattice_size, int stack_size, int movstack_size, string end_key);	// Simulationsphase aus einem Stream laden
+	// Member functions:
+	void Clear();																			// Alle Daten auf Standardwerte setzen
+	int SaveToStream(ostream& output, int offset, string_view start_key, string_view end_key);						// Simulationsphase in einen Stream schreiben
+	int LoadFromStream(istream& input, int lattice_size, int stack_size, int movstack_size, string_view end_key);	// Simulationsphase aus einem Stream laden
 
-		TSimPhaseInfo ();				// Constructor
-		~TSimPhaseInfo ();				// Destructor
+	TSimPhaseInfo();				// Constructor
+	~TSimPhaseInfo();				// Destructor
 
 };
 
