@@ -1240,17 +1240,17 @@ int TUniqueJumpBase::SaveToStream (ostream &output, int JumpID, int offset) {
 
 	// Ausgabe der Umgebungsatome, d.h. Coord, ElemID, AtomIgnore, AtomAdditive, AtomActive und BackjumpMap
 	int ID_space = IntToStr((int) Coord.size()).length();
-	if (ID_space < (int) ((string) KMCOUT_TUNIQUEJUMP_COORDID).length()) ID_space = ((string) KMCOUT_TUNIQUEJUMP_COORDID).length();
-	int ElemID_space = ((string) KMCOUT_TUNIQUEJUMP_ELEMID).length();
+	if (ID_space < (int) KMCOUT_TUNIQUEJUMP_COORDID.length()) ID_space = KMCOUT_TUNIQUEJUMP_COORDID.length();
+	int ElemID_space = KMCOUT_TUNIQUEJUMP_ELEMID.length();
 	for (int i = 0; i < (int) ElemID.size(); i++) {
 		if (ElemID_space < (int) IntToStr(ElemID[i]).length()) ElemID_space = IntToStr(ElemID[i]).length();
 	}
 	int x_space = (int) output.precision() + 7;
 	int y_space = (int) output.precision() + 7;
 	int z_space = (int) output.precision() + 7;
-	if (x_space < (int) ((string) KMCOUT_TUNIQUEJUMP_X).length()) x_space = ((string) KMCOUT_TUNIQUEJUMP_X).length();
-	if (y_space < (int) ((string) KMCOUT_TUNIQUEJUMP_Y).length()) y_space = ((string) KMCOUT_TUNIQUEJUMP_Y).length();
-	if (z_space < (int) ((string) KMCOUT_TUNIQUEJUMP_Z).length()) z_space = ((string) KMCOUT_TUNIQUEJUMP_Z).length();
+	if (x_space < (int) KMCOUT_TUNIQUEJUMP_X.length()) x_space = KMCOUT_TUNIQUEJUMP_X.length();
+	if (y_space < (int) KMCOUT_TUNIQUEJUMP_Y.length()) y_space = KMCOUT_TUNIQUEJUMP_Y.length();
+	if (z_space < (int) KMCOUT_TUNIQUEJUMP_Z.length()) z_space = KMCOUT_TUNIQUEJUMP_Z.length();
 	int Ignore_space = KMCOUT_TUNIQUEJUMP_ATOMIGNORE.front().length();
 	if (Ignore_space < (int) KMCOUT_TUNIQUEJUMP_ATOMIGNORE_TRUE.front().length()) Ignore_space = KMCOUT_TUNIQUEJUMP_ATOMIGNORE_TRUE.front().length();
 	if (Ignore_space < (int) KMCOUT_TUNIQUEJUMP_ATOMIGNORE_FALSE.front().length()) Ignore_space = KMCOUT_TUNIQUEJUMP_ATOMIGNORE_FALSE.front().length();
@@ -1308,7 +1308,7 @@ int TUniqueJumpBase::SaveToStream (ostream &output, int JumpID, int offset) {
 	int Energy_space = 0;
 	if (InteractionMap.size() != 0) {
 		ID_space = IntToStr((int) InteractionMap.size()).length();
-		if (ID_space < (int) ((string) KMCOUT_TUNIQUEJUMP_INTERACTIONATOM_ID).length()) ID_space = ((string) KMCOUT_TUNIQUEJUMP_INTERACTIONATOM_ID).length();
+		if (ID_space < (int) KMCOUT_TUNIQUEJUMP_INTERACTIONATOM_ID.length()) ID_space = KMCOUT_TUNIQUEJUMP_INTERACTIONATOM_ID.length();
 		Map_space = KMCOUT_TUNIQUEJUMP_INTERACTIONMAP.front().length();
 		for (int i = 0; i < (int) InteractionMap.size(); i++) {
 			if (Map_space < (int) IntToStr(InteractionMap[i]).length()) Map_space = IntToStr(InteractionMap[i]).length();
@@ -1317,7 +1317,7 @@ int TUniqueJumpBase::SaveToStream (ostream &output, int JumpID, int offset) {
 		for (int i = 0; i < (int) InteractionElemIDs.size(); i++) {
 			if (Anz_space < (int) IntToStr(InteractionElemIDs[i].size()).length()) Anz_space = IntToStr(InteractionElemIDs[i].size()).length();
 		}
-		ElemID_space = ((string) KMCOUT_TUNIQUEJUMP_INTERACTIONELEMID).length();
+		ElemID_space = KMCOUT_TUNIQUEJUMP_INTERACTIONELEMID.length();
 		for (int i = 0; i < (int) InteractionElemIDs.size(); i++) {
 			for (int j = 0; j < (int) InteractionElemIDs[i].size(); j++) {
 				if (ElemID_space < (int) IntToStr(InteractionElemIDs[i][j]).length()) ElemID_space = IntToStr(InteractionElemIDs[i][j]).length();			
@@ -1356,7 +1356,7 @@ int TUniqueJumpBase::SaveToStream (ostream &output, int JumpID, int offset) {
 
 	// Ausgabe von UniqueCodes und UniqueEnergies
 	ID_space = IntToStr((int) UniqueCodes.size()).length();
-	if (ID_space < (int) ((string) KMCOUT_TUNIQUEJUMP_UNIQUEID).length()) ID_space = ((string) KMCOUT_TUNIQUEJUMP_UNIQUEID).length();
+	if (ID_space < (int) KMCOUT_TUNIQUEJUMP_UNIQUEID.length()) ID_space = KMCOUT_TUNIQUEJUMP_UNIQUEID.length();
 	Energy_space = (int) output.precision() + 7;
 	if (Energy_space < (int)KMCOUT_TUNIQUEJUMP_UNIQUEENERGY.front().length()) Energy_space = KMCOUT_TUNIQUEJUMP_UNIQUEENERGY.front().length();
 	output << endl;
@@ -1372,8 +1372,8 @@ int TUniqueJumpBase::SaveToStream (ostream &output, int JumpID, int offset) {
 
 	// Ausgabe von FullCodes und FullToUniqueMap
 	ID_space = IntToStr((int) FullCodes.size()).length();
-	if (ID_space < (int) ((string) KMCOUT_TUNIQUEJUMP_FULLCODEID).length()) ID_space = ((string) KMCOUT_TUNIQUEJUMP_FULLCODEID).length();
-	Map_space = ((string) KMCOUT_TUNIQUEJUMP_FULLTOUNIQUEMAP).length();
+	if (ID_space < (int) KMCOUT_TUNIQUEJUMP_FULLCODEID.length()) ID_space = KMCOUT_TUNIQUEJUMP_FULLCODEID.length();
+	Map_space = KMCOUT_TUNIQUEJUMP_FULLTOUNIQUEMAP.length();
 	for (int i = 0; i < (int) FullToUniqueMap.size(); i++) {
 		if (Map_space < (int) IntToStr(FullToUniqueMap[i]).length()) Map_space = IntToStr(FullToUniqueMap[i]).length();
 	}

@@ -533,17 +533,17 @@ int TInteractionBase::SaveToStream (ostream &output, int InteractionID, int offs
 	int z_space;
 	if (StartWWCoord.size() != 0) {
 		ID_space = IntToStr((int) StartWWCoord.size()).length();
-		if (ID_space < (int) ((string) KMCOUT_TINTERACTION_WWID).length()) ID_space = ((string) KMCOUT_TINTERACTION_WWID).length();
-		ElemID_space = ((string) KMCOUT_TINTERACTION_ELEMID).length();
+		if (ID_space < (int) KMCOUT_TINTERACTION_WWID.length()) ID_space = KMCOUT_TINTERACTION_WWID.length();
+		ElemID_space = KMCOUT_TINTERACTION_ELEMID.length();
 		for (int i = 0; i < (int) StartWWElemID.size(); i++) {
 			if (ElemID_space < (int) IntToStr(StartWWElemID[i]).length()) ElemID_space = IntToStr(StartWWElemID[i]).length();
 		}
 		x_space = (int) output.precision() + 7;
 		y_space = (int) output.precision() + 7;
 		z_space = (int) output.precision() + 7;
-		if (x_space < (int) ((string) KMCOUT_TINTERACTION_X).length()) x_space = ((string) KMCOUT_TINTERACTION_X).length();
-		if (y_space < (int) ((string) KMCOUT_TINTERACTION_Y).length()) y_space = ((string) KMCOUT_TINTERACTION_Y).length();
-		if (z_space < (int) ((string) KMCOUT_TINTERACTION_Z).length()) z_space = ((string) KMCOUT_TINTERACTION_Z).length();
+		if (x_space < (int) KMCOUT_TINTERACTION_X.length()) x_space = KMCOUT_TINTERACTION_X.length();
+		if (y_space < (int) KMCOUT_TINTERACTION_Y.length()) y_space = KMCOUT_TINTERACTION_Y.length();
+		if (z_space < (int) KMCOUT_TINTERACTION_Z.length()) z_space = KMCOUT_TINTERACTION_Z.length();
 		output << endl;
 		output << s_offset << sub_offset << setw(KMCOUT_TINTERACTION_STARTWW.front().length() + 1) << " ";
 		output << setw(ID_space) << KMCOUT_TINTERACTION_WWID << " ";
@@ -562,17 +562,17 @@ int TInteractionBase::SaveToStream (ostream &output, int InteractionID, int offs
 	// Ausgabe der Dest-WW-Umgebung, d.h. DestWWCoord und DestWWElemID (falls size != 0)
 	if (DestWWCoord.size() != 0) {
 		ID_space = IntToStr((int) DestWWCoord.size()).length();
-		if (ID_space < (int) ((string) KMCOUT_TINTERACTION_WWID).length()) ID_space = ((string) KMCOUT_TINTERACTION_WWID).length();
-		ElemID_space = ((string) KMCOUT_TINTERACTION_ELEMID).length();
+		if (ID_space < (int) KMCOUT_TINTERACTION_WWID.length()) ID_space = KMCOUT_TINTERACTION_WWID.length();
+		ElemID_space = KMCOUT_TINTERACTION_ELEMID.length();
 		for (int i = 0; i < (int) DestWWElemID.size(); i++) {
 			if (ElemID_space < (int) IntToStr(DestWWElemID[i]).length()) ElemID_space = IntToStr(DestWWElemID[i]).length();
 		}
 		x_space = (int) output.precision() + 7;
 		y_space = (int) output.precision() + 7;
 		z_space = (int) output.precision() + 7;
-		if (x_space < (int) ((string) KMCOUT_TINTERACTION_X).length()) x_space = ((string) KMCOUT_TINTERACTION_X).length();
-		if (y_space < (int) ((string) KMCOUT_TINTERACTION_Y).length()) y_space = ((string) KMCOUT_TINTERACTION_Y).length();
-		if (z_space < (int) ((string) KMCOUT_TINTERACTION_Z).length()) z_space = ((string) KMCOUT_TINTERACTION_Z).length();
+		if (x_space < (int) KMCOUT_TINTERACTION_X.length()) x_space = KMCOUT_TINTERACTION_X.length();
+		if (y_space < (int) KMCOUT_TINTERACTION_Y.length()) y_space = KMCOUT_TINTERACTION_Y.length();
+		if (z_space < (int) KMCOUT_TINTERACTION_Z.length()) z_space = KMCOUT_TINTERACTION_Z.length();
 		output << endl;
 		output << s_offset << sub_offset << setw(KMCOUT_TINTERACTION_DESTWW.front().length() + 1) << " ";
 		output << setw(ID_space) << KMCOUT_TINTERACTION_WWID << " ";

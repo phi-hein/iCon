@@ -445,10 +445,10 @@ int TJumpBase::SaveToStream (ostream &output, int AtomID, int DirID, int offset)
 	int y_space = IntToStr(StartPos.y).length();
 	int z_space = IntToStr(StartPos.z).length();
 	int s_space = IntToStr(StartPos.s).length();
-	if (x_space < (int) ((string) KMCOUT_TJUMP_X).length()) x_space = ((string) KMCOUT_TJUMP_X).length();
-	if (y_space < (int) ((string) KMCOUT_TJUMP_Y).length()) y_space = ((string) KMCOUT_TJUMP_Y).length();
-	if (z_space < (int) ((string) KMCOUT_TJUMP_Z).length()) z_space = ((string) KMCOUT_TJUMP_Z).length();
-	if (s_space < (int) ((string) KMCOUT_TJUMP_S).length()) s_space = ((string) KMCOUT_TJUMP_S).length();
+	if (x_space < (int) KMCOUT_TJUMP_X.length()) x_space = KMCOUT_TJUMP_X.length();
+	if (y_space < (int) KMCOUT_TJUMP_Y.length()) y_space = KMCOUT_TJUMP_Y.length();
+	if (z_space < (int) KMCOUT_TJUMP_Z.length()) z_space = KMCOUT_TJUMP_Z.length();
+	if (s_space < (int) KMCOUT_TJUMP_S.length()) s_space = KMCOUT_TJUMP_S.length();
 	output << s_offset << sub_offset << setw(KMCOUT_TJUMP_STARTATOM.front().length() + 1) << " " << "( ";
 	output << setw(x_space) << KMCOUT_TJUMP_X << " ";
 	output << setw(y_space) << KMCOUT_TJUMP_Y << " ";
@@ -464,10 +464,10 @@ int TJumpBase::SaveToStream (ostream &output, int AtomID, int DirID, int offset)
 	y_space = IntToStr(DestPos.y).length();
 	z_space = IntToStr(DestPos.z).length();
 	s_space = IntToStr(DestPos.s).length();
-	if (x_space < (int) ((string) KMCOUT_TJUMP_RELX).length()) x_space = ((string) KMCOUT_TJUMP_RELX).length();
-	if (y_space < (int) ((string) KMCOUT_TJUMP_RELY).length()) y_space = ((string) KMCOUT_TJUMP_RELY).length();
-	if (z_space < (int) ((string) KMCOUT_TJUMP_RELZ).length()) z_space = ((string) KMCOUT_TJUMP_RELZ).length();
-	if (s_space < (int) ((string) KMCOUT_TJUMP_RELS).length()) s_space = ((string) KMCOUT_TJUMP_RELS).length();
+	if (x_space < (int) KMCOUT_TJUMP_RELX.length()) x_space = KMCOUT_TJUMP_RELX.length();
+	if (y_space < (int) KMCOUT_TJUMP_RELY.length()) y_space = KMCOUT_TJUMP_RELY.length();
+	if (z_space < (int) KMCOUT_TJUMP_RELZ.length()) z_space = KMCOUT_TJUMP_RELZ.length();
+	if (s_space < (int) KMCOUT_TJUMP_RELS.length()) s_space = KMCOUT_TJUMP_RELS.length();
 	output << s_offset << sub_offset << setw(KMCOUT_TJUMP_DESTATOM.front().length() + 1) << " " << "( ";
 	output << setw(x_space) << KMCOUT_TJUMP_RELX << " ";
 	output << setw(y_space) << KMCOUT_TJUMP_RELY << " ";
@@ -479,10 +479,10 @@ int TJumpBase::SaveToStream (ostream &output, int AtomID, int DirID, int offset)
 	output << endl;
 
 	// Ausgabe der Umgebungsatomvektoren
-	x_space = ((string) KMCOUT_TJUMP_RELX).length();
-	y_space = ((string) KMCOUT_TJUMP_RELY).length();
-	z_space = ((string) KMCOUT_TJUMP_RELZ).length();
-	s_space = ((string) KMCOUT_TJUMP_RELS).length();
+	x_space = KMCOUT_TJUMP_RELX.length();
+	y_space = KMCOUT_TJUMP_RELY.length();
+	z_space = KMCOUT_TJUMP_RELZ.length();
+	s_space = KMCOUT_TJUMP_RELS.length();
 	for (int i = 0; i < (int) EnvPos.size(); i++) {
 		if (x_space < (int) IntToStr(EnvPos[i].x).length()) x_space = IntToStr(EnvPos[i].x).length();
 		if (y_space < (int) IntToStr(EnvPos[i].y).length()) y_space = IntToStr(EnvPos[i].y).length();
@@ -490,7 +490,7 @@ int TJumpBase::SaveToStream (ostream &output, int AtomID, int DirID, int offset)
 		if (s_space < (int) IntToStr(EnvPos[i].s).length()) s_space = IntToStr(EnvPos[i].s).length();
 	}
 	int ID_space = IntToStr((int) EnvPos.size()).length();
-	if (ID_space < (int) ((string) KMCOUT_TJUMP_ENVATOMID).length()) ID_space = ((string) KMCOUT_TJUMP_ENVATOMID).length();
+	if (ID_space < (int) KMCOUT_TJUMP_ENVATOMID.length()) ID_space = KMCOUT_TJUMP_ENVATOMID.length();
 	output << s_offset << sub_offset << setw(KMCOUT_TJUMP_ENVATOM.front().length() + 1) << " ";
 	output << setw(ID_space) << KMCOUT_TJUMP_ENVATOMID << " ( ";
 	output << setw(x_space) << KMCOUT_TJUMP_RELX << " ";

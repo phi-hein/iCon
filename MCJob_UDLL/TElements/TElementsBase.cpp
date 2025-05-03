@@ -451,11 +451,11 @@ int TElementsBase::SaveToStream(ostream& output, int offset)
 	output.unsetf(ios::floatfield);
 	output.setf(ios::right, ios::adjustfield);
 	int ID_space = IntToStr(((int)Symbol.size()) - 1).length();
-	if (ID_space < (int)((string)KMCOUT_TELEMENTS_ELEMID).length()) ID_space = ((string)KMCOUT_TELEMENTS_ELEMID).length();
-	int Sym_space = ((string)KMCOUT_TELEMENTS_SYMBOL).length();
-	if (Sym_space < (int)((string)KMCOUT_NOSTRING).length()) Sym_space = ((string)KMCOUT_NOSTRING).length();
-	int Name_space = ((string)KMCOUT_TELEMENTS_NAME).length();
-	if (Name_space < (int)((string)KMCOUT_NOSTRING).length()) Name_space = ((string)KMCOUT_NOSTRING).length();
+	if (ID_space < (int)KMCOUT_TELEMENTS_ELEMID.length()) ID_space = KMCOUT_TELEMENTS_ELEMID.length();
+	int Sym_space = KMCOUT_TELEMENTS_SYMBOL.length();
+	if (Sym_space < (int)KMCOUT_NOSTRING.length()) Sym_space = KMCOUT_NOSTRING.length();
+	int Name_space = KMCOUT_TELEMENTS_NAME.length();
+	if (Name_space < (int)KMCOUT_NOSTRING.length()) Name_space = KMCOUT_NOSTRING.length();
 	for (int i = 0; i < (int)Symbol.size(); i++)
 	{
 		if ((int)Symbol[i].length() > Sym_space) Sym_space = Symbol[i].length();
@@ -466,7 +466,7 @@ int TElementsBase::SaveToStream(ostream& output, int offset)
 
 	// Ausgabe der Erkennungszeile und der Kopfzeile
 	output << s_offset << KMCOUT_TELEMENTS_START << endl;
-	output << s_offset << sub_offset << setw(((string)KMCOUT_TELEMENTS_ELEMENT).length() + 1) << " ";
+	output << s_offset << sub_offset << setw(KMCOUT_TELEMENTS_ELEMENT.length() + 1) << " ";
 	output << setw(ID_space) << KMCOUT_TELEMENTS_ELEMID << " ";
 	output << setw(Sym_space) << KMCOUT_TELEMENTS_SYMBOL << " ";
 	output << setw(Name_space) << KMCOUT_TELEMENTS_NAME << " ";

@@ -393,9 +393,9 @@ int TSettingsBase::SaveToStream (ostream &output, int offset) {
 	int x_space = (int) output.precision() + 7;
 	int y_space = (int) output.precision() + 7;
 	int z_space = (int) output.precision() + 7;
-	if (x_space < (int) ((string) KMCOUT_TSETTINGS_EFIELDX).length()) x_space = ((string) KMCOUT_TSETTINGS_EFIELDX).length();
-	if (y_space < (int) ((string) KMCOUT_TSETTINGS_EFIELDY).length()) y_space = ((string) KMCOUT_TSETTINGS_EFIELDY).length();
-	if (z_space < (int) ((string) KMCOUT_TSETTINGS_EFIELDZ).length()) z_space = ((string) KMCOUT_TSETTINGS_EFIELDZ).length();
+	if (x_space < (int) KMCOUT_TSETTINGS_EFIELDX.length()) x_space = KMCOUT_TSETTINGS_EFIELDX.length();
+	if (y_space < (int) KMCOUT_TSETTINGS_EFIELDY.length()) y_space = KMCOUT_TSETTINGS_EFIELDY.length();
+	if (z_space < (int) KMCOUT_TSETTINGS_EFIELDZ.length()) z_space = KMCOUT_TSETTINGS_EFIELDZ.length();
 	output << s_offset << sub_offset << setw(KMCOUT_TSETTINGS_EFIELD.front().length() + 1) << " " << "( ";
 	output << setw(x_space) << KMCOUT_TSETTINGS_EFIELDX << " ";
 	output << setw(y_space) << KMCOUT_TSETTINGS_EFIELDY << " ";

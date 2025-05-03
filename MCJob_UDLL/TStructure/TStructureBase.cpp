@@ -740,12 +740,12 @@ int TStructureBase::SaveToStream (ostream &output, int offset) {
 	int x_space = (int) output.precision() + 7;
 	int y_space = (int) output.precision() + 7;
 	int z_space = (int) output.precision() + 7;
-	if (x_space < (int) ((string) KMCOUT_TSTRUCTURE_XCOORD).length()) x_space = ((string) KMCOUT_TSTRUCTURE_XCOORD).length();
-	if (y_space < (int) ((string) KMCOUT_TSTRUCTURE_YCOORD).length()) y_space = ((string) KMCOUT_TSTRUCTURE_YCOORD).length();
-	if (z_space < (int) ((string) KMCOUT_TSTRUCTURE_ZCOORD).length()) z_space = ((string) KMCOUT_TSTRUCTURE_ZCOORD).length();
-	int basis_space = (int) ((string) KMCOUT_TSTRUCTURE_BASISA).length();
-	if (basis_space < (int) ((string) KMCOUT_TSTRUCTURE_BASISB).length()) basis_space = ((string) KMCOUT_TSTRUCTURE_BASISB).length();
-	if (basis_space < (int) ((string) KMCOUT_TSTRUCTURE_BASISC).length()) basis_space = ((string) KMCOUT_TSTRUCTURE_BASISC).length();
+	if (x_space < (int) KMCOUT_TSTRUCTURE_XCOORD.length()) x_space = KMCOUT_TSTRUCTURE_XCOORD.length();
+	if (y_space < (int) KMCOUT_TSTRUCTURE_YCOORD.length()) y_space = KMCOUT_TSTRUCTURE_YCOORD.length();
+	if (z_space < (int) KMCOUT_TSTRUCTURE_ZCOORD.length()) z_space = KMCOUT_TSTRUCTURE_ZCOORD.length();
+	int basis_space = (int) KMCOUT_TSTRUCTURE_BASISA.length();
+	if (basis_space < (int) KMCOUT_TSTRUCTURE_BASISB.length()) basis_space = KMCOUT_TSTRUCTURE_BASISB.length();
+	if (basis_space < (int) KMCOUT_TSTRUCTURE_BASISC.length()) basis_space = KMCOUT_TSTRUCTURE_BASISC.length();
 	output << s_offset << sub_offset << setw(KMCOUT_TSTRUCTURE_BASIS.front().length() + basis_space + 4) << " " << "( ";
 	output << setw(x_space) << KMCOUT_TSTRUCTURE_XCOORD << " ";
 	output << setw(y_space) << KMCOUT_TSTRUCTURE_YCOORD << " ";
@@ -760,18 +760,18 @@ int TStructureBase::SaveToStream (ostream &output, int offset) {
 
 	// Ausgabe der Atome
 	int ID_space = IntToStr(((int) ElemID.size()) - 1).length();
-	if (ID_space < (int) ((string) KMCOUT_TSTRUCTURE_ATOMID).length()) ID_space = ((string) KMCOUT_TSTRUCTURE_ATOMID).length();
+	if (ID_space < (int) KMCOUT_TSTRUCTURE_ATOMID.length()) ID_space = KMCOUT_TSTRUCTURE_ATOMID.length();
 	int relx_space = (int) output.precision() + 7;
 	int rely_space = (int) output.precision() + 7;
 	int relz_space = (int) output.precision() + 7;
-	if (relx_space < (int) ((string) KMCOUT_TSTRUCTURE_XREL).length()) relx_space = ((string) KMCOUT_TSTRUCTURE_XREL).length();
-	if (rely_space < (int) ((string) KMCOUT_TSTRUCTURE_YREL).length()) rely_space = ((string) KMCOUT_TSTRUCTURE_YREL).length();
-	if (relz_space < (int) ((string) KMCOUT_TSTRUCTURE_ZREL).length()) relz_space = ((string) KMCOUT_TSTRUCTURE_ZREL).length();
-	int elemID_space = ((string) KMCOUT_TSTRUCTURE_ELEMID).length();
+	if (relx_space < (int) KMCOUT_TSTRUCTURE_XREL.length()) relx_space = KMCOUT_TSTRUCTURE_XREL.length();
+	if (rely_space < (int) KMCOUT_TSTRUCTURE_YREL.length()) rely_space = KMCOUT_TSTRUCTURE_YREL.length();
+	if (relz_space < (int) KMCOUT_TSTRUCTURE_ZREL.length()) relz_space = KMCOUT_TSTRUCTURE_ZREL.length();
+	int elemID_space = KMCOUT_TSTRUCTURE_ELEMID.length();
 	for (int i = 0; i < (int) ElemID.size(); i++) {
 		if ((int) IntToStr(ElemID[i]).length() > elemID_space) elemID_space = IntToStr(ElemID[i]).length();
 	}
-	output << s_offset << sub_offset << setw(((string) KMCOUT_TSTRUCTURE_ATOM).length() + 1) << " ";
+	output << s_offset << sub_offset << setw(KMCOUT_TSTRUCTURE_ATOM.length() + 1) << " ";
 	output << setw(ID_space) << KMCOUT_TSTRUCTURE_ATOMID << " ( ";
 	output << setw(relx_space) << KMCOUT_TSTRUCTURE_XREL << " ";
 	output << setw(rely_space) << KMCOUT_TSTRUCTURE_YREL << " ";
@@ -790,17 +790,17 @@ int TStructureBase::SaveToStream (ostream &output, int offset) {
 	// Ausgabe der Dotierungen (falls vorhanden)
 	if ((int) DopedID.size() != 0) {
 		ID_space = IntToStr(((int) DopedID.size()) - 1).length();
-		if (ID_space < (int) ((string) KMCOUT_TSTRUCTURE_DOPINGID).length()) ID_space = ((string) KMCOUT_TSTRUCTURE_DOPINGID).length();
+		if (ID_space < (int) KMCOUT_TSTRUCTURE_DOPINGID.length()) ID_space = KMCOUT_TSTRUCTURE_DOPINGID.length();
 		int dopedID_space = KMCOUT_TSTRUCTURE_DOPEDID.front().length();
 		for (int i = 0; i < (int) DopedID.size(); i++) {
 			if ((int) IntToStr(DopedID[i]).length() > dopedID_space) dopedID_space = IntToStr(DopedID[i]).length();
 		}
-		int dopandID_space = ((string) KMCOUT_TSTRUCTURE_DOPANDID).length();
+		int dopandID_space = KMCOUT_TSTRUCTURE_DOPANDID.length();
 		for (int i = 0; i < (int) DopandID.size(); i++) {
 			if ((int) IntToStr(DopandID[i]).length() > dopandID_space) dopandID_space = IntToStr(DopandID[i]).length();
 		}
 		int Ratio_space = (int) output.precision() + 7;
-		if (Ratio_space < (int) ((string) KMCOUT_TSTRUCTURE_VACDOPRATIO).length()) Ratio_space = ((string) KMCOUT_TSTRUCTURE_VACDOPRATIO).length();
+		if (Ratio_space < (int) KMCOUT_TSTRUCTURE_VACDOPRATIO.length()) Ratio_space = KMCOUT_TSTRUCTURE_VACDOPRATIO.length();
 		output << s_offset << sub_offset << setw(KMCOUT_TSTRUCTURE_DOPING.front().length() + 1) << " ";
 		output << setw(ID_space) << KMCOUT_TSTRUCTURE_DOPINGID << " ";
 		output << setw(dopedID_space) << KMCOUT_TSTRUCTURE_DOPEDID << " ";
