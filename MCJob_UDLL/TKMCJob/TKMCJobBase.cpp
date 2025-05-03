@@ -61,11 +61,15 @@ TKMCJobBase::TKMCJobBase()
 	}
 	catch (exception& e)
 	{
-		Ready = false; StdExceptionHandler(e);
+		Ready = false; 
+		StdExceptionHandler(e);
+		throw;
 	}
 	catch (...)
 	{
-		Ready = false; ExceptionHandler();
+		Ready = false; 
+		ExceptionHandler();
+		throw;
 	}
 }
 

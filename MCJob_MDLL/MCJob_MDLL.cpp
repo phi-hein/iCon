@@ -27,47 +27,73 @@
 // *********************** CONSTRUCTOR/DESTRUCTOR ************************* //
 
 // Constructor
-TMCJobWrapper::TMCJobWrapper() {
-	try {
+TMCJobWrapper::TMCJobWrapper()
+{
+	try
+	{
 		m_Job = NULL;
 		m_Job = CreateKMCJob();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
+	}
+	if (m_Job == NULL)
+	{
+		throw gcnew System::ApplicationException("KMC-job creation failed (TMCJobWrapper constructor).");
+	}
 }
 
 // Destructor
-TMCJobWrapper::~TMCJobWrapper() {
-	try {
+TMCJobWrapper::~TMCJobWrapper()
+{
+	try
+	{
 		if (m_Job != NULL) m_Job->Release();
 		m_Job = NULL;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
+	}
 }
 
 // Finalizer
-TMCJobWrapper::!TMCJobWrapper() {
-	try {
+TMCJobWrapper::!TMCJobWrapper()
+{
+	try
+	{
 		if (m_Job != NULL) m_Job->Release();
 		m_Job = NULL;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
+	}
 }
 
 // **************************** PUBLISHED ********************************** //
 
 // Rückgabe, ob KMCJob erfolgreich initialisiert wurde
-bool TMCJobWrapper::IfReady() {
-	try {
+bool TMCJobWrapper::IfReady()
+{
+	try
+	{
 		if (m_Job == NULL) return false;
 
 		return m_Job->IfReady();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return false; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return false;
+	}
 }
 
 // Projektnamen setzen
-int TMCJobWrapper::SetProjectName(System::String ^Name) {
-	try {
+int TMCJobWrapper::SetProjectName(System::String^ Name)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Name = "";
@@ -75,12 +101,17 @@ int TMCJobWrapper::SetProjectName(System::String ^Name) {
 
 		return m_Job->SetProjectName(U_Name);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Usernamen eingeben
-int TMCJobWrapper::SetUserName(System::String ^Name) {
-	try {
+int TMCJobWrapper::SetUserName(System::String^ Name)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Name = "";
@@ -88,22 +119,32 @@ int TMCJobWrapper::SetUserName(System::String ^Name) {
 
 		return m_Job->SetUserName(U_Name);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Projektdatum auf aktuelles Datum setzen
-int TMCJobWrapper::SetProjectDate() {
-	try {
+int TMCJobWrapper::SetProjectDate()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetProjectDate();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Projektbeschreibung eingeben
-int TMCJobWrapper::SetProjectDescription(System::String ^Description) {
-	try {
+int TMCJobWrapper::SetProjectDescription(System::String^ Description)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Description = "";
@@ -111,12 +152,17 @@ int TMCJobWrapper::SetProjectDescription(System::String ^Description) {
 
 		return m_Job->SetProjectDescription(U_Description);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Projektnamen ausgeben
-int TMCJobWrapper::GetProjectName(System::String ^%Name) {
-	try {
+int TMCJobWrapper::GetProjectName(System::String^% Name)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Name = "";
@@ -127,12 +173,17 @@ int TMCJobWrapper::GetProjectName(System::String ^%Name) {
 		String_U2M(U_Name, Name);
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Usernamen ausgeben
-int TMCJobWrapper::GetUserName(System::String ^%Name) {
-	try {
+int TMCJobWrapper::GetUserName(System::String^% Name)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Name = "";
@@ -143,12 +194,17 @@ int TMCJobWrapper::GetUserName(System::String ^%Name) {
 		String_U2M(U_Name, Name);
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Projektdatum ausgeben
-int TMCJobWrapper::GetProjectDate(System::String ^%CreateDate) {
-	try {
+int TMCJobWrapper::GetProjectDate(System::String^% CreateDate)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_CreateDate = "";
@@ -159,12 +215,17 @@ int TMCJobWrapper::GetProjectDate(System::String ^%CreateDate) {
 		String_U2M(U_CreateDate, CreateDate);
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Projektbeschreibung ausgeben
-int TMCJobWrapper::GetProjectDescription(System::String ^%Description) {
-	try {
+int TMCJobWrapper::GetProjectDescription(System::String^% Description)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Description = "";
@@ -175,12 +236,17 @@ int TMCJobWrapper::GetProjectDescription(System::String ^%Description) {
 		String_U2M(U_Description, Description);
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Ausgabe des Projectstatus
-int TMCJobWrapper::GetProjectState(int %State) {
-	try {
+int TMCJobWrapper::GetProjectState(int% State)
+{
+	try
+	{
 
 		int U_State = State;
 
@@ -189,21 +255,31 @@ int TMCJobWrapper::GetProjectState(int %State) {
 		State = U_State;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Gesamtes Projekt in Konsole schreiben
-int TMCJobWrapper::WriteToConsole() {
-	try {
+int TMCJobWrapper::WriteToConsole()
+{
+	try
+	{
 
 		return m_Job->WriteToConsole();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Job in Datei speichern
-int TMCJobWrapper::SaveToFile(System::String ^Filename) {
-	try {
+int TMCJobWrapper::SaveToFile(System::String^ Filename)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Filename = "";
@@ -216,12 +292,17 @@ int TMCJobWrapper::SaveToFile(System::String ^Filename) {
 
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Job in String speichern
-int TMCJobWrapper::SaveToString(System::String ^%Output) {
-	try {
+int TMCJobWrapper::SaveToString(System::String^% Output)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Output = "";
@@ -233,12 +314,17 @@ int TMCJobWrapper::SaveToString(System::String ^%Output) {
 
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Job aus Datei laden
-int TMCJobWrapper::LoadFromFile(System::String ^Filename) {
-	try {
+int TMCJobWrapper::LoadFromFile(System::String^ Filename)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Filename = "";
@@ -246,12 +332,17 @@ int TMCJobWrapper::LoadFromFile(System::String ^Filename) {
 
 		return m_Job->LoadFromFile(U_Filename);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Job aus String laden
-int TMCJobWrapper::LoadFromString(System::String ^Input) {
-	try {
+int TMCJobWrapper::LoadFromString(System::String^ Input)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Input = "";
@@ -259,7 +350,10 @@ int TMCJobWrapper::LoadFromString(System::String ^Input) {
 
 		return m_Job->LoadFromString(U_Input);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // *********************************** //
@@ -267,18 +361,25 @@ int TMCJobWrapper::LoadFromString(System::String ^Input) {
 // *********************************** //
 
 // Eingegebene Elemente loeschen
-int TMCJobWrapper::ClearElements() {
-	try {
+int TMCJobWrapper::ClearElements()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->ClearElements();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Element falls noch nicht vorhanden hinzufügen
-int TMCJobWrapper::AddElement(System::String ^ElementSymbol, System::String ^ElementName, double ElementCharge) {
-	try {
+int TMCJobWrapper::AddElement(System::String^ ElementSymbol, System::String^ ElementName, double ElementCharge)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ElementSymbol = "";
@@ -288,12 +389,17 @@ int TMCJobWrapper::AddElement(System::String ^ElementSymbol, System::String ^Ele
 
 		return m_Job->AddElement(U_ElementSymbol, U_ElementName, ElementCharge);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Element als bewegliche Spezies setzen
-int TMCJobWrapper::SetMovingElement(System::String ^ElementSymbol, System::String ^ElementName, double ElementCharge) {
-	try {
+int TMCJobWrapper::SetMovingElement(System::String^ ElementSymbol, System::String^ ElementName, double ElementCharge)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ElementSymbol = "";
@@ -303,22 +409,32 @@ int TMCJobWrapper::SetMovingElement(System::String ^ElementSymbol, System::Strin
 
 		return m_Job->SetMovingElement(U_ElementSymbol, U_ElementName, ElementCharge);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Elemente sortieren und Elementliste schliessen
-int TMCJobWrapper::MakeElements() {
-	try {
+int TMCJobWrapper::MakeElements()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->MakeElements();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl der Elemente ausgeben
-int TMCJobWrapper::GetElementCount(int %ElementCount) {
-	try {
+int TMCJobWrapper::GetElementCount(int% ElementCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_ElementCount = ElementCount;
@@ -328,12 +444,17 @@ int TMCJobWrapper::GetElementCount(int %ElementCount) {
 		ElementCount = U_ElementCount;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Ausgabe eines Elements
-int TMCJobWrapper::GetElement(int ElementID, System::String ^%ElementSymbol, System::String ^%ElementName, double %ElementCharge) {
-	try {
+int TMCJobWrapper::GetElement(int ElementID, System::String^% ElementSymbol, System::String^% ElementName, double% ElementCharge)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ElementSymbol = "";
@@ -349,13 +470,18 @@ int TMCJobWrapper::GetElement(int ElementID, System::String ^%ElementSymbol, Sys
 		ElementCharge = U_ElementCharge;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Ausgabe eines Elements
-int TMCJobWrapper::GetElement(int ElementID, System::String ^%ElementSymbol, System::String ^%ElementName, double %ElementCharge,
-	double %Radius, double %ColorR, double %ColorG, double %ColorB) {
-	try {
+int TMCJobWrapper::GetElement(int ElementID, System::String^% ElementSymbol, System::String^% ElementName, double% ElementCharge,
+	double% Radius, double% ColorR, double% ColorG, double% ColorB)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ElementSymbol = "";
@@ -379,12 +505,17 @@ int TMCJobWrapper::GetElement(int ElementID, System::String ^%ElementSymbol, Sys
 		ColorB = U_ColorB;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Ausgabe des MovingElement
-int TMCJobWrapper::GetMovingElement(System::String ^%ElementSymbol, System::String ^%ElementName, double %ElementCharge) {
-	try {
+int TMCJobWrapper::GetMovingElement(System::String^% ElementSymbol, System::String^% ElementName, double% ElementCharge)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ElementSymbol = "";
@@ -400,13 +531,18 @@ int TMCJobWrapper::GetMovingElement(System::String ^%ElementSymbol, System::Stri
 		ElementCharge = U_ElementCharge;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Ausgabe eines MovingElements
-int TMCJobWrapper::GetMovingElement(System::String ^%ElementSymbol, System::String ^%ElementName, double %ElementCharge,
-	double %Radius, double %ColorR, double %ColorG, double %ColorB) {
-	try {
+int TMCJobWrapper::GetMovingElement(System::String^% ElementSymbol, System::String^% ElementName, double% ElementCharge,
+	double% Radius, double% ColorR, double% ColorG, double% ColorB)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ElementSymbol = "";
@@ -430,12 +566,17 @@ int TMCJobWrapper::GetMovingElement(System::String ^%ElementSymbol, System::Stri
 		ColorB = U_ColorB;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Ausgabe des VacancyElement
-int TMCJobWrapper::GetVacancyElement(System::String ^%ElementSymbol, System::String ^%ElementName, double %ElementCharge) {
-	try {
+int TMCJobWrapper::GetVacancyElement(System::String^% ElementSymbol, System::String^% ElementName, double% ElementCharge)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ElementSymbol = "";
@@ -451,13 +592,18 @@ int TMCJobWrapper::GetVacancyElement(System::String ^%ElementSymbol, System::Str
 		ElementCharge = U_ElementCharge;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Ausgabe eines VacancyElements
-int TMCJobWrapper::GetVacancyElement(System::String ^%ElementSymbol, System::String ^%ElementName, double %ElementCharge,
-	double %Radius, double %ColorR, double %ColorG, double %ColorB) {
-	try {
+int TMCJobWrapper::GetVacancyElement(System::String^% ElementSymbol, System::String^% ElementName, double% ElementCharge,
+	double% Radius, double% ColorR, double% ColorG, double% ColorB)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ElementSymbol = "";
@@ -481,17 +627,25 @@ int TMCJobWrapper::GetVacancyElement(System::String ^%ElementSymbol, System::Str
 		ColorB = U_ColorB;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Elementbeschreibung in Konsole schreiben
-int TMCJobWrapper::WriteElementsToConsole() {
-	try {
+int TMCJobWrapper::WriteElementsToConsole()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->WriteElementsToConsole();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // *********************************** //
@@ -499,18 +653,25 @@ int TMCJobWrapper::WriteElementsToConsole() {
 // *********************************** //
 
 // Eingegebene Struktur loeschen
-int TMCJobWrapper::ClearStructure() {
-	try {
+int TMCJobWrapper::ClearStructure()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->ClearStructure();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Name der Struktur eingeben, max. 40 Zeichen
-int TMCJobWrapper::SetStructureName(System::String ^StructureName) {
-	try {
+int TMCJobWrapper::SetStructureName(System::String^ StructureName)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_StructureName = "";
@@ -518,32 +679,47 @@ int TMCJobWrapper::SetStructureName(System::String ^StructureName) {
 
 		return m_Job->SetStructureName(U_StructureName);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Basis setzen aus 6 double (Längen, Winkel)
-int TMCJobWrapper::SetBasisByLatticeParam(double LengthA, double LengthB, double LengthC, double AngleA, double AngleB, double AngleC) {
-	try {
+int TMCJobWrapper::SetBasisByLatticeParam(double LengthA, double LengthB, double LengthC, double AngleA, double AngleB, double AngleC)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetBasisByLatticeParam(LengthA, LengthB, LengthC, AngleA, AngleB, AngleC);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Basis setzen aus 9 double (Vektoren)
-int TMCJobWrapper::SetBasisByLatticeVectors(double Ax, double Ay, double Az, double Bx, double By, double Bz, double Cx, double Cy, double Cz) {
-	try {
+int TMCJobWrapper::SetBasisByLatticeVectors(double Ax, double Ay, double Az, double Bx, double By, double Bz, double Cx, double Cy, double Cz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetBasisByLatticeVectors(Ax, Ay, Az, Bx, By, Bz, Cx, Cy, Cz);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Atom hinzufügen, relative Atomkoordinaten aus [0,1)
-int TMCJobWrapper::AddAtom(double Xrel, double Yrel, double Zrel, System::String ^AtomSymbol, System::String ^AtomName, double AtomCharge) {
-	try {
+int TMCJobWrapper::AddAtom(double Xrel, double Yrel, double Zrel, System::String^ AtomSymbol, System::String^ AtomName, double AtomCharge)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_AtomSymbol = "";
@@ -553,22 +729,32 @@ int TMCJobWrapper::AddAtom(double Xrel, double Yrel, double Zrel, System::String
 
 		return m_Job->AddAtom(Xrel, Yrel, Zrel, U_AtomSymbol, U_AtomName, AtomCharge);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Atom hinzufügen, relative Atomkoordinaten aus [0,1)
-int TMCJobWrapper::AddAtom(double Xrel, double Yrel, double Zrel, int ElemID) {
-	try {
+int TMCJobWrapper::AddAtom(double Xrel, double Yrel, double Zrel, int ElemID)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->AddAtom(Xrel, Yrel, Zrel, ElemID);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Dotierung hinzufügen, noch keine Konzentrationen
-int TMCJobWrapper::AddDoping(System::String ^DopedSymbol, System::String ^DopedName, double DopedCharge, System::String ^DopandSymbol, System::String ^DopandName, double DopandCharge, double VacDopRatio) {
-	try {
+int TMCJobWrapper::AddDoping(System::String^ DopedSymbol, System::String^ DopedName, double DopedCharge, System::String^ DopandSymbol, System::String^ DopandName, double DopandCharge, double VacDopRatio)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_DopedSymbol = "";
@@ -582,32 +768,47 @@ int TMCJobWrapper::AddDoping(System::String ^DopedSymbol, System::String ^DopedN
 
 		return m_Job->AddDoping(U_DopedSymbol, U_DopedName, DopedCharge, U_DopandSymbol, U_DopandName, DopandCharge, VacDopRatio);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Dotierung hinzufügen, noch keine Konzentrationen
-int TMCJobWrapper::AddDoping(int DopedID, int DopandID, double VacDopRatio) {
-	try {
+int TMCJobWrapper::AddDoping(int DopedID, int DopandID, double VacDopRatio)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->AddDoping(DopedID, DopandID, VacDopRatio);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Struktur sortieren und überprüfen, dann Ready = true setzen
-int TMCJobWrapper::MakeStructure() {
-	try {
+int TMCJobWrapper::MakeStructure()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->MakeStructure();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Name der Struktur ausgeben
-int TMCJobWrapper::GetStructureName(System::String ^%StructureName) {
-	try {
+int TMCJobWrapper::GetStructureName(System::String^% StructureName)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_StructureName = "";
@@ -618,12 +819,17 @@ int TMCJobWrapper::GetStructureName(System::String ^%StructureName) {
 		String_U2M(U_StructureName, StructureName);
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Basis ausgeben als 6 double (Längen, Winkel)
-int TMCJobWrapper::GetBasisByLatticeParam(double %LengthA, double %LengthB, double %LengthC, double %AngleA, double %AngleB, double %AngleC) {
-	try {
+int TMCJobWrapper::GetBasisByLatticeParam(double% LengthA, double% LengthB, double% LengthC, double% AngleA, double% AngleB, double% AngleC)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_LengthA = LengthA;
@@ -643,12 +849,17 @@ int TMCJobWrapper::GetBasisByLatticeParam(double %LengthA, double %LengthB, doub
 		AngleC = U_AngleC;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Basis ausgeben als 9 double (Vektoren)
-int TMCJobWrapper::GetBasisByLatticeVectors(double %Ax, double %Ay, double %Az, double %Bx, double %By, double %Bz, double %Cx, double %Cy, double %Cz) {
-	try {
+int TMCJobWrapper::GetBasisByLatticeVectors(double% Ax, double% Ay, double% Az, double% Bx, double% By, double% Bz, double% Cx, double% Cy, double% Cz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_Ax = Ax;
@@ -674,12 +885,17 @@ int TMCJobWrapper::GetBasisByLatticeVectors(double %Ax, double %Ay, double %Az, 
 		Cz = U_Cz;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an Elementarzellatomen ausgeben
-int TMCJobWrapper::GetAtomCount(int %AtomCount) {
-	try {
+int TMCJobWrapper::GetAtomCount(int% AtomCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_AtomCount = AtomCount;
@@ -689,12 +905,17 @@ int TMCJobWrapper::GetAtomCount(int %AtomCount) {
 		AtomCount = U_AtomCount;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl der Mov- und Vac-Atome in der Elementarzelle ausgeben
-int TMCJobWrapper::GetMovCount(int %MovCount) {
-	try {
+int TMCJobWrapper::GetMovCount(int% MovCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_MovCount = MovCount;
@@ -704,12 +925,17 @@ int TMCJobWrapper::GetMovCount(int %MovCount) {
 		MovCount = U_MovCount;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Atom ausgeben
-int TMCJobWrapper::GetAtom(int AtomID, double %Xrel, double %Yrel, double %Zrel, int %ElemID) {
-	try {
+int TMCJobWrapper::GetAtom(int AtomID, double% Xrel, double% Yrel, double% Zrel, int% ElemID)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_Xrel = Xrel;
@@ -725,12 +951,17 @@ int TMCJobWrapper::GetAtom(int AtomID, double %Xrel, double %Yrel, double %Zrel,
 		ElemID = U_ElemID;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an Dotierungen ausgeben
-int TMCJobWrapper::GetDopingCount(int %DopingCount) {
-	try {
+int TMCJobWrapper::GetDopingCount(int% DopingCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_DopingCount = DopingCount;
@@ -740,12 +971,17 @@ int TMCJobWrapper::GetDopingCount(int %DopingCount) {
 		DopingCount = U_DopingCount;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Dotierung ausgeben
-int TMCJobWrapper::GetDoping(int DopingID, int %DopedID, int %DopandID, double %VacDopRatio) {
-	try {
+int TMCJobWrapper::GetDoping(int DopingID, int% DopedID, int% DopandID, double% VacDopRatio)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_DopedID = DopedID;
@@ -759,17 +995,25 @@ int TMCJobWrapper::GetDoping(int DopingID, int %DopedID, int %DopandID, double %
 		VacDopRatio = U_VacDopRatio;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Strukturbeschreibung in Konsole schreiben
-int TMCJobWrapper::WriteStructureToConsole() {
-	try {
+int TMCJobWrapper::WriteStructureToConsole()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->WriteStructureToConsole();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // *********************************** //
@@ -777,28 +1021,40 @@ int TMCJobWrapper::WriteStructureToConsole() {
 // *********************************** //
 
 // Gitterspruenge loeschen
-int TMCJobWrapper::ClearJumps() {
-	try {
+int TMCJobWrapper::ClearJumps()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->ClearJumps();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // alle Gittersprünge und deren Umgebung finden
-int TMCJobWrapper::MakeJumps(int MovShellCount, int JumpStartShellCount, int JumpTSShellCount, int JumpDestShellCount) {
-	try {
+int TMCJobWrapper::MakeJumps(int MovShellCount, int JumpStartShellCount, int JumpTSShellCount, int JumpDestShellCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->MakeJumps(MovShellCount, JumpStartShellCount, JumpTSShellCount, JumpDestShellCount);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Schalenanzahlen fuer Sprungrichtungen und Sprungumgebungen ausgeben
-int TMCJobWrapper::GetShellCounts(int %MovShellCount, int %JumpStartShellCount, int %JumpTSShellCount, int %JumpDestShellCount) {
-	try {
+int TMCJobWrapper::GetShellCounts(int% MovShellCount, int% JumpStartShellCount, int% JumpTSShellCount, int% JumpDestShellCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_MovShellCount = MovShellCount;
@@ -814,12 +1070,17 @@ int TMCJobWrapper::GetShellCounts(int %MovShellCount, int %JumpStartShellCount, 
 		JumpDestShellCount = U_JumpDestShellCount;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an Sprungrichtungen fuer bestimmtes Mov- bzw. Vac-Atom in Elementarzelle
-int TMCJobWrapper::GetJumpDirCount(int AtomID, int %DirectionCount) {
-	try {
+int TMCJobWrapper::GetJumpDirCount(int AtomID, int% DirectionCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_DirectionCount = DirectionCount;
@@ -829,12 +1090,17 @@ int TMCJobWrapper::GetJumpDirCount(int AtomID, int %DirectionCount) {
 		DirectionCount = U_DirectionCount;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // 4D-Vektor des Sprungstartatoms ausgeben
-int TMCJobWrapper::GetJumpStartPos(int AtomID, int DirID, int %x, int %y, int %z, int %s) {
-	try {
+int TMCJobWrapper::GetJumpStartPos(int AtomID, int DirID, int% x, int% y, int% z, int% s)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_x = x;
@@ -850,12 +1116,17 @@ int TMCJobWrapper::GetJumpStartPos(int AtomID, int DirID, int %x, int %y, int %z
 		s = U_s;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // 4D-Vektor des Sprungzielatoms ausgeben
-int TMCJobWrapper::GetJumpDestPos(int AtomID, int DirID, int %x, int %y, int %z, int %s) {
-	try {
+int TMCJobWrapper::GetJumpDestPos(int AtomID, int DirID, int% x, int% y, int% z, int% s)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_x = x;
@@ -871,12 +1142,17 @@ int TMCJobWrapper::GetJumpDestPos(int AtomID, int DirID, int %x, int %y, int %z,
 		s = U_s;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Ruecksprung-DirID ausgeben
-int TMCJobWrapper::GetJumpBackjumpDirID(int AtomID, int DirID, int %BackjumpDirID) {
-	try {
+int TMCJobWrapper::GetJumpBackjumpDirID(int AtomID, int DirID, int% BackjumpDirID)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_BackjumpDirID = BackjumpDirID;
@@ -886,12 +1162,17 @@ int TMCJobWrapper::GetJumpBackjumpDirID(int AtomID, int DirID, int %BackjumpDirI
 		BackjumpDirID = U_BackjumpDirID;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an Umgebungsatomen ausgeben
-int TMCJobWrapper::GetJumpEnvCount(int AtomID, int DirID, int %EnvAtomCount) {
-	try {
+int TMCJobWrapper::GetJumpEnvCount(int AtomID, int DirID, int% EnvAtomCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_EnvAtomCount = EnvAtomCount;
@@ -901,12 +1182,17 @@ int TMCJobWrapper::GetJumpEnvCount(int AtomID, int DirID, int %EnvAtomCount) {
 		EnvAtomCount = U_EnvAtomCount;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Umgebungsatom ausgeben
-int TMCJobWrapper::GetJumpEnvAtom(int AtomID, int DirID, int EnvAtomID, int %x, int %y, int %z, int %s) {
-	try {
+int TMCJobWrapper::GetJumpEnvAtom(int AtomID, int DirID, int EnvAtomID, int% x, int% y, int% z, int% s)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_x = x;
@@ -922,12 +1208,17 @@ int TMCJobWrapper::GetJumpEnvAtom(int AtomID, int DirID, int EnvAtomID, int %x, 
 		s = U_s;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // ID des zugehörigen UniqueJump ausgeben
-int TMCJobWrapper::GetJumpUniqueJumpID(int AtomID, int DirID, int %UniqueJumpID) {
-	try {
+int TMCJobWrapper::GetJumpUniqueJumpID(int AtomID, int DirID, int% UniqueJumpID)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_UniqueJumpID = UniqueJumpID;
@@ -937,17 +1228,25 @@ int TMCJobWrapper::GetJumpUniqueJumpID(int AtomID, int DirID, int %UniqueJumpID)
 		UniqueJumpID = U_UniqueJumpID;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Sprungbeschreibungen in Konsole schreiben
-int TMCJobWrapper::WriteJumpsToConsole() {
-	try {
+int TMCJobWrapper::WriteJumpsToConsole()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->WriteJumpsToConsole();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // *********************************** //
@@ -955,118 +1254,175 @@ int TMCJobWrapper::WriteJumpsToConsole() {
 // *********************************** //
 
 // Einzigartige Gittersprünge löschen
-int TMCJobWrapper::ClearUniqueJumps() {
-	try {
+int TMCJobWrapper::ClearUniqueJumps()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->ClearUniqueJumps();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Einzigartige Sprünge finden, VacShellCount = Schalenanzahl zur Unterscheidung von VV-Wechselwirkungen
-int TMCJobWrapper::MakeUniqueJumps() {
-	try {
+int TMCJobWrapper::MakeUniqueJumps()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->MakeUniqueJumps();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Sprung aktivieren (= Sprung möglich) oder deaktivieren (= Sprung unmöglich), KMCERR_DEACTIVATION_IMPOSSIBLE zeigt, dass Sprung aktiviert bleiben muss
-int TMCJobWrapper::SetJumpActive(int JumpID, bool State) {
-	try {
+int TMCJobWrapper::SetJumpActive(int JumpID, bool State)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetJumpActive(JumpID, State);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Umgebungsatom in einem Sprung ignorieren oder nicht-ignorieren
-int TMCJobWrapper::SetAtomIgnore(int JumpID, int CoordID, bool State) {
-	try {
+int TMCJobWrapper::SetAtomIgnore(int JumpID, int CoordID, bool State)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetAtomIgnore(JumpID, CoordID, State);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Umgebungsatom in einem Sprung additiv oder nicht-additiv setzen
-int TMCJobWrapper::SetAtomAdditive(int JumpID, int CoordID, bool State) {
-	try {
+int TMCJobWrapper::SetAtomAdditive(int JumpID, int CoordID, bool State)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetAtomAdditive(JumpID, CoordID, State);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Umgebungsatom in einem Sprung aktivieren oder deaktivieren
-int TMCJobWrapper::SetAtomActive(int JumpID, int CoordID, bool State) {
-	try {
+int TMCJobWrapper::SetAtomActive(int JumpID, int CoordID, bool State)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetAtomActive(JumpID, CoordID, State);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Codierung loeschen
-int TMCJobWrapper::ClearUniqueCodes() {
-	try {
+int TMCJobWrapper::ClearUniqueCodes()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->ClearUniqueCodes();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Mögliche Umgebungsbesetzungen bestimmen und vergleichen (mehrfaches Update möglich), InteractionShellCount = Schalenanzahl zur Unterscheidung von Wechselwirkungen
-int TMCJobWrapper::MakeUniqueCodes(int InteractionShellCount) {
-	try {
+int TMCJobWrapper::MakeUniqueCodes(int InteractionShellCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->MakeUniqueCodes(InteractionShellCount);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // WW-Energie [eV] für bestimmte CoordID (nicht-ignoriert, nicht-additiv) und bestimmte (Elem)ID-Besetzung setzen
-int TMCJobWrapper::SetInteractionEnergyByCoord(int JumpID, int CoordID, int ID, double Energy) {
-	try {
+int TMCJobWrapper::SetInteractionEnergyByCoord(int JumpID, int CoordID, int ID, double Energy)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetInteractionEnergyByCoord(JumpID, CoordID, ID, Energy);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // WW-Energien [eV] für bestimmte InteractionID und bestimmte (Elem)ID-Besetzung setzen
-int TMCJobWrapper::SetInteractionEnergyByInteraction(int WWID, int ID, double Energy) {
-	try {
+int TMCJobWrapper::SetInteractionEnergyByInteraction(int WWID, int ID, double Energy)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetInteractionEnergyByInteraction(WWID, ID, Energy);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Code-Energie [eV] für bestimmte UniqueCodeID in bestimmtem UniqueJump setzen
-int TMCJobWrapper::SetCodeEnergy(int JumpID, int CodeID, double Energy) {
-	try {
+int TMCJobWrapper::SetCodeEnergy(int JumpID, int CodeID, double Energy)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetCodeEnergy(JumpID, CodeID, Energy);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an UJumps ausgeben
-int TMCJobWrapper::GetUJumpCount(int %Count) {
-	try {
+int TMCJobWrapper::GetUJumpCount(int% Count)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_Count = Count;
@@ -1076,12 +1432,17 @@ int TMCJobWrapper::GetUJumpCount(int %Count) {
 		Count = U_Count;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Laenge eines Sprungs ausgeben
-int TMCJobWrapper::GetUJumpLength(int JumpID, double %JumpLength) {
-	try {
+int TMCJobWrapper::GetUJumpLength(int JumpID, double% JumpLength)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_JumpLength = JumpLength;
@@ -1091,12 +1452,17 @@ int TMCJobWrapper::GetUJumpLength(int JumpID, double %JumpLength) {
 		JumpLength = U_JumpLength;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Aktivierungszustand eines Sprungs ausgeben
-int TMCJobWrapper::GetUJumpActive(int JumpID, bool %JumpState) {
-	try {
+int TMCJobWrapper::GetUJumpActive(int JumpID, bool% JumpState)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		bool U_JumpState = JumpState;
@@ -1106,12 +1472,17 @@ int TMCJobWrapper::GetUJumpActive(int JumpID, bool %JumpState) {
 		JumpState = U_JumpState;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an Umgebungsatomen in bestimmtem UJump ausgeben
-int TMCJobWrapper::GetUJumpAtomCount(int JumpID, int %Count) {
-	try {
+int TMCJobWrapper::GetUJumpAtomCount(int JumpID, int% Count)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_Count = Count;
@@ -1121,12 +1492,17 @@ int TMCJobWrapper::GetUJumpAtomCount(int JumpID, int %Count) {
 		Count = U_Count;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Element eines Umgebungsatoms eines bestimmten UJump ausgeben
-int TMCJobWrapper::GetUJumpAtomElement(int JumpID, int CoordID, int %ElemID) {
-	try {
+int TMCJobWrapper::GetUJumpAtomElement(int JumpID, int CoordID, int% ElemID)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_ElemID = ElemID;
@@ -1136,12 +1512,17 @@ int TMCJobWrapper::GetUJumpAtomElement(int JumpID, int CoordID, int %ElemID) {
 		ElemID = U_ElemID;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Essentielle Informationen zu einem Umgebungsatom eines bestimmten UJump ausgeben
-int TMCJobWrapper::GetUJumpAtomZylPosition(int JumpID, int CoordID, double %X, double %Y, double %Z) {
-	try {
+int TMCJobWrapper::GetUJumpAtomZylPosition(int JumpID, int CoordID, double% X, double% Y, double% Z)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_X = X;
@@ -1155,12 +1536,17 @@ int TMCJobWrapper::GetUJumpAtomZylPosition(int JumpID, int CoordID, double %X, d
 		Z = U_Z;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Zustände (ignore, additive, active) eines Umgebungsatoms eines UJumps ausgeben
-int TMCJobWrapper::GetUJumpAtomStates(int JumpID, int CoordID, bool %IsIgnore, bool %IsAdditive, bool %IsActive) {
-	try {
+int TMCJobWrapper::GetUJumpAtomStates(int JumpID, int CoordID, bool% IsIgnore, bool% IsAdditive, bool% IsActive)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		bool U_IsIgnore = IsIgnore;
@@ -1174,12 +1560,17 @@ int TMCJobWrapper::GetUJumpAtomStates(int JumpID, int CoordID, bool %IsIgnore, b
 		IsActive = U_IsActive;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Abstaende eines Umgebungsatoms eines bestimmten UJump ausgeben
-int TMCJobWrapper::GetUJumpAtomDistances(int JumpID, int CoordID, double %StartDist, double %TSDist, double %DestDist) {
-	try {
+int TMCJobWrapper::GetUJumpAtomDistances(int JumpID, int CoordID, double% StartDist, double% TSDist, double% DestDist)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_StartDist = StartDist;
@@ -1193,12 +1584,17 @@ int TMCJobWrapper::GetUJumpAtomDistances(int JumpID, int CoordID, double %StartD
 		DestDist = U_DestDist;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an WW-Atomen (nicht-ignoriert, additiv) in bestimmtem UJump ausgeben
-int TMCJobWrapper::GetUJumpWWAtomsCount(int JumpID, int %Count) {
-	try {
+int TMCJobWrapper::GetUJumpWWAtomsCount(int JumpID, int% Count)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_Count = Count;
@@ -1208,12 +1604,17 @@ int TMCJobWrapper::GetUJumpWWAtomsCount(int JumpID, int %Count) {
 		Count = U_Count;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // CoordID, InteractionID und Anzahl an InteractionElemIDs/Energies eines WW-Atoms ausgeben
-int TMCJobWrapper::GetUJumpWWAtomsInfo(int JumpID, int WWAtomsID, int %CoordID, int %WWID, int %EnergAnz) {
-	try {
+int TMCJobWrapper::GetUJumpWWAtomsInfo(int JumpID, int WWAtomsID, int% CoordID, int% WWID, int% EnergAnz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_CoordID = CoordID;
@@ -1227,12 +1628,17 @@ int TMCJobWrapper::GetUJumpWWAtomsInfo(int JumpID, int WWAtomsID, int %CoordID, 
 		EnergAnz = U_EnergAnz;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Energie und ElemID der ID-ten Energieangabe eines WW-Atoms ausgeben
-int TMCJobWrapper::GetUJumpWWAtomsEnergy(int JumpID, int WWAtomsID, int ID, int %WWElemID, double %WWEnergy) {
-	try {
+int TMCJobWrapper::GetUJumpWWAtomsEnergy(int JumpID, int WWAtomsID, int ID, int% WWElemID, double% WWEnergy)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_WWElemID = WWElemID;
@@ -1244,12 +1650,17 @@ int TMCJobWrapper::GetUJumpWWAtomsEnergy(int JumpID, int WWAtomsID, int ID, int 
 		WWEnergy = U_WWEnergy;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an UniqueCodes in bestimmtem UJump ausgeben
-int TMCJobWrapper::GetUJumpUCodesCount(int JumpID, int %Count) {
-	try {
+int TMCJobWrapper::GetUJumpUCodesCount(int JumpID, int% Count)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_Count = Count;
@@ -1259,12 +1670,17 @@ int TMCJobWrapper::GetUJumpUCodesCount(int JumpID, int %Count) {
 		Count = U_Count;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Energie und Code für einen UniqueCode in einem UJump ausgeben
-int TMCJobWrapper::GetUJumpUCode(int JumpID, int CodeID, System::String ^%Code, double %CodeEnergy) {
-	try {
+int TMCJobWrapper::GetUJumpUCode(int JumpID, int CodeID, System::String^% Code, double% CodeEnergy)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Code = "";
@@ -1277,12 +1693,17 @@ int TMCJobWrapper::GetUJumpUCode(int JumpID, int CodeID, System::String ^%Code, 
 		CodeEnergy = U_CodeEnergy;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an FullCodes in bestimmtem UJump ausgeben
-int TMCJobWrapper::GetUJumpFCodesCount(int JumpID, int %Count) {
-	try {
+int TMCJobWrapper::GetUJumpFCodesCount(int JumpID, int% Count)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_Count = Count;
@@ -1292,12 +1713,17 @@ int TMCJobWrapper::GetUJumpFCodesCount(int JumpID, int %Count) {
 		Count = U_Count;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // UCodeID und Code für einen FullCode in einem UJump ausgeben
-int TMCJobWrapper::GetUJumpFCode(int JumpID, int CodeID, System::String ^%Code, int %UCodeID) {
-	try {
+int TMCJobWrapper::GetUJumpFCode(int JumpID, int CodeID, System::String^% Code, int% UCodeID)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_Code = "";
@@ -1310,12 +1736,17 @@ int TMCJobWrapper::GetUJumpFCode(int JumpID, int CodeID, System::String ^%Code, 
 		UCodeID = U_UCodeID;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // InteractionShellCount ausgeben
-int TMCJobWrapper::GetInteractionShellCount(int %ShellCount) {
-	try {
+int TMCJobWrapper::GetInteractionShellCount(int% ShellCount)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_ShellCount = ShellCount;
@@ -1325,12 +1756,17 @@ int TMCJobWrapper::GetInteractionShellCount(int %ShellCount) {
 		ShellCount = U_ShellCount;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an Interactions ausgeben
-int TMCJobWrapper::GetInteractionCount(int %Count) {
-	try {
+int TMCJobWrapper::GetInteractionCount(int% Count)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_Count = Count;
@@ -1340,12 +1776,17 @@ int TMCJobWrapper::GetInteractionCount(int %Count) {
 		Count = U_Count;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Grundelementbesetzung und Abstände für eine InteractionID ausgeben
-int TMCJobWrapper::GetInteractionDesc(int WWID, int %ElemID, double %StartDist, double %DestDist) {
-	try {
+int TMCJobWrapper::GetInteractionDesc(int WWID, int% ElemID, double% StartDist, double% DestDist)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_ElemID = ElemID;
@@ -1359,12 +1800,17 @@ int TMCJobWrapper::GetInteractionDesc(int WWID, int %ElemID, double %StartDist, 
 		DestDist = U_DestDist;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an Atomen in StartAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-int TMCJobWrapper::GetInteractionStartEnvCount(int WWID, int %Count) {
-	try {
+int TMCJobWrapper::GetInteractionStartEnvCount(int WWID, int% Count)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_Count = Count;
@@ -1374,12 +1820,17 @@ int TMCJobWrapper::GetInteractionStartEnvCount(int WWID, int %Count) {
 		Count = U_Count;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an Atomen in DestAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-int TMCJobWrapper::GetInteractionDestEnvCount(int WWID, int %Count) {
-	try {
+int TMCJobWrapper::GetInteractionDestEnvCount(int WWID, int% Count)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_Count = Count;
@@ -1389,12 +1840,17 @@ int TMCJobWrapper::GetInteractionDestEnvCount(int WWID, int %Count) {
 		Count = U_Count;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Atom aus der StartAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-int TMCJobWrapper::GetInteractionStartEnvAtom(int WWID, int ID, int %ElemID, double %X, double %Y, double %Z) {
-	try {
+int TMCJobWrapper::GetInteractionStartEnvAtom(int WWID, int ID, int% ElemID, double% X, double% Y, double% Z)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_ElemID = ElemID;
@@ -1410,12 +1866,17 @@ int TMCJobWrapper::GetInteractionStartEnvAtom(int WWID, int ID, int %ElemID, dou
 		Z = U_z;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Atom aus der DestAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-int TMCJobWrapper::GetInteractionDestEnvAtom(int WWID, int ID, int %ElemID, double %X, double %Y, double %Z) {
-	try {
+int TMCJobWrapper::GetInteractionDestEnvAtom(int WWID, int ID, int% ElemID, double% X, double% Y, double% Z)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_ElemID = ElemID;
@@ -1431,37 +1892,55 @@ int TMCJobWrapper::GetInteractionDestEnvAtom(int WWID, int ID, int %ElemID, doub
 		Z = U_z;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Vollständige Ausgabe eines UJump
-int TMCJobWrapper::WriteUJumpToConsole(int JumpID) {
-	try {
+int TMCJobWrapper::WriteUJumpToConsole(int JumpID)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->WriteUJumpToConsole(JumpID);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Vollständige Ausgabe einer Wechselwirkung
-int TMCJobWrapper::WriteInteractionToConsole(int WWID) {
-	try {
+int TMCJobWrapper::WriteInteractionToConsole(int WWID)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->WriteInteractionToConsole(WWID);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Beschreibung der einzigartigen Sprünge in Konsole schreiben
-int TMCJobWrapper::WriteUniqueJumpsToConsole() {
-	try {
+int TMCJobWrapper::WriteUniqueJumpsToConsole()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->WriteUniqueJumpsToConsole();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // *********************************** //
@@ -1469,128 +1948,190 @@ int TMCJobWrapper::WriteUniqueJumpsToConsole() {
 // *********************************** //
 
 // Einstellungen löschen
-int TMCJobWrapper::ClearSettings() {
-	try {
+int TMCJobWrapper::ClearSettings()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->ClearSettings();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Temperatur einstellen
-int TMCJobWrapper::SetTemperature(double Temperature) {
-	try {
+int TMCJobWrapper::SetTemperature(double Temperature)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetTemperature(Temperature);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Sprungfrequenz einstellen
-int TMCJobWrapper::SetAttemptFrequency(double Frequency) {
-	try {
+int TMCJobWrapper::SetAttemptFrequency(double Frequency)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetAttemptFrequency(Frequency);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Checkpoint-Flags setzen
-int TMCJobWrapper::SetCheckpointFlags(bool WriteCheckpoint, bool LoadCheckpoint) {
-	try {
+int TMCJobWrapper::SetCheckpointFlags(bool WriteCheckpoint, bool LoadCheckpoint)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetCheckpointFlags(WriteCheckpoint, LoadCheckpoint);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // E-Feld setzen aus MaxEField = maximaler E-Feld-Beitrag zu Aktivierungsenergie [in kBT] und EFieldxyz = E-Feld-Richtungsvektor von plus-Pol zu minus-Pol (Kraftvektorrichtung auf eine positive Testladung)
-int TMCJobWrapper::SetEField(double EFieldX, double EFieldY, double EFieldZ, double MaxEField) {
-	try {
+int TMCJobWrapper::SetEField(double EFieldX, double EFieldY, double EFieldZ, double MaxEField)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetEField(EFieldX, EFieldY, EFieldZ, MaxEField);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Gittergröße einstellen
-int TMCJobWrapper::SetLatticeSize(int LatticeSize) {
-	try {
+int TMCJobWrapper::SetLatticeSize(int LatticeSize)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetLatticeSize(LatticeSize);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Zusätzliche Leerstellen eingeben
-int TMCJobWrapper::SetAdditionalVacAnz(long long AdditionalVacAnz) {
-	try {
+int TMCJobWrapper::SetAdditionalVacAnz(long long AdditionalVacAnz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetAdditionalVacAnz(AdditionalVacAnz);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Dotierkonzentration für eine bestimmte Dotierung eingeben
-int TMCJobWrapper::SetDopandConcentration(int DopingID, double Conc) {
-	try {
+int TMCJobWrapper::SetDopandConcentration(int DopingID, double Conc)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetDopandConcentration(DopingID, Conc);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // KMC-Vorlaufparameter einstellen
-int TMCJobWrapper::SetPrerunOptions(bool DoPrerun, long long PreMCSP, int PreRecordAnz) {
-	try {
+int TMCJobWrapper::SetPrerunOptions(bool DoPrerun, long long PreMCSP, int PreRecordAnz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetPrerunOptions(DoPrerun, PreMCSP, PreRecordAnz);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Parameter für dyn. Normierungssimulation setzen
-int TMCJobWrapper::SetDynNormParameters(bool DoDynNorm, long long DynNormAttemptAnz, int DynNormRecordAnz, int DynNormNum) {
-	try {
+int TMCJobWrapper::SetDynNormParameters(bool DoDynNorm, long long DynNormAttemptAnz, int DynNormRecordAnz, int DynNormNum)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetDynNormParameters(DoDynNorm, DynNormAttemptAnz, DynNormRecordAnz, DynNormNum);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // KMC-Hauptsimulationsparameter eingeben
-int TMCJobWrapper::SetMainKMCOptions(long long MCSP, int MainRecordAnz) {
-	try {
+int TMCJobWrapper::SetMainKMCOptions(long long MCSP, int MainRecordAnz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->SetMainKMCOptions(MCSP, MainRecordAnz);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Einstellungen abschließen, d.h. Parameter validieren, Ready = true setzen
-int TMCJobWrapper::MakeSettings() {
-	try {
+int TMCJobWrapper::MakeSettings()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->MakeSettings();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Temperatur ausgeben
-int TMCJobWrapper::GetTemperature(double %Temperature) {
-	try {
+int TMCJobWrapper::GetTemperature(double% Temperature)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_Temperature = Temperature;
@@ -1600,12 +2141,17 @@ int TMCJobWrapper::GetTemperature(double %Temperature) {
 		Temperature = U_Temperature;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Sprungfrequenz ausgeben
-int TMCJobWrapper::GetAttemptFrequency(double %Frequency) {
-	try {
+int TMCJobWrapper::GetAttemptFrequency(double% Frequency)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_Frequency = Frequency;
@@ -1615,12 +2161,17 @@ int TMCJobWrapper::GetAttemptFrequency(double %Frequency) {
 		Frequency = U_Frequency;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Checkpoint-Flags ausgeben
-int TMCJobWrapper::GetCheckpointFlags(bool %WriteCheckpoint, bool %LoadCheckpoint) {
-	try {
+int TMCJobWrapper::GetCheckpointFlags(bool% WriteCheckpoint, bool% LoadCheckpoint)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		bool U_WriteCheckpoint = WriteCheckpoint;
@@ -1632,12 +2183,17 @@ int TMCJobWrapper::GetCheckpointFlags(bool %WriteCheckpoint, bool %LoadCheckpoin
 		LoadCheckpoint = U_LoadCheckpoint;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // E-Feld-Richtung und maximaler Beitrag [kT] zur Aktivierungsenergie ausgeben
-int TMCJobWrapper::GetEFieldSettings(double %EFieldDirX, double %EFieldDirY, double %EFieldDirZ, double %MaxEField) {
-	try {
+int TMCJobWrapper::GetEFieldSettings(double% EFieldDirX, double% EFieldDirY, double% EFieldDirZ, double% MaxEField)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_EFieldDirX = EFieldDirX;
@@ -1653,12 +2209,17 @@ int TMCJobWrapper::GetEFieldSettings(double %EFieldDirX, double %EFieldDirY, dou
 		MaxEField = U_MaxEField;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Berechnetes E-Feld ausgeben
-int TMCJobWrapper::GetEField(double %EFieldX, double %EFieldY, double %EFieldZ) {
-	try {
+int TMCJobWrapper::GetEField(double% EFieldX, double% EFieldY, double% EFieldZ)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_EFieldX = EFieldX;
@@ -1672,12 +2233,17 @@ int TMCJobWrapper::GetEField(double %EFieldX, double %EFieldY, double %EFieldZ) 
 		EFieldZ = U_EFieldZ;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Gittergröße ausgeben
-int TMCJobWrapper::GetLatticeSize(int %LatticeSize) {
-	try {
+int TMCJobWrapper::GetLatticeSize(int% LatticeSize)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		int U_LatticeSize = LatticeSize;
@@ -1687,12 +2253,17 @@ int TMCJobWrapper::GetLatticeSize(int %LatticeSize) {
 		LatticeSize = U_LatticeSize;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Zusätzliche Leerstellen ausgeben
-int TMCJobWrapper::GetAdditionalVacAnz(long long %AdditionalVacAnz) {
-	try {
+int TMCJobWrapper::GetAdditionalVacAnz(long long% AdditionalVacAnz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		long long U_AdditionalVacAnz = AdditionalVacAnz;
@@ -1702,12 +2273,17 @@ int TMCJobWrapper::GetAdditionalVacAnz(long long %AdditionalVacAnz) {
 		AdditionalVacAnz = U_AdditionalVacAnz;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Leerstellenkonzentration ausgeben
-int TMCJobWrapper::GetTotalVacancyConc(double %Conc) {
-	try {
+int TMCJobWrapper::GetTotalVacancyConc(double% Conc)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_Conc = Conc;
@@ -1717,12 +2293,17 @@ int TMCJobWrapper::GetTotalVacancyConc(double %Conc) {
 		Conc = U_Conc;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl an Leerstellen ausgeben
-int TMCJobWrapper::GetTotalVacancyAnz(long long %Anz) {
-	try {
+int TMCJobWrapper::GetTotalVacancyAnz(long long% Anz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		long long U_Anz = Anz;
@@ -1732,12 +2313,17 @@ int TMCJobWrapper::GetTotalVacancyAnz(long long %Anz) {
 		Anz = U_Anz;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Volumenkonzentration der beweglichen Spezies ausgeben
-int TMCJobWrapper::GetMovVolConc(double %MovVolConc) {
-	try {
+int TMCJobWrapper::GetMovVolConc(double% MovVolConc)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_MovVolConc = MovVolConc;
@@ -1747,12 +2333,17 @@ int TMCJobWrapper::GetMovVolConc(double %MovVolConc) {
 		MovVolConc = U_MovVolConc;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Dotierkonzentration für eine bestimmte Dotierung ausgeben
-int TMCJobWrapper::GetDopandConc(int ID, double %Conc) {
-	try {
+int TMCJobWrapper::GetDopandConc(int ID, double% Conc)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		double U_Conc = Conc;
@@ -1762,12 +2353,17 @@ int TMCJobWrapper::GetDopandConc(int ID, double %Conc) {
 		Conc = U_Conc;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Anzahl der Dopanden bei einer bestimmten Dotierung ausgeben
-int TMCJobWrapper::GetDopandAnz(int ID, long long %Anz) {
-	try {
+int TMCJobWrapper::GetDopandAnz(int ID, long long% Anz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		long long U_Anz = Anz;
@@ -1777,12 +2373,17 @@ int TMCJobWrapper::GetDopandAnz(int ID, long long %Anz) {
 		Anz = U_Anz;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // KMC-Vorlaufparameter ausgeben
-int TMCJobWrapper::GetPrerunOptions(bool %DoPrerun, long long %PreMCSP, int %PreRecordAnz) {
-	try {
+int TMCJobWrapper::GetPrerunOptions(bool% DoPrerun, long long% PreMCSP, int% PreRecordAnz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		bool U_DoPrerun = DoPrerun;
@@ -1796,12 +2397,17 @@ int TMCJobWrapper::GetPrerunOptions(bool %DoPrerun, long long %PreMCSP, int %Pre
 		PreRecordAnz = U_PreRecordAnz;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Parameter für dyn. Normierungssimulation ausgeben
-int TMCJobWrapper::GetDynNormParameters(bool %DoDynNorm, long long %DynNormAttemptAnz, int %DynNormRecordAnz, int %DynNormNum) {
-	try {
+int TMCJobWrapper::GetDynNormParameters(bool% DoDynNorm, long long% DynNormAttemptAnz, int% DynNormRecordAnz, int% DynNormNum)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		bool U_DoDynNorm = DoDynNorm;
@@ -1817,12 +2423,17 @@ int TMCJobWrapper::GetDynNormParameters(bool %DoDynNorm, long long %DynNormAttem
 		DynNormNum = U_DynNormNum;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // KMC-Hauptsimulationsparameter ausgeben
-int TMCJobWrapper::GetMainKMCOptions(long long %MCSP, int %MainRecordAnz) {
-	try {
+int TMCJobWrapper::GetMainKMCOptions(long long% MCSP, int% MainRecordAnz)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		long long U_MCSP = MCSP;
@@ -1834,17 +2445,25 @@ int TMCJobWrapper::GetMainKMCOptions(long long %MCSP, int %MainRecordAnz) {
 		MainRecordAnz = U_MainRecordAnz;
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Beschreibung der Einstellungen in Konsole schreiben
-int TMCJobWrapper::WriteSettingsToConsole() {
-	try {
+int TMCJobWrapper::WriteSettingsToConsole()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->WriteSettingsToConsole();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // *********************************** //
@@ -1852,28 +2471,40 @@ int TMCJobWrapper::WriteSettingsToConsole() {
 // *********************************** //
 
 // Simulationsdaten löschen
-int TMCJobWrapper::ClearSimulation() {
-	try {
+int TMCJobWrapper::ClearSimulation()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->ClearSimulation();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Simulationsdaten initialisieren
-int TMCJobWrapper::InitializeSimulation() {
-	try {
+int TMCJobWrapper::InitializeSimulation()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->InitializeSimulation();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // CheckPoint-Dateipfad setzen
-int TMCJobWrapper::SetCheckPointPath(System::String ^CheckPointPath) {
-	try {
+int TMCJobWrapper::SetCheckPointPath(System::String^ CheckPointPath)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_CheckPointPath = "";
@@ -1881,21 +2512,30 @@ int TMCJobWrapper::SetCheckPointPath(System::String ^CheckPointPath) {
 
 		return m_Job->SetCheckPointPath(U_CheckPointPath);
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Daten aus CheckPoint-Datei laden
-int TMCJobWrapper::LoadCheckPoint() {
-	try {
+int TMCJobWrapper::LoadCheckPoint()
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Job->LoadCheckPoint();
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Simulation durchfuehren
-int TMCJobWrapper::MakeSimulation() {
+int TMCJobWrapper::MakeSimulation()
+{
 	if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 	return m_Job->MakeSimulation();
@@ -1908,8 +2548,10 @@ int TMCJobWrapper::MakeSimulation() {
 // *********************************** //
 
 // Beschreibung der GetResultSummary-Ausgabe ausgeben
-int TMCJobWrapper::GetResultSummaryDesc(System::String ^ValDelimiter, System::String ^%SummaryDesc) {
-	try {
+int TMCJobWrapper::GetResultSummaryDesc(System::String^ ValDelimiter, System::String^% SummaryDesc)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ValDelimiter = "";
@@ -1922,12 +2564,17 @@ int TMCJobWrapper::GetResultSummaryDesc(System::String ^ValDelimiter, System::St
 		String_U2M(U_SummaryDesc, SummaryDesc);
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // Wichtigste Einstellungen und Ergebnisse mit ValDelimiter getrennt ausgeben
-int TMCJobWrapper::GetResultSummary(System::String ^ValDelimiter, System::String ^%Summary) {
-	try {
+int TMCJobWrapper::GetResultSummary(System::String^ ValDelimiter, System::String^% Summary)
+{
+	try
+	{
 		if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 
 		std::string U_ValDelimiter = "";
@@ -1940,7 +2587,10 @@ int TMCJobWrapper::GetResultSummary(System::String ^ValDelimiter, System::String
 		String_U2M(U_Summary, Summary);
 		return ErrorCode;
 	}
-	catch (System::Exception ^e) { System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED; }
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); return KMCERR_EXCEPTION_OCCURED;
+	}
 }
 
 // **************************** PROTECTED ********************************** //
@@ -1955,14 +2605,16 @@ int TMCJobWrapper::GetResultSummary(System::String ^ValDelimiter, System::String
 //		  veraendert und schliesslich die by-Value-Output-Technik angewandt werden
 
 // Transfer von managed-String zu unmanaged-String
-void TMCJobWrapper::String_M2U(System::String ^ in_str, std::string & out_str) {
-	const char * cstr = (const char *)(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(in_str)).ToPointer();
+void TMCJobWrapper::String_M2U(System::String^ in_str, std::string& out_str)
+{
+	const char* cstr = (const char*)(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(in_str)).ToPointer();
 	out_str = cstr;
 	System::Runtime::InteropServices::Marshal::FreeHGlobal(System::IntPtr((void*)cstr));
 }
 
 // Transfer von unmanaged-String zu managed-String
-void TMCJobWrapper::String_U2M(std::string in_str, System::String ^ % out_str) {
+void TMCJobWrapper::String_U2M(std::string in_str, System::String^% out_str)
+{
 	out_str = gcnew System::String(in_str.c_str());
 }
 

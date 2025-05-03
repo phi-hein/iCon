@@ -26,12 +26,14 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TKMCJobFunc::TKMCJobFunc (): TKMCJobBase () {
+TKMCJobFunc::TKMCJobFunc() : TKMCJobBase()
+{
 
 }
 
 // Destructor
-TKMCJobFunc::~TKMCJobFunc () {
+TKMCJobFunc::~TKMCJobFunc()
+{
 
 }
 

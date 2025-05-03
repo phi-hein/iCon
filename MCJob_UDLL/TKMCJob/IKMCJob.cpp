@@ -25,8 +25,18 @@ using namespace std;
 #pragma comment (linker, "/export:CreateKMCJob=_CreateKMCJob@0")
 
 // Exportierte Funktion zur Erstellung einer Instanz der Klasse
-DECLSPEC IKMCJob * __stdcall CreateKMCJob () {
-	return new TKMCJob;
+DECLSPEC IKMCJob * __stdcall CreateKMCJob () 
+{
+	IKMCJob* o_Job = NULL;
+	try
+	{
+		o_Job = new TKMCJob;
+	}
+	catch (...)
+	{
+		return NULL;
+	}
+	return o_Job;
 }
 
 #endif
