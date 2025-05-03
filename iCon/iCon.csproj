@@ -149,9 +149,13 @@
     <Compile Include="ChildWindows\AuthDialog.xaml.cs">
       <DependentUpon>AuthDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChildWindows\ConfirmationDialog.xaml.cs">
+      <DependentUpon>ConfirmationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ChildWindows\FingerPrintDialog.xaml.cs">
       <DependentUpon>FingerPrintDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\BasicObjects\FlagFunc.cs" />
     <Compile Include="Classes\ViewModel\Helpers\RemoteCluster.cs" />
     <Compile Include="Classes\ViewModel\Helpers\RemotePaths.cs" />
     <Compile Include="SingleInstance.cs" />
@@ -164,6 +168,10 @@
     <Page Include="ChildWindows\AuthDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChildWindows\ConfirmationDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ChildWindows\LicenseWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

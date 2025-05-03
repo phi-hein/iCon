@@ -160,6 +160,33 @@ namespace iCon_General.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cancel ähnelt.
+        /// </summary>
+        public static string ConfirmationWindow_CancelBtn {
+            get {
+                return ResourceManager.GetString("ConfirmationWindow_CancelBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die OK ähnelt.
+        /// </summary>
+        public static string ConfirmationWindow_OKBtn {
+            get {
+                return ResourceManager.GetString("ConfirmationWindow_OKBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Confirmation ähnelt.
+        /// </summary>
+        public static string ConfirmationWindow_Title {
+            get {
+                return ResourceManager.GetString("ConfirmationWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Deny ähnelt.
         /// </summary>
         public static string FingerPrintWindow_CancelBtn {

@@ -52,6 +52,7 @@ namespace iCon_General
                 SimSubmitScript = BaseProfile.SimSubmitScript;
                 SimJobScript = BaseProfile.SimJobScript;
                 BuildScript = BaseProfile.BuildScript;
+                AskConfigured = BaseProfile.AskConfigured;
             }
         }
 
@@ -390,6 +391,26 @@ namespace iCon_General
             }
         }
 
+        protected bool _AskConfigured = true;
+        /// <summary>
+        /// Flag, true = ask whether profile was configured before running submission routines
+        /// </summary>
+        public bool AskConfigured
+        {
+            get
+            {
+                return _AskConfigured;
+            }
+            set
+            {
+                if (value != _AskConfigured)
+                {
+                    _AskConfigured = value;
+                    Notify("AskConfigured");
+                }
+            }
+        }
+
         #endregion Properties
 
         #region Methods
@@ -603,6 +624,14 @@ namespace iCon_General
                         swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
                     }
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT + " " + _HostFingerPrint.Trim());
+                    if (_AskConfigured == true)
+                    {
+                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_ASKCONFIG + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_TRUE);
+                    }
+                    else
+                    {
+                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_ASKCONFIG + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
+                    }
                     swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_END);
                 }
 
@@ -669,6 +698,7 @@ namespace iCon_General
             string t_PrivateKeyPath = "";
             string t_WithKeyboardInteractive = "";
             string t_HostFingerPrint = "";
+            string t_AskConfigured = "";
             try
             {
                 using (StreamReader sreader = new StreamReader(RemoteProfileIniPath))
@@ -732,6 +762,10 @@ namespace iCon_General
                         {
                             t_HostFingerPrint = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT.Length).Trim();
                         }
+                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_ASKCONFIG) == true))
+                        {
+                            t_AskConfigured = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_ASKCONFIG.Length).Trim();
+                        }
                     }
                 }
             }
@@ -740,7 +774,7 @@ namespace iCon_General
                 throw new ApplicationException("Error during reading of remote profile (TVMGUISettingsRemoteProfile.LoadFromIniFile)", e);
             }
 
-            // Parse port and auth flags
+            // Parse port and flags
             int tp_HostPort = 0;
             if (int.TryParse(t_HostPort, out tp_HostPort) == false)
             {
@@ -760,6 +794,11 @@ namespace iCon_General
             if (t_WithKeyboardInteractive == ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE)
             {
                 tp_WithKeyboardInteractive = false;
+            }
+            bool tp_AskConfigured = true;
+            if (t_AskConfigured == ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE)
+            {
+                tp_AskConfigured = false;
             }
 
             // Check if private key file exists
@@ -786,6 +825,7 @@ namespace iCon_General
             PrivateKeyPassword = "";
             WithKeyboardInteractive = tp_WithKeyboardInteractive;
             HostFingerPrint = t_HostFingerPrint;
+            AskConfigured = tp_AskConfigured;
 
             // Load scripts if they exist
             LoadScripts();

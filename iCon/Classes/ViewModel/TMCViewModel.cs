@@ -2067,8 +2067,13 @@ namespace iCon_General
 
         /// <summary> Execute long task (e.g. MCDLL-Sync.) on background thread </summary>
         /// <param name="TabNumber"> Number of the task </param>
-        public void ExecuteLongTask(int TaskNumber)
+        /// <param name="KeepConsole"> true = keep Console visible after task, false = restore original Console status </param>
+        /// <returns> false = canceled before starting the actual task </returns>
+        public bool ExecuteLongTask(int TaskNumber, out bool KeepConsole)
         {
+            // Default: Hide console after task
+            KeepConsole = false;
+
             // Task-Description:
             // 0: Send Data of JobDesc-Tab to MCDLL
             // 1: Send Data of Structure-Tab to MCDLL
@@ -2084,83 +2089,97 @@ namespace iCon_General
             switch (TaskNumber)
             {
                 case 0:
-                    if (IsJobDescApplicable == false) return;
+                    if (IsJobDescApplicable == false) return false;
                     if (JobDesc.ValidateObject() == false)
                     {
                         MessageBox.Show("Please enter valid job description data.", "Information", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        return false;
                     }
                     break;
                 case 1:
-                    if (IsStructureApplicable == false) return;
+                    if (IsStructureApplicable == false) return false;
                     if (Structure.ValidateFullObject() == false)
                     {
                         MessageBox.Show("Please enter valid structure data.", "Information", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        return false;
                     }
                     break;
                 case 2:
-                    if (IsShellCountsApplicable == false) return;
+                    if (IsShellCountsApplicable == false) return false;
                     if (ShellCounts.ValidateObject() == false)
                     {
                         MessageBox.Show("Please enter valid shell counts data.", "Information", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        return false;
                     }
                     break;
                 case 3:
-                    if (IsUniqueJumpsApplicable == false) return;
+                    if (IsUniqueJumpsApplicable == false) return false;
                     if (UniqueJumps.ValidateFullObject() == false)
                     {
                         MessageBox.Show("Please enter valid jump customization data.", "Information", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        return false;
                     }
                     break;
                 case 4:
-                    if (IsEnergiesApplicable == false) return;
+                    if (IsEnergiesApplicable == false) return false;
                     if (Energies.ValidateFullObject() == false)
                     {
                         MessageBox.Show("Please enter valid energy data.", "Information", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        return false;
                     }
                     break;
                 case 5:
                     if (Settings.CurrentJob.ValidateFullObject() == false)
                     {
                         MessageBox.Show("Please enter valid job settings.", "Information", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        return false;
                     }
                     break;
                 case 6:
-                    if (_Settings.SelectedJob == null) return;
+                    if (_Settings.SelectedJob == null) return false;
                     if (Settings.CurrentJob.ValidateFullObject() == false)
                     {
                         MessageBox.Show("Please enter valid job settings.", "Information", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        return false;
                     }
                     break;
                 case 7:
                     break;
                 case 8:
-                    if (Settings.HasValidJobs == false) return;
+                    if (Settings.HasValidJobs == false) return false;
                     if (Settings.ValidateForJobSubmit() == false)
                     {
                         MessageBox.Show("Please enter valid job submission data (IDs, Directory, etc.).", "Information", 
                             MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        return false;
                     }
                     if (VMGUISettings.ValidateForSubmit(Settings.CalcType) == false)
                     {
                         MessageBox.Show("Please enter valid extended settings (Workspace directories, Remote access settings, etc.).", "Information", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        return false;
                     }
                     if (IsSynchronized == false)
                     {
                         if (MessageBox.Show("There are non-applied changes. Do you still want to start the simulations?", 
                             "Warning", MessageBoxButton.YesNo) == MessageBoxResult.No)
                         {
-                            return;
+                            return false;
                         }
                     }
+                    if ((Settings.CalcType == true) && (VMGUISettings.SelectedRemoteProfile.AskConfigured == true))
+                    {
+                        bool ask_again = false;
+                        if (ConfirmationDialog.Prompt("Submission to a remote cluster is selected. Are you sure that the cluster access settings and especially the different required scripts are properly configured (see \"Extended Settings\" tab)?",
+                            "Do not ask again", ref ask_again) == true)
+                        {
+                            VMGUISettings.SelectedRemoteProfile.AskConfigured = (ask_again == false);
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    KeepConsole = true;
                     break;
                 default:
                     throw new ApplicationException("Invalid task number (ExecuteLongTask)");
@@ -2239,6 +2258,8 @@ namespace iCon_General
 
             // Show progress dialog
             ProgressDlg.ShowDialog();
+
+            return true;
         }
 
         #endregion Methods: Button Commands

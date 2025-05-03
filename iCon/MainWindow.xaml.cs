@@ -617,17 +617,46 @@ namespace iCon_General
             t_licwnd.ShowDialog();
         }
 
-#endregion Menu-Buttons: Additional Methods
+        #endregion Menu-Buttons: Additional Methods
 
-#region KMC Job Input Handling
+        #region KMC Job Input Handling
+
+        /// <summary>
+        /// Execute a delegate (show console before and restore console status afterwards)
+        /// </summary>
+        /// <param name="del"> Delegate to execute <br/>
+        /// - Parameter (out bool): true = keep console visible after execution <br/>
+        /// - Return value (bool): meaning depends on delegate
+        /// </param>
+        /// <returns> Return value of the delegate </returns>
+        private bool ExecuteWithConsole(FlagFunc<bool, bool> del)
+        {
+            UpdateCurrentInputBox();
+
+            // Save current console status
+            int old_console_status = ConsoleWrapper.Status();
+
+            // Show console
+            if (old_console_status == ConstantsClass.KMCERR_NO_CONSOLE)
+            {
+                SwitchConsole(true);
+            }
+
+            bool result = del(out bool keep_console);
+
+            // Restore original console status (if not otherwise requested by cmd)
+            if ((keep_console == false) && (old_console_status == ConstantsClass.KMCERR_NO_CONSOLE))
+            {
+                SwitchConsole(false);
+                this.Activate();
+            }
+
+            return result;
+        }
 
         private void BtnCmd_JobDesc_Apply(object sender, RoutedEventArgs e)
         {
-            UpdateCurrentInputBox();
-            int t_console_status = ConsoleWrapper.Status();
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(true);
-            MCViewModel.ExecuteLongTask(0);
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(false);
+            _ = ExecuteWithConsole((out bool x) => MCViewModel.ExecuteLongTask(0, out x));
         }
 
         private void BtnCmd_JobDesc_Cancel(object sender, RoutedEventArgs e)
@@ -692,11 +721,7 @@ namespace iCon_General
 
         private void BtnCmd_Structure_Apply(object sender, RoutedEventArgs e)
         {
-            UpdateCurrentInputBox();
-            int t_console_status = ConsoleWrapper.Status();
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(true);
-            MCViewModel.ExecuteLongTask(1);
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(false);
+            _ = ExecuteWithConsole((out bool x) => MCViewModel.ExecuteLongTask(1, out x));
             v3dCrystal.ResetCamera();
         }
 
@@ -708,11 +733,7 @@ namespace iCon_General
 
         private void BtnCmd_ShellCounts_Apply(object sender, RoutedEventArgs e)
         {
-            UpdateCurrentInputBox();
-            int t_console_status = ConsoleWrapper.Status();
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(true);
-            MCViewModel.ExecuteLongTask(2);
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(false);
+            _ = ExecuteWithConsole((out bool x) => MCViewModel.ExecuteLongTask(2, out x));
             v3dJumps.ResetCamera();
             v3dUniqueJumps.ResetCamera();
         }
@@ -725,11 +746,7 @@ namespace iCon_General
 
         private void BtnCmd_UniqueJumps_Apply(object sender, RoutedEventArgs e)
         {
-            UpdateCurrentInputBox();
-            int t_console_status = ConsoleWrapper.Status();
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(true);
-            MCViewModel.ExecuteLongTask(3);
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(false);
+            _ = ExecuteWithConsole((out bool x) => MCViewModel.ExecuteLongTask(3, out x));
             v3dJumps.ResetCamera();
             v3dUniqueJumps.ResetCamera();
             v3dCodes.ResetCamera();
@@ -744,11 +761,7 @@ namespace iCon_General
 
         private void BtnCmd_Energies_Apply(object sender, RoutedEventArgs e)
         {
-            UpdateCurrentInputBox();
-            int t_console_status = ConsoleWrapper.Status();
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(true);
-            MCViewModel.ExecuteLongTask(4);
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(false);
+            _ = ExecuteWithConsole((out bool x) => MCViewModel.ExecuteLongTask(4, out x));
         }
 
         private void BtnCmd_Energies_Cancel(object sender, RoutedEventArgs e)
@@ -759,11 +772,7 @@ namespace iCon_General
 
         private void BtnCmd_Settings_AddJob(object sender, RoutedEventArgs e)
         {
-            UpdateCurrentInputBox();
-            int t_console_status = ConsoleWrapper.Status();
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(true);
-            MCViewModel.ExecuteLongTask(5);
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(false);
+            _ = ExecuteWithConsole((out bool x) => MCViewModel.ExecuteLongTask(5, out x));
         }
 
         private void BtnCmd_Settings_DublicateJob(object sender, RoutedEventArgs e)
@@ -786,28 +795,17 @@ namespace iCon_General
 
         private void BtnCmd_Settings_ChangeJob(object sender, RoutedEventArgs e)
         {
-            UpdateCurrentInputBox();
-            int t_console_status = ConsoleWrapper.Status();
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(true);
-            MCViewModel.ExecuteLongTask(6);
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(false);
+            _ = ExecuteWithConsole((out bool x) => MCViewModel.ExecuteLongTask(6, out x));
         }
 
         private void BtnCmd_Settings_ClearJob(object sender, RoutedEventArgs e)
         {
-            UpdateCurrentInputBox();
-            int t_console_status = ConsoleWrapper.Status();
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(true);
-            MCViewModel.ExecuteLongTask(7);
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(false);
+            _ = ExecuteWithConsole((out bool x) => MCViewModel.ExecuteLongTask(7, out x));
         }
 
         private void BtnCmd_Settings_Submit(object sender, RoutedEventArgs e)
         {
-            UpdateCurrentInputBox();
-            int t_console_status = ConsoleWrapper.Status();
-            if (t_console_status == ConstantsClass.KMCERR_NO_CONSOLE) SwitchConsole(true);
-            MCViewModel.ExecuteLongTask(8);
+            _ = ExecuteWithConsole((out bool x) => MCViewModel.ExecuteLongTask(8, out x));
         }
 
         private void BtnCmd_Settings_ClearJobList(object sender, RoutedEventArgs e)

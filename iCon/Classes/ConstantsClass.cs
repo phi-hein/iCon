@@ -137,6 +137,9 @@
         /// <summary> Inifile-Identifier for cluster profile: accepted host fingerprint </summary>
         public const string SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT = @"HostFingerPrint:";
 
+        /// <summary> Inifile-Identifier for cluster profile: if asking for configuration confirmation </summary>
+        public const string SC_KMC_OUT_CPROFILE_ASKCONFIG = @"AskConfig:";
+
         #endregion Output Constants
 
         // ********************** Numeric Values ********************** //
@@ -147,7 +150,7 @@
 
         /// <summary> Millisekunden-Wartezeit wenn Thread fertig </summary>
         public const int THREAD_FINISH_DELAY = 500;
-
+        
         /// <summary> Maximale Anzahl an Atomen in der Elementarzelle </summary>
         public const int MAX_ATOM_COUNT = 500;
 
