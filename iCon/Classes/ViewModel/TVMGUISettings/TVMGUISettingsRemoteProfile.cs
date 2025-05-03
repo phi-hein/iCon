@@ -73,14 +73,17 @@ namespace iCon_General
                 {
                     string i_old_dir = GetBaseFolder(_ID);
                     string i_new_dir = GetBaseFolder(value);
-                    if ((Directory.Exists(i_old_dir) == true) && (Directory.Exists(i_new_dir) == false))
+                    if (Directory.Exists(i_old_dir) == true)
                     {
-                        Directory.Move(i_old_dir, i_new_dir);
-                        _ID = value;
-                    }
-                    else
-                    {
-                        throw new ApplicationException("Invalid remote profile directory layout (TVMGUISettingsRemoteProfile.ID.Set)");
+                        if (Directory.Exists(i_new_dir) == false)
+                        {
+                            Directory.Move(i_old_dir, i_new_dir);
+                            _ID = value;
+                        }
+                        else
+                        {
+                            throw new ApplicationException("Invalid remote profile directory layout (TVMGUISettingsRemoteProfile.ID.Set)");
+                        }
                     }
                     Notify("ID");
                 }
@@ -396,7 +399,7 @@ namespace iCon_General
         /// </summary>
         /// <param name="i_ID">Number of the profile</param>
         /// <returns>Path to the profile folder</returns>
-        protected static string GetBaseFolder(int i_ID)
+        public static string GetBaseFolder(int i_ID)
         {
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -631,9 +634,9 @@ namespace iCon_General
             // Initialize new data
             string t_Name = "";
             string t_RemoteWorkspace = "";
-            string t_RemoteBuildDir = "";
+            string t_RemoteBuildDir = "build";
             string t_HostAdress = "";
-            string t_HostPort = "";
+            string t_HostPort = "22";
             string t_Username = "";
             string t_WithPassword = "";
             string t_WithPrivateKey = "";
