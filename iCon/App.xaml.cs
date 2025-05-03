@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using Microsoft.Shell;
 
@@ -39,6 +41,18 @@ namespace iCon_General
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            // Set culture
+            CultureInfo culture = new CultureInfo("en-US");
+            culture.NumberFormat.NegativeSign = "-";
+            culture.NumberFormat.PositiveSign = "+";
+            culture.NumberFormat.NumberGroupSeparator = "";
+            culture.NumberFormat.NumberDecimalSeparator = ".";
+            culture.NumberFormat.NumberNegativePattern = 1;
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
 
             // Link resources
             ResourceDictionary global_dic = new ResourceDictionary() { Source = new Uri("Resources/GlobalDictionary.xaml", UriKind.RelativeOrAbsolute) };

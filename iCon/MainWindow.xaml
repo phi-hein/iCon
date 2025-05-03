@@ -2862,6 +2862,17 @@
                                                         #6: File path of the log file.
                                                     </TextBlock>
                                                 </local:ToolTipHelper.MyToolTip>
+                                                <TextBox.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Command="ApplicationCommands.Cut"/>
+                                                        <MenuItem Command="ApplicationCommands.Copy"/>
+                                                        <MenuItem Command="ApplicationCommands.Paste"/>
+                                                        <MenuItem Command="ApplicationCommands.SelectAll"/>
+                                                        <MenuItem Command="ApplicationCommands.Undo"/>
+                                                        <MenuItem Command="ApplicationCommands.Redo"/>
+                                                        <MenuItem Header="Load default script" Click="BtnCmd_VMGUISettings_LoadDefaultSubmitScript"/>
+                                                    </ContextMenu>
+                                                </TextBox.ContextMenu>
                                             </TextBox>
                                         </TabItem>
                                         <TabItem Style="{StaticResource MainTabItemStyle}" Header="Job script">
@@ -2874,6 +2885,17 @@
                                                     <TextBlock Text="Bash script that is sent to remote host to execute the simulation. The script is executed by the remote queue system with the parameters specified in the submit script."
                                                                Style="{StaticResource StdToolTipStyle}"/>
                                                 </local:ToolTipHelper.MyToolTip>
+                                                <TextBox.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Command="ApplicationCommands.Cut"/>
+                                                        <MenuItem Command="ApplicationCommands.Copy"/>
+                                                        <MenuItem Command="ApplicationCommands.Paste"/>
+                                                        <MenuItem Command="ApplicationCommands.SelectAll"/>
+                                                        <MenuItem Command="ApplicationCommands.Undo"/>
+                                                        <MenuItem Command="ApplicationCommands.Redo"/>
+                                                        <MenuItem Header="Load default script" Click="BtnCmd_VMGUISettings_LoadDefaultJobScript"/>
+                                                    </ContextMenu>
+                                                </TextBox.ContextMenu>
                                             </TextBox>
                                         </TabItem>
                                         <TabItem Style="{StaticResource MainTabItemStyle}" Header="Build script">
@@ -2886,6 +2908,17 @@
                                                     <TextBlock Text="Bash script that is executed within the build directory on the remote host, with the sh-command and without any parameters, in order to generate the required remote executables. Be careful with modifications to this script."
                                                                Style="{StaticResource StdToolTipStyle}"/>
                                                 </local:ToolTipHelper.MyToolTip>
+                                                <TextBox.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Command="ApplicationCommands.Cut"/>
+                                                        <MenuItem Command="ApplicationCommands.Copy"/>
+                                                        <MenuItem Command="ApplicationCommands.Paste"/>
+                                                        <MenuItem Command="ApplicationCommands.SelectAll"/>
+                                                        <MenuItem Command="ApplicationCommands.Undo"/>
+                                                        <MenuItem Command="ApplicationCommands.Redo"/>
+                                                        <MenuItem Header="Load default script" Click="BtnCmd_VMGUISettings_LoadDefaultBuildScript"/>
+                                                    </ContextMenu>
+                                                </TextBox.ContextMenu>
                                             </TextBox>
                                         </TabItem>
                                     </TabControl>

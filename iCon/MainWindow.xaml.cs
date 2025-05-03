@@ -87,18 +87,6 @@ namespace iCon_General
                 throw new ApplicationException("MCMisc-DLL is missing (MainWindow Constructor)");
             }
 
-            // Set culture
-            CultureInfo culture = new CultureInfo("en-US");
-            culture.NumberFormat.NegativeSign = "-";
-            culture.NumberFormat.PositiveSign = "+";
-            culture.NumberFormat.NumberGroupSeparator = "";
-            culture.NumberFormat.NumberDecimalSeparator = ".";
-            culture.NumberFormat.NumberNegativePattern = 1;
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
-
             // Create and specify console
             ConsoleWrapper = new TConsoleWrapper();
             int ErrorCode = ConsoleWrapper.SetTitle("Status Window");
@@ -856,9 +844,42 @@ namespace iCon_General
             MCViewModel.VMGUISettings.DeleteRemoteProfile();
         }
 
-#endregion Additional Input Handling
+        private void BtnCmd_VMGUISettings_LoadDefaultSubmitScript(object sender, RoutedEventArgs e)
+        {
+            UpdateCurrentInputBox();
 
-#region 3D Visualization Methods
+            MessageBoxResult confirmation = MessageBox.Show("Attention: Resetting the submit script to the default script cannot be undone. Continue?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (confirmation == MessageBoxResult.Yes)
+            {
+                MCViewModel.VMGUISettings.SelectedRemoteProfile?.LoadDefaultSubmitScript();
+            }
+        }
+
+        private void BtnCmd_VMGUISettings_LoadDefaultJobScript(object sender, RoutedEventArgs e)
+        {
+            UpdateCurrentInputBox();
+
+            MessageBoxResult confirmation = MessageBox.Show("Attention: Resetting the job script to the default script cannot be undone. Continue?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (confirmation == MessageBoxResult.Yes)
+            {
+                MCViewModel.VMGUISettings.SelectedRemoteProfile?.LoadDefaultJobScript();
+            }
+        }
+
+        private void BtnCmd_VMGUISettings_LoadDefaultBuildScript(object sender, RoutedEventArgs e)
+        {
+            UpdateCurrentInputBox();
+
+            MessageBoxResult confirmation = MessageBox.Show("Attention: Resetting the build script to the default script cannot be undone. Continue?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (confirmation == MessageBoxResult.Yes)
+            {
+                MCViewModel.VMGUISettings.SelectedRemoteProfile?.LoadDefaultBuildScript();
+            }
+        }
+
+        #endregion Additional Input Handling
+
+        #region 3D Visualization Methods
 
         private void rbt3DSel_Checked(object sender, RoutedEventArgs e)
         {

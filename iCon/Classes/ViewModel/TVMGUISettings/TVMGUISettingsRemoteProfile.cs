@@ -478,9 +478,35 @@ namespace iCon_General
         /// </summary>
         public void LoadDefaultScripts()
         {
-            // Load scripts from files
+            LoadDefaultSubmitScript();
+            LoadDefaultJobScript();
+            LoadDefaultBuildScript();
+        }
+
+        /// <summary>
+        /// Load default submit script
+        /// </summary>
+        public void LoadDefaultSubmitScript()
+        {
+            // Load script from file
             SimSubmitScript = File.ReadAllText(GetDefaultScriptPath(ConstantsClass.SC_KMC_SUBMITSCRIPT));
+        }
+
+        /// <summary>
+        /// Load default job script
+        /// </summary>
+        public void LoadDefaultJobScript()
+        {
+            // Load script from file
             SimJobScript = File.ReadAllText(GetDefaultScriptPath(ConstantsClass.SC_KMC_JOBSCRIPT));
+        }
+
+        /// <summary>
+        /// Load default build script
+        /// </summary>
+        public void LoadDefaultBuildScript()
+        {
+            // Load script from file
             BuildScript = File.ReadAllText(GetDefaultScriptPath(ConstantsClass.SC_KMC_BUILDSCRIPT));
         }
 
