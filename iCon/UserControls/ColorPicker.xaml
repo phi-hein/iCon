@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="iCon_General.UserControls.ColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:PixiColor="clr-namespace:ColorPicker;assembly=ColorPicker"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:iCon_General"
+             mc:Ignorable="d" 
+             d:DesignHeight="380" d:DesignWidth="200" x:Name="uc"
+             ToolTipService.ShowOnDisabled="True"
+             ToolTipService.ShowDuration="16000">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <!-- Style for the ToggleButton -->
+            <Style TargetType="ToggleButton" x:Key="ColorToggleButtonStyle">
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter Content="{TemplateBinding Content}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+
+            <!-- Style for the Button Border -->
+            <Style TargetType="Border" x:Key="ColorButtonBorderStyle">
+                <Setter Property="BorderBrush" Value="{StaticResource GUIMainBorderGrayBrush}"/>
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="2.5" />
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Width" Value="38"/>
+                <Setter Property="Height" Value="18"/>
+                <Setter Property="Padding" Value="0 0 0 0"/>
+                <Setter Property="Margin" Value="4 0 0 0"/>
+                <Setter Property="Background" Value="{StaticResource GUIMainSlightGrayBrush}" />
+            </Style>
+
+            <!-- Style for the Popup Border -->
+            <Style TargetType="Border" x:Key="ColorPopupBorderStyle">
+                <Setter Property="BorderBrush" Value="{StaticResource GUIMainBorderGrayBrush}"/>
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="0 0 8 8" />
+                <Setter Property="Background" Value="{StaticResource GUIMainSlightGrayBrush}" />
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Default style for the StandardColorPicker -->
+            <Style TargetType="PixiColor:StandardColorPicker">
+                <Setter Property="Height" Value="380"/>
+                <Setter Property="Width" Value="200"/>
+            </Style>
+
+            <!-- Converters -->
+            <local:InvertConverterClass x:Key="InvertConverter"/>
+            <local:ColorToBrushConverterClass x:Key="ColorToBrushConverter"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Border Style="{StaticResource ColorButtonBorderStyle}">
+            <ToggleButton x:Name="toggleButton" Style="{StaticResource ColorToggleButtonStyle}"
+                          IsEnabled="{Binding Path=IsOpen, ElementName=popup, Converter={StaticResource InvertConverter}}"
+                          Background="{Binding Path=SelectedColor, ElementName=uc, Converter={StaticResource ColorToBrushConverter}}"/>
+        </Border>
+        <Popup x:Name="popup" StaysOpen="False" AllowsTransparency="True"
+               IsOpen="{Binding Path=IsChecked, ElementName=toggleButton, Mode=TwoWay}">
+            <Border Style="{StaticResource ColorPopupBorderStyle}">
+                <PixiColor:StandardColorPicker ShowAlpha="{Binding ElementName=uc, Path=ShowAlpha, Mode=TwoWay}"
+                                               SelectedColor="{Binding ElementName=uc, Path=SelectedColor, Mode=TwoWay}"/>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

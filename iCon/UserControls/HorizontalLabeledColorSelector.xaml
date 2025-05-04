@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ExtWPFToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:usrContr="clr-namespace:iCon_General.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -23,16 +23,6 @@
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                 </Style>
 
-                <!-- Default style for the color picker -->
-                <Style TargetType="{x:Type ExtWPFToolkit:ColorPicker}">
-                    <Setter Property="Padding" Value="0 0 0 0"/>
-                    <Setter Property="Margin" Value="0 0 0 0"/>
-                    <Setter Property="Width" Value="45"/>
-                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                    <Setter Property="UsingAlphaChannel" Value="False"/>
-                    <Setter Property="BorderBrush" Value="LightGray"/>
-                </Style>
-
             </Style.Resources>
         </Style>
     </UserControl.Resources>
@@ -45,7 +35,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="{Binding LabelText, Mode=TwoWay}"/>
-        <ExtWPFToolkit:ColorPicker Grid.Column="1" SelectedColor="{Binding InputValue, Mode=TwoWay}"/>
+        <usrContr:ColorPicker Grid.Column="1" SelectedColor="{Binding InputValue, Mode=TwoWay}"/>
     </Grid>
     
 </UserControl>

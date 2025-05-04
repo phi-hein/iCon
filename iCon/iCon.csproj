@@ -130,25 +130,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=4.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.7.25104.5739\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=4.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.7.25104.5739\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=4.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.7.25104.5739\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=4.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.7.25104.5739\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=4.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.7.25104.5739\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
@@ -167,10 +148,20 @@
     <Compile Include="Classes\BasicObjects\FlagFunc.cs" />
     <Compile Include="Classes\ViewModel\Helpers\RemoteCluster.cs" />
     <Compile Include="Classes\ViewModel\Helpers\RemotePaths.cs" />
+    <Compile Include="Converters\ColorToBrushConverterClass.cs" />
     <Compile Include="SingleInstance.cs" />
-    <Compile Include="UserControls\HorizontalLabeledColorSelector.xaml.cs" />
-    <Compile Include="UserControls\HorizontalLabeledComboBox.xaml.cs" />
-    <Compile Include="UserControls\HorizontalLabeledTextBox.xaml.cs" />
+    <Compile Include="UserControls\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\HorizontalLabeledColorSelector.xaml.cs">
+      <DependentUpon>HorizontalLabeledColorSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\HorizontalLabeledComboBox.xaml.cs">
+      <DependentUpon>HorizontalLabeledComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\HorizontalLabeledTextBox.xaml.cs">
+      <DependentUpon>HorizontalLabeledTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValidationAttributes\DoubleRangeAttribute.cs" />
     <Compile Include="ValidationAttributes\IntRangeAttribute.cs" />
     <Compile Include="ValidationAttributes\LongRangeAttribute.cs" />
@@ -312,6 +303,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\HorizontalLabeledColorSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -408,6 +403,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ThirdPartyLicenses\License_BouncyCastle.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ThirdPartyLicenses\License_PixiColor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ThirdPartyLicenses\License_MicrosoftPackages.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

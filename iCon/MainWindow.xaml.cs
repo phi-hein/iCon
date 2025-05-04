@@ -55,18 +55,10 @@ namespace iCon_General
             // Initialize variables
             HasCritException = false;
 
-            // Check if all required third party dlls are there
-            if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "HelixToolkit.Wpf.dll")) == false)
-            {
-                throw new ApplicationException("HelixToolkit-Assembly is missing (MainWindow Constructor)");
-            }
+            // Check if all required non-GUI third party dlls are there (i.e. those that would not fail on startup)
             if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Renci.SshNet.dll")) == false)
             {
                 throw new ApplicationException("SSH.Net-Assembly is missing (MainWindow Constructor)");
-            }
-            if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Xceed.Wpf.Toolkit.dll")) == false)
-            {
-                throw new ApplicationException("ExtendedToolkit-Assembly is missing (MainWindow Constructor)");
             }
 
             // Check if all required dlls are there

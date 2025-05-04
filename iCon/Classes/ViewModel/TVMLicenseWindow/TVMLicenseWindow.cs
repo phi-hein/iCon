@@ -1,8 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
-using HelixToolkit.Wpf;
-using Renci.SshNet;
-using Xceed.Wpf.Toolkit;
 
 namespace iCon_General
 {
@@ -192,6 +189,20 @@ namespace iCon_General
             {
                 Title = Properties.Resources.PackageTitle_BouncyCastle,
                 LicenseText = Properties.Resources.License_BouncyCastle
+            });
+
+            // Set PixiColor Library License
+            _Licenses.Add(new TVMLicense
+            {
+                Title = Properties.Resources.PackageTitle_PixiColor,
+                LicenseText = Properties.Resources.License_PixiColor
+            });
+
+            // Set Microsoft Libraries License
+            _Licenses.Add(new TVMLicense
+            {
+                Title = Properties.Resources.PackageTitle_MicrosoftPackages,
+                LicenseText = Properties.Resources.License_MicrosoftPackages
             });
 
             _SelectedLicense = _Licenses[0];

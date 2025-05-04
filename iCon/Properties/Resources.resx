@@ -190,6 +190,12 @@
   <data name="License_HelixToolkit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ThirdPartyLicenses\License_HelixToolkit.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="License_MicrosoftPackages" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThirdPartyLicenses\License_MicrosoftPackages.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="License_PixiColor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThirdPartyLicenses\License_PixiColor.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="License_SSHNet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ThirdPartyLicenses\License_SSHNet.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -240,6 +246,12 @@
   </data>
   <data name="PackageTitle_HelixToolkit" xml:space="preserve">
     <value>Helix Toolkit (Version 2.27.0)</value>
+  </data>
+  <data name="PackageTitle_MicrosoftPackages" xml:space="preserve">
+    <value>Microsoft libraries</value>
+  </data>
+  <data name="PackageTitle_PixiColor" xml:space="preserve">
+    <value>PixiEditor ColorPicker (Version 3.4.2)</value>
   </data>
   <data name="PackageTitle_SSHNet" xml:space="preserve">
     <value>SSH.NET (Version 2025.0.0)</value>

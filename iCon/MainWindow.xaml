@@ -1,7 +1,6 @@
 ﻿<Window x:Class="iCon_General.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ExtWPFToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:HelixToolkit="http://helix-toolkit.org/wpf"
         xmlns:txtRes="clr-namespace:iCon_General.Properties"
         xmlns:usrContr="clr-namespace:iCon_General.UserControls"
@@ -1865,8 +1864,7 @@
                                                                                              Style="{StaticResource StdInputTextBoxStyle}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding CrystalModel.LatticeColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding CrystalModel.LatticeColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -1878,8 +1876,7 @@
                                                                                               SelectedItem="{Binding CrystalModel.AtomLabelMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding CrystalModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding CrystalModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -1890,8 +1887,7 @@
                                                                         <customContr:OptionsGroupBox LabelText="Selected Atoms:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding CrystalModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding CrystalModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -1978,13 +1974,13 @@
                                                                         <customContr:OptionsGroupBox LabelText="Vacancy:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding JumpsModel.VacancyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                                                    <usrContr:ColorPicker ShowAlpha="False"
+                                                                                                          SelectedColor="{Binding JumpsModel.VacancyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Color of the vacancy."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
                                                                                         </local:ToolTipHelper.MyToolTip>
-                                                                                    </ExtWPFToolkit:ColorPicker>
+                                                                                    </usrContr:ColorPicker>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2034,8 +2030,7 @@
                                                                                              Text="{Binding JumpsModel.LatticeThickness, Converter={StaticResource StrToDoubleConverter}}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding JumpsModel.LatticeColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding JumpsModel.LatticeColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2044,8 +2039,7 @@
                                                                                 <CheckBox Style="{StaticResource StdOptionsCheckBoxStyle}" Content="Show arrow" 
                                                                                             IsChecked="{Binding JumpsModel.IsArrowVisible, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding JumpsModel.ArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding JumpsModel.ArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2065,8 +2059,7 @@
                                                                                               SelectedItem="{Binding JumpsModel.AtomLabelMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding JumpsModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding JumpsModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2077,8 +2070,7 @@
                                                                         <customContr:OptionsGroupBox LabelText="Selected Atoms:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding JumpsModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding JumpsModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2188,13 +2180,13 @@
                                                                         <customContr:OptionsGroupBox LabelText="Vacancy:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding UniqueJumpsModel.VacancyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                                                    <usrContr:ColorPicker ShowAlpha="False"
+                                                                                                          SelectedColor="{Binding UniqueJumpsModel.VacancyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Color of the vacancy."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
                                                                                         </local:ToolTipHelper.MyToolTip>
-                                                                                    </ExtWPFToolkit:ColorPicker>
+                                                                                    </usrContr:ColorPicker>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2220,8 +2212,7 @@
                                                                                 <CheckBox Style="{StaticResource StdOptionsCheckBoxStyle}" Content="Show arrow" 
                                                                                             IsChecked="{Binding UniqueJumpsModel.IsArrowVisible, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding UniqueJumpsModel.ArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding UniqueJumpsModel.ArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2241,8 +2232,7 @@
                                                                                               SelectedItem="{Binding UniqueJumpsModel.AtomLabelMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding UniqueJumpsModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding UniqueJumpsModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2253,8 +2243,7 @@
                                                                         <customContr:OptionsGroupBox LabelText="Selected Atoms:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding UniqueJumpsModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding UniqueJumpsModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2338,13 +2327,13 @@
                                                                         <customContr:OptionsGroupBox LabelText="Vacancy:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding CodesModel.VacancyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                                                    <usrContr:ColorPicker ShowAlpha="False"
+                                                                                                          SelectedColor="{Binding CodesModel.VacancyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Color of the vacancy."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
                                                                                         </local:ToolTipHelper.MyToolTip>
-                                                                                    </ExtWPFToolkit:ColorPicker>
+                                                                                    </usrContr:ColorPicker>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2370,8 +2359,7 @@
                                                                                 <CheckBox Style="{StaticResource StdOptionsCheckBoxStyle}" Content="Show arrow" 
                                                                                             IsChecked="{Binding CodesModel.IsArrowVisible, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding CodesModel.ArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding CodesModel.ArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2391,8 +2379,7 @@
                                                                                               SelectedItem="{Binding CodesModel.AtomLabelMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding CodesModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding CodesModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2403,8 +2390,7 @@
                                                                         <customContr:OptionsGroupBox LabelText="Selected Atoms:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding CodesModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding CodesModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2491,13 +2477,13 @@
                                                                         <customContr:OptionsGroupBox LabelText="Vacancy:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding InteractionsModel.VacancyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                                                    <usrContr:ColorPicker ShowAlpha="False"
+                                                                                                          SelectedColor="{Binding InteractionsModel.VacancyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Color of the vacancy."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
                                                                                         </local:ToolTipHelper.MyToolTip>
-                                                                                    </ExtWPFToolkit:ColorPicker>
+                                                                                    </usrContr:ColorPicker>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2523,8 +2509,7 @@
                                                                                 <CheckBox Style="{StaticResource StdOptionsCheckBoxStyle}" Content="Show arrow" 
                                                                                           IsChecked="{Binding InteractionsModel.IsArrowVisible, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding InteractionsModel.ArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding InteractionsModel.ArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2541,8 +2526,7 @@
                                                                                 <CheckBox Style="{StaticResource StdOptionsCheckBoxStyle}" Content="Show arrows" 
                                                                                             IsChecked="{Binding InteractionsModel.IsWWArrowVisible, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding InteractionsModel.WWArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding InteractionsModel.WWArrowColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2562,8 +2546,7 @@
                                                                                               SelectedItem="{Binding InteractionsModel.AtomLabelMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding InteractionsModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding InteractionsModel.AtomLabelColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
@@ -2574,8 +2557,7 @@
                                                                         <customContr:OptionsGroupBox LabelText="Selected Atoms:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
-                                                                                    <ExtWPFToolkit:ColorPicker Style="{StaticResource StdOptionsColorPickerStyle}"
-                                                                                                               SelectedColor="{Binding InteractionsModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                                    <usrContr:ColorPicker SelectedColor="{Binding InteractionsModel.SelectedAtomColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>

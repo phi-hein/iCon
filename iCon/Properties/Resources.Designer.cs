@@ -299,6 +299,40 @@ namespace iCon_General.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Redistributed Microsoft libraries:
+        ///- Microsoft.Bcl.AsyncInterfaces (Version 9.0.4)
+        ///- Microsoft.Extensions.DependencyInjection.Abstractions (Version 9.0.4)
+        ///- Microsoft.Extensions.Logging.Abstractions (Version 9.0.4)
+        ///- Microsoft.Xaml.Behaviors.Wpf (Version 1.1.31)
+        ///- System.Buffers (Version 4.6.1)
+        ///- System.Diagnostics.DiagnosticSource (Version 9.0.4)
+        ///- System.Formats.Asn1 (Version 9.0.4)
+        ///- System.Memory (Version 4.6.3)
+        ///- System.Numerics.Vectors (Version 4.6.1)
+        ///- System.Runtime.CompilerServices.Unsafe [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string License_MicrosoftPackages {
+            get {
+                return ResourceManager.GetString("License_MicrosoftPackages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The MIT License (MIT)
+        ///
+        ///Copyright (c) PixiEditor Organization
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        ///
+        ///The above  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string License_PixiColor {
+            get {
+                return ResourceManager.GetString("License_PixiColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The MIT License (MIT)
         ///
         ///Copyright (c) Renci, Oleg Kapeljushnik, Gert Driesen and contributors
@@ -457,6 +491,24 @@ namespace iCon_General.Properties {
         public static string PackageTitle_HelixToolkit {
             get {
                 return ResourceManager.GetString("PackageTitle_HelixToolkit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Microsoft libraries ähnelt.
+        /// </summary>
+        public static string PackageTitle_MicrosoftPackages {
+            get {
+                return ResourceManager.GetString("PackageTitle_MicrosoftPackages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die PixiEditor ColorPicker (Version 3.4.2) ähnelt.
+        /// </summary>
+        public static string PackageTitle_PixiColor {
+            get {
+                return ResourceManager.GetString("PackageTitle_PixiColor", resourceCulture);
             }
         }
         
