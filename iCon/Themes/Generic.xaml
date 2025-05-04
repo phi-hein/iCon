@@ -6,25 +6,25 @@
     <ResourceDictionary.MergedDictionaries>
         
         <!-- Default template for TwoColumnGrid -->
-        <ResourceDictionary Source="/CustomControls/TwoColumnGrid/TwoColumnGrid.xaml"/>
+        <ResourceDictionary Source="iCon;component/CustomControls/TwoColumnGrid/TwoColumnGrid.xaml"/>
 
         <!-- Default template for ClosableTwoColumnGrid -->
-        <ResourceDictionary Source="/CustomControls/ClosableTwoColumnGrid/ClosableTwoColumnGrid.xaml"/>
+        <ResourceDictionary Source="iCon;component/CustomControls/ClosableTwoColumnGrid/ClosableTwoColumnGrid.xaml"/>
 
         <!-- Default template for TwoRowGrid -->
-        <ResourceDictionary Source="/CustomControls/TwoRowGrid/TwoRowGrid.xaml"/>
+        <ResourceDictionary Source="iCon;component/CustomControls/TwoRowGrid/TwoRowGrid.xaml"/>
 
         <!-- Default template for ClosableTwoRowGrid -->
-        <ResourceDictionary Source="/CustomControls/ClosableTwoRowGrid/ClosableTwoRowGrid.xaml"/>
+        <ResourceDictionary Source="iCon;component/CustomControls/ClosableTwoRowGrid/ClosableTwoRowGrid.xaml"/>
 
         <!-- Default template for OptionsGroupBox -->
-        <ResourceDictionary Source="/CustomControls/OptionsGroupBox/OptionsGroupBox.xaml"/>
+        <ResourceDictionary Source="iCon;component/CustomControls/OptionsGroupBox/OptionsGroupBox.xaml"/>
 
         <!-- Default template for ContentToggleButton -->
-        <ResourceDictionary Source="/CustomControls/ContentToggleButton/ContentToggleButton.xaml"/>
+        <ResourceDictionary Source="iCon;component/CustomControls/ContentToggleButton/ContentToggleButton.xaml"/>
 
         <!-- Default template for HorizontalLabeledControl -->
-        <ResourceDictionary Source="/CustomControls/HorizontalLabeledControl/HorizontalLabeledControl.xaml"/>
+        <ResourceDictionary Source="iCon;component/CustomControls/HorizontalLabeledControl/HorizontalLabeledControl.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
     

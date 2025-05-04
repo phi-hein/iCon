@@ -54,10 +54,6 @@ namespace iCon_General
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-            // Link resources
-            ResourceDictionary global_dic = new ResourceDictionary() { Source = new Uri("Resources/GlobalDictionary.xaml", UriKind.RelativeOrAbsolute) };
-            this.Resources = global_dic;
-
             // Set up exception handlers
             Application.Current.DispatcherUnhandledException += Application_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += AppDomain_UnhandledException;
