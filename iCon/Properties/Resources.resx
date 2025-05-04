@@ -159,6 +159,10 @@
   <data name="ConfirmationWindow_Title" xml:space="preserve">
     <value>Confirmation</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="EULA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\EULA.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="FingerPrintWindow_CancelBtn" xml:space="preserve">
     <value>Deny</value>
   </data>
@@ -179,6 +183,15 @@
   </data>
   <data name="FingerPrintWindow_Title" xml:space="preserve">
     <value>Unknown host fingerprint</value>
+  </data>
+  <data name="License_BouncyCastle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThirdPartyLicenses\License_BouncyCastle.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="License_HelixToolkit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThirdPartyLicenses\License_HelixToolkit.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="License_SSHNet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThirdPartyLicenses\License_SSHNet.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="MainMenu_File" xml:space="preserve">
     <value>_File</value>
@@ -202,7 +215,7 @@
     <value>_Help</value>
   </data>
   <data name="MainMenu_Help_Info" xml:space="preserve">
-    <value>_Info</value>
+    <value>_About</value>
   </data>
   <data name="MainMenu_View" xml:space="preserve">
     <value>_View</value>
@@ -221,6 +234,15 @@
   </data>
   <data name="MainWindow_BaseTitle" xml:space="preserve">
     <value>iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity</value>
+  </data>
+  <data name="PackageTitle_BouncyCastle" xml:space="preserve">
+    <value>BouncyCastle.NET (Version 2.5.1)</value>
+  </data>
+  <data name="PackageTitle_HelixToolkit" xml:space="preserve">
+    <value>Helix Toolkit (Version 2.27.0)</value>
+  </data>
+  <data name="PackageTitle_SSHNet" xml:space="preserve">
+    <value>SSH.NET (Version 2025.0.0)</value>
   </data>
   <data name="ProgressWindow_CancelBtn" xml:space="preserve">
     <value>Cancel</value>

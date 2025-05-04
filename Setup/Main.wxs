@@ -11,8 +11,7 @@
 		
 		<SummaryInformation Keywords="!(loc.InstallerName)" 
 							Description="!(loc.AppName) !(bind.FileVersion.iCon.exe) !(loc.InstallerName)" 
-							Manufacturer="!(loc.AppManufacturer)"
-							Comments="!(loc.InstallerComment)" />
+							Manufacturer="!(loc.AppManufacturer)" />
 
 		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
     
@@ -24,7 +23,7 @@
 		
 		<!-- Setup-UI -->
 		<ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
-		<WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+		<WixVariable Id="WixUILicenseRtf" Value="$(iCon.TargetDir)EULA.rtf" />
 		<WixVariable Id="WixUIBannerBmp" Value="TopBanner.jpg" />
 		<WixVariable Id="WixUIDialogBmp" Value="SideBanner.jpg" />
 		

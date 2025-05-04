@@ -11,9 +11,6 @@
 	<String Id="InstallerName" 
 			Value="Installer" />
 	
-	<String Id="InstallerComment" 
-			Value="All rights reserved by Workgroup Martin, IPC, RWTH Aachen University" />
-	
 	<String Id="DowngradeErrorMessage" 
 			Value="A newer version of iCon is already installed." />
 	

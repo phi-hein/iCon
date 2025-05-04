@@ -187,6 +187,21 @@ namespace iCon_General.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die                   END USER LICENSE AGREEMENT
+        ///
+        ///  This software is © P. Hein, 2016, 2025, and it is made available under the GPL v3 license stated below, in combination with the following attribution requirement:
+        ///
+        ///  Over and above the legal restrictions imposed by the GPL license, if you use this software or modified variants of it, for example for an academic publication, then you are obliged to provide proper attribution by citing the following paper:
+        ///
+        ///&quot;Kinetic Monte Carlo simulations of ionic conduct [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string EULA {
+            get {
+                return ResourceManager.GetString("EULA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Deny ähnelt.
         /// </summary>
         public static string FingerPrintWindow_CancelBtn {
@@ -246,6 +261,58 @@ namespace iCon_General.Properties {
         public static string FingerPrintWindow_Title {
             get {
                 return ResourceManager.GetString("FingerPrintWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copyright (c) 2000-2024 The Legion of the Bouncy Castle Inc. (https://www.bouncycastle.org).
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+        ///associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction,
+        ///including without limitation the rights to use, copy, modify, merge, publish, distribute,
+        ///sub license, and/or sell copies of the Software, and to permit persons to whom the Software is
+        ///furnished to do so, subject to the follow [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string License_BouncyCastle {
+            get {
+                return ResourceManager.GetString("License_BouncyCastle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The MIT License (MIT)
+        ///
+        ///Copyright (c) 2022 Helix Toolkit contributors
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a
+        ///copy of this software and associated documentation files (the
+        ///&quot;Software&quot;), to deal in the Software without restriction, including
+        ///without limitation the rights to use, copy, modify, merge, publish,
+        ///distribute, sublicense, and/or sell copies of the Software, and to
+        ///permit persons to whom the Software is furnished to do so, subject to
+        ///the following conditions: [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string License_HelixToolkit {
+            get {
+                return ResourceManager.GetString("License_HelixToolkit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The MIT License (MIT)
+        ///
+        ///Copyright (c) Renci, Oleg Kapeljushnik, Gert Driesen and contributors
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy
+        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
+        ///in the Software without restriction, including without limitation the rights
+        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        ///copies of the Software, and to permit persons to whom the Software is
+        ///furnished to do so, subject to the followi [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string License_SSHNet {
+            get {
+                return ResourceManager.GetString("License_SSHNet", resourceCulture);
             }
         }
         
@@ -313,7 +380,7 @@ namespace iCon_General.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Info ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _About ähnelt.
         /// </summary>
         public static string MainMenu_Help_Info {
             get {
@@ -372,6 +439,33 @@ namespace iCon_General.Properties {
         public static string MainWindow_BaseTitle {
             get {
                 return ResourceManager.GetString("MainWindow_BaseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die BouncyCastle.NET (Version 2.5.1) ähnelt.
+        /// </summary>
+        public static string PackageTitle_BouncyCastle {
+            get {
+                return ResourceManager.GetString("PackageTitle_BouncyCastle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Helix Toolkit (Version 2.27.0) ähnelt.
+        /// </summary>
+        public static string PackageTitle_HelixToolkit {
+            get {
+                return ResourceManager.GetString("PackageTitle_HelixToolkit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SSH.NET (Version 2025.0.0) ähnelt.
+        /// </summary>
+        public static string PackageTitle_SSHNet {
+            get {
+                return ResourceManager.GetString("PackageTitle_SSHNet", resourceCulture);
             }
         }
         

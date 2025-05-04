@@ -30,7 +30,7 @@
       
         <File Source="$(iCon.TargetDir)ElementsDrawInfo.ini" />
 
-		<File Source="LICENSE.rtf" />
+		<File Name="License.txt" Source="$(iCon.TargetDir)EULA.txt" />
 		
 	</ComponentGroup>
     </Fragment>

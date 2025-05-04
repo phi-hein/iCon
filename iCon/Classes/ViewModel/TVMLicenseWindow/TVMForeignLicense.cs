@@ -1,6 +1,6 @@
 ﻿namespace iCon_General
 {
-    public class TVMForeignLicense : ViewModelObject
+    public class TVMLicense : ViewModelObject
     {
         #region Properties
 
@@ -46,14 +46,14 @@
 
         #endregion Properties
 
-        public TVMForeignLicense()
+        public TVMLicense()
         {
             // Initialize Properties
             _Title = "";
             _LicenseText = "";
         }
 
-        public TVMForeignLicense(string i_Title, string i_Text)
+        public TVMLicense(string i_Title, string i_Text)
         {
             // Initialize Properties
             _Title = i_Title;
