@@ -17,81 +17,81 @@
 //			   als nicht-kritisch einzustufen
 
 // OK, d.h. kein Fehler aufgetreten (nicht-kritisch)
-constexpr int KMCERR_OK = 0;
+[[maybe_unused]] constexpr int KMCERR_OK = 0;
 
 // KMC Objekt-Member Ready nicht true
-constexpr int KMCERR_READY_NOT_TRUE = -1;
+[[maybe_unused]] constexpr int KMCERR_READY_NOT_TRUE = -1;
 
 // KMC Objekt-Member Ready nicht false
-constexpr int KMCERR_READY_NOT_FALSE = -2;
+[[maybe_unused]] constexpr int KMCERR_READY_NOT_FALSE = -2;
 
 // Ungueltiger Input (nicht-kritisch)
-constexpr int KMCERR_INVALID_INPUT = -3;
+[[maybe_unused]] constexpr int KMCERR_INVALID_INPUT = -3;
 
 // Elementsymbol nicht gefunden
-constexpr int KMCERR_ELEMENTSYMBOL_NOT_FOUND = -4;
+[[maybe_unused]] constexpr int KMCERR_ELEMENTSYMBOL_NOT_FOUND = -4;
 
 // Konsistenzcheck failed
-constexpr int KMCERR_MAKE_FAILED_DUE_TO_INCONSISTENCY = -5;
+[[maybe_unused]] constexpr int KMCERR_MAKE_FAILED_DUE_TO_INCONSISTENCY = -5;
 
 // Objektpointer ist NULL
-constexpr int KMCERR_INVALID_POINTER = -6;
+[[maybe_unused]] constexpr int KMCERR_INVALID_POINTER = -6;
 
 // Objekt ist noch nicht Ready
-constexpr int KMCERR_OBJECT_NOT_READY = -7;
+[[maybe_unused]] constexpr int KMCERR_OBJECT_NOT_READY = -7;
 
 // Element nicht gefunden
-constexpr int KMCERR_ELEMENT_NOT_FOUND = -8;
+[[maybe_unused]] constexpr int KMCERR_ELEMENT_NOT_FOUND = -8;
 
 // Input existiert schon (nicht-kritisch)
-constexpr int KMCERR_INPUT_ALREADY_EXISTS = -9;
+[[maybe_unused]] constexpr int KMCERR_INPUT_ALREADY_EXISTS = -9;
 
 // MovingSpecies oder Vacancy als Dotierung eingegeben <- nicht erlaubt (nicht-kritisch)
-constexpr int KMCERR_VACMOV_NOT_ALLOWED_AS_DOPING = -10;
+[[maybe_unused]] constexpr int KMCERR_VACMOV_NOT_ALLOWED_AS_DOPING = -10;
 
 // Es wurde kein dotiertes Atom in der Elementarzelle plaziert (nicht-kritisch)
-constexpr int KMCERR_NO_DOPED_ATOM_FOUND = -11;
+[[maybe_unused]] constexpr int KMCERR_NO_DOPED_ATOM_FOUND = -11;
 
 // Maximaler Input wurde erreicht (nicht-kritisch)
-constexpr int KMCERR_MAXIMUM_INPUT_REACHED = -12;
+[[maybe_unused]] constexpr int KMCERR_MAXIMUM_INPUT_REACHED = -12;
 
 // Fehler in NN-Analyse: keine Schalen gefunden
-constexpr int KMCERR_NO_SHELLS_FOUND = -13;
+[[maybe_unused]] constexpr int KMCERR_NO_SHELLS_FOUND = -13;
 
 // Es duerfen nicht alle Jumps eines Atoms deaktiviert werden
-constexpr int KMCERR_NO_ACTIVE_JUMP_ON_ATOM = -14;
+[[maybe_unused]] constexpr int KMCERR_NO_ACTIVE_JUMP_ON_ATOM = -14;
 
 // Es wurde eine Exception ausgeloest
-constexpr int KMCERR_EXCEPTION_OCCURED = -15;
+[[maybe_unused]] constexpr int KMCERR_EXCEPTION_OCCURED = -15;
 
 // Ein fehlerhaftes Dateiformat liegt vor (nicht-kritisch)
-constexpr int KMCERR_INVALID_FILE_FORMAT = -16;
+[[maybe_unused]] constexpr int KMCERR_INVALID_FILE_FORMAT = -16;
 
 // Keine Console gefunden
-constexpr int KMCERR_NO_CONSOLE = -17;
+[[maybe_unused]] constexpr int KMCERR_NO_CONSOLE = -17;
 
 // Fehlerhafter Dateiinhalt (nicht-kritisch)
-constexpr int KMCERR_INVALID_FILE_CONTENT = -18;
+[[maybe_unused]] constexpr int KMCERR_INVALID_FILE_CONTENT = -18;
 
 // Test lieferte Ungleich
-constexpr int KMCERR_UNEQUAL = -19;
+[[maybe_unused]] constexpr int KMCERR_UNEQUAL = -19;
 
 // Test lieferte Gleich
-constexpr int KMCERR_EQUAL = -20;
+[[maybe_unused]] constexpr int KMCERR_EQUAL = -20;
 
 // Deaktivierung nicht möglich wegen Mindestanzahl (nicht-kritisch)
-constexpr int KMCERR_DEACTIVATION_IMPOSSIBLE = -21;
+[[maybe_unused]] constexpr int KMCERR_DEACTIVATION_IMPOSSIBLE = -21;
 
 // Zu viele Atome aktiviert, sodass zuviele Codes entstehen (nicht-kritisch)
-constexpr int KMCERR_TOO_MANY_ACTIVE_ATOMS = -22;
+[[maybe_unused]] constexpr int KMCERR_TOO_MANY_ACTIVE_ATOMS = -22;
 
 // Kritischer, ungueltiger Input
-constexpr int KMCERR_INVALID_INPUT_CRIT = -23;
+[[maybe_unused]] constexpr int KMCERR_INVALID_INPUT_CRIT = -23;
 
 // Dyn. Norm. Listeneintrag muss gesetzt werden
-constexpr int KMCERR_HAS_TO_SET_DYNNORM_ENTRY = -24;
+[[maybe_unused]] constexpr int KMCERR_HAS_TO_SET_DYNNORM_ENTRY = -24;
 
 // Keine Simulationsergebnisse vorhanden (nicht-kritisch)
-constexpr int KMCERR_NO_RESULTS = -25;
+[[maybe_unused]] constexpr int KMCERR_NO_RESULTS = -25;
 
 #endif
