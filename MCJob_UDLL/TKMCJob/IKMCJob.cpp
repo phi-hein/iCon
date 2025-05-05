@@ -27,14 +27,15 @@ using namespace std;
 // Exportierte Funktion zur Erstellung einer Instanz der Klasse
 DECLSPEC IKMCJob * __stdcall CreateKMCJob () 
 {
-	IKMCJob* o_Job = NULL;
+	IKMCJob* o_Job = nullptr;
 	try
 	{
 		o_Job = new TKMCJob;
 	}
 	catch (...)
 	{
-		return NULL;
+		delete o_Job;
+		return nullptr;
 	}
 	return o_Job;
 }

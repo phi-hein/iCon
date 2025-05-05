@@ -22,14 +22,15 @@
 
 // Exported factory function for creating a TConsole object
 DECLSPEC IConsole * __stdcall CreateConsole () {
-	IConsole* o_Console = NULL;
+	IConsole* o_Console = nullptr;
 	try
 	{
 		o_Console = new TConsole;
 	}
 	catch (...)
 	{
-		return NULL;
+		delete o_Console;
+		return nullptr;
 	}
 	return o_Console;
 }
