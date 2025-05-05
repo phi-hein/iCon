@@ -413,7 +413,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)Resources\Icons\ApplicationIcon.ico" "$(SolutionDir)$(Configuration)\Resources\" /y /i /r /d /f
-pwsh -Command "Compress-Archive -Path '$(SolutionDir)$(Configuration)\Source\*' -DestinationPath '$(SolutionDir)$(Configuration)\Source.zip' -Update"</PostBuildEvent>
+del "$(SolutionDir)$(Configuration)\Source.zip" /q
+powershell.exe -nologo -noprofile -command "&amp; { Add-Type -A 'System.IO.Compression.FileSystem'; [System.IO.Compression.ZipFile]::CreateFromDirectory('$(SolutionDir)$(Configuration)\Source\', '$(SolutionDir)$(Configuration)\Source.zip'); }"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
