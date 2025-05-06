@@ -1444,7 +1444,7 @@
                                                            Style="{StaticResource StdToolTipStyle}"/>
                                                 </local:ToolTipHelper.MyToolTip>
                                             </RadioButton>
-                                            <RadioButton Content="Local"  GroupName="CalcType" Style="{StaticResource StdInputRadioButtonStyle}" Margin="0 0 0 0">
+                                            <RadioButton IsEnabled="False" Content="Local" GroupName="CalcType" Style="{StaticResource StdInputRadioButtonStyle}" Margin="0 0 0 0">
                                                 <local:ToolTipHelper.MyToolTip>
                                                     <TextBlock Text="The simulations will be executed on the local computer with an included queue system." 
                                                             Style="{StaticResource StdToolTipStyle}"/>
