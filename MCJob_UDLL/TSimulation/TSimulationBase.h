@@ -136,7 +136,8 @@ class TSimulationBase {
 		int GetCondFactor(bool &o_cancalccond, double &o_freq, double &o_condfactor) const;			// Pruefen ob Leitfaehigkeitsberechnung moeglich und Auswertungsparameter berechnen
 		int CreateRandomLattice(vector<vector<vector<vector<int>>>> *o_lattice);					// Gitter mit zufaelliger Verteilung der Dopanden und Leerstellen erzeugen
 		int CreateMovLattice(vector<vector<vector<vector<T3DMovVector>>>> *o_movlattice) const;				// Leeres Gitter zur Bewegungsspeicherung erstellen
-		int LatticeAnalysis(string i_space, const vector<vector<vector<vector<int>>>> *i_lattice) const;	// Gitterstatistik ausgeben
+		int LatticeAnalysis(string i_space, const vector<vector<vector<vector<int>>>>* i_lattice) const;	// Gitterstatistik ausgeben
+		int LatticeProbabilitiesAnalysis(string i_space, const vector<vector<vector<vector<int>>>>* i_lattice) const;	// Statistik aller aktuellen Sprungwahrscheinlichkeiten ausgeben (ohne Normierung)
 		int PhaseAnalysis(string i_space, bool is_short, const TSimPhaseInfo &i_phase, bool show_probs) const;			// Simulationsphase auswerten
 		int UniqueSampling(size_t id_count, size_t pos_count, vector<size_t> *o_selected);								// id_count Zahlen aus dem Interval [0, pos_count-1] zufaellig auswaehlen (keine Zahl doppelt, in aufsteigender Ordnung)
 		int SetSimulationData(const TSimPhaseInfo &i_phase);						// Synchronisation: i_phase -> variable Simulationsparameter

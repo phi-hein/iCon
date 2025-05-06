@@ -178,7 +178,7 @@ int TSimulationBase::InitializeSimulation()
 		return ErrorCode;
 	}
 	cout << "  Standard normalization complete." << endl;
-	cout << "    Highest jump probability: " << spHighestProb << endl;
+	cout << "    Highest jump probability: " << spHighestProb << " (without normalization)" << endl;
 
 	// Pruefung auf NonsenseJumpAttempts setzen
 	if (spHighestProb >= 1.0)
@@ -793,7 +793,6 @@ int TSimulationBase::SPMainPreparations()
 	// PhaseData erstellen (wenn nicht vorher bereits geladen)
 	if (MainPhaseData.HasValidData == false)
 	{
-
 		MainPhaseData.Clear();
 
 		// Gitter aus DynNorm oder Prerun uebertragen, falls moeglich
@@ -1024,14 +1023,7 @@ int TSimulationBase::SPSimulate(TSimPhaseInfo& ispPhase)
 	}
 
 	// Wahrscheinlichkeitsspeicherflag setzen
-	if (spProbListSize > 0)
-	{
-		ispIsSavingProbs = true;
-	}
-	else
-	{
-		ispIsSavingProbs = false;
-	}
+	ispIsSavingProbs = (spProbListSize > 0);
 
 	// Start-Zeit speichern, Laufzeit setzen
 	cout << "Simulation started at ";
@@ -1042,13 +1034,11 @@ int TSimulationBase::SPSimulate(TSimPhaseInfo& ispPhase)
 	// Start: ------------- Aeussere KMC-Schleife --------------
 	while ((spMCSP < ispMaxMCSP) && (spJumpAttempts < ispMaxAttempts))
 	{
-
 		// Forschritt anzeigen und zwischenspeichern (wird maximal 100-mal durchlaufen, daher nicht Performance-relevant und nicht optimiert)
 		if (ispIsMCSPLimited == true)
 		{
 			if ((spMCSP >= ispNextShortProgress * ispMaxMCSP) || (spMCSP >= ispNextLongProgress * ispMaxMCSP))
 			{
-
 				// ShortProgress wird in jedem Fall hochgesetzt, d.h. es kann zwischendurch als Fortschrittspeicher verwendet werden
 				ispNextShortProgress = double(spMCSP) / double(ispMaxMCSP);
 				cout << "Progress: ";
@@ -1829,7 +1819,6 @@ int TSimulationBase::GetHighestProb(double& o_prob) const
 	{
 		for (int j = 0; j < spDirCount[spDirLink[i]]; j++)
 		{
-
 			// hoechsten additiven Beitrag berechnen
 			t_highest_add = 1.0;
 			if (spJumps[i][j].add_envpos_size > 0)
@@ -1865,7 +1854,6 @@ int TSimulationBase::GetHighestProb(double& o_prob) const
 			t_highest_code = 1.0;
 			if (spJumps[i][j].code_envpos_size > 0)
 			{
-
 				// Code-Anzahl berechnen
 				t_max_hash_index = 0;
 				for (int k = 0; k < spJumps[i][j].code_envpos_size; k++)
@@ -2300,6 +2288,236 @@ int TSimulationBase::LatticeAnalysis(string i_space, const vector<vector<vector<
 	return KMCERR_OK;
 }
 
+// Statistik aller aktuellen Sprungwahrscheinlichkeiten ausgeben (ohne Normierung)
+int TSimulationBase::LatticeProbabilitiesAnalysis(string i_space, const vector<vector<vector<vector<int>>>>* i_lattice) const
+{
+	if (Ready != true)
+	{
+		cout << "Critical Error: Object is not ready (TSimulationBase::LatticeProbabilitiesAnalysis)" << endl << endl;
+		return KMCERR_READY_NOT_TRUE;
+	}
+
+	// Remark: This analysis cannot be used to evaluate all probabilities that could occur in a simulation
+	// because the jump environments typically change because they also contain moving species positions
+	// -> Therefore, this analysis just reflects the momentary state of the lattice (and it cannot be used for normalization)
+	
+	// Initialize analysis results (see further below for their meaning)
+	unsigned long long blocked_jumps = 0;
+	unsigned long long normal_jumps = 0;
+	unsigned long long nonsense_jumps = 0;
+	unsigned long long overkill_jumps = 0;
+	double lowest_prob = 1.0;
+	double highest_prob = 0.0;
+
+	// Unit cell positions (index s) are sorted by ElemID -> Iterate over all 4D positions of the moving species
+	for (int x_ini = 0; x_ini < spLatticeSize; ++x_ini)
+	{
+		for (int y_ini = 0; y_ini < spLatticeSize; ++y_ini)
+		{
+			for (int z_ini = 0; z_ini < spLatticeSize; ++z_ini)
+			{
+				for (int s_ini = 0; s_ini < spMovStackSize; ++s_ini)
+				{
+					// Skip if no vacancy at jump start position
+					if (i_lattice->at(x_ini)[y_ini][z_ini][s_ini] != 1) continue;
+
+					// Iterate over all possible directions dir
+					for (int dir = 0; dir < spDirCount[spDirLink[s_ini]]; ++dir)
+					{
+						// Pointer to the respective jump object
+						const TSimJump* analyzed_jump = spJumps[s_ini] + dir;
+
+						// Get destination position
+						int x_end = x_ini + analyzed_jump->destination.x;
+						int y_end = y_ini + analyzed_jump->destination.y;
+						int z_end = z_ini + analyzed_jump->destination.z;
+						int s_end = s_ini + analyzed_jump->destination.s;
+						while (x_end < 0) x_end += spLatticeSize;
+						while (x_end >= spLatticeSize) x_end -= spLatticeSize;
+						while (y_end < 0) y_end += spLatticeSize;
+						while (y_end >= spLatticeSize) y_end -= spLatticeSize;
+						while (z_end < 0) z_end += spLatticeSize;
+						while (z_end >= spLatticeSize) z_end -= spLatticeSize;
+						while (s_end < 0) s_end += spStackSize;
+						while (s_end >= spStackSize) s_end -= spStackSize;
+
+						// Skip if vacancy at jump end position
+						if (i_lattice->at(x_end)[y_end][z_end][s_end] == 1) 
+						{
+							blocked_jumps++;
+							continue;
+						}
+
+						// Probability for forward jump (initialized to E-field contribution)
+						double jump_prob = analyzed_jump->efield_contrib;
+
+						// Get unique jump
+						const TSimUniqueJump* analyzed_unique_jump = analyzed_jump->unique_jump;
+
+						// Calculate environment hash
+						size_t hash_idx = 0;
+						for (int i_env = 0; i_env < analyzed_jump->code_envpos_size; ++i_env)
+						{
+							T4DLatticeVector* env_pos = analyzed_jump->code_envpos + i_env;
+							int x_env = x_ini + env_pos->x;
+							int y_env = y_ini + env_pos->y;
+							int z_env = z_ini + env_pos->z;
+							int s_env = s_ini + env_pos->s;
+							while (x_env < 0) x_env += spLatticeSize;
+							while (x_env >= spLatticeSize) x_env -= spLatticeSize;
+							while (y_env < 0) y_env += spLatticeSize;
+							while (y_env >= spLatticeSize) y_env -= spLatticeSize;
+							while (z_env < 0) z_env += spLatticeSize;
+							while (z_env >= spLatticeSize) z_env -= spLatticeSize;
+							while (s_env < 0) s_env += spStackSize;
+							while (s_env >= spStackSize) s_env -= spStackSize;
+							hash_idx += analyzed_unique_jump->hash_mult[i_env] *
+								analyzed_unique_jump->hash_map[i_env][i_lattice->at(x_env)[y_env][z_env][s_env]];
+						}
+
+						// Add contribution from non-additive environment
+						if (analyzed_jump->code_envpos_size > 0)
+						{
+							jump_prob *= analyzed_unique_jump->code_energies[hash_idx];
+						}
+
+						// Add additive contributions
+						for (int i_env = 0; i_env < analyzed_jump->add_envpos_size; ++i_env)
+						{
+							T4DLatticeVector* env_pos = analyzed_jump->add_envpos + i_env;
+							int x_env = x_ini + env_pos->x;
+							int y_env = y_ini + env_pos->y;
+							int z_env = z_ini + env_pos->z;
+							int s_env = s_ini + env_pos->s;
+							while (x_env < 0) x_env += spLatticeSize;
+							while (x_env >= spLatticeSize) x_env -= spLatticeSize;
+							while (y_env < 0) y_env += spLatticeSize;
+							while (y_env >= spLatticeSize) y_env -= spLatticeSize;
+							while (z_env < 0) z_env += spLatticeSize;
+							while (z_env >= spLatticeSize) z_env -= spLatticeSize;
+							while (s_env < 0) s_env += spStackSize;
+							while (s_env >= spStackSize) s_env -= spStackSize;
+
+							jump_prob *= analyzed_unique_jump->add_energies[i_env][i_lattice->at(x_env)[y_env][z_env][s_env]];
+						}
+						
+						// Pointer to the respective reverse jump object
+						const TSimJump* analyzed_backjump = analyzed_jump->back_jump;
+
+						// Probability for forward jump (initialized to E-field contribution)
+						double backjump_prob = analyzed_backjump->efield_contrib;
+
+						// Get unique reverse jump
+						const TSimUniqueJump* analyzed_unique_backjump = analyzed_backjump->unique_jump;
+
+						// Calculate environment hash
+						hash_idx = 0;
+						for (int i_env = 0; i_env < analyzed_backjump->code_envpos_size; ++i_env)
+						{
+							T4DLatticeVector* env_pos = analyzed_backjump->code_envpos + i_env;
+							int x_env = x_end + env_pos->x;
+							int y_env = y_end + env_pos->y;
+							int z_env = z_end + env_pos->z;
+							int s_env = s_end + env_pos->s;
+							while (x_env < 0) x_env += spLatticeSize;
+							while (x_env >= spLatticeSize) x_env -= spLatticeSize;
+							while (y_env < 0) y_env += spLatticeSize;
+							while (y_env >= spLatticeSize) y_env -= spLatticeSize;
+							while (z_env < 0) z_env += spLatticeSize;
+							while (z_env >= spLatticeSize) z_env -= spLatticeSize;
+							while (s_env < 0) s_env += spStackSize;
+							while (s_env >= spStackSize) s_env -= spStackSize;
+							hash_idx += analyzed_unique_backjump->hash_mult[i_env] *
+								analyzed_unique_backjump->hash_map[i_env][i_lattice->at(x_env)[y_env][z_env][s_env]];
+						}
+
+						// Add contribution from non-additive environment
+						if (analyzed_backjump->code_envpos_size > 0)
+						{
+							backjump_prob *= analyzed_unique_backjump->code_energies[hash_idx];
+						}
+						
+						// Add additive contributions
+						for (int i_env = 0; i_env < analyzed_backjump->add_envpos_size; ++i_env)
+						{
+							T4DLatticeVector* env_pos = analyzed_backjump->add_envpos + i_env;
+							int x_env = x_end + env_pos->x;
+							int y_env = y_end + env_pos->y;
+							int z_env = z_end + env_pos->z;
+							int s_env = s_end + env_pos->s;
+							while (x_env < 0) x_env += spLatticeSize;
+							while (x_env >= spLatticeSize) x_env -= spLatticeSize;
+							while (y_env < 0) y_env += spLatticeSize;
+							while (y_env >= spLatticeSize) y_env -= spLatticeSize;
+							while (z_env < 0) z_env += spLatticeSize;
+							while (z_env >= spLatticeSize) z_env -= spLatticeSize;
+							while (s_env < 0) s_env += spStackSize;
+							while (s_env >= spStackSize) s_env -= spStackSize;
+
+							backjump_prob *= analyzed_unique_backjump->add_energies[i_env][i_lattice->at(x_env)[y_env][z_env][s_env]];
+						}
+
+						// Analyze jump category
+						// Explanation: a lattice position is undefined, if a jump away from it has a probability >= 1.0
+						//   (i.e. activation energy <= 0 eV, actual migration energy without normalization)
+						// 
+						// Category 1: Start defined + End defined 
+						// -> counts as jump attempt, counts as Monte-Carlo step if jump happens
+						// 
+						// Category 2: Start defined + End not defined (= "nonsense attempt")
+						// -> counts as jump attempt, but jump always declined
+						// 
+						// Category 3: Start not defined (= "overkill attempt") (independent of whether end position defined or not)
+						// -> counts NOT as jump attempt, jump always occurs but does not count as Monte-Carlo step
+						//
+						if (jump_prob < 1.0)
+						{
+							if (backjump_prob < 1.0)
+							{
+								// -> Category 1
+								normal_jumps++;
+							}
+							else
+							{
+								// -> Category 2
+								nonsense_jumps++;
+							}
+						}
+						else
+						{
+							// -> Category 3
+							overkill_jumps++;
+						}
+						
+						// Analyze jump probability 
+						// (only category 1 = normal jumps that can be a Monte-Carlo step)
+						if ((jump_prob < 1.0) && (backjump_prob < 1.0))
+						{
+							if (jump_prob < lowest_prob) lowest_prob = jump_prob;
+							if (jump_prob > highest_prob) highest_prob = jump_prob;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	// Print statistics
+	cout << i_space << "Normal jumps: " << normal_jumps << endl;
+	cout << i_space << "Blocked (vacancy on destination): " << blocked_jumps << endl;
+	cout << i_space << "Invalid start position (jump probability >= 1.0): " << overkill_jumps << endl;
+	cout << i_space << "Invalid end position (backjump probability >= 1.0): " << nonsense_jumps << endl;
+	if (normal_jumps > 0)
+	{
+		cout << i_space << "Min/max jump probability of all normal jumps: [" << lowest_prob << ", " << highest_prob << "] (without normalization)" << endl;
+	}
+
+	// Signal if no normal jumps in this lattice
+	if (normal_jumps == 0) return KMCERR_INVALID_INPUT;
+
+	return KMCERR_OK;
+}
+
 // Simulationsphase auswerten
 int TSimulationBase::PhaseAnalysis(string i_space, bool is_short, const TSimPhaseInfo& i_phase, bool show_probs) const
 {
@@ -2323,161 +2541,181 @@ int TSimulationBase::PhaseAnalysis(string i_space, bool is_short, const TSimPhas
 		cout << i_space << "Runtime: " << i_phase.CurrentRunTime.ToString() << endl;
 		cout << i_space << "Simulated timespan: " << i_phase.CurrentAttemptPathRatioSum * i_phase.UsedNorm / spFrequency << " s" << endl;
 	}
-	if (i_phase.CurrentJumpAttempts == 0ULL) return KMCERR_OK;
 
-	// Analyse des MovLattice
-	// Konvention:
-	// fuer bewegliche Spezies:
-	// [0]          <jcount>                = mittlere Sprunganzahl
-	// [1, 2, 3]    <x>, <y>, <z>           = mittlerer Verschiebungsvektor in cm
-	// [4]          <sqrt(x*x + y*y + z*z)> = mittlere Verschiebung in cm
-	// [5]          <x*x + y*y + z*z>       = mittlere quadratische Verschiebung in cm^2
-	// [6, 7, 8]    sum(x), sum(y), sum(z)  = Schwerpunktverschiebungsvektor in cm
-	// fuer Leerstellen:
-	// [9]          <jcount>                = mittlere Sprunganzahl
-	// [10, 11, 12] <x>, <y>, <z>           = mittlerer Verschiebungsvektor in cm
-	// [13]         <sqrt(x*x + y*y + z*z)> = mittlere Verschiebung in cm
-	// [14]         <x*x + y*y + z*z>       = mittlere quadratische Verschiebung in cm^2
-	// [15, 16, 17] sum(x), sum(y), sum(z)  = Schwerpunktverschiebungsvektor in cm
-	vector<double> t_MovAnalysis;
-	ErrorCode = MovLatticeAnalysis(&(i_phase.CurrentLattice), &(i_phase.CurrentMovLattice), &t_MovAnalysis);
-	if (ErrorCode != KMCERR_OK) return ErrorCode;
-
-	// Projektionen aufs E-Feld berechnen (jeweils Komponente des Verschiebungsvektors parallel und senkrecht zum E-Feld)
-	double t_mov_comp_parallel = 0.0;
-	double t_mov_comp_perpendicular = 0.0;
-	double t_vac_comp_parallel = 0.0;
-	double t_vac_comp_perpendicular = 0.0;
-	if (spCanCalcCond == true)
+	if (i_phase.CurrentJumpAttempts != 0ULL)
 	{
-		ErrorCode = GetProjOnEField(T3DVector(t_MovAnalysis[1], t_MovAnalysis[2], t_MovAnalysis[3]), t_mov_comp_parallel, t_mov_comp_perpendicular);
+		// Analyse des MovLattice
+		// Konvention:
+		// fuer bewegliche Spezies:
+		// [0]          <jcount>                = mittlere Sprunganzahl
+		// [1, 2, 3]    <x>, <y>, <z>           = mittlerer Verschiebungsvektor in cm
+		// [4]          <sqrt(x*x + y*y + z*z)> = mittlere Verschiebung in cm
+		// [5]          <x*x + y*y + z*z>       = mittlere quadratische Verschiebung in cm^2
+		// [6, 7, 8]    sum(x), sum(y), sum(z)  = Schwerpunktverschiebungsvektor in cm
+		// fuer Leerstellen:
+		// [9]          <jcount>                = mittlere Sprunganzahl
+		// [10, 11, 12] <x>, <y>, <z>           = mittlerer Verschiebungsvektor in cm
+		// [13]         <sqrt(x*x + y*y + z*z)> = mittlere Verschiebung in cm
+		// [14]         <x*x + y*y + z*z>       = mittlere quadratische Verschiebung in cm^2
+		// [15, 16, 17] sum(x), sum(y), sum(z)  = Schwerpunktverschiebungsvektor in cm
+		vector<double> t_MovAnalysis;
+		ErrorCode = MovLatticeAnalysis(&(i_phase.CurrentLattice), &(i_phase.CurrentMovLattice), &t_MovAnalysis);
 		if (ErrorCode != KMCERR_OK) return ErrorCode;
-		ErrorCode = GetProjOnEField(T3DVector(t_MovAnalysis[10], t_MovAnalysis[11], t_MovAnalysis[12]), t_vac_comp_parallel, t_vac_comp_perpendicular);
-		if (ErrorCode != KMCERR_OK) return ErrorCode;
-	}
 
-	// Analysedaten ausgeben
-	// Zusaetzlich:
-	// sqrt(<x>*<x> + <y>*<y> + <z>*<z>) = Laenge des mittleren Verschiebungsvektors
-	// sqrt(sum(x)*sum(x) + sum(y)*sum(y) + sum(z)*sum(z)) = Laenge des Schwerpunktverschiebungsvektors
-	if (is_short == false)
-	{
-		cout << i_space << "Moving Species (<> = mean = average over all atoms of the moving species):" << endl;
-		cout << i_space << "  Mean jump count: " << t_MovAnalysis[0] << endl;
-		cout << i_space << "  Mean displacement vector (<x>, <y>, <z>): (" << t_MovAnalysis[1] << " , " << t_MovAnalysis[2] << " , ";
-		cout << t_MovAnalysis[3] << ") cm" << endl;
-		cout << i_space << "  Length of the mean disp. vector (sqrt(<x>^2 + <y>^2 + <z>^2)): " << sqrt(t_MovAnalysis[1] * t_MovAnalysis[1] +
-			t_MovAnalysis[2] * t_MovAnalysis[2] + t_MovAnalysis[3] * t_MovAnalysis[3]) << " cm" << endl;
+		// Projektionen aufs E-Feld berechnen (jeweils Komponente des Verschiebungsvektors parallel und senkrecht zum E-Feld)
+		double t_mov_comp_parallel = 0.0;
+		double t_mov_comp_perpendicular = 0.0;
+		double t_vac_comp_parallel = 0.0;
+		double t_vac_comp_perpendicular = 0.0;
 		if (spCanCalcCond == true)
 		{
-			cout << i_space << "  Component of mean disp. vector parallel to E-field (Projection): " << t_mov_comp_parallel << " cm" << endl;
-			cout << i_space << "  Component of mean disp. vector perpendicular to E-field (Rejection): " << t_mov_comp_perpendicular << " cm" << endl;
+			ErrorCode = GetProjOnEField(T3DVector(t_MovAnalysis[1], t_MovAnalysis[2], t_MovAnalysis[3]), t_mov_comp_parallel, t_mov_comp_perpendicular);
+			if (ErrorCode != KMCERR_OK) return ErrorCode;
+			ErrorCode = GetProjOnEField(T3DVector(t_MovAnalysis[10], t_MovAnalysis[11], t_MovAnalysis[12]), t_vac_comp_parallel, t_vac_comp_perpendicular);
+			if (ErrorCode != KMCERR_OK) return ErrorCode;
 		}
-		cout << i_space << "  Mean displacement (<sqrt(x^2 + y^2 + z^2)>): " << t_MovAnalysis[4] << " cm" << endl;
-		cout << i_space << "  Mean squared displacement (<x^2 + y^2 + z^2>): " << t_MovAnalysis[5] << " cm^2" << endl;
-		cout << i_space << "  Center of mass displacement vector (sum(x), sum(y), sum(z)): (" << t_MovAnalysis[6] << " , " << t_MovAnalysis[7] << " , ";
-		cout << t_MovAnalysis[8] << ") cm" << endl;
-		cout << i_space << "  Length of the center of mass disp. vector (sqrt(sum(x)^2 + sum(y)^2 + sum(z)^2)): " << sqrt(t_MovAnalysis[6] * t_MovAnalysis[6] +
-			t_MovAnalysis[7] * t_MovAnalysis[7] + t_MovAnalysis[8] * t_MovAnalysis[8]) << " cm" << endl;
 
-		cout << i_space << "Vacancies (<> = mean = average over all vacancies):" << endl;
-		cout << i_space << "  Mean jump count: " << t_MovAnalysis[9] << endl;
-		cout << i_space << "  Mean displacement vector (<x>, <y>, <z>): (" << t_MovAnalysis[10] << " , " << t_MovAnalysis[11] << " , ";
-		cout << t_MovAnalysis[12] << ") cm" << endl;
-		cout << i_space << "  Length of the mean disp. vector (sqrt(<x>^2 + <y>^2 + <z>^2)): " << sqrt(t_MovAnalysis[10] * t_MovAnalysis[10] +
-			t_MovAnalysis[11] * t_MovAnalysis[11] + t_MovAnalysis[12] * t_MovAnalysis[12]) << " cm" << endl;
+		// Leitfaehigkeit ausgeben (sigma = spCondFactor * spTimeFactor * Projection((<x>, <y>, <z>), E-Feld-Vektor) / (Sprungversuche * Normierung))
 		if (spCanCalcCond == true)
 		{
-			cout << i_space << "  Component of mean disp. vector parallel to E-field (Projection): " << t_vac_comp_parallel << " cm" << endl;
-			cout << i_space << "  Component of mean disp. vector perpendicular to E-field (Rejection): " << t_vac_comp_perpendicular << " cm" << endl;
+			double t_conductivity = spCondFactor * spFrequency * t_mov_comp_parallel / (i_phase.CurrentAttemptPathRatioSum * i_phase.UsedNorm);
+			cout << i_space << "Conductivity: " << t_conductivity << " S/cm" << endl;
 		}
-		cout << i_space << "  Mean displacement (<sqrt(x^2 + y^2 + z^2)>): " << t_MovAnalysis[13] << " cm" << endl;
-		cout << i_space << "  Mean squared displacement (<x^2 + y^2 + z^2>): " << t_MovAnalysis[14] << " cm^2" << endl;
-		cout << i_space << "  Center of mass displacement vector (sum(x), sum(y), sum(z)): (" << t_MovAnalysis[15] << " , " << t_MovAnalysis[16] << " , ";
-		cout << t_MovAnalysis[17] << ") cm" << endl;
-		cout << i_space << "  Length of the center of mass disp. vector (sqrt(sum(x)^2 + sum(y)^2 + sum(z)^2)): " << sqrt(t_MovAnalysis[15] * t_MovAnalysis[15] +
-			t_MovAnalysis[16] * t_MovAnalysis[16] + t_MovAnalysis[17] * t_MovAnalysis[17]) << " cm" << endl;
-	}
-	else
-	{
-		if (spCanCalcCond == true)
+
+		// Analysedaten ausgeben
+		// Zusaetzlich:
+		// sqrt(<x>*<x> + <y>*<y> + <z>*<z>) = Laenge des mittleren Verschiebungsvektors
+		// sqrt(sum(x)*sum(x) + sum(y)*sum(y) + sum(z)*sum(z)) = Laenge des Schwerpunktverschiebungsvektors
+		if (is_short == false)
 		{
-			cout << i_space << "Component of mean mov. species disp. vector parallel to E-field (Projection): " << t_mov_comp_parallel << " cm" << endl;
-			cout << i_space << "Component of mean mov. species disp. vector perpendicular to E-field (Rejection): " << t_mov_comp_perpendicular << " cm" << endl;
+			cout << i_space << "Moving Species (<> = mean = average over all atoms of the moving species):" << endl;
+			cout << i_space << "  Mean jump count: " << t_MovAnalysis[0] << endl;
+			cout << i_space << "  Mean displacement vector (<x>, <y>, <z>): (" << t_MovAnalysis[1] << " , " << t_MovAnalysis[2] << " , ";
+			cout << t_MovAnalysis[3] << ") cm" << endl;
+			cout << i_space << "  Length of the mean disp. vector (sqrt(<x>^2 + <y>^2 + <z>^2)): " << sqrt(t_MovAnalysis[1] * t_MovAnalysis[1] +
+				t_MovAnalysis[2] * t_MovAnalysis[2] + t_MovAnalysis[3] * t_MovAnalysis[3]) << " cm" << endl;
+			if (spCanCalcCond == true)
+			{
+				cout << i_space << "  Component of mean disp. vector parallel to E-field (Projection): " << t_mov_comp_parallel << " cm" << endl;
+				cout << i_space << "  Component of mean disp. vector perpendicular to E-field (Rejection): " << t_mov_comp_perpendicular << " cm" << endl;
+			}
+			cout << i_space << "  Mean displacement (<sqrt(x^2 + y^2 + z^2)>): " << t_MovAnalysis[4] << " cm" << endl;
+			cout << i_space << "  Mean squared displacement (<x^2 + y^2 + z^2>): " << t_MovAnalysis[5] << " cm^2" << endl;
+			cout << i_space << "  Center of mass displacement vector (sum(x), sum(y), sum(z)): (" << t_MovAnalysis[6] << " , " << t_MovAnalysis[7] << " , ";
+			cout << t_MovAnalysis[8] << ") cm" << endl;
+			cout << i_space << "  Length of the center of mass disp. vector (sqrt(sum(x)^2 + sum(y)^2 + sum(z)^2)): " << sqrt(t_MovAnalysis[6] * t_MovAnalysis[6] +
+				t_MovAnalysis[7] * t_MovAnalysis[7] + t_MovAnalysis[8] * t_MovAnalysis[8]) << " cm" << endl;
+
+			cout << i_space << "Vacancies (<> = mean = average over all vacancies):" << endl;
+			cout << i_space << "  Mean jump count: " << t_MovAnalysis[9] << endl;
+			cout << i_space << "  Mean displacement vector (<x>, <y>, <z>): (" << t_MovAnalysis[10] << " , " << t_MovAnalysis[11] << " , ";
+			cout << t_MovAnalysis[12] << ") cm" << endl;
+			cout << i_space << "  Length of the mean disp. vector (sqrt(<x>^2 + <y>^2 + <z>^2)): " << sqrt(t_MovAnalysis[10] * t_MovAnalysis[10] +
+				t_MovAnalysis[11] * t_MovAnalysis[11] + t_MovAnalysis[12] * t_MovAnalysis[12]) << " cm" << endl;
+			if (spCanCalcCond == true)
+			{
+				cout << i_space << "  Component of mean disp. vector parallel to E-field (Projection): " << t_vac_comp_parallel << " cm" << endl;
+				cout << i_space << "  Component of mean disp. vector perpendicular to E-field (Rejection): " << t_vac_comp_perpendicular << " cm" << endl;
+			}
+			cout << i_space << "  Mean displacement (<sqrt(x^2 + y^2 + z^2)>): " << t_MovAnalysis[13] << " cm" << endl;
+			cout << i_space << "  Mean squared displacement (<x^2 + y^2 + z^2>): " << t_MovAnalysis[14] << " cm^2" << endl;
+			cout << i_space << "  Center of mass displacement vector (sum(x), sum(y), sum(z)): (" << t_MovAnalysis[15] << " , " << t_MovAnalysis[16] << " , ";
+			cout << t_MovAnalysis[17] << ") cm" << endl;
+			cout << i_space << "  Length of the center of mass disp. vector (sqrt(sum(x)^2 + sum(y)^2 + sum(z)^2)): " << sqrt(t_MovAnalysis[15] * t_MovAnalysis[15] +
+				t_MovAnalysis[16] * t_MovAnalysis[16] + t_MovAnalysis[17] * t_MovAnalysis[17]) << " cm" << endl;
 		}
 		else
 		{
-			cout << i_space << "Mean mov. species displacement vector (<x>, <y>, <z>): (" << t_MovAnalysis[1] << " , " << t_MovAnalysis[2] << " , ";
-			cout << t_MovAnalysis[3] << ") cm" << endl;
-		}
-		cout << i_space << "Mean squared mov. species displacement (<x^2 + y^2 + z^2>): " << t_MovAnalysis[5] << " cm^2" << endl;
-	}
-
-	// Leitfaehigkeit ausgeben (sigma = spCondFactor * spTimeFactor * Projection((<x>, <y>, <z>), E-Feld-Vektor) / (Sprungversuche * Normierung))
-	if (spCanCalcCond == true)
-	{
-		double t_conductivity = spCondFactor * spFrequency * t_mov_comp_parallel / (i_phase.CurrentAttemptPathRatioSum * i_phase.UsedNorm);
-		cout << i_space << "Conductivity: " << t_conductivity << " S/cm" << endl;
-	}
-
-	// Sprungwahrscheinlichkeiten ausgeben
-	if (show_probs == true)
-	{
-
-		// Wahrscheinlichkeiten der Sprungversuche
-		if (i_phase.CurrentAttemptProbList.size() != 0)
-		{
-			if (i_phase.CurrentAttemptProbList[0].prob != 0.0)
+			if (spCanCalcCond == true)
 			{
-				cout << i_space << "Jump attempt probability list:" << endl;
-				unsigned long long t_countsum = 0ULL;
-				for (int i = 0; i < (int)i_phase.CurrentAttemptProbList.size(); i++)
+				cout << i_space << "Component of mean mov. species disp. vector parallel to E-field (Projection): " << t_mov_comp_parallel << " cm" << endl;
+				cout << i_space << "Component of mean mov. species disp. vector perpendicular to E-field (Rejection): " << t_mov_comp_perpendicular << " cm" << endl;
+			}
+			else
+			{
+				cout << i_space << "Mean mov. species displacement vector (<x>, <y>, <z>): (" << t_MovAnalysis[1] << " , " << t_MovAnalysis[2] << " , ";
+				cout << t_MovAnalysis[3] << ") cm" << endl;
+			}
+			cout << i_space << "Mean squared mov. species displacement (<x^2 + y^2 + z^2>): " << t_MovAnalysis[5] << " cm^2" << endl;
+		}
+
+		// Sprungwahrscheinlichkeiten ausgeben
+		if (show_probs == true)
+		{
+			// Wahrscheinlichkeiten der Sprungversuche
+			if (i_phase.CurrentAttemptProbList.size() != 0)
+			{
+				if (i_phase.CurrentAttemptProbList[0].prob != 0.0)
 				{
-					if (i_phase.CurrentAttemptProbList[i].prob == 0.0) break;
-					t_countsum += i_phase.CurrentAttemptProbList[i].count;
-					cout << i_space << "  " << i + 1 << ". Prob.: " << i_phase.CurrentAttemptProbList[i].prob << " -> Count: ";
-					cout << i_phase.CurrentAttemptProbList[i].count << " (";
-					cout << double(i_phase.CurrentAttemptProbList[i].count) / double(i_phase.CurrentJumpAttempts) * 100.0 << " %)" << endl;
+					cout << i_space << "Jump attempt probability list:" << endl;
+					unsigned long long t_countsum = 0ULL;
+					for (int i = 0; i < (int)i_phase.CurrentAttemptProbList.size(); i++)
+					{
+						if (i_phase.CurrentAttemptProbList[i].prob == 0.0) break;
+						t_countsum += i_phase.CurrentAttemptProbList[i].count;
+						cout << i_space << "  " << i + 1 << ". Prob.: " << i_phase.CurrentAttemptProbList[i].prob << " -> Count: ";
+						cout << i_phase.CurrentAttemptProbList[i].count << " (";
+						cout << double(i_phase.CurrentAttemptProbList[i].count) / double(i_phase.CurrentJumpAttempts) * 100.0 << " %)" << endl;
+					}
+					cout << i_space << "  Sum of counts: " << t_countsum << " (" << double(t_countsum) / double(i_phase.CurrentJumpAttempts) * 100.0 << " %)" << endl;
+					cout << i_space << "  -> " << 100.0 - double(t_countsum) / double(i_phase.CurrentJumpAttempts) * 100.0 << " % lower probabilities." << endl;
 				}
-				cout << i_space << "  Sum of counts: " << t_countsum << " (" << double(t_countsum) / double(i_phase.CurrentJumpAttempts) * 100.0 << " %)" << endl;
-				cout << i_space << "  -> " << 100.0 - double(t_countsum) / double(i_phase.CurrentJumpAttempts) * 100.0 << " % lower probabilities." << endl;
+				else
+				{
+					cout << i_space << "No jump attempt probabilities recorded." << endl;
+				}
 			}
 			else
 			{
 				cout << i_space << "No jump attempt probabilities recorded." << endl;
 			}
-		}
-		else
-		{
-			cout << i_space << "No jump attempt probabilities recorded." << endl;
-		}
 
-		// Wahrscheinlichkeiten der Monte-Carlo-steps
-		if (i_phase.CurrentAcceptedProbList.size() != 0)
-		{
-			if (i_phase.CurrentAcceptedProbList[0].prob != 0.0)
+			// Wahrscheinlichkeiten der Monte-Carlo-steps
+			if (i_phase.CurrentAcceptedProbList.size() != 0)
 			{
-				cout << i_space << "Monte-Carlo step probability list:" << endl;
-				unsigned long long t_countsum = 0ULL;
-				for (int i = 0; i < (int)i_phase.CurrentAcceptedProbList.size(); i++)
+				if (i_phase.CurrentAcceptedProbList[0].prob != 0.0)
 				{
-					if (i_phase.CurrentAcceptedProbList[i].prob == 0.0) break;
-					t_countsum += i_phase.CurrentAcceptedProbList[i].count;
-					cout << i_space << "  " << i + 1 << ". Prob.: " << i_phase.CurrentAcceptedProbList[i].prob << " -> Count: ";
-					cout << i_phase.CurrentAcceptedProbList[i].count << " (";
-					cout << double(i_phase.CurrentAcceptedProbList[i].count) / double(i_phase.CurrentJumpAttempts) * 100.0 << " %)" << endl;
+					cout << i_space << "Monte-Carlo step probability list:" << endl;
+					unsigned long long t_countsum = 0ULL;
+					for (int i = 0; i < (int)i_phase.CurrentAcceptedProbList.size(); i++)
+					{
+						if (i_phase.CurrentAcceptedProbList[i].prob == 0.0) break;
+						t_countsum += i_phase.CurrentAcceptedProbList[i].count;
+						cout << i_space << "  " << i + 1 << ". Prob.: " << i_phase.CurrentAcceptedProbList[i].prob << " -> Count: ";
+						cout << i_phase.CurrentAcceptedProbList[i].count << " (";
+						cout << double(i_phase.CurrentAcceptedProbList[i].count) / double(i_phase.CurrentJumpAttempts) * 100.0 << " %)" << endl;
+					}
+					cout << i_space << "  Sum of counts: " << t_countsum << " (" << double(t_countsum) / double(i_phase.CurrentJumpAttempts) * 100.0 << " %)" << endl;
+					cout << i_space << "  -> " << 100.0 - double(t_countsum) / double(i_phase.CurrentJumpAttempts) * 100.0 << " % lower probabilities." << endl;
 				}
-				cout << i_space << "  Sum of counts: " << t_countsum << " (" << double(t_countsum) / double(i_phase.CurrentJumpAttempts) * 100.0 << " %)" << endl;
-				cout << i_space << "  -> " << 100.0 - double(t_countsum) / double(i_phase.CurrentJumpAttempts) * 100.0 << " % lower probabilities." << endl;
+				else
+				{
+					cout << i_space << "No Monte-Carlo step probabilities recorded." << endl;
+				}
 			}
 			else
 			{
 				cout << i_space << "No Monte-Carlo step probabilities recorded." << endl;
 			}
 		}
-		else
+	}
+
+	// Lattice probability analysis
+	if (is_short == false)
+	{
+		cout << i_space << "Analysis of the possible jumps in this moment:" << endl;
+		ErrorCode = LatticeProbabilitiesAnalysis(i_space + "  ", &(i_phase.CurrentLattice));
+		if (ErrorCode != KMCERR_OK)
 		{
-			cout << i_space << "No Monte-Carlo step probabilities recorded." << endl;
+			if (ErrorCode == KMCERR_INVALID_INPUT)
+			{
+				cout << i_space << "Error: No normal jumps possible. Aborting simulation ..." << endl;
+				cout << i_space << "Likely reason: The specified activation energies are all zero or too small." << endl;
+
+				// Remark: In very rare cases, this criterion could prevent valid simulations
+				// (at the moment no normal jumps are possible but in principle this could change due to the overkill jumps)
+			}
+			return ErrorCode;
 		}
 	}
 
