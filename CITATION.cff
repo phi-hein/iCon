@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Hein"
+  given-names: "Philipp"
+  orcid: "https://orcid.org/0000-0002-3029-9467"
+title: "iCon"
+version: 1.0.0-beta
+doi: none
+date-released: 2025-05-07
+url: "https://github.com/phi-hein/iCon"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Hein"
+    given-names: "Philipp"
+    orcid: "https://orcid.org/0000-0002-3029-9467"
+  - family-names: "Grope"
+    given-names: "Benjamin O.H."
+  - family-names: "Koettgen"
+    given-names: "Julius"
+    orcid: "https://orcid.org/0000-0002-8260-4793"
+  - family-names: "Grieshammer"
+    given-names: "Steffen"
+    orcid: "https://orcid.org/0000-0001-7583-6417"
+  - family-names: "Martin"
+    given-names: "Manfred"
+    orcid: "https://orcid.org/0000-0001-9046-050X"
+  doi: "10.1016/j.matchemphys.2020.123767"
+  journal: "Materials Chemistry and Physics"
+  title: "Kinetic Monte Carlo simulations of ionic conductivity in oxygen ion conductors"
+  month: 1
+  year: 2021
+  volume: 257
+  start: 123767
