@@ -33,7 +33,7 @@ DOI (citable archive): ...
 ## Documentation
 - [Tutorial](https://www.icon.pc.rwth-aachen.de/tutorial.html): Overview of the iCon workflow
 - [User manual](/Docs/USER_MANUAL.md): Additional explanations for using the software
-- [Output files specification](/Docs/OUTPUT_SPEC.md): Description of the quantities in the output file
+- [Output files specification](/Docs/FILE_SPEC.md): Description of the quantities in the output files
 - [Developer manual](/Docs/DEV_MANUAL.md): Guides for working on this project
 - [Changelog](CHANGELOG.md)
 
