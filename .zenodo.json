@@ -1,0 +1,31 @@
+{
+    "creators": [
+        {
+            "orcid": "0000-0002-3029-9467",
+            "affiliation": "Institute of Physical Chemistry, RWTH Aachen University",
+            "name": "Hein, Philipp"
+        }
+    ],
+
+    "license": "gpl-3.0-or-later",
+
+    "title": "iCon: Ionic conductivity in crystalline solids",
+
+    "description": "Kinetic Monte-Carlo simulation of vacancy-based ion conduction in arbitrary crystalline structures, based on user-supplied activation energy models.",
+
+    "related_identifiers": [
+        {
+            "identifier": "https://doi.org/10.1016/j.matchemphys.2020.123767",
+            "relation": "isDocumentedBy",
+            "resource_type": "publication-article"
+        }
+    ],
+
+    "keywords": [
+        "Simulation software",
+        "Physical chemistry",
+        "Ionic conductivity",
+        "Solid-state physics",
+        "Kinetic Monte-Carlo (KMC)"
+    ]
+}
