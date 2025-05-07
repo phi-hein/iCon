@@ -16,7 +16,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyConfigurationAttribute(L"")];
 [assembly:AssemblyCompanyAttribute(L"RWTH Aachen, IPC, Workgroup Martin")];
 [assembly:AssemblyProductAttribute(L"iCon")];
-[assembly:AssemblyCopyrightAttribute(L"Copyright (c)  2016")];
+[assembly:AssemblyCopyrightAttribute(L"Copyright (c) 2016-2025")];
 [assembly:AssemblyTrademarkAttribute(L"")];
 [assembly:AssemblyCultureAttribute(L"")];
 
@@ -31,7 +31,7 @@ using namespace System::Security::Permissions;
 // Sie können alle Werte angeben oder für die Revisions- und Buildnummer den Standard
 // übernehmen, indem Sie "*" eingeben:
 
-[assembly:AssemblyVersionAttribute("0.9.3.0")];
+[assembly:AssemblyVersionAttribute("1.0.0.0")];
 
 [assembly:ComVisible(false)];
 

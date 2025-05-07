@@ -3,7 +3,7 @@ Kinetic Monte-Carlo simulation of vacancy-based ion conduction in arbitrary crys
 
 This code was developed by Philipp Hein at the Institute of Physical Chemistry, RWTH Aachen University, Germany, under the supervision of Prof. Manfred Martin.
 
-**Setup (latest release):**: [iCon Setup.msi](https://github.com/phi-hein/iCon/releases/latest/download/iCon-Setup.msi)  
+**Setup (latest release)**: [iCon Setup.msi](https://github.com/phi-hein/iCon/releases/latest/download/iCon-Setup.msi)  
 (see [installation requirements](#installation-requirements) and [citation/license information](#license-information))
 
 Project homepage: [www.icon.pc.rwth-aachen.de](https://www.icon.pc.rwth-aachen.de/)  
@@ -47,7 +47,7 @@ DOI (citable archive): ...
 - S\. Grieshammer, B.O.H. Grope, J. Koettgen and M. Martin, _Physical Chemistry Chemical Physics_ 2014, 16, 9974-9986 ([DOI](http://dx.doi.org/10.1039/C3CP54811B))
 
 ## License information
-This code is &copy; P. Hein, 2016, 2025, and it is made available under the GPL v3 license enclosed with the software.
+This code is &copy; P. Hein, 2016-2025, and it is made available under the GPL v3 license enclosed with the software.
 
 Over and above the legal restrictions imposed by this license, if you use this software or modified variants of it, for example for an academic publication, then you are obliged to provide proper attribution by citing the following paper:
 

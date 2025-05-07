@@ -23,11 +23,11 @@ using namespace std::literals;
 // **************************** VERSION ******************************** //
 
 // Programmversion:
-[[maybe_unused]] constexpr std::string_view KMC_VERSION = "0.9.4.0"sv;
+[[maybe_unused]] constexpr std::string_view KMC_VERSION = "1.0.0.0"sv;
 // Bezeichner fuer die Programmversion
 [[maybe_unused]] constexpr std::string_view KMCOUT_VERSION = "Version:"sv;
 // Kompatible Dateiversionen (;-getrennt)
-[[maybe_unused]] constexpr std::string_view KMC_COMP_FILE_VERSIONS = "0.9.0.5;0.9.1.0;0.9.2.0;0.9.3.0;0.9.4.0"sv;
+[[maybe_unused]] constexpr std::string_view KMC_COMP_FILE_VERSIONS = "0.9.0.5;0.9.1.0;0.9.2.0;0.9.3.0;0.9.4.0;1.0.0.0"sv;
 
 // ************************** NATURKONSTANTEN ************************** //
 

@@ -1,6 +1,6 @@
                   END USER LICENSE AGREEMENT
 
-  This software is © P. Hein, 2016, 2025, and it is made available under the GPL v3 license stated below, in combination with the following attribution requirement:
+  This software is © P. Hein, 2016-2025, and it is made available under the GPL v3 license stated below, in combination with the following attribution requirement:
 
   Over and above the legal restrictions imposed by the GPL license, if you use this software or modified variants of it, for example for an academic publication, then you are obliged to provide proper attribution by citing the following paper:
 
