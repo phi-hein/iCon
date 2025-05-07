@@ -3,14 +3,14 @@ Kinetic Monte-Carlo simulation of vacancy-based ion conduction in arbitrary crys
 
 This code was developed by Philipp Hein at the Institute of Physical Chemistry, RWTH Aachen University, Germany, under the supervision of Prof. Manfred Martin.
 
+**Setup (latest release):**: [iCon Setup.msi](https://github.com/phi-hein/iCon/releases/latest/download/iCon-Setup.msi)  
+(see [installation requirements](#installation-requirements) and [citation/license information](#license-information))
+
 Project homepage: [www.icon.pc.rwth-aachen.de](https://www.icon.pc.rwth-aachen.de/)  
 DOI (scientific article): [10.1016/j.matchemphys.2020.123767](https://doi.org/10.1016/j.matchemphys.2020.123767)  
 DOI (citable archive): ...
 
-**Setup (latest release):**: ...  
-(see [installation requirements](#installation%20requirements) and [citation/license information](#license%20information) below)
-
-![exemplary GUI image](Docs/GUI_example.png)
+<img src="./Docs/Images/GUI_example.png" width=90% height=90%>
 
 ## Features
 - Graphical user interface (GUI) for setting up the KMC simulations
@@ -32,19 +32,19 @@ DOI (citable archive): ...
 
 ## Documentation
 - [Tutorial](https://www.icon.pc.rwth-aachen.de/tutorial.html): Overview of the iCon workflow
-- [Output files specification](OUTPUT_SPEC.md): Description of the quantities in the output file
-- [Developer manual](DEV_MANUAL.md): Guides for working on this project
+- [User manual](/Docs/USER_MANUAL.md): Additional explanations for using the software
+- [Output files specification](/Docs/OUTPUT_SPEC.md): Description of the quantities in the output file
+- [Developer manual](/Docs/DEV_MANUAL.md): Guides for working on this project
 - [Changelog](CHANGELOG.md)
 
 ## Related publications
-- ...
-- S\. Grieshammer, S. Eisele, J. Koettgen, _Journal of Physical Chemistry C_ 2018, 122, 33, 18809–18817 (DOI: [10.1021/acs.jpcc.8b04361](https://doi.org/10.1021/acs.jpcc.8b04361))
-- J\. Koettgen, S. Grieshammer, P. Hein, B.O.H. Grope, M. Nakayama and M. Martin, _Physical Chemistry Chemical Physics_ 2018, 20, 14291-14321 (DOI: [10.1039/C7CP08535D](https://dx.doi.org/10.1039/C7CP08535D))
-- J\.R. Köttgen, _Ph.D. thesis_, RWTH Aachen University, 2017 (DOI: [10.18154/RWTH-2017-01919](http://dx.doi.org/10.18154/RWTH-2017-01919))
-- J\. Koettgen, T. Zacherle, S. Grieshammer and M. Martin, _Physical Chemistry Chemical Physics_ 2017, 19, 9957-9973 (DOI: [10.1039/C6CP04802A](https://dx.doi.org/10.1039/C6CP04802A))
+- S\. Grieshammer, S. Eisele, J. Koettgen, _Journal of Physical Chemistry C_ 2018, 122, 33, 18809–18817 ([DOI](https://doi.org/10.1021/acs.jpcc.8b04361))
+- J\. Koettgen, S. Grieshammer, P. Hein, B.O.H. Grope, M. Nakayama and M. Martin, _Physical Chemistry Chemical Physics_ 2018, 20, 14291-14321 ([DOI](https://dx.doi.org/10.1039/C7CP08535D))
+- J\.R. Köttgen, _Ph.D. thesis_, RWTH Aachen University, 2017 ([DOI](http://dx.doi.org/10.18154/RWTH-2017-01919))
+- J\. Koettgen, T. Zacherle, S. Grieshammer and M. Martin, _Physical Chemistry Chemical Physics_ 2017, 19, 9957-9973 ([DOI](https://dx.doi.org/10.1039/C6CP04802A))
 - B\.O.H. Grope, _Ph.D. thesis_, RWTH Aachen University, 2015 ([RWTH Publications](https://publications.rwth-aachen.de/record/658793))
 - S\.P. Grieshammer, _Ph.D. thesis_, RWTH Aachen University, 2015 ([RWTH Publications](https://publications.rwth-aachen.de/record/481133))
-- S\. Grieshammer, B.O.H. Grope, J. Koettgen and M. Martin, _Physical Chemistry Chemical Physics_ 2014, 16, 9974-9986 (DOI: [10.1039/C3CP54811B](http://dx.doi.org/10.1039/C3CP54811B))
+- S\. Grieshammer, B.O.H. Grope, J. Koettgen and M. Martin, _Physical Chemistry Chemical Physics_ 2014, 16, 9974-9986 ([DOI](http://dx.doi.org/10.1039/C3CP54811B))
 
 ## License information
 This code is &copy; P. Hein, 2016, 2025, and it is made available under the GPL v3 license enclosed with the software.
