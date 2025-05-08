@@ -117,7 +117,7 @@ namespace iCon_General
         /// </summary>
         public void ApplyData(TMCJobWrapper MCDLL, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(0, "Validating jump states ... ");
 
@@ -126,7 +126,7 @@ namespace iCon_General
             ErrorCode = MCDLL.ClearUniqueCodes();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     throw new ApplicationException("Clearing unique codes failed (TVMUniqueJumps.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -136,11 +136,11 @@ namespace iCon_General
                 ErrorCode = MCDLL.SetJumpActive(_UJumps[i]._JumpID, _UJumps[i]._IsActive);
                 switch (ErrorCode)
                 {
-                    case ConstantsClass.KMCERR_OK:
+                    case Constants.KMCERR_OK:
                         break;
-                    case ConstantsClass.KMCERR_DEACTIVATION_IMPOSSIBLE:
+                    case Constants.KMCERR_DEACTIVATION_IMPOSSIBLE:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Deactivation\n(see console for details)\n",
-                            ConstantsClass.KMCERR_DEACTIVATION_IMPOSSIBLE, false);
+                            Constants.KMCERR_DEACTIVATION_IMPOSSIBLE, false);
                         return;
                     default:
                         throw new ApplicationException("Setting jump state failed (TVMUniqueJumps.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -148,7 +148,7 @@ namespace iCon_General
             }
 
             BWorker.ReportProgress(10, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(10, "Validating atom states ... ");
 
@@ -161,7 +161,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.SetAtomIgnore(_UJumps[i]._JumpID, _UJumps[i]._UniqueJumpAtoms[j]._CoordID, _UJumps[i]._UniqueJumpAtoms[j]._IsIgnore);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             throw new ApplicationException("Setting atom ignoration failed (TVMUniqueJumps.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -169,7 +169,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.SetAtomAdditive(_UJumps[i]._JumpID, _UJumps[i]._UniqueJumpAtoms[j]._CoordID, _UJumps[i]._UniqueJumpAtoms[j]._IsAdditive);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             throw new ApplicationException("Setting atom additivity failed (TVMUniqueJumps.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -177,7 +177,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.SetAtomActive(_UJumps[i]._JumpID, _UJumps[i]._UniqueJumpAtoms[j]._CoordID, _UJumps[i]._UniqueJumpAtoms[j]._IsActive);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             throw new ApplicationException("Setting atom activity failed (TVMUniqueJumps.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -186,7 +186,7 @@ namespace iCon_General
             }
 
             BWorker.ReportProgress(20, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(20, "Creating unique environments ... ");
 
@@ -194,15 +194,15 @@ namespace iCon_General
             ErrorCode = MCDLL.MakeUniqueCodes(_InteractionShellCount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Input\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
-                case ConstantsClass.KMCERR_TOO_MANY_ACTIVE_ATOMS:
+                case Constants.KMCERR_TOO_MANY_ACTIVE_ATOMS:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Input\n(see console for details)\n",
-                        ConstantsClass.KMCERR_TOO_MANY_ACTIVE_ATOMS, false);
+                        Constants.KMCERR_TOO_MANY_ACTIVE_ATOMS, false);
                     return;
                 default:
                     throw new ApplicationException("Creating codes failed (TVMUniqueJumps.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -213,7 +213,7 @@ namespace iCon_General
             e.Result = new TMCJob(MCDLL);
             BWorker.ReportProgress(100, "OK");
 
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
         }
 
         /// <summary>

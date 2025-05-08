@@ -1557,7 +1557,7 @@ namespace iCon_General
             // Render big picture
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(0, "Rendering high quality image ... ");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
 
             int t_maxpresize = 5000;
             int t_width = (int)i_viewport3d.RenderSize.Width;
@@ -1591,7 +1591,7 @@ namespace iCon_General
 
             // Shrink picture
             BWorker.ReportProgress(40, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(40, "Resize image ... ");
 
@@ -1622,7 +1622,7 @@ namespace iCon_General
 
             // Save picture
             BWorker.ReportProgress(70, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(70, "Save image ... ");
 
@@ -1630,7 +1630,7 @@ namespace iCon_General
             if ((t_ext != ".png") && (t_ext != ".jpg"))
             {
                 e.Result = new BWorkerResultMessage("Invalid Input", "Invalid file extension\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                 return;
             }
             if (t_ext == ".png")
@@ -1650,7 +1650,7 @@ namespace iCon_General
             e.Result = null;
             BWorker.ReportProgress(100, "OK");
 
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
         }
 
         /// <summary> 
@@ -1815,10 +1815,10 @@ namespace iCon_General
             {
                 string t_dirpath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    ConstantsClass.SC_KMC_APPDATA_OUTERFOLDER,
-                    ConstantsClass.SC_KMC_APPDATA_INNERFOLDER);
+                    Constants.SC_KMC_APPDATA_OUTERFOLDER,
+                    Constants.SC_KMC_APPDATA_INNERFOLDER);
                 Directory.CreateDirectory(t_dirpath);
-                t_filepath = Path.Combine(t_dirpath, ConstantsClass.SC_KMC_LASTSESSION_FILE);
+                t_filepath = Path.Combine(t_dirpath, Constants.SC_KMC_LASTSESSION_FILE);
             }
             else
             {
@@ -1871,9 +1871,9 @@ namespace iCon_General
             int ErrorCode = MCDLL.SaveToFile(t_filepath);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     MessageBox.Show("Invalid file name (see console).", "Notification", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 default:
@@ -1902,9 +1902,9 @@ namespace iCon_General
             {
                 t_filepath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    ConstantsClass.SC_KMC_APPDATA_OUTERFOLDER,
-                    ConstantsClass.SC_KMC_APPDATA_INNERFOLDER,
-                    ConstantsClass.SC_KMC_LASTSESSION_FILE);
+                    Constants.SC_KMC_APPDATA_OUTERFOLDER,
+                    Constants.SC_KMC_APPDATA_INNERFOLDER,
+                    Constants.SC_KMC_LASTSESSION_FILE);
             }
             else
             {
@@ -1974,24 +1974,24 @@ namespace iCon_General
             // Load project file
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(0, "Validating project file ... ");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
 
             int ErrorCode = MCDLL.LoadFromFile(i_filepath);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid File\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
-                case ConstantsClass.KMCERR_INVALID_FILE_FORMAT:
+                case Constants.KMCERR_INVALID_FILE_FORMAT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid File Format\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_FILE_FORMAT, false);
+                        Constants.KMCERR_INVALID_FILE_FORMAT, false);
                     return;
-                case ConstantsClass.KMCERR_INVALID_FILE_CONTENT:
+                case Constants.KMCERR_INVALID_FILE_CONTENT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid File Content\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_FILE_CONTENT, false);
+                        Constants.KMCERR_INVALID_FILE_CONTENT, false);
                     return;
                 default:
                     throw new ApplicationException("Loading file failed (LoadProject_DoWork, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -2006,7 +2006,7 @@ namespace iCon_General
             e.Result = t_result;
             BWorker.ReportProgress(100, "OK");
 
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
         }
 
         /// <summary> 

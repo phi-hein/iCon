@@ -424,10 +424,10 @@ namespace iCon_General
         {
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                ConstantsClass.SC_KMC_APPDATA_OUTERFOLDER,
-                ConstantsClass.SC_KMC_APPDATA_INNERFOLDER,
-                ConstantsClass.SC_KMC_USERSCRIPTS_DIR,
-                ConstantsClass.SC_KMC_REMOTEPROFILE_DIR + i_ID.ToString(ConstantsClass.SC_KMC_REMOTEPROFILE_ID_FORMAT));
+                Constants.SC_KMC_APPDATA_OUTERFOLDER,
+                Constants.SC_KMC_APPDATA_INNERFOLDER,
+                Constants.SC_KMC_USERSCRIPTS_DIR,
+                Constants.SC_KMC_REMOTEPROFILE_DIR + i_ID.ToString(Constants.SC_KMC_REMOTEPROFILE_ID_FORMAT));
         }
 
         /// <summary>
@@ -439,7 +439,7 @@ namespace iCon_General
         {
             return Path.Combine(
                 Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                ConstantsClass.SC_KMC_SCRIPTSFOLDER,
+                Constants.SC_KMC_SCRIPTSFOLDER,
                 i_Filename);
         }
 
@@ -469,9 +469,9 @@ namespace iCon_General
             BuildScript = _BuildScript.Replace("\r\n", "\n");
 
             // Write scripts to file
-            File.WriteAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT), _SimSubmitScript);
-            File.WriteAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT), _SimJobScript);
-            File.WriteAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_BUILDSCRIPT), _BuildScript);
+            File.WriteAllText(GetRemoteProfileFilePath(Constants.SC_KMC_SUBMITSCRIPT), _SimSubmitScript);
+            File.WriteAllText(GetRemoteProfileFilePath(Constants.SC_KMC_JOBSCRIPT), _SimJobScript);
+            File.WriteAllText(GetRemoteProfileFilePath(Constants.SC_KMC_BUILDSCRIPT), _BuildScript);
         }
 
         /// <summary>
@@ -480,17 +480,17 @@ namespace iCon_General
         public void LoadScripts()
         {
             // Load scripts from files
-            if (File.Exists(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT)) == true)
+            if (File.Exists(GetRemoteProfileFilePath(Constants.SC_KMC_SUBMITSCRIPT)) == true)
             {
-                SimSubmitScript = File.ReadAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT));
+                SimSubmitScript = File.ReadAllText(GetRemoteProfileFilePath(Constants.SC_KMC_SUBMITSCRIPT));
             }
-            if (File.Exists(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT)) == true)
+            if (File.Exists(GetRemoteProfileFilePath(Constants.SC_KMC_JOBSCRIPT)) == true)
             {
-                SimJobScript = File.ReadAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT));
+                SimJobScript = File.ReadAllText(GetRemoteProfileFilePath(Constants.SC_KMC_JOBSCRIPT));
             }
-            if (File.Exists(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_BUILDSCRIPT)) == true)
+            if (File.Exists(GetRemoteProfileFilePath(Constants.SC_KMC_BUILDSCRIPT)) == true)
             {
-                BuildScript = File.ReadAllText(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_BUILDSCRIPT));
+                BuildScript = File.ReadAllText(GetRemoteProfileFilePath(Constants.SC_KMC_BUILDSCRIPT));
             }
         }
 
@@ -510,7 +510,7 @@ namespace iCon_General
         public void LoadDefaultSubmitScript()
         {
             // Load script from file
-            SimSubmitScript = File.ReadAllText(GetDefaultScriptPath(ConstantsClass.SC_KMC_SUBMITSCRIPT));
+            SimSubmitScript = File.ReadAllText(GetDefaultScriptPath(Constants.SC_KMC_SUBMITSCRIPT));
         }
 
         /// <summary>
@@ -519,7 +519,7 @@ namespace iCon_General
         public void LoadDefaultJobScript()
         {
             // Load script from file
-            SimJobScript = File.ReadAllText(GetDefaultScriptPath(ConstantsClass.SC_KMC_JOBSCRIPT));
+            SimJobScript = File.ReadAllText(GetDefaultScriptPath(Constants.SC_KMC_JOBSCRIPT));
         }
 
         /// <summary>
@@ -528,7 +528,7 @@ namespace iCon_General
         public void LoadDefaultBuildScript()
         {
             // Load script from file
-            BuildScript = File.ReadAllText(GetDefaultScriptPath(ConstantsClass.SC_KMC_BUILDSCRIPT));
+            BuildScript = File.ReadAllText(GetDefaultScriptPath(Constants.SC_KMC_BUILDSCRIPT));
         }
 
         /// <summary>
@@ -579,7 +579,7 @@ namespace iCon_General
                 Directory.CreateDirectory(GetBaseFolder(_ID));
 
                 // Write ini file
-                using (StreamWriter swriter = new StreamWriter(GetRemoteProfileFilePath(ConstantsClass.SC_KMC_REMOTEPROFILE_INIFILE)))
+                using (StreamWriter swriter = new StreamWriter(GetRemoteProfileFilePath(Constants.SC_KMC_REMOTEPROFILE_INIFILE)))
                 {
                     // Write file header
                     swriter.WriteLine("GUI REMOTE PROFILE INI FILE");
@@ -591,48 +591,48 @@ namespace iCon_General
                     swriter.WriteLine();
 
                     // Write information to stream
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_START);
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_NAME + " " + _Name.Trim());
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WORKSPACE + " " + _RemoteWorkspace.Trim());
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_BUILDDIR + " " + _RemoteBuildDir.Trim());
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTADRESS + " " + _HostAdress.Trim());
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_PORT + " " + _HostPort.ToString());
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_USERNAME + " " + _Username.Trim());
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_START);
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_NAME + " " + _Name.Trim());
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_WORKSPACE + " " + _RemoteWorkspace.Trim());
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_BUILDDIR + " " + _RemoteBuildDir.Trim());
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_HOSTADRESS + " " + _HostAdress.Trim());
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_PORT + " " + _HostPort.ToString());
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_USERNAME + " " + _Username.Trim());
                     if (_WithPassword == true)
                     {
-                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHPW + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_TRUE);
+                        swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_WITHPW + " " + Constants.SC_KMC_OUT_CPROFILE_TRUE);
                     }
                     else
                     {
-                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHPW + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
+                        swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_WITHPW + " " + Constants.SC_KMC_OUT_CPROFILE_FALSE);
                     }
                     if (_WithPrivateKey == true)
                     {
-                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHKEY + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_TRUE);
+                        swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_WITHKEY + " " + Constants.SC_KMC_OUT_CPROFILE_TRUE);
                     }
                     else
                     {
-                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHKEY + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
+                        swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_WITHKEY + " " + Constants.SC_KMC_OUT_CPROFILE_FALSE);
                     }
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_PRIVATEKEY + " " + _PrivateKeyPath.Trim());
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_PRIVATEKEY + " " + _PrivateKeyPath.Trim());
                     if (_WithKeyboardInteractive == true)
                     {
-                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_TRUE);
+                        swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_WITHINTERACT + " " + Constants.SC_KMC_OUT_CPROFILE_TRUE);
                     }
                     else
                     {
-                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
+                        swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_WITHINTERACT + " " + Constants.SC_KMC_OUT_CPROFILE_FALSE);
                     }
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT + " " + _HostFingerPrint.Trim());
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT + " " + _HostFingerPrint.Trim());
                     if (_AskConfigured == true)
                     {
-                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_ASKCONFIG + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_TRUE);
+                        swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_ASKCONFIG + " " + Constants.SC_KMC_OUT_CPROFILE_TRUE);
                     }
                     else
                     {
-                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_OFFSET + ConstantsClass.SC_KMC_OUT_CPROFILE_ASKCONFIG + " " + ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE);
+                        swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_OFFSET + Constants.SC_KMC_OUT_CPROFILE_ASKCONFIG + " " + Constants.SC_KMC_OUT_CPROFILE_FALSE);
                     }
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_CPROFILE_END);
+                    swriter.WriteLine(Constants.SC_KMC_OUT_CPROFILE_END);
                 }
 
                 // Save submit, job and search scripts
@@ -666,20 +666,20 @@ namespace iCon_General
             string i_dirname = Path.GetFileName(i_dirpath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
             
             // Check for valid filename
-            if (ConstantsClass.SC_KMC_REMOTEPROFILE_INIFILE.Equals(i_filename) == false)
+            if (Constants.SC_KMC_REMOTEPROFILE_INIFILE.Equals(i_filename) == false)
             {
                 throw new ApplicationException("Invalid remote profile filename (TVMGUISettingsRemoteProfile.LoadFromIniFile)");
             }
 
             // Extract profile ID from directory name
             int t_ID = 0;
-            if (i_dirname.Contains(ConstantsClass.SC_KMC_REMOTEPROFILE_DIR) == false)
+            if (i_dirname.Contains(Constants.SC_KMC_REMOTEPROFILE_DIR) == false)
             {
                 throw new ApplicationException("Invalid remote profile folder name (TVMGUISettingsRemoteProfile.LoadFromIniFile)");
             }
             try
             {
-                t_ID = int.Parse(i_dirname.Replace(ConstantsClass.SC_KMC_REMOTEPROFILE_DIR, ""));
+                t_ID = int.Parse(i_dirname.Replace(Constants.SC_KMC_REMOTEPROFILE_DIR, ""));
             }
             catch (Exception e)
             {
@@ -710,61 +710,61 @@ namespace iCon_General
                         t_line = t_line.Trim();
 
                         // Load information
-                        if (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_START) == true)
+                        if (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_START) == true)
                         {
                             t_hasprofile = true;
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_END) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_END) == true))
                         {
                             break;
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_NAME) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_NAME) == true))
                         {
-                            t_Name = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_NAME.Length).Trim();
+                            t_Name = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_NAME.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_WORKSPACE) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_WORKSPACE) == true))
                         {
-                            t_RemoteWorkspace = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_WORKSPACE.Length).Trim();
+                            t_RemoteWorkspace = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_WORKSPACE.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_BUILDDIR) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_BUILDDIR) == true))
                         {
-                            t_RemoteBuildDir = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_BUILDDIR.Length).Trim();
+                            t_RemoteBuildDir = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_BUILDDIR.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTADRESS) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_HOSTADRESS) == true))
                         {
-                            t_HostAdress = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTADRESS.Length).Trim();
+                            t_HostAdress = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_HOSTADRESS.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_PORT) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_PORT) == true))
                         {
-                            t_HostPort = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_PORT.Length).Trim();
+                            t_HostPort = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_PORT.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_USERNAME) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_USERNAME) == true))
                         {
-                            t_Username = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_USERNAME.Length).Trim();
+                            t_Username = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_USERNAME.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_WITHPW) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_WITHPW) == true))
                         {
-                            t_WithPassword = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_WITHPW.Length).Trim();
+                            t_WithPassword = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_WITHPW.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_WITHKEY) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_WITHKEY) == true))
                         {
-                            t_WithPrivateKey = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_WITHKEY.Length).Trim();
+                            t_WithPrivateKey = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_WITHKEY.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_PRIVATEKEY) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_PRIVATEKEY) == true))
                         {
-                            t_PrivateKeyPath = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_PRIVATEKEY.Length).Trim();
+                            t_PrivateKeyPath = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_PRIVATEKEY.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_WITHINTERACT) == true))
                         {
-                            t_WithKeyboardInteractive = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_WITHINTERACT.Length).Trim();
+                            t_WithKeyboardInteractive = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_WITHINTERACT.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT) == true))
                         {
-                            t_HostFingerPrint = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT.Length).Trim();
+                            t_HostFingerPrint = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_HOSTFINGERPRINT.Length).Trim();
                         }
-                        if ((t_hasprofile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_CPROFILE_ASKCONFIG) == true))
+                        if ((t_hasprofile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_CPROFILE_ASKCONFIG) == true))
                         {
-                            t_AskConfigured = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_CPROFILE_ASKCONFIG.Length).Trim();
+                            t_AskConfigured = t_line.Remove(0, Constants.SC_KMC_OUT_CPROFILE_ASKCONFIG.Length).Trim();
                         }
                     }
                 }
@@ -781,22 +781,22 @@ namespace iCon_General
                 tp_HostPort = 22;
             }
             bool tp_WithPassword = true;
-            if (t_WithPassword == ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE)
+            if (t_WithPassword == Constants.SC_KMC_OUT_CPROFILE_FALSE)
             {
                 tp_WithPassword = false;
             }
             bool tp_WithPrivateKey = true;
-            if (t_WithPrivateKey == ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE)
+            if (t_WithPrivateKey == Constants.SC_KMC_OUT_CPROFILE_FALSE)
             {
                 tp_WithPrivateKey = false;
             }
             bool tp_WithKeyboardInteractive = true;
-            if (t_WithKeyboardInteractive == ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE)
+            if (t_WithKeyboardInteractive == Constants.SC_KMC_OUT_CPROFILE_FALSE)
             {
                 tp_WithKeyboardInteractive = false;
             }
             bool tp_AskConfigured = true;
-            if (t_AskConfigured == ConstantsClass.SC_KMC_OUT_CPROFILE_FALSE)
+            if (t_AskConfigured == Constants.SC_KMC_OUT_CPROFILE_FALSE)
             {
                 tp_AskConfigured = false;
             }

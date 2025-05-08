@@ -99,7 +99,7 @@ namespace iCon_General
         /// </summary>
         protected void GetData(TMCJobWrapper MCDLL, int WWID)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             _IsValid = false;
 
             // Check if MCDLL is valid object
@@ -118,7 +118,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetInteractionDesc(WWID, ref ElemID, ref StartDist, ref DestDist);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read interaction description from MC object (TInteraction.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -130,7 +130,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetInteractionStartEnvCount(WWID, ref t_startcount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read atom count for start interaction environment from MC object (TInteraction.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -149,7 +149,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetInteractionStartEnvAtom(WWID, i, ref t_elem, ref t_ax, ref t_ay, ref t_az);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read interaction start environment from MC object (TInteraction.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -165,7 +165,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetInteractionDestEnvCount(WWID, ref t_destcount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read atom count for destination interaction environment from MC object (TInteraction.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -184,7 +184,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetInteractionDestEnvAtom(WWID, i, ref t_elem, ref t_ax, ref t_ay, ref t_az);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read interaction destination environment from MC object (TInteraction.GetData, ErrorCode: " + ErrorCode.ToString() + ")");

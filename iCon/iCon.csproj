@@ -228,7 +228,7 @@
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\BasicObjects\Tuple4D.cs" />
-    <Compile Include="Classes\ConstantsClass.cs" />
+    <Compile Include="Classes\Constants.cs" />
     <Compile Include="Classes\MCDLL-Model\TElements.cs" />
     <Compile Include="Classes\MCDLL-Model\TInteraction.cs" />
     <Compile Include="Classes\MCDLL-Model\TJump.cs" />

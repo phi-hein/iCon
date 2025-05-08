@@ -169,11 +169,11 @@ namespace iCon_General
 
             // Create app data folder if necessary
             string LocalAppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                ConstantsClass.SC_KMC_APPDATA_OUTERFOLDER, ConstantsClass.SC_KMC_APPDATA_INNERFOLDER);
+                Constants.SC_KMC_APPDATA_OUTERFOLDER, Constants.SC_KMC_APPDATA_INNERFOLDER);
             Directory.CreateDirectory(LocalAppDataPath);
 
             // Save to log file
-            string LogPath = Path.Combine(LocalAppDataPath, ConstantsClass.SC_KMC_STD_ERRORLOG);
+            string LogPath = Path.Combine(LocalAppDataPath, Constants.SC_KMC_STD_ERRORLOG);
             File.AppendAllText(LogPath, ErrorMsg);
         }
 

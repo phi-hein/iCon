@@ -115,7 +115,7 @@ namespace iCon_General
         /// </summary>
         protected void GetData(TMCJobWrapper MCDLL)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             _IsValid = false;
 
             // Check if MCDLL is valid object
@@ -134,7 +134,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetShellCounts(ref MovShellCount, ref JumpStartShellCount, ref JumpTSShellCount, ref JumpDestShellCount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read shell counts from MC object (TJumps.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -146,7 +146,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetMovCount(ref t_AtomCount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read atom number from MC object (TJumps.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -168,7 +168,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetJumpDirCount(i, ref t_DirCount);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read jump directions from MC object (TJumps.GetData, ErrorCode: " + ErrorCode.ToString() + ")");

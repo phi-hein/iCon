@@ -591,9 +591,9 @@ namespace iCon_General
         /// </summary>
         public void AddAtom()
         {
-            if (_Atoms.Count >= ConstantsClass.MAX_ATOM_COUNT)
+            if (_Atoms.Count >= Constants.MAX_ATOM_COUNT)
             {
-                MessageBox.Show("Maximum number of atoms (" + ConstantsClass.MAX_ATOM_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
+                MessageBox.Show("Maximum number of atoms (" + Constants.MAX_ATOM_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
                 return;
             }
 
@@ -607,9 +607,9 @@ namespace iCon_General
         /// </summary>
         public void DublicateAtom()
         {
-            if (_Atoms.Count >= ConstantsClass.MAX_ATOM_COUNT)
+            if (_Atoms.Count >= Constants.MAX_ATOM_COUNT)
             {
-                MessageBox.Show("Maximum number of atoms (" + ConstantsClass.MAX_ATOM_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
+                MessageBox.Show("Maximum number of atoms (" + Constants.MAX_ATOM_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
                 return;
             }
 
@@ -661,9 +661,9 @@ namespace iCon_General
         /// </summary>
         public void AddDoping()
         {
-            if (_Dopings.Count >= ConstantsClass.MAX_DOPING_COUNT)
+            if (_Dopings.Count >= Constants.MAX_DOPING_COUNT)
             {
-                MessageBox.Show("Maximum number of dopings (" + ConstantsClass.MAX_DOPING_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
+                MessageBox.Show("Maximum number of dopings (" + Constants.MAX_DOPING_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
                 return;
             }
 
@@ -677,9 +677,9 @@ namespace iCon_General
         /// </summary>
         public void DublicateDoping()
         {
-            if (_Dopings.Count >= ConstantsClass.MAX_DOPING_COUNT)
+            if (_Dopings.Count >= Constants.MAX_DOPING_COUNT)
             {
-                MessageBox.Show("Maximum number of dopings (" + ConstantsClass.MAX_DOPING_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
+                MessageBox.Show("Maximum number of dopings (" + Constants.MAX_DOPING_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
                 return;
             }
 
@@ -746,7 +746,7 @@ namespace iCon_General
         /// </summary>
         public void ApplyData(TMCJobWrapper MCDLL, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(0, "Specifying elements ... ");
 
@@ -754,13 +754,13 @@ namespace iCon_General
             if (_Atoms.Count < 1)
             {
                 e.Result = new BWorkerResultMessage("Invalid Input", "Invalid number of atoms\n(at least one atom required)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                 return;
             }
             ErrorCode = MCDLL.ClearElements();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     throw new ApplicationException("Clearing elements failed (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -770,15 +770,15 @@ namespace iCon_General
                 ErrorCode = MCDLL.AddElement(_Atoms[i]._Symbol, _Atoms[i]._Name, _Atoms[i]._Charge);
                 switch (ErrorCode)
                 {
-                    case ConstantsClass.KMCERR_OK:
+                    case Constants.KMCERR_OK:
                         break;
-                    case ConstantsClass.KMCERR_INVALID_INPUT:
+                    case Constants.KMCERR_INVALID_INPUT:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Element\n(see console for details)\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
+                            Constants.KMCERR_INVALID_INPUT, false);
                         return;
-                    case ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED:
+                    case Constants.KMCERR_MAXIMUM_INPUT_REACHED:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Maximum Input Reached\n(see console for details)\n",
-                            ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED, false);
+                            Constants.KMCERR_MAXIMUM_INPUT_REACHED, false);
                         return;
                     default:
                         throw new ApplicationException("Invalid element parameters (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -791,15 +791,15 @@ namespace iCon_General
                     ErrorCode = MCDLL.AddElement(_Dopings[i]._dopSymbol, _Dopings[i]._dopName, _Dopings[i]._dopCharge);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
-                        case ConstantsClass.KMCERR_INVALID_INPUT:
+                        case Constants.KMCERR_INVALID_INPUT:
                             e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Element\n(see console for details)\n",
-                                ConstantsClass.KMCERR_INVALID_INPUT, false);
+                                Constants.KMCERR_INVALID_INPUT, false);
                             return;
-                        case ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED:
+                        case Constants.KMCERR_MAXIMUM_INPUT_REACHED:
                             e.Result = new BWorkerResultMessage("Invalid Input", "Maximum Input Reached\n(see console for details)\n",
-                                ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED, false);
+                                Constants.KMCERR_MAXIMUM_INPUT_REACHED, false);
                             return;
                         default:
                             throw new ApplicationException("Invalid dopand element parameters (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -809,15 +809,15 @@ namespace iCon_General
             ErrorCode = MCDLL.SetMovingElement(_MovSymbol, _MovName, _MovCharge);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Moving Species\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
-                case ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED:
+                case Constants.KMCERR_MAXIMUM_INPUT_REACHED:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Maximum Input Reached\n(see console for details)\n",
-                        ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED, false);
+                        Constants.KMCERR_MAXIMUM_INPUT_REACHED, false);
                     return;
                 default:
                     throw new ApplicationException("Invalid moving species (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -825,14 +825,14 @@ namespace iCon_General
             ErrorCode = MCDLL.MakeElements();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     throw new ApplicationException("Validating elements failed (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
             }
 
             BWorker.ReportProgress(20, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(20, "Validating structure name ... ");
 
@@ -840,7 +840,7 @@ namespace iCon_General
             ErrorCode = MCDLL.ClearStructure();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     throw new ApplicationException("Clearing structure failed (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -848,18 +848,18 @@ namespace iCon_General
             ErrorCode = MCDLL.SetStructureName(_StructureName);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Structure Name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 default:
                     throw new ApplicationException("Invalid structure name (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
             }
 
             BWorker.ReportProgress(30, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(30, "Setting lattice parameters ... ");
 
@@ -875,18 +875,18 @@ namespace iCon_General
             }
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Lattice Definition\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 default:
                     throw new ApplicationException("Invalid lattice parameters (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
             }
 
             BWorker.ReportProgress(40, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(40, "Adding atoms ... ");
 
@@ -897,19 +897,19 @@ namespace iCon_General
                     _Atoms[i]._Symbol, _Atoms[i]._Name, _Atoms[i]._Charge);
                 switch (ErrorCode)
                 {
-                    case ConstantsClass.KMCERR_OK:
+                    case Constants.KMCERR_OK:
                         break;
-                    case ConstantsClass.KMCERR_INVALID_INPUT:
+                    case Constants.KMCERR_INVALID_INPUT:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Atom\n(see console for details)\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
+                            Constants.KMCERR_INVALID_INPUT, false);
                         return;
-                    case ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED:
+                    case Constants.KMCERR_MAXIMUM_INPUT_REACHED:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Maximum Input Reached\n(see console for details)\n",
-                            ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED, false);
+                            Constants.KMCERR_MAXIMUM_INPUT_REACHED, false);
                         return;
-                    case ConstantsClass.KMCERR_INPUT_ALREADY_EXISTS:
+                    case Constants.KMCERR_INPUT_ALREADY_EXISTS:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Atom Dublicate\n(see console for details)\n",
-                            ConstantsClass.KMCERR_INPUT_ALREADY_EXISTS, false);
+                            Constants.KMCERR_INPUT_ALREADY_EXISTS, false);
                         return;
                     default:
                         throw new ApplicationException("Invalid atom parameters (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -917,7 +917,7 @@ namespace iCon_General
             }
 
             BWorker.ReportProgress(60, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(60, "Setting dopings ... ");
 
@@ -928,27 +928,27 @@ namespace iCon_General
                     _Dopings[i]._dopSymbol, _Dopings[i]._dopName, _Dopings[i]._dopCharge, _Dopings[i]._VacDopRatio);
                 switch (ErrorCode)
                 {
-                    case ConstantsClass.KMCERR_OK:
+                    case Constants.KMCERR_OK:
                         break;
-                    case ConstantsClass.KMCERR_INVALID_INPUT:
+                    case Constants.KMCERR_INVALID_INPUT:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Doping\n(see console for details)\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
+                            Constants.KMCERR_INVALID_INPUT, false);
                         return;
-                    case ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED:
+                    case Constants.KMCERR_MAXIMUM_INPUT_REACHED:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Maximum Input Reached\n(see console for details)\n",
-                            ConstantsClass.KMCERR_MAXIMUM_INPUT_REACHED, false);
+                            Constants.KMCERR_MAXIMUM_INPUT_REACHED, false);
                         return;
-                    case ConstantsClass.KMCERR_NO_DOPED_ATOM_FOUND:
+                    case Constants.KMCERR_NO_DOPED_ATOM_FOUND:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Doping\n(see console for details)\n",
-                            ConstantsClass.KMCERR_NO_DOPED_ATOM_FOUND, false);
+                            Constants.KMCERR_NO_DOPED_ATOM_FOUND, false);
                         return;
-                    case ConstantsClass.KMCERR_VACMOV_NOT_ALLOWED_AS_DOPING:
+                    case Constants.KMCERR_VACMOV_NOT_ALLOWED_AS_DOPING:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Doping\n(see console for details)\n",
-                            ConstantsClass.KMCERR_VACMOV_NOT_ALLOWED_AS_DOPING, false);
+                            Constants.KMCERR_VACMOV_NOT_ALLOWED_AS_DOPING, false);
                         return;
-                    case ConstantsClass.KMCERR_INPUT_ALREADY_EXISTS:
+                    case Constants.KMCERR_INPUT_ALREADY_EXISTS:
                         e.Result = new BWorkerResultMessage("Invalid Input", "Doping Dublicate\n(see console for details)\n",
-                            ConstantsClass.KMCERR_INPUT_ALREADY_EXISTS, false);
+                            Constants.KMCERR_INPUT_ALREADY_EXISTS, false);
                         return;
                     default:
                         throw new ApplicationException("Invalid doping parameters (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -956,18 +956,18 @@ namespace iCon_General
             }
 
             BWorker.ReportProgress(80, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(80, "Validating structure ... ");
 
             ErrorCode = MCDLL.MakeStructure();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Structure\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 default:
                     throw new ApplicationException("Invalid structure (TVMStructure.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -978,7 +978,7 @@ namespace iCon_General
             e.Result = new TMCJob(MCDLL);
             BWorker.ReportProgress(100, "OK");
 
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
         }
 
         /// <summary>

@@ -105,7 +105,7 @@ namespace iCon_General
                 if (_sshcl.IsConnected == false)
                 {
                     e.Result = new BWorkerResultMessage("Invalid Input", "Cannot connect to specified server\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 }
 
@@ -113,7 +113,7 @@ namespace iCon_General
                 if (_sftpcl.IsConnected == false)
                 {
                     e.Result = new BWorkerResultMessage("Invalid Input", "Cannot connect to specified server\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 }
 
@@ -123,21 +123,21 @@ namespace iCon_General
             {
                 Console.WriteLine("Error: " + ex.Message);
                 e.Result = new BWorkerResultMessage("Connection Error", "SSH session could not be established\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SshAuthenticationException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
                 e.Result = new BWorkerResultMessage("Authentication Error", "Authentication of SSH session failed\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SocketException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
                 e.Result = new BWorkerResultMessage("SSH Socket Error", "Socket connection could not be established\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
 
@@ -205,7 +205,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while creating directory: " + fullpath + ")");
                 e.Result = new BWorkerResultMessage("SSH Error", "SSH connection is invalid\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SftpPermissionDeniedException ex)
@@ -214,7 +214,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while creating directory: " + fullpath + ")");
                 e.Result = new BWorkerResultMessage("SFTP Error", "SFTP permission denied\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SshException ex)
@@ -223,7 +223,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while creating directory: " + fullpath + ")");
                 e.Result = new BWorkerResultMessage("SSH Error", "An SSH error occured\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (ArgumentException ex)
@@ -232,7 +232,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while creating directory: " + fullpath + ")");
                 e.Result = new BWorkerResultMessage("SFTP Error", "Invalid path\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
 
@@ -268,7 +268,7 @@ namespace iCon_General
                         Console.WriteLine("Error output: " + ssh_cmd.Error);
                     }
                     e.Result = new BWorkerResultMessage("SSH Error", "SSH command exited with error\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 }
             }
@@ -278,7 +278,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while executing command: " + cmd + ")");
                 e.Result = new BWorkerResultMessage("SSH Error", "SSH connection is invalid\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SshOperationTimeoutException ex)
@@ -287,7 +287,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while executing command: " + cmd + ")");
                 e.Result = new BWorkerResultMessage("SSH Error", "SSH connection timeout\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SshException ex)
@@ -296,7 +296,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while executing command: " + cmd + ")");
                 e.Result = new BWorkerResultMessage("SSH Error", "Could not execute SSH command\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
 
@@ -327,7 +327,7 @@ namespace iCon_General
                         Console.WriteLine("Error output: " + ssh_cmd.Error);
                     }
                     e.Result = new BWorkerResultMessage("SSH Error", "SSH command exited with error\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
 
@@ -339,7 +339,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while executing command: " + cmd + ")");
                 e.Result = new BWorkerResultMessage("SSH Error", "SSH connection is invalid\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return null;
             }
             catch (SshOperationTimeoutException ex)
@@ -348,7 +348,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while executing command: " + cmd + ")");
                 e.Result = new BWorkerResultMessage("SSH Error", "SSH connection timeout\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return null;
             }
             catch (SshException ex)
@@ -357,7 +357,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("(while executing command: " + cmd + ")");
                 e.Result = new BWorkerResultMessage("SSH Error", "Could not execute SSH command\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return null;
             }
         }
@@ -387,7 +387,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("SSH Error", "Transmission connection is invalid\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SftpPermissionDeniedException ex)
@@ -397,7 +397,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("SFTP Error", "Transmission permission denied\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SftpPathNotFoundException ex)
@@ -407,7 +407,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("SFTP Error", "Transmitted file not found\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SshException ex)
@@ -417,7 +417,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("SFTP Error", "File transmission failed\n(see console for details)\n.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (ArgumentException ex)
@@ -427,7 +427,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("SFTP Error", "Invalid file transmission path\n(see console for details)\n.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (PathTooLongException ex)
@@ -437,7 +437,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("File Error", "Local transmission path too long\n(see console for details)\n.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (DirectoryNotFoundException ex)
@@ -447,7 +447,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("File Error", "Local transmission directory not found\n(see console for details)\n.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (UnauthorizedAccessException ex)
@@ -457,7 +457,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("File Error", "Unauthorized access to local file\n(see console for details)\n.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (FileNotFoundException ex)
@@ -467,7 +467,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("File Error", "Local transmission file not found\n(see console for details)\n.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (NotSupportedException ex)
@@ -477,7 +477,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("File Error", "Invalid local transmission file format\n(see console for details)\n.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (IOException ex)
@@ -487,7 +487,7 @@ namespace iCon_General
                 Console.WriteLine("Local path: " + local_path);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("File Error", "Cannot open local transmission file\n(see console for details)\n.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
 
@@ -515,7 +515,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("SSH Error", "File creation connection is invalid\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SftpPermissionDeniedException ex)
@@ -524,7 +524,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("SFTP Error", "Permission denied for created file\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             catch (SftpPathNotFoundException ex)
@@ -533,7 +533,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("SFTP Error", "Invalid path of created file\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
             
@@ -543,7 +543,7 @@ namespace iCon_General
                 Console.WriteLine("Error: " + ex.Message);
                 Console.WriteLine("Remote path: " + remote_path);
                 e.Result = new BWorkerResultMessage("SFTP Error", "File creation failed\n(see console for details)\n.",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
 
@@ -564,7 +564,7 @@ namespace iCon_General
                 {
                     Console.WriteLine("Error: Creation of connection info object for SSH failed.");
                     e.Result = new BWorkerResultMessage("Unknown error", "SSH setup failed\n(see console for details)\n",
-                    ConstantsClass.KMCERR_OBJECT_NOT_READY, false);
+                    Constants.KMCERR_OBJECT_NOT_READY, false);
                 }
                 return null;
             }
@@ -629,7 +629,7 @@ namespace iCon_General
                 {
                     Console.WriteLine("Error: Creation of connection info object for SFTP failed.");
                     e.Result = new BWorkerResultMessage("Unknown error", "SSH setup failed\n(see console for details)\n",
-                    ConstantsClass.KMCERR_OBJECT_NOT_READY, false);
+                    Constants.KMCERR_OBJECT_NOT_READY, false);
                 }
                 return null;
             }
@@ -702,7 +702,7 @@ namespace iCon_General
                 {
                     Console.WriteLine("Error: User name (" + RemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
             }
@@ -715,7 +715,7 @@ namespace iCon_General
                 {
                     Console.WriteLine("Error: Private key file (" + RemoteProfile.PrivateKeyPath.Trim() + ") is missing.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Private key file does not exist\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
 
@@ -730,56 +730,56 @@ namespace iCon_General
                 {
                     Console.WriteLine("Error: " + ex.Message);
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file\n(see console for details)\n.",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
                 catch (NotSupportedException ex)
                 {
                     Console.WriteLine("Error: " + ex.Message);
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
                 catch (ArgumentException)
                 {
                     Console.WriteLine("Error: Private key file path has zero length, contains only white space or contains one or more invalid characters.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
                 catch (PathTooLongException)
                 {
                     Console.WriteLine("Error: Private key file path exceeds the system-defined maximum path length.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
                 catch (DirectoryNotFoundException)
                 {
                     Console.WriteLine("Error: Directory of the private key file does not exist.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     Console.WriteLine("Error: Private key file access permissions prevent loading of the file.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
                 catch (FileNotFoundException)
                 {
                     Console.WriteLine("Error: Private key file not found.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
                 catch (IOException)
                 {
                     Console.WriteLine("Error: IO-error when opening private key file.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid private key file path\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
 
@@ -792,7 +792,7 @@ namespace iCon_General
                 {
                     Console.WriteLine("Error: User name (" + RemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
             }
@@ -832,7 +832,7 @@ namespace iCon_General
                 {
                     Console.WriteLine("Error: User name (" + RemoteProfile.Username.Trim() + ") has zero length or contains only white space.");
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return null;
                 }
             }
@@ -848,7 +848,7 @@ namespace iCon_General
             {
                 Console.WriteLine("Error: Invalid connection setting: " + ex.Message);
                 e.Result = new BWorkerResultMessage("Invalid Input", "Invalid connection settings\n(see console for details)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return null;
             }
 

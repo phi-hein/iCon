@@ -109,7 +109,7 @@ namespace iCon_General
         /// </summary>
         protected void GetData(TMCJobWrapper MCDLL)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             _IsValid = false;
 
             // Check if MCDLL is valid object
@@ -128,7 +128,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetStructureName(ref Name);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read structure name from MC object (TStructure.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -142,7 +142,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetBasisByLatticeVectors(ref t_ax, ref t_ay, ref t_az, ref t_bx, ref t_by, ref t_bz, ref t_cx, ref t_cy, ref t_cz);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read lattice vectors from MC object (TStructure.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -157,7 +157,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetAtomCount(ref t_atomcount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read atom count from MC object (TStructure.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -175,7 +175,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetAtom(i, ref t_ax, ref t_ay, ref t_az, ref t_elemid);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read atom from MC object (TStructure.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -191,7 +191,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetDopingCount(ref t_dopcount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of dopings from MC object (TStructure.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -211,7 +211,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetDoping(i, ref t_dopedid, ref t_dopandid, ref t_ax);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read doping from MC object (TStructure.GetData, ErrorCode: " + ErrorCode.ToString() + ")");

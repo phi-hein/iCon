@@ -193,7 +193,7 @@ namespace iCon_General
         /// </summary>
         protected void GetData(TMCJobWrapper MCDLL)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             _IsValid = false;
 
             // Check if MCDLL is valid object
@@ -212,7 +212,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetTemperature(ref Temperature);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read temperature from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -223,7 +223,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetAttemptFrequency(ref AttemptFrequency);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read jump attempt frequency from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -234,7 +234,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetCheckpointFlags(ref WriteCheckpoint, ref LoadCheckpoint);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read checkpoint flags from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -246,7 +246,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetEFieldSettings(ref t_x, ref t_y, ref t_z, ref EFieldMagnitude);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read E-field settings from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -258,7 +258,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetEField(ref t_x, ref t_y, ref t_z);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read E-field from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -270,7 +270,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetLatticeSize(ref LatticeSize);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read lattice size from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -281,7 +281,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetAdditionalVacAnz(ref AdditionalVacAnz);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of additional vacancies from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -292,7 +292,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetTotalVacancyConc(ref TotalVacConc);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read vacancy concentration from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -303,7 +303,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetTotalVacancyAnz(ref TotalVacAnz);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of the vacancies from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -314,7 +314,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetMovVolConc(ref MovVolConc);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read volume concentration from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -326,7 +326,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetDopingCount(ref t_dopcount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of dopings from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -345,7 +345,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetDopandConc(i, ref t_dopandconc);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read dopand concentration from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -354,7 +354,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetDopandAnz(i, ref t_dopandanz);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read dopand number from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -369,7 +369,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetPrerunOptions(ref DoPrerun, ref PreMCSP, ref PreRecordAnz);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read prerun settings from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -380,7 +380,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetDynNormParameters(ref DoDynNorm, ref DynAttemptAnz, ref DynRecordAnz, ref DynNormNum);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read dynamic normalization settings from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -391,7 +391,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetMainKMCOptions(ref MCSP, ref MainRecordAnz);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read main KMC simulation settings from MC object (TSettings.GetData, ErrorCode: " + ErrorCode.ToString() + ")");

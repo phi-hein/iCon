@@ -145,7 +145,7 @@ namespace iCon_General
         /// </summary>
         protected void GetData(TMCJobWrapper MCDLL)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             _IsValid = false;
 
             // Check if MCDLL is valid object
@@ -165,7 +165,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetMovingElement(ref MovSymbol, ref MovName, ref MovCharge, ref MovRadius, ref t_ax, ref t_ay, ref t_az);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read moving species from MC object (TElements.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -180,7 +180,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetVacancyElement(ref VacSymbol, ref VacName, ref VacCharge, ref VacRadius, ref t_ax, ref t_ay, ref t_az);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read vacancy species from MC object (TElements.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -196,7 +196,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetElementCount(ref t_elemcount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read element count from MC object (TElements.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -221,7 +221,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetElement(i, ref t_sym, ref t_name, ref t_charge, ref t_radius, ref t_ax, ref t_ay, ref t_az);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read element from MC object (TElements.GetData, ErrorCode: " + ErrorCode.ToString() + ")");

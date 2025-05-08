@@ -82,10 +82,10 @@ namespace iCon_General
             // Create and specify console
             ConsoleWrapper = new TConsoleWrapper();
             int ErrorCode = ConsoleWrapper.SetTitle("Status Window");
-            if (ErrorCode != ConstantsClass.KMCERR_OK)
+            if (ErrorCode != Constants.KMCERR_OK)
                 throw new ApplicationException("Unable to set status window title (MainWindow Constructor, Code = " + ErrorCode.ToString() + ")");
             ErrorCode = ConsoleWrapper.SetBufferSize(10000, 400);
-            if (ErrorCode != ConstantsClass.KMCERR_OK)
+            if (ErrorCode != Constants.KMCERR_OK)
                 throw new ApplicationException("Unable to set status window buffer (MainWindow Constructor, Code = " + ErrorCode.ToString() + ")");
 
             // Create viewmodel
@@ -586,14 +586,14 @@ namespace iCon_General
             if (i_isvisible == true)
             {
                 int ErrorCode = ConsoleWrapper.Show();
-                if (ErrorCode != ConstantsClass.KMCERR_OK)
+                if (ErrorCode != Constants.KMCERR_OK)
                     throw new ApplicationException("Showing status window failed (menuView_Click, Code = " + ErrorCode.ToString() + ")");
                 menuViewConsole.IsChecked = true;
             }
             else
             {
                 int ErrorCode = ConsoleWrapper.Hide();
-                if (ErrorCode != ConstantsClass.KMCERR_OK)
+                if (ErrorCode != Constants.KMCERR_OK)
                     throw new ApplicationException("Hiding status window failed (menuView_Click, Code = " + ErrorCode.ToString() + ")");
                 menuViewConsole.IsChecked = false;
             }
@@ -629,7 +629,7 @@ namespace iCon_General
             int old_console_status = ConsoleWrapper.Status();
 
             // Show console
-            if (old_console_status == ConstantsClass.KMCERR_NO_CONSOLE)
+            if (old_console_status == Constants.KMCERR_NO_CONSOLE)
             {
                 SwitchConsole(true);
             }
@@ -637,7 +637,7 @@ namespace iCon_General
             bool result = del(out bool keep_console);
 
             // Restore original console status (if not otherwise requested by cmd)
-            if ((keep_console == false) && (old_console_status == ConstantsClass.KMCERR_NO_CONSOLE))
+            if ((keep_console == false) && (old_console_status == Constants.KMCERR_NO_CONSOLE))
             {
                 SwitchConsole(false);
                 this.Activate();

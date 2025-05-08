@@ -16,7 +16,7 @@ DOI (citable archive): ...
 - Graphical user interface (GUI) for setting up the KMC simulations
 - Automatic submission of KMC jobs to remote computer clusters
 - Supports every crystalline structure and both cation or anion transport
-- Different doping scenatios: no doping, single dopand type or multiple dopings
+- Different doping scenarios: no doping, single dopand type or multiple dopings
 - Flexible modelling of jump activation energies, depending on the surrounding atoms  
   (from explicit energies for each possible environment to pure pair interactions)
 - Ion transport with and without electric field

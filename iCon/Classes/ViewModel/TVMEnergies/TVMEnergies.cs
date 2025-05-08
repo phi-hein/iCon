@@ -115,7 +115,7 @@ namespace iCon_General
         /// </summary>
         public void ApplyData(TMCJobWrapper MCDLL, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(0, "Validating code energies ... ");
 
@@ -132,11 +132,11 @@ namespace iCon_General
                             _EnergiesJumps[i]._UniqueCodes[j]._Energy);
                         switch (ErrorCode)
                         {
-                            case ConstantsClass.KMCERR_OK:
+                            case Constants.KMCERR_OK:
                                 break;
-                            case ConstantsClass.KMCERR_INVALID_INPUT:
+                            case Constants.KMCERR_INVALID_INPUT:
                                 e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Energy\n(see console for details)\n",
-                                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                                    Constants.KMCERR_INVALID_INPUT, false);
                                 return;
                             default:
                                 throw new ApplicationException("Setting code energy failed (TVMEnergies.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -146,7 +146,7 @@ namespace iCon_General
             }
 
             BWorker.ReportProgress(40, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(40, "Validating additive energies ... ");
 
@@ -167,11 +167,11 @@ namespace iCon_General
                                     _EnergiesJumps[i]._WWAtoms[j]._Energies[k]._ElemID, _EnergiesJumps[i]._WWAtoms[j]._Energies[k]._Energy);
                                     switch (ErrorCode)
                                     {
-                                        case ConstantsClass.KMCERR_OK:
+                                        case Constants.KMCERR_OK:
                                             break;
-                                        case ConstantsClass.KMCERR_INVALID_INPUT:
+                                        case Constants.KMCERR_INVALID_INPUT:
                                             e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Energy\n(see console for details)\n",
-                                                ConstantsClass.KMCERR_INVALID_INPUT, false);
+                                                Constants.KMCERR_INVALID_INPUT, false);
                                             return;
                                         default:
                                             throw new ApplicationException("Setting interaction energy failed (TVMEnergies.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -188,7 +188,7 @@ namespace iCon_General
             e.Result = new TMCJob(MCDLL);
             BWorker.ReportProgress(100, "OK");
 
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
         }
 
         /// <summary>
@@ -223,12 +223,12 @@ namespace iCon_General
                     if (MCJob.Elements.ElemName[i] != "")
                     {
                         t_Header._ElemStr = MCJob.Elements.ElemSymbol[i] + " [" + MCJob.Elements.ElemName[i] + "," + 
-                            string.Format(ConstantsClass.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[i]) + "]";
+                            string.Format(Constants.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[i]) + "]";
                     }
                     else
                     {
                         t_Header._ElemStr = MCJob.Elements.ElemSymbol[i] + " [" + 
-                            string.Format(ConstantsClass.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[i]) + "]";
+                            string.Format(Constants.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[i]) + "]";
                     }
 
                     t_Headers.Add(t_Header);
@@ -274,12 +274,12 @@ namespace iCon_General
                                             {
                                                 t_Code._CodeStr += MCJob.Elements.ElemSymbol[i_Code[k][l]] + " [" + 
                                                     MCJob.Elements.ElemName[i_Code[k][l]] + "," + 
-                                                    string.Format(ConstantsClass.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[i_Code[k][l]]) + "]";
+                                                    string.Format(Constants.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[i_Code[k][l]]) + "]";
                                             }
                                             else
                                             {
                                                 t_Code._CodeStr += MCJob.Elements.ElemSymbol[i_Code[k][l]] + " [" + 
-                                                    string.Format(ConstantsClass.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[i_Code[k][l]]) + "]";
+                                                    string.Format(Constants.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[i_Code[k][l]]) + "]";
                                             }
                                         }
                                     }

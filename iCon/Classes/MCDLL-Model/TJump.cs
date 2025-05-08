@@ -86,7 +86,7 @@ namespace iCon_General
         /// </summary>
         protected void GetData(TMCJobWrapper MCDLL, int AtomID, int DirID)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             _IsValid = false;
 
             // Check if MCDLL is valid object
@@ -105,7 +105,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetJumpStartPos(AtomID, DirID, ref StartPos.X, ref StartPos.Y, ref StartPos.Z, ref StartPos.S);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read jump start position from MC object (TJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -116,7 +116,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetJumpDestPos(AtomID, DirID, ref DestPos.X, ref DestPos.Y, ref DestPos.Z, ref DestPos.S);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read jump destination position from MC object (TJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -127,7 +127,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetJumpBackjumpDirID(AtomID, DirID, ref BackjumpDirID);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read backjump direction from MC object (TJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -139,7 +139,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetJumpEnvCount(AtomID, DirID, ref t_envcount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of environment atoms from MC object (TJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -157,7 +157,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetJumpEnvAtom(AtomID, DirID, i, ref tuple.X, ref tuple.Y, ref tuple.Z, ref tuple.S);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read environment atom from MC object (TJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -171,7 +171,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetJumpUniqueJumpID(AtomID, DirID, ref UniqueJumpID);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read unique jump index from MC object (TJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");

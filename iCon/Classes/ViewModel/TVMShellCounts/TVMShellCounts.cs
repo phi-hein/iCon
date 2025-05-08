@@ -114,7 +114,7 @@ namespace iCon_General
         /// </summary>
         public void ApplyData(TMCJobWrapper MCDLL, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(0, "Calculating jumps ... ");
 
@@ -122,7 +122,7 @@ namespace iCon_General
             ErrorCode = MCDLL.ClearJumps();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     throw new ApplicationException("Clearing jumps failed (TVMShellCounts.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -131,18 +131,18 @@ namespace iCon_General
             ErrorCode = MCDLL.MakeJumps(_MovShellCount, _JumpStartShellCount, _JumpTSShellCount, _JumpDestShellCount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Shell Counts\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 default:
                     throw new ApplicationException("Invalid shell counts (TVMShellCounts.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
             }
 
             BWorker.ReportProgress(40, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(40, "Creating unique jumps ... ");
 
@@ -150,7 +150,7 @@ namespace iCon_General
             ErrorCode = MCDLL.ClearUniqueJumps();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     throw new ApplicationException("Clearing unique jumps failed (TVMShellCounts.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -159,7 +159,7 @@ namespace iCon_General
             ErrorCode = MCDLL.MakeUniqueJumps();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     throw new ApplicationException("Invalid unique jumps (TVMShellCounts.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -170,7 +170,7 @@ namespace iCon_General
             e.Result = new TMCJob(MCDLL);
             BWorker.ReportProgress(100, "OK");
 
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
         }
 
         /// <summary>

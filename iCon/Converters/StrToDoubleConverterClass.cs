@@ -16,7 +16,7 @@ namespace iCon_General
         {
             if (value == null) return "0.0";
             if ((value is double) == false) return "0.0";
-            return string.Format(ConstantsClass.SC_KMC_LONG_DOUBLEFORMAT, value);
+            return string.Format(Constants.SC_KMC_LONG_DOUBLEFORMAT, value);
         }
 
         /// <summary>

@@ -209,9 +209,9 @@ namespace iCon_General
         public void AddJob()
         {
             // Check for too many jobs in list
-            if (_JobList.Count >= ConstantsClass.MAX_JOB_COUNT)
+            if (_JobList.Count >= Constants.MAX_JOB_COUNT)
             {
-                MessageBox.Show("Maximum number of jobs (" + ConstantsClass.MAX_JOB_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
+                MessageBox.Show("Maximum number of jobs (" + Constants.MAX_JOB_COUNT.ToString() + ") reached.", "Information", MessageBoxButton.OK);
                 return;
             }
 
@@ -268,9 +268,9 @@ namespace iCon_General
             if (ValidateProperty("DublicateCount", _DublicateCount) == false) return;
 
             // Check for too many jobs in list
-            if (_JobList.Count + _DublicateCount >= ConstantsClass.MAX_JOB_COUNT)
+            if (_JobList.Count + _DublicateCount >= Constants.MAX_JOB_COUNT)
             {
-                MessageBox.Show("Exceeds maximum number of jobs (" + ConstantsClass.MAX_JOB_COUNT.ToString() + ").", "Information", MessageBoxButton.OK);
+                MessageBox.Show("Exceeds maximum number of jobs (" + Constants.MAX_JOB_COUNT.ToString() + ").", "Information", MessageBoxButton.OK);
                 return;
             }
 
@@ -379,7 +379,7 @@ namespace iCon_General
             if (_JobList.Count < 1)
             {
                 e.Result = new BWorkerResultMessage("Invalid Input", "Invalid number of jobs\n(at least one job required)\n",
-                    ConstantsClass.KMCERR_INVALID_INPUT, false);
+                    Constants.KMCERR_INVALID_INPUT, false);
                 return;
             }
 
@@ -390,7 +390,7 @@ namespace iCon_General
                 if (jobIDs.Contains(_JobList[i].ID) == true)
                 {
                     e.Result = new BWorkerResultMessage("Invalid Input", "Job ID " + _JobList[i].ID.ToString() + 
-                        " has a dublicate\n(every job has to have a unique ID)\n", ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        " has a dublicate\n(every job has to have a unique ID)\n", Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 }
                 jobIDs.Add(_JobList[i].ID);
@@ -421,7 +421,7 @@ namespace iCon_General
         protected void SubmitLocalJobs(TMCJobWrapper MCDLL, TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
             e.Result = new BWorkerResultMessage("Implementation Error", "Local job submission not implemented\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
+                            Constants.KMCERR_INVALID_INPUT, false);
 
             /*
             // Path Convention:
@@ -441,7 +441,7 @@ namespace iCon_General
             catch (Exception ex)
             {
                 e.Result = new BWorkerResultMessage("Invalid Input", "Invalid submit paths\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                 return;
             }
             */
@@ -452,9 +452,9 @@ namespace iCon_General
         /// </summary>
         protected void SubmitRemoteJobs(TMCJobWrapper MCDLL, TVMGUISettingsRemoteProfile RemoteProfile, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             BWorker.ReportProgress(5, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(5, "Loading authentication data ... ");
 
@@ -465,7 +465,7 @@ namespace iCon_General
                 if (!cluster.Initialize(e, RemoteProfile)) return;
 
                 BWorker.ReportProgress(7, "OK\n");
-                System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+                System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
                 if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
                 BWorker.ReportProgress(7, "Connecting to cluster ... ");
 
@@ -474,7 +474,7 @@ namespace iCon_General
                 Console.WriteLine("Cluster connection established.");
 
                 BWorker.ReportProgress(10, "OK\n");
-                System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+                System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
                 if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
                 BWorker.ReportProgress(10, "Preparing executables and scripts ... ");
 
@@ -496,10 +496,10 @@ namespace iCon_General
                 Console.WriteLine("OK.");
 
                 // Create remote paths for executables
-                string simExePath = RemotePaths.Combine(totalBasePath, ConstantsClass.SC_KMC_REMOTESIMEXE);
-                string searchExePath = RemotePaths.Combine(totalBasePath, ConstantsClass.SC_KMC_REMOTESEARCHEXE);
-                string simExeBuildPath = RemotePaths.Combine(totalBuildPath, ConstantsClass.SC_KMC_REMOTESIMEXE);
-                string searchExeBuildPath = RemotePaths.Combine(totalBuildPath, ConstantsClass.SC_KMC_REMOTESEARCHEXE);
+                string simExePath = RemotePaths.Combine(totalBasePath, Constants.SC_KMC_REMOTESIMEXE);
+                string searchExePath = RemotePaths.Combine(totalBasePath, Constants.SC_KMC_REMOTESEARCHEXE);
+                string simExeBuildPath = RemotePaths.Combine(totalBuildPath, Constants.SC_KMC_REMOTESIMEXE);
+                string searchExeBuildPath = RemotePaths.Combine(totalBuildPath, Constants.SC_KMC_REMOTESEARCHEXE);
 
                 // Check whether remote executables are present and up-to-date
                 Console.WriteLine("Remote build path: " + totalBuildPath);
@@ -556,7 +556,7 @@ namespace iCon_General
                     Console.WriteLine("");
                     Console.WriteLine("Error: " + ex.Message);
                     e.Result = new BWorkerResultMessage("SSH Error", "SSH connection is invalid\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 }
                 catch (SftpPermissionDeniedException ex)
@@ -564,7 +564,7 @@ namespace iCon_General
                     Console.WriteLine("");
                     Console.WriteLine("Error: " + ex.Message);
                     e.Result = new BWorkerResultMessage("SFTP Error", "SFTP permission denied\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 }
                 catch (SshException ex)
@@ -572,7 +572,7 @@ namespace iCon_General
                     Console.WriteLine("");
                     Console.WriteLine("Error: " + ex.Message);
                     e.Result = new BWorkerResultMessage("SSH Error", "An SSH error occured\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 }
                 catch (ArgumentNullException ex)
@@ -582,7 +582,7 @@ namespace iCon_General
                         Console.WriteLine("");
                         Console.WriteLine("Error: " + ex.Message);
                         e.Result = new BWorkerResultMessage("SSH Error", "Failed to retrieve version number\n(see console for details)\n",
-                            ConstantsClass.KMCERR_INVALID_INPUT, false);
+                            Constants.KMCERR_INVALID_INPUT, false);
                     }
                     return;
                 }
@@ -597,15 +597,15 @@ namespace iCon_General
                     Console.WriteLine("OK.");
 
                     Console.Write("Uploading source files ... ");
-                    string sourceArchivePath = RemotePaths.Combine(totalBuildPath, ConstantsClass.SC_KMC_SOURCEARCHIVE);
-                    string buildScriptPath = RemotePaths.Combine(totalBuildPath, ConstantsClass.SC_KMC_BUILDSCRIPT);
+                    string sourceArchivePath = RemotePaths.Combine(totalBuildPath, Constants.SC_KMC_SOURCEARCHIVE);
+                    string buildScriptPath = RemotePaths.Combine(totalBuildPath, Constants.SC_KMC_BUILDSCRIPT);
 
                     // Source archive
                     if (!cluster.UploadFile(e, Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                        ConstantsClass.SC_KMC_SOURCEARCHIVE), sourceArchivePath, 644)) return;
+                        Constants.SC_KMC_SOURCEARCHIVE), sourceArchivePath, 644)) return;
 
                     // Build script
-                    if (!cluster.UploadFile(e, RemoteProfile.GetRemoteProfileFilePath(ConstantsClass.SC_KMC_BUILDSCRIPT),
+                    if (!cluster.UploadFile(e, RemoteProfile.GetRemoteProfileFilePath(Constants.SC_KMC_BUILDSCRIPT),
                         buildScriptPath, 744)) return;
                     
                     Console.WriteLine("OK.");
@@ -624,15 +624,15 @@ namespace iCon_General
 
                 // Transfer scripts to base directory
                 Console.Write("Uploading scripts ... ");
-                string submitScriptPath = RemotePaths.Combine(totalBasePath, ConstantsClass.SC_KMC_SUBMITSCRIPT);
-                string jobScriptPath = RemotePaths.Combine(totalBasePath, ConstantsClass.SC_KMC_JOBSCRIPT);
+                string submitScriptPath = RemotePaths.Combine(totalBasePath, Constants.SC_KMC_SUBMITSCRIPT);
+                string jobScriptPath = RemotePaths.Combine(totalBasePath, Constants.SC_KMC_JOBSCRIPT);
                 
                 // Submit script
-                if (!cluster.UploadFile(e, RemoteProfile.GetRemoteProfileFilePath(ConstantsClass.SC_KMC_SUBMITSCRIPT), 
+                if (!cluster.UploadFile(e, RemoteProfile.GetRemoteProfileFilePath(Constants.SC_KMC_SUBMITSCRIPT), 
                     submitScriptPath, 744)) return;
 
                 // Job script
-                if (!cluster.UploadFile(e, RemoteProfile.GetRemoteProfileFilePath(ConstantsClass.SC_KMC_JOBSCRIPT), 
+                if (!cluster.UploadFile(e, RemoteProfile.GetRemoteProfileFilePath(Constants.SC_KMC_JOBSCRIPT), 
                     jobScriptPath, 744)) return;
                 
                 Console.WriteLine("OK.");
@@ -643,7 +643,7 @@ namespace iCon_General
                 double subProgress = 15.0;
                 for (int i = 0; i < _JobList.Count; i++)
                 {
-                    System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+                    System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
                     if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
                     BWorker.ReportProgress(Convert.ToInt32(Math.Floor(subProgress)), "Submitting job " + (i + 1).ToString() + " (JobID: " + _JobList[i].ID.ToString() + ") ... ");
                     Console.WriteLine("Job " + (i + 1).ToString() + " of " + _JobList.Count.ToString() + " (ID: " + _JobList[i].ID.ToString() + "):");
@@ -659,7 +659,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.SaveToString(ref inp_file_str);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             throw new ApplicationException("Cannot save job data to string (TVMSettings.SubmitJobs, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -698,7 +698,7 @@ namespace iCon_General
             e.Result = new TMCJob(MCDLL);
             BWorker.ReportProgress(100, "OK\n");
 
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
         }
 
         #endregion Submit Methods

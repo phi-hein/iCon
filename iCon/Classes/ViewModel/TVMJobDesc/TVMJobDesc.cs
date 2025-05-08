@@ -119,7 +119,7 @@ namespace iCon_General
         /// </summary>
         public void ApplyData(TMCJobWrapper MCDLL, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(0, "Validating project name ... ");
 
@@ -127,18 +127,18 @@ namespace iCon_General
             ErrorCode = MCDLL.SetProjectName(_ProjectName);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid project name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 default:
                     throw new ApplicationException("Invalid project name (TVMJobDesc.ApplyData, Errorcode: " + ErrorCode.ToString() + ")");
             }
 
             BWorker.ReportProgress(25, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(25, "Validating user name ... ");
 
@@ -146,18 +146,18 @@ namespace iCon_General
             ErrorCode = MCDLL.SetUserName(_UserName);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid user name\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 default:
                     throw new ApplicationException("Invalid user name (TVMJobDesc.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
             }
 
             BWorker.ReportProgress(50, "OK\n");
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(50, "Validating description ... ");
 
@@ -165,11 +165,11 @@ namespace iCon_General
             ErrorCode = MCDLL.SetProjectDescription(_ProjectDescription);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid project description\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return;
                 default:
                     throw new ApplicationException("Invalid project description (TVMJobDesc.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -180,7 +180,7 @@ namespace iCon_General
             e.Result = new TMCJob(MCDLL);
             BWorker.ReportProgress(100, "OK");
 
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
         }
 
         /// <summary>

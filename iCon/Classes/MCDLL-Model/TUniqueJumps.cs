@@ -108,7 +108,7 @@ namespace iCon_General
         /// </summary>
         protected void GetData(TMCJobWrapper MCDLL)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             _IsValid = false;
 
             // Check if MCDLL is valid object
@@ -127,7 +127,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetInteractionShellCount(ref InteractionShellCount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read interaction shell count from MC object (TUniqueJumps.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -139,7 +139,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetUJumpCount(ref t_UJumpsCount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of unique jumps from MC object (TUniqueJumps.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -162,7 +162,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetInteractionCount(ref t_InteractionsCount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of interactions from MC object (TUniqueJumps.GetData, ErrorCode: " + ErrorCode.ToString() + ")");

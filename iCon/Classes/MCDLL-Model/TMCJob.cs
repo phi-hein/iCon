@@ -150,7 +150,7 @@ namespace iCon_General
         /// </summary>
         protected void GetData(TMCJobWrapper MCDLL)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             _IsValid = false;
 
             // Check if MCDLL is valid object
@@ -169,7 +169,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetProjectName(ref ProjectName);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read project name from MC object (TMCJob.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -180,7 +180,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetUserName(ref UserName);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read user name from MC object (TMCJob.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -191,7 +191,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetProjectDate(ref ProjectDate);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read date from MC object (TMCJob.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -202,7 +202,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetProjectDescription(ref ProjectDescription);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read description from MC object (TMCJob.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -213,7 +213,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetProjectState(ref ProjectState);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read project state from MC object (TMCJob.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -224,7 +224,7 @@ namespace iCon_General
             ErrorCode = MCDLL.SaveToString(ref FileContent);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read file content from MC object (TMCJob.GetData, ErrorCode: " + ErrorCode.ToString() + ")");

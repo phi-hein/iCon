@@ -1,7 +1,7 @@
 ﻿namespace iCon_General
 {
     /// <summary> Global constant provider </summary>
-    public class ConstantsClass
+    public static class Constants
     {
         // ********************** String Constants ********************** //
         #region String Constants

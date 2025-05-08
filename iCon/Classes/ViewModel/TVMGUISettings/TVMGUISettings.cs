@@ -110,7 +110,7 @@ namespace iCon_General
         {
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                ConstantsClass.SC_KMC_APPDATA_OUTERFOLDER, ConstantsClass.SC_KMC_APPDATA_INNERFOLDER);
+                Constants.SC_KMC_APPDATA_OUTERFOLDER, Constants.SC_KMC_APPDATA_INNERFOLDER);
         }
 
         /// <summary>
@@ -119,13 +119,13 @@ namespace iCon_General
         /// <returns>Filenames of the remote profiles</returns>
         protected string [] GetRemoteProfilePaths()
         {
-            string i_scriptdir = Path.Combine(GetIniFolder(), ConstantsClass.SC_KMC_USERSCRIPTS_DIR);
+            string i_scriptdir = Path.Combine(GetIniFolder(), Constants.SC_KMC_USERSCRIPTS_DIR);
 
             if (Directory.Exists(i_scriptdir) == true)
             {
                 return Directory.GetFiles(
                     i_scriptdir, 
-                    ConstantsClass.SC_KMC_REMOTEPROFILE_INIFILE,
+                    Constants.SC_KMC_REMOTEPROFILE_INIFILE,
                     SearchOption.AllDirectories);
             }
 
@@ -170,7 +170,7 @@ namespace iCon_General
         {
             return Path.Combine(
                 Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                ConstantsClass.SC_KMC_LOCALSIMEXE);
+                Constants.SC_KMC_LOCALSIMEXE);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace iCon_General
         {
             return Path.Combine(
                 Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                ConstantsClass.SC_KMC_LOCALSEARCHEXE);
+                Constants.SC_KMC_LOCALSEARCHEXE);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace iCon_General
             {
                 t_workspace = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    ConstantsClass.SC_KMC_STD_WORKING_DIR,
+                    Constants.SC_KMC_STD_WORKING_DIR,
                     t_workspace.Trim());
             }
 
@@ -236,7 +236,7 @@ namespace iCon_General
             AdjustProfileIDs();
 
             // Check if would exceed profile limit
-            if (_RemoteProfiles.Count >= ConstantsClass.MAX_REMOTEPROFILE_COUNT) return;
+            if (_RemoteProfiles.Count >= Constants.MAX_REMOTEPROFILE_COUNT) return;
 
             // Determine next ID value
             int t_NextID = 0;
@@ -272,7 +272,7 @@ namespace iCon_General
             AdjustProfileIDs();
 
             // Check if would exceed profile limit
-            if (_RemoteProfiles.Count >= ConstantsClass.MAX_REMOTEPROFILE_COUNT) return;
+            if (_RemoteProfiles.Count >= Constants.MAX_REMOTEPROFILE_COUNT) return;
 
             // Determine next ID value
             int t_NextID = _RemoteProfiles.Last().ID + 1;
@@ -372,7 +372,7 @@ namespace iCon_General
         {
             try
             {
-                using (StreamWriter swriter = new StreamWriter(Path.Combine(GetIniFolder(), ConstantsClass.SC_KMC_STD_INIFILE)))
+                using (StreamWriter swriter = new StreamWriter(Path.Combine(GetIniFolder(), Constants.SC_KMC_STD_INIFILE)))
                 {
                     // Write file header
                     swriter.WriteLine("GUI INI FILE");
@@ -384,17 +384,17 @@ namespace iCon_General
                     swriter.WriteLine();
 
                     // Write settings start
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_INI_START);
+                    swriter.WriteLine(Constants.SC_KMC_OUT_INI_START);
 
                     // Write information
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_INI_OFFSET + ConstantsClass.SC_KMC_OUT_INI_LOCALWORKSPACE + " " + _LocalWorkspace.Trim());
+                    swriter.WriteLine(Constants.SC_KMC_OUT_INI_OFFSET + Constants.SC_KMC_OUT_INI_LOCALWORKSPACE + " " + _LocalWorkspace.Trim());
                     if (_SelectedRemoteProfile != null)
                     {
-                        swriter.WriteLine(ConstantsClass.SC_KMC_OUT_INI_OFFSET + ConstantsClass.SC_KMC_OUT_INI_SELREMOTEPROFILE + " " + _SelectedRemoteProfile.ID.ToString());
+                        swriter.WriteLine(Constants.SC_KMC_OUT_INI_OFFSET + Constants.SC_KMC_OUT_INI_SELREMOTEPROFILE + " " + _SelectedRemoteProfile.ID.ToString());
                     }
 
                     // Write settings end
-                    swriter.WriteLine(ConstantsClass.SC_KMC_OUT_INI_END);
+                    swriter.WriteLine(Constants.SC_KMC_OUT_INI_END);
                 }
             }
             catch (Exception e)
@@ -418,7 +418,7 @@ namespace iCon_General
         public void LoadFromIniFile()
         {
             // Create settings file path
-            string i_settingsfile = Path.Combine(GetIniFolder(), ConstantsClass.SC_KMC_STD_INIFILE);
+            string i_settingsfile = Path.Combine(GetIniFolder(), Constants.SC_KMC_STD_INIFILE);
 
             // Initialize new data
             string t_LocalWorkspace = "";
@@ -437,21 +437,21 @@ namespace iCon_General
                             t_line = t_line.Trim();
 
                             // Load information
-                            if (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_INI_START) == true)
+                            if (t_line.StartsWith(Constants.SC_KMC_OUT_INI_START) == true)
                             {
                                 t_hasinifile = true;
                             }
-                            if ((t_hasinifile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_INI_END) == true))
+                            if ((t_hasinifile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_INI_END) == true))
                             {
                                 break;
                             }
-                            if ((t_hasinifile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_INI_LOCALWORKSPACE) == true))
+                            if ((t_hasinifile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_INI_LOCALWORKSPACE) == true))
                             {
-                                t_LocalWorkspace = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_INI_LOCALWORKSPACE.Length).Trim();
+                                t_LocalWorkspace = t_line.Remove(0, Constants.SC_KMC_OUT_INI_LOCALWORKSPACE.Length).Trim();
                             }
-                            if ((t_hasinifile == true) && (t_line.StartsWith(ConstantsClass.SC_KMC_OUT_INI_SELREMOTEPROFILE) == true))
+                            if ((t_hasinifile == true) && (t_line.StartsWith(Constants.SC_KMC_OUT_INI_SELREMOTEPROFILE) == true))
                             {
-                                t_SelectedRemoteProfile = t_line.Remove(0, ConstantsClass.SC_KMC_OUT_INI_SELREMOTEPROFILE.Length).Trim();
+                                t_SelectedRemoteProfile = t_line.Remove(0, Constants.SC_KMC_OUT_INI_SELREMOTEPROFILE.Length).Trim();
                             }
                         }
                     }
@@ -481,7 +481,7 @@ namespace iCon_General
 
             // Load remote profiles (and find selected profile)
             string[] t_ProfileFilepaths = GetRemoteProfilePaths();
-            if (t_ProfileFilepaths.Length > ConstantsClass.MAX_REMOTEPROFILE_COUNT)
+            if (t_ProfileFilepaths.Length > Constants.MAX_REMOTEPROFILE_COUNT)
             {
                 throw new ApplicationException("Too many remote profiles (TVMGUISettings.LoadFromIniFile)");
             }

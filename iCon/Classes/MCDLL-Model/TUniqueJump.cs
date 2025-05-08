@@ -154,7 +154,7 @@ namespace iCon_General
         /// </summary>
         protected void GetData(TMCJobWrapper MCDLL, int JumpID)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             _IsValid = false;
 
             // Check if MCDLL is valid object
@@ -173,7 +173,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetUJumpLength(JumpID, ref Length);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read jump length from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -184,7 +184,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetUJumpActive(JumpID, ref JumpActive);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read jump activation state from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -196,7 +196,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetUJumpAtomCount(JumpID, ref t_atomcount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of environment atoms from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -220,7 +220,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetUJumpAtomZylPosition(JumpID, i, ref t_ax, ref t_ay, ref t_az);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read coordinates from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -232,7 +232,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetUJumpAtomElement(JumpID, i, ref t_int);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read element from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -244,7 +244,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetUJumpAtomStates(JumpID, i, ref t_b1, ref t_b2, ref t_b3);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read element from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -261,7 +261,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetUJumpWWAtomsCount(JumpID, ref t_addcount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of additive atoms from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -282,7 +282,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetUJumpWWAtomsInfo(JumpID, i, ref t_coord, ref t_ww, ref t_energanz);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read additive atom information from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -303,7 +303,7 @@ namespace iCon_General
                             ErrorCode = MCDLL.GetUJumpWWAtomsEnergy(JumpID, i, j, ref t_elem, ref t_en);
                             switch (ErrorCode)
                             {
-                                case ConstantsClass.KMCERR_OK:
+                                case Constants.KMCERR_OK:
                                     break;
                                 default:
                                     ThrowError("Cannot read additive energy from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -321,7 +321,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetUJumpUCodesCount(JumpID, ref t_ucodecount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of unique codes from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -340,7 +340,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetUJumpUCode(JumpID, i, ref t_code, ref t_en);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read unique code from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -356,7 +356,7 @@ namespace iCon_General
             ErrorCode = MCDLL.GetUJumpFCodesCount(JumpID, ref t_fcodecount);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     ThrowError("Cannot read number of full codes from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -375,7 +375,7 @@ namespace iCon_General
                     ErrorCode = MCDLL.GetUJumpFCode(JumpID, i, ref t_code, ref t_id);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
                         default:
                             ThrowError("Cannot read full code from MC object (TUniqueJump.GetData, ErrorCode: " + ErrorCode.ToString() + ")");

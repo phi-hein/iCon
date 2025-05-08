@@ -507,7 +507,7 @@ namespace iCon_General
         /// </summary>
         public bool ApplyData(TMCJobWrapper MCDLL, BackgroundWorker BWorker, DoWorkEventArgs e, bool ShowProgress = true)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             if (BWorker.CancellationPending == true) { e.Cancel = true; return false; }
             if (ShowProgress == true) BWorker.ReportProgress(0, "Validating physical parameters ... ");
 
@@ -515,11 +515,11 @@ namespace iCon_General
             ErrorCode = MCDLL.SetTemperature(_Temperature);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Temperature\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 default:
                     throw new ApplicationException("Setting temperature failed (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -529,11 +529,11 @@ namespace iCon_General
             ErrorCode = MCDLL.SetAttemptFrequency(_AttemptFrequency);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Attempt Frequency\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 default:
                     throw new ApplicationException("Invalid jump attempt frequency (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -543,7 +543,7 @@ namespace iCon_General
             ErrorCode = MCDLL.SetCheckpointFlags(_WriteCheckpoint, _LoadCheckpoint);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     throw new ApplicationException("Invalid checkpoint flags (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -553,11 +553,11 @@ namespace iCon_General
             ErrorCode = MCDLL.SetEField(_EFieldDirX, _EFieldDirY, _EFieldDirZ, _EFieldMagnitude);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid E-Field\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 default:
                     throw new ApplicationException("Invalid E-field parameters (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -567,11 +567,11 @@ namespace iCon_General
             ErrorCode = MCDLL.SetLatticeSize(_LatticeSize);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Lattice Size\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 default:
                     throw new ApplicationException("Invalid lattice size (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -581,18 +581,18 @@ namespace iCon_General
             ErrorCode = MCDLL.SetAdditionalVacAnz(_AdditionalVacAnz);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Additional Vacancies\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 default:
                     throw new ApplicationException("Invalid additional vacancy number (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
             }
 
             if (ShowProgress == true) BWorker.ReportProgress(20, "OK\n");
-            if (ShowProgress == true) System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            if (ShowProgress == true) System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return false; }
             if (ShowProgress == true) BWorker.ReportProgress(20, "Validating doping concentrations ... ");
 
@@ -604,11 +604,11 @@ namespace iCon_General
                     ErrorCode = MCDLL.SetDopandConcentration(i, _DopConcentrations[i]._Conc);
                     switch (ErrorCode)
                     {
-                        case ConstantsClass.KMCERR_OK:
+                        case Constants.KMCERR_OK:
                             break;
-                        case ConstantsClass.KMCERR_INVALID_INPUT:
+                        case Constants.KMCERR_INVALID_INPUT:
                             e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Doping Concentration\n(see console for details)\n",
-                                ConstantsClass.KMCERR_INVALID_INPUT, false);
+                                Constants.KMCERR_INVALID_INPUT, false);
                             return false;
                         default:
                             throw new ApplicationException("Invalid doping concentration (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -617,7 +617,7 @@ namespace iCon_General
             }
 
             if (ShowProgress == true) BWorker.ReportProgress(50, "OK\n");
-            if (ShowProgress == true) System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            if (ShowProgress == true) System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return false; }
             if (ShowProgress == true) BWorker.ReportProgress(50, "Validating control parameters ... ");
 
@@ -625,11 +625,11 @@ namespace iCon_General
             ErrorCode = MCDLL.SetPrerunOptions(_DoPrerun, _PreMCSP, _PreRecordAnz);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Pre-Run Options\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 default:
                     throw new ApplicationException("Invalid pre-run parameters (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -639,11 +639,11 @@ namespace iCon_General
             ErrorCode = MCDLL.SetDynNormParameters(_DoDynNorm, _DynAttemptAnz, _DynRecordAnz, _DynNormNum);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Dyn. Norm. Options\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 default:
                     throw new ApplicationException("Invalid dyn. norm. parameters (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -653,18 +653,18 @@ namespace iCon_General
             ErrorCode = MCDLL.SetMainKMCOptions(_MCSP, _MainRecordAnz);
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Main-Sim. Options\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 default:
                     throw new ApplicationException("Invalid main simulation parameters (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
             }
 
             if (ShowProgress == true) BWorker.ReportProgress(70, "OK\n");
-            if (ShowProgress == true) System.Threading.Thread.Sleep(ConstantsClass.THREAD_READING_DELAY);
+            if (ShowProgress == true) System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
             if (BWorker.CancellationPending == true) { e.Cancel = true; return false; }
             if (ShowProgress == true) BWorker.ReportProgress(70, "Validating settings ... ");
 
@@ -672,11 +672,11 @@ namespace iCon_General
             ErrorCode = MCDLL.MakeSettings();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
-                case ConstantsClass.KMCERR_INVALID_INPUT:
+                case Constants.KMCERR_INVALID_INPUT:
                     e.Result = new BWorkerResultMessage("Invalid Input", "Invalid Settings\n(see console for details)\n",
-                        ConstantsClass.KMCERR_INVALID_INPUT, false);
+                        Constants.KMCERR_INVALID_INPUT, false);
                     return false;
                 default:
                     throw new ApplicationException("Invalid settings (TVMSettingsJob.ApplyData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -687,7 +687,7 @@ namespace iCon_General
             if (ShowProgress == true) e.Result = new TMCJob(MCDLL);
             if (ShowProgress == true) BWorker.ReportProgress(100, "OK");
 
-            if (ShowProgress == true) System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            if (ShowProgress == true) System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
             return true;
         }
 
@@ -696,7 +696,7 @@ namespace iCon_General
         /// </summary>
         public void ClearData(TMCJobWrapper MCDLL, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
-            int ErrorCode = ConstantsClass.KMCERR_OK;
+            int ErrorCode = Constants.KMCERR_OK;
             if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
             BWorker.ReportProgress(0, "Clearing settings ... ");
 
@@ -704,7 +704,7 @@ namespace iCon_General
             ErrorCode = MCDLL.ClearSettings();
             switch (ErrorCode)
             {
-                case ConstantsClass.KMCERR_OK:
+                case Constants.KMCERR_OK:
                     break;
                 default:
                     throw new ApplicationException("Clearing settings failed (TVMSettingsJob.ClearData, ErrorCode: " + ErrorCode.ToString() + ")");
@@ -715,7 +715,7 @@ namespace iCon_General
             e.Result = new TMCJob(MCDLL);
             BWorker.ReportProgress(100, "OK");
 
-            System.Threading.Thread.Sleep(ConstantsClass.THREAD_FINISH_DELAY);
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
         }
 
         /// <summary>
@@ -772,36 +772,36 @@ namespace iCon_General
                     {
                         t_Conc._DopingDesc = MCJob.Elements.ElemSymbol[MCJob.Structure.DopedID[i]] + " [" +
                             MCJob.Elements.ElemName[MCJob.Structure.DopedID[i]] + ", " + 
-                            string.Format(ConstantsClass.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[MCJob.Structure.DopedID[i]]) + "]";
+                            string.Format(Constants.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[MCJob.Structure.DopedID[i]]) + "]";
                     }
                     else
                     {
                         t_Conc._DopingDesc = MCJob.Elements.ElemSymbol[MCJob.Structure.DopedID[i]] + " [" +
-                            string.Format(ConstantsClass.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[MCJob.Structure.DopedID[i]]) + "]";
+                            string.Format(Constants.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[MCJob.Structure.DopedID[i]]) + "]";
                     }
                     if (MCJob.Elements.ElemName[MCJob.Structure.DopandID[i]] != "")
                     {
                         t_Conc._DopingDesc += " -> " + MCJob.Elements.ElemSymbol[MCJob.Structure.DopandID[i]] + " [" +
                             MCJob.Elements.ElemName[MCJob.Structure.DopandID[i]] + ", " + 
-                            string.Format(ConstantsClass.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[MCJob.Structure.DopandID[i]]) + "]";
+                            string.Format(Constants.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[MCJob.Structure.DopandID[i]]) + "]";
                     }
                     else
                     {
                         t_Conc._DopingDesc += " -> " + MCJob.Elements.ElemSymbol[MCJob.Structure.DopandID[i]] + " [" +
-                            string.Format(ConstantsClass.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[MCJob.Structure.DopandID[i]]) + "]";
+                            string.Format(Constants.SC_KMC_SHORT_CHARGE_DOUBLEFORMAT, MCJob.Elements.ElemCharge[MCJob.Structure.DopandID[i]]) + "]";
                     }
                     if (i != 0) _ConcInfo += "; ";
-                    _ConcInfo += string.Format(ConstantsClass.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.DopandConc[i]) + " (" + 
+                    _ConcInfo += string.Format(Constants.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.DopandConc[i]) + " (" + 
                         MCJob.Settings.DopandAnz[i].ToString() + ")";
                     t_Concs.Add(t_Conc);
                 }
                 _DopConcentrations = t_Concs;
             }
             _SettingInfo = "Lattice Size: " + MCJob.Settings.LatticeSize.ToString() + "; ";
-            _SettingInfo += "E-Field: (" + string.Format(ConstantsClass.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.EField.X) + " , " + 
-                string.Format(ConstantsClass.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.EField.Y) + 
-                " , " + string.Format(ConstantsClass.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.EField.Z) + ") V/cm; ";
-            _SettingInfo += "Att. Freq.: " + string.Format(ConstantsClass.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.AttemptFrequency) + " Hz; ";
+            _SettingInfo += "E-Field: (" + string.Format(Constants.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.EField.X) + " , " + 
+                string.Format(Constants.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.EField.Y) + 
+                " , " + string.Format(Constants.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.EField.Z) + ") V/cm; ";
+            _SettingInfo += "Att. Freq.: " + string.Format(Constants.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.AttemptFrequency) + " Hz; ";
             _SettingInfo += "Chk-Write: ";
             if (MCJob.Settings.WriteCheckpoint == true)
             {
@@ -821,7 +821,7 @@ namespace iCon_General
                 _SettingInfo += "no; ";
             }
             _SettingInfo += "Add. Vac.: " + MCJob.Settings.AdditionalVacAnz.ToString() + "; ";
-            _SettingInfo += "Total Vac.: " + string.Format(ConstantsClass.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.TotalVacConc) + " (" + 
+            _SettingInfo += "Total Vac.: " + string.Format(Constants.SC_KMC_LONG_DOUBLEFORMAT, MCJob.Settings.TotalVacConc) + " (" + 
                 MCJob.Settings.TotalVacAnz.ToString() + "); ";
             _SettingInfo += "Pre-Run: ";
             if (MCJob.Settings.DoPrerun == true)
