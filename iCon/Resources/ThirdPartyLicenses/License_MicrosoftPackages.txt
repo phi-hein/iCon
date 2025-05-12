@@ -1,16 +1,7 @@
 ﻿Redistributed Microsoft libraries:
-- Microsoft.Bcl.AsyncInterfaces (Version 9.0.4)
-- Microsoft.Extensions.DependencyInjection.Abstractions (Version 9.0.4)
-- Microsoft.Extensions.Logging.Abstractions (Version 9.0.4)
+- Microsoft.Extensions.DependencyInjection.Abstractions (Version 8.0.2)
+- Microsoft.Extensions.Logging.Abstractions (Version 8.0.3)
 - Microsoft.Xaml.Behaviors.Wpf (Version 1.1.31)
-- System.Buffers (Version 4.6.1)
-- System.Diagnostics.DiagnosticSource (Version 9.0.4)
-- System.Formats.Asn1 (Version 9.0.4)
-- System.Memory (Version 4.6.3)
-- System.Numerics.Vectors (Version 4.6.1)
-- System.Runtime.CompilerServices.Unsafe (Version 6.1.2)
-- System.Threading.Tasks.Extensions (Version 4.6.3)
-- System.ValueTuple (Version 4.6.1)
 
 MIT License
 

@@ -245,7 +245,7 @@
     <value>BouncyCastle.NET (Version 2.5.1)</value>
   </data>
   <data name="PackageTitle_HelixToolkit" xml:space="preserve">
-    <value>Helix Toolkit (Version 2.27.0)</value>
+    <value>Helix Toolkit Core WPF (Version 2.27.0)</value>
   </data>
   <data name="PackageTitle_MicrosoftPackages" xml:space="preserve">
     <value>Microsoft libraries</value>

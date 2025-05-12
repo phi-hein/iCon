@@ -1,43 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows;
-using Microsoft.Shell;
 
 namespace iCon_General
 {
     /// <summary>
     /// Interaktionslogik für "App.xaml"
     /// </summary>
-    public partial class App : Application, ISingleInstanceApp
+    public partial class App : Application
     {
-        /// <summary>
-        /// Unique mutex string
-        /// </summary>
-        private const string UniqueAppName = "iConPHBOHGUniqueIDText267933";
-
-        [STAThread]
-        public static void Main()
-        {
-            // Check if this is the first instance
-            if (SingleInstance<App>.InitializeAsFirstInstance(UniqueAppName))
-            {
-                // Create application object
-                var application = new App();
-
-                // Initialize application
-                application.InitializeComponent();
-
-                // Run the first application instance
-                application.Run();
-
-                // Perform cleanup operations
-                SingleInstance<App>.Cleanup();
-            }
-        }
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -63,29 +36,6 @@ namespace iCon_General
             MainWindow app_wnd = new MainWindow();
             app_wnd.Show();
         }
-
-        #region ISingleInstanceApp Implementation
-
-        /// <summary>
-        /// This method gets called when a second instance is opened
-        /// </summary>
-        public bool SignalExternalCommandLineArgs(IList<string> args)
-        {
-            // Handle command line arguments of second instance
-            // Example: return ((iCon_General.MainWindow)this.MainWindow).ProcessCommandLineArgs(args);
-
-            // Show MainWindow
-            if (Current.MainWindow.IsVisible == false) Current.MainWindow.Show();
-            if (Current.MainWindow.WindowState == WindowState.Minimized) Current.MainWindow.WindowState = WindowState.Normal;
-            Current.MainWindow.Activate();
-            Current.MainWindow.Topmost = true;
-            Current.MainWindow.Topmost = false;
-            Current.MainWindow.Focus();
-
-            return true;
-        }
-
-        #endregion ISingleInstanceApp Implementation
 
         #region Unhandled Exceptions
 

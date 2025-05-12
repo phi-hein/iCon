@@ -19,9 +19,9 @@
             </File>
         </Component>
 
-		<File Source="$(iCon.TargetDir)iCon.exe.config" />
-
         <Files Include="$(iCon.TargetDir)*.dll" />
+
+		<Files Include="$(iCon.TargetDir)*.json" />
 
 		<File Source="$(iCon.TargetDir)iConSimulator_Win.exe" Checksum="yes" />
 		<File Source="$(iCon.TargetDir)iConSearcher_Win.exe" Checksum="yes" />

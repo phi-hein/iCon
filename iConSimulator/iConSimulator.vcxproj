@@ -69,9 +69,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src\" /y /i /r /d /f
-xcopy "$(ProjectDir)Makefile" "$(SolutionDir)$(Configuration)\Source\" /y /i /r /d /f
-xcopy "$(ProjectDir)DefaultScripts" "$(SolutionDir)$(Configuration)\DefaultScripts" /y /i /r /d /f</Command>
+      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src\" /y /i /r /d
+xcopy "$(ProjectDir)Makefile" "$(SolutionDir)$(Configuration)\Source\" /y /i /r /d
+xcopy "$(ProjectDir)DefaultScripts" "$(SolutionDir)$(Configuration)\DefaultScripts" /y /i /r /d</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -97,9 +97,9 @@ xcopy "$(ProjectDir)DefaultScripts" "$(SolutionDir)$(Configuration)\DefaultScrip
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src\" /y /i /r /d /f
-xcopy "$(ProjectDir)Makefile" "$(SolutionDir)$(Configuration)\Source\" /y /i /r /d /f
-xcopy "$(ProjectDir)DefaultScripts" "$(SolutionDir)$(Configuration)\DefaultScripts" /y /i /r /d /f</Command>
+      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src\" /y /i /r /d
+xcopy "$(ProjectDir)Makefile" "$(SolutionDir)$(Configuration)\Source\" /y /i /r /d
+xcopy "$(ProjectDir)DefaultScripts" "$(SolutionDir)$(Configuration)\DefaultScripts" /y /i /r /d</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>

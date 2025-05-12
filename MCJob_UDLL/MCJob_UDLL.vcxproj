@@ -66,8 +66,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src" /s /y /i /r /d /f
-xcopy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)\Source\src" /exclude:xcopy_exclude.txt /s /y /i /r /d /f</Command>
+      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src" /s /y /i /r /d
+xcopy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)\Source\src" /exclude:xcopy_exclude.txt /s /y /i /r /d</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,8 +89,8 @@ xcopy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)\Source\src" /exclude:xc
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src" /s /y /i /r /d /f
-xcopy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)\Source\src" /exclude:xcopy_exclude.txt /s /y /i /r /d /f</Command>
+      <Command>xcopy "$(ProjectDir)*.cpp" "$(SolutionDir)$(Configuration)\Source\src" /s /y /i /r /d
+xcopy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)\Source\src" /exclude:xcopy_exclude.txt /s /y /i /r /d</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
