@@ -28,11 +28,10 @@ INTERNALDIRS = TKMCJob \
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -std=c++17 -Wall -O2
-ALL_CXXFLAGS = $(CXXFLAGS) -I $(SOURCEDIR) -D "NON_DLL_BUILD"
+ALL_CXXFLAGS = $(CXXFLAGS) -std=c++17 -Wall -O2 -I $(SOURCEDIR) -D "NON_DLL_BUILD"
 
 # Linker flags
-LDFLAGS = -O2 -static-libgcc -static-libstdc++
+ALL_LDFLAGS = $(LDFLAGS) -O2 -static-libgcc -static-libstdc++
 
 
 # -------------- FILE SETUP --------------
@@ -67,11 +66,11 @@ create_dirs:
 
 # Link obj-files to the simulation executable
 $(EXENAME_SIM).exe: $(SHARED_OBJ_FILES) $(BUILDDIR)/$(EXENAME_SIM).o
-	$(CXX) $(LDFLAGS) $^ -o $@
+	$(CXX) $(ALL_LDFLAGS) $^ -o $@
 
 # Link obj-files to the searcher executable
 $(EXENAME_SEARCH).exe: $(SHARED_OBJ_FILES) $(BUILDDIR)/$(EXENAME_SEARCH).o
-	$(CXX) $(LDFLAGS) $^ -o $@
+	$(CXX) $(ALL_LDFLAGS) $^ -o $@
 
 # Compile all cpp-files to obj-files (and create dependency files)
 $(ALL_OBJ_FILES): $(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
