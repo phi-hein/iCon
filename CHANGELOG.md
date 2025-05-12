@@ -24,6 +24,7 @@ Compatibility of input/output files: 0.9.0.5 and later
 ### Changed:
 - Pre-compiled simulation executables replaced by automatic compiling on the remote system (build script)
 - File identifiers translated to english (the german variants are still used for loading older files)
+- Upgrade to .NET 9, C++ 17 and C# 13
 
 ### Added:
 - Remote cluster access via keyboard-interactive authentication (2FA)

@@ -2,7 +2,8 @@
 <!-- Distributed under GPL v3 license (see LICENSE.txt file in the solution root folder). -->
 
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
-	 xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+	 xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui"
+	 xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx">
 	<Package Name="!(loc.AppName)" 
 			 Manufacturer="!(loc.AppManufacturer)" 
 			 Language="1033" 
@@ -31,10 +32,14 @@
 		<Launch Condition="Installed OR (VersionNT &gt;= 603)" 
 				Message="!(loc.WinVersionMessage)" />
 
-		<!-- Requires .NET framework 4.8 or higher -->
-		<PropertyRef Id="WIX_IS_NETFRAMEWORK_48_OR_LATER_INSTALLED" />
-		<Launch Condition="Installed OR WIX_IS_NETFRAMEWORK_48_OR_LATER_INSTALLED" 
-				Message="!(loc.NETFrameworkMessage)" />
+		<!-- Requires .NET 9.0 or higher -->
+		<netfx:DotNetCompatibilityCheck Property="DOTNETRUNTIMECHECK" 
+										RollForward="major"
+										RuntimeType="desktop" 
+										Platform="x86" 
+										Version="9.0.0" />
+		<Launch Condition="Installed OR (DOTNETRUNTIMECHECK = 0)" 
+				Message="!(loc.NETMessage)" />
 
 		<!-- Requires C++ runtime distributables v143 or higher -->
 		<!-- UpgradeCode for vc_redist.x86.exe: 65E5BD06-6392-3027-8C26-853107D3CF1A -->

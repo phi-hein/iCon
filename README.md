@@ -26,9 +26,9 @@ DOI (citable archive): ...
 - Supported operating systems (GUI): Win 10 or later
 - Before installing iCon, please ensure that the following two components are installed:  
   (otherwise the setup will complain)
-  - Microsoft .NET Framework 4.8 or later ([link](https://dotnet.microsoft.com/download/dotnet-framework))
+  - Microsoft .NET 9.0 (x86) or later ([link](https://aka.ms/dotnet/9.0/windowsdesktop-runtime-win-x86.exe))
   - Microsoft Visual C++ 2015-2022 Redistributable (x86) 14.3 or later ([link](https://aka.ms/vs/17/release/vc_redist.x86.exe))  
-	(x86 redistributable is required even on x64 systems)
+	(x86 runtimes are required even on x64 systems)
 
 ## Documentation
 - [Tutorial](https://www.icon.pc.rwth-aachen.de/tutorial.html): Overview of the iCon workflow

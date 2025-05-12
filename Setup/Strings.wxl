@@ -17,8 +17,8 @@
 	<String Id="WinVersionMessage" 
 			Value="This application is only supported on Windows 10 or higher." />
 	
-	<String Id="NETFrameworkMessage" 
-			Value="This application requires .NET Framework 4.8 or later. Please install the .NET Framework and run this installer again." />
+	<String Id="NETMessage" 
+			Value="This application requires .NET 9.0 or later. Please install the .NET runtime (x86, even on x64 systems) and run this installer again." />
 
 	<String Id="VCRedistMessage"
 			Value="This application requires Microsoft Visual C++ 2015-2022 (x86) Redistributable 14.30 or later. Please install the Visual C++ Redistributable (x86, even on x64 systems) and run this installer again."/>
