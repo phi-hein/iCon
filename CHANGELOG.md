@@ -40,6 +40,7 @@ Compatibility of input/output files: 0.9.0.5 and later
 - Simulations with all energies zero no longer run forever
 - Remote profile selection when loading ini file does not rely on order of the filenames anymore
 - Creating and deleting remote profiles no longer throws exceptions when underlying files are not already present
+- Prevent overwriting of existing simulation files in submission process
 
 <!--- List of links to releases: --->
 [1.0.0]: https://github.com/phi-hein/iCon/releases/tag/v1.0.0

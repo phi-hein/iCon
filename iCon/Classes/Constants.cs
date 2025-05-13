@@ -1,4 +1,8 @@
-﻿namespace iCon_General
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace iCon_General
 {
     /// <summary> Global constant provider </summary>
     public static class Constants
@@ -248,7 +252,51 @@
 
         #endregion KMC Error Codes
 
-        // ********************** Validation Messages ********************** //
-        
+        // ********************** Extension Methods ********************** //
+
+        #region Extension Methods
+
+        /// <summary>
+        /// Formats an integer list into a string with range notation ("-")
+        /// </summary>
+        public static string ToRangeString(this List<int> input)
+        {
+            if (input.Count < 1) return "";
+
+            var list = input.Distinct().ToList();
+            list.Sort();
+
+            StringBuilder result = new StringBuilder();
+            int temp;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                temp = list[i];
+
+                // Add a number
+                result.Append(list[i]);
+
+                // Skip number(s) between a range
+                while ((i < list.Count - 1) && (list[i + 1] == list[i] + 1))
+                {
+                    i++;
+                }
+
+                // Add the range
+                if (temp != list[i])
+                {
+                    result.Append('-').Append(list[i]);
+                }
+
+                // Add delimiter
+                if (i != list.Count - 1)
+                {
+                    result.Append(", ");
+                }
+            }
+            return result.ToString();
+        }
+
+        #endregion Extension Methods
     }
 }
