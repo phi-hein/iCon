@@ -2112,7 +2112,7 @@ int TKMCJobBase::LoadFromStream(istream& input)
 			stringstream linestream(line);
 			if ((linestream >> s_temp).fail() == true) s_temp = "";
 
-			// Version pruefen (nur wenn Version angegeben ist)
+			// Version pruefen (nur wenn Version angegeben ist, ohne Revisionsnummer)
 			if (s_temp == KMCOUT_VERSION)
 			{
 				if ((linestream >> s_temp).fail() == true)
@@ -2120,7 +2120,11 @@ int TKMCJobBase::LoadFromStream(istream& input)
 					if_failed = true;
 					break;
 				}
-				if (string(KMC_COMP_FILE_VERSIONS).find(s_temp) == string::npos)
+				string_view sv_temp = s_temp;
+				if (none_of(KMC_COMP_FILE_VERSIONS.begin(), KMC_COMP_FILE_VERSIONS.end(), [sv_temp](string_view sv)
+					{
+						return (string_view(sv_temp.data(), min(sv.size(), sv_temp.size())) == sv);
+					}))
 				{
 					if_failed = true;
 					break;

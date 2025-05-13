@@ -17,6 +17,7 @@
 - "No electric field" is allowed (then iCon just yields mean squared displacement)
 
 ### Coding rules
+- No breaking changes with regard to the files in-between revision numbers
 - Exceptions lead to imidiate program termination, therefore only throw exception if unsolvable error occurs
 - Do not throw exceptions in UDLL-projects
 - Get-Methods of UDLL (that are not based on an item index) should always return a valid value
