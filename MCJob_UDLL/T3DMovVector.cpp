@@ -1,12 +1,13 @@
 // **************************************************************** //
 //																	//
-//	Klasse: T3DMovVector											//
-//	Autor: Philipp Hein												//
-//	Datum: 14.03.2014												//
-//  Aufgabe:														//
-//    Klasse fuer Verschiebungsvektor incl. Sprungzaehler			//
+//	Class: T3DMovVector												//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for a displacement vector (incl. jump counter)			//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -24,6 +25,7 @@ using namespace std;
 // ******************* STATIC MEMBER FUNCTIONS *************************
 
 // Betrag eines Vektors a
-double T3DMovVector::Length (const T3DMovVector &a) {
+double T3DMovVector::Length(const T3DMovVector& a)
+{
 	return a.Length();
 }

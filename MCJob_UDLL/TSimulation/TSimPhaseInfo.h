@@ -1,13 +1,13 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSimPhaseInfo											//
-//	Autor: Philipp Hein												//
-//	Datum: 17.03.2014												//
-//  Aufgabe:														//
-//    Klasse, die den letzten CheckPoint-Stand einer				//
-//	  Simulationsphase enthaelt										//
+//	Class: TSimPhaseInfo											//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Data class for the current status of a simulation phase		//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 

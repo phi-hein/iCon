@@ -34,14 +34,14 @@ Several objects and functions are relevant:
 - OS handle (type: HANDLE): identifier of a certain device (or object) in the operating system
   - the current standard I/O devices are identified by the constants STD_OUTPUT_HANDLE, STD_ERROR_HANDLE and STD_INPUT_HANDLE
   - GetStdHandle function: yields a handle to the specified standard device
-    (returns INVALID_HANDLE_VALUE on error and NULL when the process has no standard I/O devices)
+	(returns INVALID_HANDLE_VALUE on error and NULL when the process has no standard I/O devices)
   - SetStdHandle function: sets a standard device to a certain handle (= redirects I/O to another device or file)
   - CloseHandle function: closes a handle (can be done but not mandatory because also done when process is destroyed)
-- STL streams (type: std::iostream): common streams in C++ 
+- STL streams (type: std::iostream): common streams in C++
   - standard C++ streams: std::cout, std::cerr, std::cin
   - the C++ streams can be synchronized to the respective standard C streams by calling std::sync_with_stdio(true)
 
-AllocConsole function: 
+AllocConsole function:
 - creates a new Console window (only one allowed per process), whose buffers are represented by CONOUT$ and CONIN$
 - STD_OUTPUT_HANDLE and STD_ERROR_HANDLE become handles to the console screen buffer (i.e. to CONOUT$)
 - STD_INPUT_HANDLE becomes a handle to the console input buffer (i.e. to CONIN$)
@@ -63,45 +63,45 @@ FreeConsole function:
 #include "TConsole\IConsole.h"
 
 // Class declaration
-class TConsole: public IConsole 
+class TConsole : public IConsole
 {
 	// Member variables
-	protected:
-		bool Ready;						// Indicates whether the console was created successfully
-		bool Visible;					// Indicates whether the console is visible or hidden
+protected:
+	bool Ready;						// Indicates whether the console was created successfully
+	bool Visible;					// Indicates whether the console is visible or hidden
 
-        int Console_Buffer_Rows;		// Number of rows of the console buffer
-        int Console_Buffer_Columns;		// Number of columns of the console buffer (= characters per row)
-		std::string Console_Title;		// Title of the console window
+	int Console_Buffer_Rows;		// Number of rows of the console buffer
+	int Console_Buffer_Columns;		// Number of columns of the console buffer (= characters per row)
+	std::string Console_Title;		// Title of the console window
 
-        FILE *stream_out;				// CRT file stream to new console screen buffer
-		FILE *stream_err;				// CRT file stream to new console screen buffer
-		FILE* stream_in;				// CRT file stream to new console input buffer
+	FILE* stream_out;				// CRT file stream to new console screen buffer
+	FILE* stream_err;				// CRT file stream to new console screen buffer
+	FILE* stream_in;				// CRT file stream to new console input buffer
 
-		int fd_save_out;				// CRT file descriptor of the previous stdout
-		int fd_save_err;				// CRT file descriptor of the previous stderr
-		int fd_save_in;					// CRT file descriptor of the previous stdin
+	int fd_save_out;				// CRT file descriptor of the previous stdout
+	int fd_save_err;				// CRT file descriptor of the previous stderr
+	int fd_save_in;					// CRT file descriptor of the previous stdin
 
-        HANDLE handle_save_out;			// OS handle of the previous standard output device
-		HANDLE handle_save_err;			// OS handle of the previous standard error device
-		HANDLE handle_save_in;			// OS handle of the previous standard input device
+	HANDLE handle_save_out;			// OS handle of the previous standard output device
+	HANDLE handle_save_err;			// OS handle of the previous standard error device
+	HANDLE handle_save_in;			// OS handle of the previous standard input device
 
 	// Member functions
-    public:
-        TConsole();				// Constructor
-        ~TConsole();			// Destructor
-		void Release ();		// Destructor method against memory leaks (instance suicide)
-        
-        int Show();										// Show console window
-        int Hide();										// Hide console window
-        int Status() const;								// Get console status
-		int SetBufferSize (int rows, int columns);		// Change size of console screen buffer
-		int SetTitle(std::string title);				// Set console window title
+public:
+	TConsole();				// Constructor
+	~TConsole();			// Destructor
+	void Release();		// Destructor method against memory leaks (instance suicide)
 
-	protected:
-		int StdExceptionHandler(const std::exception &e) const;																											// Global standard exception handler
-		int ExceptionHandler () const;																																	// Global exception handler for unknown exceptions
-		static void CRTInvalidParameterHandler (const wchar_t * expression,const wchar_t * function,const wchar_t * file,unsigned int line,uintptr_t pReserved);		// CRT error handler
+	int Show();										// Show console window
+	int Hide();										// Hide console window
+	int Status() const;								// Get console status
+	int SetBufferSize(int rows, int columns);		// Change size of console screen buffer
+	int SetTitle(std::string title);				// Set console window title
+
+protected:
+	int StdExceptionHandler(const std::exception& e) const;																											// Global standard exception handler
+	int ExceptionHandler() const;																																	// Global exception handler for unknown exceptions
+	static void CRTInvalidParameterHandler(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t pReserved);		// CRT error handler
 };
 
 #endif

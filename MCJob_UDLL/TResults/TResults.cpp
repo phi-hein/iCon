@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TResults	(TResults Layer 3)							//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der Simulationsergebnisse				//
-//	  Layer 3: Top class										 	//
+//	Class: TResults	(TResults Layer 3)								//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the simulation results						//
+//	  Layer 3: Top class											//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -26,12 +26,14 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TResults::TResults (TKMCJob *pJob): TResultsOut (pJob) {
+TResults::TResults(TKMCJob* pJob) : TResultsOut(pJob)
+{
 
 }
 
 // Destructor
-TResults::~TResults () {
+TResults::~TResults()
+{
 
 }
 

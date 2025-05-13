@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TJumpOut	(TJump Layer 2)								//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung eines Gittersprungs eines Atoms in  	//
-//	  der Elementarzelle und Erstellung der Sprungumgebung			//
-//	  Layer 2: Output class, d.h. Ausgabe generierter Daten		 	//
+//	Class: TJumpOut	(TJump Layer 2)									//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for describing a jump of an atom in the unit cell 		//
+//	  and its jump environment										//
+//	  Layer 2: Output class = get generated data					//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -28,19 +28,22 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TJumpOut::TJumpOut (TKMCJob * pJob): TJumpFunc (pJob) {
-	
+TJumpOut::TJumpOut(TKMCJob* pJob) : TJumpFunc(pJob)
+{
+
 }
 
 // Destructor
-TJumpOut::~TJumpOut () {
-	
+TJumpOut::~TJumpOut()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
 
 // 4D-Vektor des Sprungstartatoms ausgeben
-int TJumpOut::GetJumpStartPos(int &x, int &y, int &z, int &s) {
+int TJumpOut::GetJumpStartPos(int& x, int& y, int& z, int& s)
+{
 
 	// Ausgabe
 	x = StartPos.x;
@@ -52,7 +55,8 @@ int TJumpOut::GetJumpStartPos(int &x, int &y, int &z, int &s) {
 }
 
 // 4D-Vektor des Sprungzielatoms ausgeben
-int TJumpOut::GetJumpDestPos(int &x, int &y, int &z, int &s) {
+int TJumpOut::GetJumpDestPos(int& x, int& y, int& z, int& s)
+{
 
 	// Ausgabe
 	x = DestPos.x;
@@ -65,7 +69,8 @@ int TJumpOut::GetJumpDestPos(int &x, int &y, int &z, int &s) {
 }
 
 // Ruecksprung-DirID ausgeben
-int TJumpOut::GetJumpBackjumpDirID(int &dirID) {
+int TJumpOut::GetJumpBackjumpDirID(int& dirID)
+{
 
 	// Ausgabe
 	dirID = BackjumpDirID;
@@ -74,8 +79,10 @@ int TJumpOut::GetJumpBackjumpDirID(int &dirID) {
 }
 
 // Anzahl an Umgebungsatomen ausgeben
-int TJumpOut::GetJumpEnvCount(int &count) {
-	if (Ready == false) {
+int TJumpOut::GetJumpEnvCount(int& count)
+{
+	if (Ready == false)
+	{
 		count = 0;
 		return KMCERR_OK;
 	}
@@ -87,14 +94,17 @@ int TJumpOut::GetJumpEnvCount(int &count) {
 }
 
 // Umgebungsatom ausgeben
-int TJumpOut::GetJumpEnvAtom(int id, int &x, int &y, int &z, int &s) {
+int TJumpOut::GetJumpEnvAtom(int id, int& x, int& y, int& z, int& s)
+{
 
 	// Input pruefen
-	if (id < 0) {
+	if (id < 0)
+	{
 		cout << "Critical Error: Negative vector index (in TJumpOut::GetJumpEnvAtom)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
-	if (id >= (int) EnvPos.size()) {
+	if (id >= (int)EnvPos.size())
+	{
 		cout << "Critical Error: Index exceeds vector size (in TJumpsOut::GetJumpEnvAtom)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -109,14 +119,15 @@ int TJumpOut::GetJumpEnvAtom(int id, int &x, int &y, int &z, int &s) {
 }
 
 // ID des zugehörigen UniqueJump ausgeben
-int TJumpOut::GetJumpUniqueJumpID(int &uniqueid) {
+int TJumpOut::GetJumpUniqueJumpID(int& uniqueid)
+{
 
 	// Ausgabe
 	uniqueid = UniqueJumpID;
 
 	return KMCERR_OK;
 }
-		
+
 // ***************************** PUBLIC *********************************** //
 
 

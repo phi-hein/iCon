@@ -1,6 +1,13 @@
-# Makefile for iConSimulator (remote compilation)
-# -- Property of Workgroup Martin, RWTH Aachen University --
-# Developer: Philipp Hein
+# ***************************************************************** #
+#																	#
+#	Makefile for iConSimulator and iConSearcher						#
+#	Author: Philipp Hein											#
+#																	#
+#	Copyright (c) P. Hein, IPC, RWTH Aachen University				#
+#	Distributed under GPL v3 license								#
+#	(see LICENSE.txt file in the solution root folder)				#
+#																	#
+# ***************************************************************** #
 
 
 # -------------- Makro-Definitions --------------

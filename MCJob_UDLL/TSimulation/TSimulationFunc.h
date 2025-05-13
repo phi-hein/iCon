@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSimulationFunc	(TSimulation Layer 1)					//
-//	Autor: Philipp Hein												//
-//	Datum: 19.03.2014												//
-//  Aufgabe:														//
-//    Klasse zur Durchfuehrung der Simulation						//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TSimulationFunc	(TSimulation Layer 1)					//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for carrying out the simulation							//
+//	  Layer 1: Functionality class = helper methods 				//
+//	  -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -29,17 +29,18 @@ using namespace std;
 class TKMCJob;
 
 // Klassendeklaration:
-class TSimulationFunc: public TSimulationBase {
+class TSimulationFunc : public TSimulationBase
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		TSimulationFunc (TKMCJob * pJob);			// Constructor
+public:
+	// NON-PUBLISHED
+	TSimulationFunc(TKMCJob* pJob);			// Constructor
 
-		int GetMovementResults(vector<double> *o_results) const;	// Ergebnisse der Hauptsimulation ausgeben
-		int GetMainSimStatus(TSimPhaseInfo &o_phase) const;			// Status der Hauptsimulation ausgeben
+	int GetMovementResults(vector<double>* o_results) const;	// Ergebnisse der Hauptsimulation ausgeben
+	int GetMainSimStatus(TSimPhaseInfo& o_phase) const;			// Status der Hauptsimulation ausgeben
 
-	protected:
-		~TSimulationFunc();						// Destructor
+protected:
+	~TSimulationFunc();						// Destructor
 };
 
 #endif

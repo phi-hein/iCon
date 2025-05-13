@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TUniqueJumpOut	(TUniqueJump Layer 2)					//
-//	Autor: Philipp Hein												//
-//	Datum: 02.04.2013												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung eines einzigartigen Gittersprungs 	//
-//	  Layer 2: Output class, d.h. Ausgabe generierter Daten		 	//
+//	Class: TUniqueJumpOut	(TUniqueJump Layer 2)					//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for describing a unique jump 							//
+//	  Layer 2: Output class = get generated data					//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -30,23 +30,26 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TUniqueJumpOut::TUniqueJumpOut (TKMCJob * pJob): TUniqueJumpFunc (pJob) {
-	
+TUniqueJumpOut::TUniqueJumpOut(TKMCJob* pJob) : TUniqueJumpFunc(pJob)
+{
+
 }
 
 // Destructor
-TUniqueJumpOut::~TUniqueJumpOut () {
-	
+TUniqueJumpOut::~TUniqueJumpOut()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
 
 
-		
+
 // ***************************** PUBLIC *********************************** //
 
 // Sprunglänge zurückgeben
-int TUniqueJumpOut::GetLength (double &o_Length) {
+int TUniqueJumpOut::GetLength(double& o_Length)
+{
 
 	o_Length = Length;
 
@@ -54,7 +57,8 @@ int TUniqueJumpOut::GetLength (double &o_Length) {
 }
 
 // Aktivierungszustand des Sprungs ausgeben
-int TUniqueJumpOut::GetJumpActive (bool &State) {
+int TUniqueJumpOut::GetJumpActive(bool& State)
+{
 
 	State = JumpActive;
 
@@ -62,7 +66,8 @@ int TUniqueJumpOut::GetJumpActive (bool &State) {
 }
 
 // Anzahl an Umgebungsatomen ausgeben
-int TUniqueJumpOut::GetCoordCount (int &Count) {
+int TUniqueJumpOut::GetCoordCount(int& Count)
+{
 
 	Count = Coord.size();
 
@@ -70,10 +75,12 @@ int TUniqueJumpOut::GetCoordCount (int &Count) {
 }
 
 // Element eines Umgebungsatoms ausgeben
-int TUniqueJumpOut::GetCoordElement (int CoordID, int &o_ElemID) {
+int TUniqueJumpOut::GetCoordElement(int CoordID, int& o_ElemID)
+{
 
 	// Input pruefen
-	if ((CoordID < 0) || (CoordID >= (int) ElemID.size())) {
+	if ((CoordID < 0) || (CoordID >= (int)ElemID.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TUniqueJumpOut::GetCoordElement)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -84,10 +91,12 @@ int TUniqueJumpOut::GetCoordElement (int CoordID, int &o_ElemID) {
 }
 
 // Essentielle Informationen zu einem Umgebungsatom ausgeben
-int TUniqueJumpOut::GetCoordZylPosition (int CoordID, double &X, double &Y, double &Z) {
+int TUniqueJumpOut::GetCoordZylPosition(int CoordID, double& X, double& Y, double& Z)
+{
 
 	// Input pruefen
-	if ((CoordID < 0) || (CoordID >= (int) Coord.size())) {
+	if ((CoordID < 0) || (CoordID >= (int)Coord.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TUniqueJumpOut::GetCoordZylPosition)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -100,10 +109,12 @@ int TUniqueJumpOut::GetCoordZylPosition (int CoordID, double &X, double &Y, doub
 }
 
 // Zustände (ignore, additive, active) eines Umgebungsatoms ausgeben
-int TUniqueJumpOut::GetCoordStates (int CoordID, bool &IsIgnore, bool &IsAdditive, bool &IsActive) {
+int TUniqueJumpOut::GetCoordStates(int CoordID, bool& IsIgnore, bool& IsAdditive, bool& IsActive)
+{
 
 	// Input pruefen
-	if ((CoordID < 0) || (CoordID >= (int) AtomIgnore.size()) || (CoordID >= (int) AtomAdditive.size()) || (CoordID >= (int) AtomActive.size())) {
+	if ((CoordID < 0) || (CoordID >= (int)AtomIgnore.size()) || (CoordID >= (int)AtomAdditive.size()) || (CoordID >= (int)AtomActive.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TUniqueJumpOut::GetCoordStates)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -116,23 +127,26 @@ int TUniqueJumpOut::GetCoordStates (int CoordID, bool &IsIgnore, bool &IsAdditiv
 }
 
 // Abstaende eines Umgebungsatoms ausgeben
-int TUniqueJumpOut::GetCoordDistances (int CoordID, double &StartDist, double &TSDist, double &DestDist) {
+int TUniqueJumpOut::GetCoordDistances(int CoordID, double& StartDist, double& TSDist, double& DestDist)
+{
 
 	// Input pruefen
-	if ((CoordID < 0) || (CoordID >= (int) Coord.size())) {
+	if ((CoordID < 0) || (CoordID >= (int)Coord.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TUniqueJumpOut::GetCoordDistances)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
 
-	StartDist = sqrt((Coord[CoordID].x + 0.5*Length)*(Coord[CoordID].x + 0.5*Length) + Coord[CoordID].y*Coord[CoordID].y);
-	TSDist = sqrt(Coord[CoordID].x*Coord[CoordID].x + Coord[CoordID].y*Coord[CoordID].y);
-	DestDist = sqrt((Coord[CoordID].x - 0.5*Length)*(Coord[CoordID].x - 0.5*Length) + Coord[CoordID].y*Coord[CoordID].y);
+	StartDist = sqrt((Coord[CoordID].x + 0.5 * Length) * (Coord[CoordID].x + 0.5 * Length) + Coord[CoordID].y * Coord[CoordID].y);
+	TSDist = sqrt(Coord[CoordID].x * Coord[CoordID].x + Coord[CoordID].y * Coord[CoordID].y);
+	DestDist = sqrt((Coord[CoordID].x - 0.5 * Length) * (Coord[CoordID].x - 0.5 * Length) + Coord[CoordID].y * Coord[CoordID].y);
 
 	return KMCERR_OK;
 }
 
 // Anzahl an WW-Atomen (nicht-ignoriert, additiv) ausgeben
-int TUniqueJumpOut::GetWWAtomsCount (int &Count) {
+int TUniqueJumpOut::GetWWAtomsCount(int& Count)
+{
 
 	Count = InteractionMap.size();
 
@@ -140,12 +154,14 @@ int TUniqueJumpOut::GetWWAtomsCount (int &Count) {
 }
 
 // CoordID, InteractionID und Anzahl an InteractionElemIDs/Energies eines WW-Atoms ausgeben
-int TUniqueJumpOut::GetWWAtomsInfo (int WWAtomsID, int &CoordID, int &WWID, int &EnergAnz) {
+int TUniqueJumpOut::GetWWAtomsInfo(int WWAtomsID, int& CoordID, int& WWID, int& EnergAnz)
+{
 
 	// Input pruefen
-	if ((WWAtomsID < 0) || (WWAtomsID >= (int) InteractionMap.size()) || 
-		(WWAtomsID >= (int) InteractionElemIDs.size()) || 
-		(WWAtomsID >= (int) InteractionEnergies.size())) {
+	if ((WWAtomsID < 0) || (WWAtomsID >= (int)InteractionMap.size()) ||
+		(WWAtomsID >= (int)InteractionElemIDs.size()) ||
+		(WWAtomsID >= (int)InteractionEnergies.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TUniqueJumpOut::GetWWAtomsInfo)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -153,18 +169,23 @@ int TUniqueJumpOut::GetWWAtomsInfo (int WWAtomsID, int &CoordID, int &WWID, int 
 	// CoordID bestimmen
 	int t_coordid = -1;
 	int help_index = -1;
-	if (Coord.size() != 0) {
-		for (int i = 0; i < (int) Coord.size(); i++) {
-			if ((AtomIgnore[i] == false) && (AtomAdditive[i] == true)) {
+	if (Coord.size() != 0)
+	{
+		for (int i = 0; i < (int)Coord.size(); i++)
+		{
+			if ((AtomIgnore[i] == false) && (AtomAdditive[i] == true))
+			{
 				help_index++;
 			}
-			if (help_index == WWAtomsID) {
+			if (help_index == WWAtomsID)
+			{
 				t_coordid = i;
 				break;
 			}
 		}
 	}
-	if (t_coordid == -1) {
+	if (t_coordid == -1)
+	{
 		cout << "Critical Error: Cannot find atom (in TUniqueJumpOut::GetWWAtomsInfo)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -177,16 +198,19 @@ int TUniqueJumpOut::GetWWAtomsInfo (int WWAtomsID, int &CoordID, int &WWID, int 
 }
 
 // Energie und ElemID der ID-ten Energieangabe eines WW-Atoms ausgeben
-int TUniqueJumpOut::GetWWAtomsEnergy (int WWAtomsID, int ID, int &WWElemID, double &WWEnergy) {
+int TUniqueJumpOut::GetWWAtomsEnergy(int WWAtomsID, int ID, int& WWElemID, double& WWEnergy)
+{
 
 	// Input pruefen
-	if ((WWAtomsID < 0) || 
-		(WWAtomsID >= (int) InteractionElemIDs.size()) || 
-		(WWAtomsID >= (int) InteractionEnergies.size())) {
+	if ((WWAtomsID < 0) ||
+		(WWAtomsID >= (int)InteractionElemIDs.size()) ||
+		(WWAtomsID >= (int)InteractionEnergies.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TUniqueJumpOut::GetWWAtomsEnergy)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
-	if ((ID < 0) || (ID >= (int) InteractionElemIDs[WWAtomsID].size()) || (ID >= (int) InteractionEnergies[WWAtomsID].size())) {
+	if ((ID < 0) || (ID >= (int)InteractionElemIDs[WWAtomsID].size()) || (ID >= (int)InteractionEnergies[WWAtomsID].size()))
+	{
 		cout << "Critical Error: Invalid energy vector index (in TUniqueJumpOut::GetWWAtomsEnergy)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -198,7 +222,8 @@ int TUniqueJumpOut::GetWWAtomsEnergy (int WWAtomsID, int ID, int &WWElemID, doub
 }
 
 // Anzahl an UniqueCodes ausgeben
-int TUniqueJumpOut::GetUCodesCount (int &Count) {
+int TUniqueJumpOut::GetUCodesCount(int& Count)
+{
 
 	Count = UniqueCodes.size();
 
@@ -206,10 +231,12 @@ int TUniqueJumpOut::GetUCodesCount (int &Count) {
 }
 
 // Energie und Code für einen UniqueCode ausgeben
-int TUniqueJumpOut::GetUCode (int CodeID, string &Code, double &CodeEnergy) {
+int TUniqueJumpOut::GetUCode(int CodeID, string& Code, double& CodeEnergy)
+{
 
 	// Input pruefen
-	if ((CodeID < 0) || (CodeID >= (int) UniqueCodes.size()) || (CodeID >= (int) UniqueEnergies.size())) {
+	if ((CodeID < 0) || (CodeID >= (int)UniqueCodes.size()) || (CodeID >= (int)UniqueEnergies.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TUniqueJumpOut::GetUCode)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -221,7 +248,8 @@ int TUniqueJumpOut::GetUCode (int CodeID, string &Code, double &CodeEnergy) {
 }
 
 // Anzahl an FullCodes ausgeben
-int TUniqueJumpOut::GetFCodesCount (int &Count) {
+int TUniqueJumpOut::GetFCodesCount(int& Count)
+{
 
 	Count = FullCodes.size();
 
@@ -229,10 +257,12 @@ int TUniqueJumpOut::GetFCodesCount (int &Count) {
 }
 
 // UCodeID und Code für einen UniqueCode ausgeben
-int TUniqueJumpOut::GetFCode (int CodeID, string &Code, int &UCodeID) {
+int TUniqueJumpOut::GetFCode(int CodeID, string& Code, int& UCodeID)
+{
 
 	// Input pruefen
-	if ((CodeID < 0) || (CodeID >= (int) FullCodes.size()) || (CodeID >= (int) FullToUniqueMap.size())) {
+	if ((CodeID < 0) || (CodeID >= (int)FullCodes.size()) || (CodeID >= (int)FullToUniqueMap.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TUniqueJumpOut::GetFCode)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}

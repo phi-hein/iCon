@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TUniqueJump	(TUniqueJump Layer 3)						//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung eines einzigartigen Gittersprungs 	//
-//	  Layer 3: Top class										 	//
+//	Class: TUniqueJump	(TUniqueJump Layer 3)						//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for describing a unique jump 							//
+//	  Layer 3: Top class											//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -28,12 +28,13 @@ using namespace std;
 class TKMCJob;
 
 // Klassendeklaration:
-class TUniqueJump: public TUniqueJumpOut {
+class TUniqueJump : public TUniqueJumpOut
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		TUniqueJump (TKMCJob * pJob);		// Constructor
-		~TUniqueJump ();					// Destructor
+public:
+	// NON-PUBLISHED
+	TUniqueJump(TKMCJob* pJob);		// Constructor
+	~TUniqueJump();					// Destructor
 
 };
 

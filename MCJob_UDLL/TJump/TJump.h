@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TJump	(TJump Layer 3)									//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung eines Gittersprungs eines Atoms in  	//
-//	  der Elementarzelle und Erstellung der Sprungumgebung			//
-//	  Layer 3: Top class										 	//
+//	Class: TJump	(TJump Layer 3)									//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for describing a jump of an atom in the unit cell 		//
+//	  and its jump environment										//
+//	  Layer 3: Top class											//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -29,12 +29,13 @@ using namespace std;
 class TKMCJob;
 
 // Klassendeklaration:
-class TJump: public TJumpOut {
+class TJump : public TJumpOut
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		TJump (TKMCJob * pJob);		// Constructor
-		~TJump ();					// Destructor
+public:
+	// NON-PUBLISHED
+	TJump(TKMCJob* pJob);		// Constructor
+	~TJump();					// Destructor
 
 };
 

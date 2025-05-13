@@ -1,15 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TResultsBase	(TResults Layer 0)						//
-//	Autor: Philipp Hein												//
-//	Datum: 16.10.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der Simulationsergebnisse				//
-//	  Layer 0: Base class, d.h. Member-Variablen, abgesicherter 	//
-//	  Input, Funktionen die zu Ready == true fuehren, Speichern		//
-//	  und Laden zu/von Stream, Rueckgabe von Ready					//
+//	Class: TResultsBase	(TResults Layer 0)							//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the simulation results						//
+//	  Layer 0: Base class = protected input of member variables,	//
+//	  methods required for Ready == true, saving and loading		//
+//	  to/from stream, signaling if Ready							//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -32,15 +33,16 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor, Ready = false setzen
-TResultsBase::TResultsBase (TKMCJob * pJob) {
+TResultsBase::TResultsBase(TKMCJob* pJob)
+{
 	m_Job = pJob;
 
 	Ready = false;
 
 	MCSP = 0ULL;
 	JumpAttempts = 0ULL;
-	NonsenseJumpAttempts = 0ULL;	
-	OverkillJumpAttempts = 0ULL;	
+	NonsenseJumpAttempts = 0ULL;
+	OverkillJumpAttempts = 0ULL;
 	SiteBlockingCounter = 0ULL;
 	Normalization = 0.0;
 	SimulatedTime = 0.0;
@@ -60,10 +62,11 @@ TResultsBase::TResultsBase (TKMCJob * pJob) {
 }
 
 // Destructor
-TResultsBase::~TResultsBase () {
+TResultsBase::~TResultsBase()
+{
 	m_Job = 0;
 }
-		
+
 // **************************** PUBLISHED ********************************* //
 
 
@@ -71,7 +74,8 @@ TResultsBase::~TResultsBase () {
 // ***************************** PUBLIC *********************************** //
 
 // Rueckgabe von Ready
-bool TResultsBase::IfReady () {
+bool TResultsBase::IfReady()
+{
 	return Ready;
 }
 
@@ -80,27 +84,32 @@ bool TResultsBase::IfCompleted(long long required_MCSP)
 {
 	if (Ready == false) return false;
 
-	return (MCSP >= required_MCSP);
+	return (MCSP >= static_cast<unsigned long long>(required_MCSP));
 }
 
 // Ergebnisse aus abgeschlossener Simulation laden
-int TResultsBase::MakeResults () {
+int TResultsBase::MakeResults()
+{
 	Ready = false;
 
 	// Pruefen, ob Simulation abgeschlossen ist
-	if (m_Job == NULL) {
+	if (m_Job == NULL)
+	{
 		cout << "Critical Error: m_Job is null pointer (in TResultsBase::MakeResults)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
-	if (m_Job->m_Simulation == NULL) {
+	if (m_Job->m_Simulation == NULL)
+	{
 		cout << "Critical Error: m_Simulation is null pointer (in TResultsBase::MakeResults)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
-	if (m_Job->m_Simulation->IfReady() == false) {
+	if (m_Job->m_Simulation->IfReady() == false)
+	{
 		cout << "Critical Error: TSimulation not ready (in TResultsBase::MakeResults)" << endl << endl;
 		return KMCERR_OBJECT_NOT_READY;
 	}
-	if (m_Job->m_Simulation->IfCompleted() == false) {
+	if (m_Job->m_Simulation->IfCompleted() == false)
+	{
 		cout << "Critical Error: TSimulation not complete (in TResultsBase::MakeResults)" << endl << endl;
 		return KMCERR_OBJECT_NOT_READY;
 	}
@@ -136,7 +145,8 @@ int TResultsBase::MakeResults () {
 	TSimPhaseInfo t_mainphase;
 	ErrorCode = m_Job->m_Simulation->GetMainSimStatus(t_mainphase);
 	if (ErrorCode != KMCERR_OK) return ErrorCode;
-	if (t_mainphase.HasValidData == false) {
+	if (t_mainphase.HasValidData == false)
+	{
 		cout << "Critical Error: Invalid simulation data (in TResultsBase::MakeResults)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -171,27 +181,31 @@ int TResultsBase::MakeResults () {
 }
 
 // Ergebnisse in einen Stream schreiben, nur bei Ready == true moeglich (offset = zusaetzliche Leerstellen vor jeder Zeile)
-int TResultsBase::SaveToStream (ostream &output, int offset) {
-	if (Ready != true) {
+int TResultsBase::SaveToStream(ostream& output, int offset)
+{
+	if (Ready != true)
+	{
 		cout << "Critical Error: TResults not ready (in TResultsBase::SaveToStream)" << endl << endl;
 		return KMCERR_READY_NOT_TRUE;
 	}
 
 	// Input pruefen
-	if (output.fail() == true) {
+	if (output.fail() == true)
+	{
 		cout << "Critical Error: Output stream not ready (in TResultsBase::SaveToStream)" << endl << endl;
 		return KMCERR_OBJECT_NOT_READY;
 	}
-	if ((offset < 0) || (offset > KMCOUT_MAX_OFFSET)) {
+	if ((offset < 0) || (offset > KMCOUT_MAX_OFFSET))
+	{
 		cout << "Critical Error: Offset out of bounds (in TResultsBase::SaveToStream)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
 	string s_offset = "";
-	if (offset > 0) s_offset = string(offset,' ');
+	if (offset > 0) s_offset = string(offset, ' ');
 
 	// Offset des untergeordneten Outputs definieren
 	string sub_offset = "";
-	if ((int) KMCOUT_TRESULTS_OFFSET > 0) sub_offset = string((int) KMCOUT_TRESULTS_OFFSET,' ');
+	if ((int)KMCOUT_TRESULTS_OFFSET > 0) sub_offset = string((int)KMCOUT_TRESULTS_OFFSET, ' ');
 
 	// Ausgabeparameter setzen
 	output.unsetf(ios::floatfield);
@@ -228,10 +242,11 @@ int TResultsBase::SaveToStream (ostream &output, int offset) {
 	output << s_offset << sub_offset << KMCOUT_TRESULTS_VAC_MEANDISP << " " << VacMeanDisp << endl;
 	output << s_offset << sub_offset << KMCOUT_TRESULTS_VAC_MEANSQUAREDDISP << " " << VacMeanSquaredDisp << endl;
 	output << s_offset << sub_offset << KMCOUT_TRESULTS_VAC_COMDISPVEC << " ( " << VacComDispVec.x << " " << VacComDispVec.y << " " << VacComDispVec.z << " )" << endl;
-	
+
 	output << s_offset << KMCOUT_TRESULTS_END << endl;
-	
-	if (output.fail() == true) {
+
+	if (output.fail() == true)
+	{
 		cout << "Critical Error: Output stream failure (in TResultsBase::SaveToStream)" << endl << endl;
 		return KMCERR_OBJECT_NOT_READY;
 	}
@@ -239,10 +254,12 @@ int TResultsBase::SaveToStream (ostream &output, int offset) {
 }
 
 // Ergebnisse aus einem Stream laden
-int TResultsBase::LoadFromStream (istream &input) {
+int TResultsBase::LoadFromStream(istream& input)
+{
 
 	// Input pruefen
-	if (input.good() == false) {
+	if (input.good() == false)
+	{
 		cout << "Critical Error: Input stream not ready (in TResultsBase::LoadFromStream)" << endl << endl;
 		return KMCERR_OBJECT_NOT_READY;
 	}
@@ -255,7 +272,7 @@ int TResultsBase::LoadFromStream (istream &input) {
 	unsigned long long i_JumpAttempts = JumpAttempts;
 	unsigned long long i_NonsenseJumpAttempts = NonsenseJumpAttempts;
 	unsigned long long i_OverkillJumpAttempts = OverkillJumpAttempts;
-	unsigned long long i_SiteBlockingCounter = SiteBlockingCounter;	
+	unsigned long long i_SiteBlockingCounter = SiteBlockingCounter;
 	double i_Normalization = Normalization;
 	TCustomTime i_Runtime = Runtime;
 	double i_SimulatedTime = SimulatedTime;
@@ -280,255 +297,356 @@ int TResultsBase::LoadFromStream (istream &input) {
 	string line = "";
 	bool if_failed = false;
 	string s_temp = "";
-	while (input.good() == true) {
+	while (input.good() == true)
+	{
 		// Zeile laden
-		if (getline(input,line).fail() == true) {
+		if (getline(input, line).fail() == true)
+		{
 			if_failed = true;
 			break;
 		}
 		// Zeile interpretieren
-		stringstream linestream (line);
+		stringstream linestream(line);
 		if ((linestream >> s_temp).fail() == true) s_temp = "";
 
-		if (s_temp == KMCOUT_TRESULTS_COND) {
-			if ((linestream >> i_Conductivity).fail() == true) {
+		if (s_temp == KMCOUT_TRESULTS_COND)
+		{
+			if ((linestream >> i_Conductivity).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_SIMTIME) {
-			if ((linestream >> i_SimulatedTime).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_SIMTIME)
+		{
+			if ((linestream >> i_SimulatedTime).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if (i_SimulatedTime < 0.0) {
+			if (i_SimulatedTime < 0.0)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_MCSP) {
-			if ((linestream >> i_MCSP).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_MCSP)
+		{
+			if ((linestream >> i_MCSP).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_JUMPATTEMPTS) {
-			if ((linestream >> i_JumpAttempts).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_JUMPATTEMPTS)
+		{
+			if ((linestream >> i_JumpAttempts).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_SITEBLOCKING) {
-			if ((linestream >> i_SiteBlockingCounter).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_SITEBLOCKING)
+		{
+			if ((linestream >> i_SiteBlockingCounter).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_NONSENSEATTEMPTS) {
-			if ((linestream >> i_NonsenseJumpAttempts).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_NONSENSEATTEMPTS)
+		{
+			if ((linestream >> i_NonsenseJumpAttempts).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_OVERKILLATTEMPTS) {
-			if ((linestream >> i_OverkillJumpAttempts).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_OVERKILLATTEMPTS)
+		{
+			if ((linestream >> i_OverkillJumpAttempts).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_NORMALIZATION) {
-			if ((linestream >> i_Normalization).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_NORMALIZATION)
+		{
+			if ((linestream >> i_Normalization).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if (i_Normalization < 1.0) {
+			if (i_Normalization < 1.0)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_RUNTIME) {
-			if ((linestream >> i_Runtime.year).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_RUNTIME)
+		{
+			if ((linestream >> i_Runtime.year).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> s_temp).fail() == true) {	// "y,"
+			if ((linestream >> s_temp).fail() == true)
+			{	// "y,"
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_Runtime.day).fail() == true) {
+			if ((linestream >> i_Runtime.day).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> s_temp).fail() == true) {	// "d,"
+			if ((linestream >> s_temp).fail() == true)
+			{	// "d,"
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_Runtime.hour).fail() == true) {
+			if ((linestream >> i_Runtime.hour).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> s_temp).fail() == true) {	// "h,"
+			if ((linestream >> s_temp).fail() == true)
+			{	// "h,"
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_Runtime.min).fail() == true) {
+			if ((linestream >> i_Runtime.min).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> s_temp).fail() == true) {	// "m,"
+			if ((linestream >> s_temp).fail() == true)
+			{	// "m,"
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_Runtime.sec).fail() == true) {
+			if ((linestream >> i_Runtime.sec).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
 			i_Runtime.CheckOverflow();
-			if (i_Runtime.year < 0) {
+			if (i_Runtime.year < 0)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_MOV_MEANJUMPCOUNT) {
-			if ((linestream >> i_MovMeanJumpCount).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_MOV_MEANJUMPCOUNT)
+		{
+			if ((linestream >> i_MovMeanJumpCount).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if (i_MovMeanJumpCount < 0.0) {
+			if (i_MovMeanJumpCount < 0.0)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_MOV_MEANDISPVEC) {
-			if ((linestream >> s_temp).fail() == true) {	// "("
+		}
+		else if (s_temp == KMCOUT_TRESULTS_MOV_MEANDISPVEC)
+		{
+			if ((linestream >> s_temp).fail() == true)
+			{	// "("
 				if_failed = true;
 				break;
 			}
 			i_MovMeanDispVec.Set(0.0, 0.0, 0.0);
-			if ((linestream >> i_MovMeanDispVec.x).fail() == true) {
+			if ((linestream >> i_MovMeanDispVec.x).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_MovMeanDispVec.y).fail() == true) {
+			if ((linestream >> i_MovMeanDispVec.y).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_MovMeanDispVec.z).fail() == true) {
+			if ((linestream >> i_MovMeanDispVec.z).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_MOV_DISPPARALLEL) {
-			if ((linestream >> i_MovDispParallel).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_MOV_DISPPARALLEL)
+		{
+			if ((linestream >> i_MovDispParallel).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_MOV_DISPPERPENDICULAR) {
-			if ((linestream >> i_MovDispPerpendicular).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_MOV_DISPPERPENDICULAR)
+		{
+			if ((linestream >> i_MovDispPerpendicular).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_MOV_MEANDISP) {
-			if ((linestream >> i_MovMeanDisp).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_MOV_MEANDISP)
+		{
+			if ((linestream >> i_MovMeanDisp).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if (i_MovMeanDisp < 0.0) {
+			if (i_MovMeanDisp < 0.0)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_MOV_MEANSQUAREDDISP) {
-			if ((linestream >> i_MovMeanSquaredDisp).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_MOV_MEANSQUAREDDISP)
+		{
+			if ((linestream >> i_MovMeanSquaredDisp).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if (i_MovMeanSquaredDisp < 0.0) {
+			if (i_MovMeanSquaredDisp < 0.0)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_MOV_COMDISPVEC) {
-			if ((linestream >> s_temp).fail() == true) {	// "("
+		}
+		else if (s_temp == KMCOUT_TRESULTS_MOV_COMDISPVEC)
+		{
+			if ((linestream >> s_temp).fail() == true)
+			{	// "("
 				if_failed = true;
 				break;
 			}
 			i_MovComDispVec.Set(0.0, 0.0, 0.0);
-			if ((linestream >> i_MovComDispVec.x).fail() == true) {
+			if ((linestream >> i_MovComDispVec.x).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_MovComDispVec.y).fail() == true) {
+			if ((linestream >> i_MovComDispVec.y).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_MovComDispVec.z).fail() == true) {
+			if ((linestream >> i_MovComDispVec.z).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_VAC_MEANJUMPCOUNT) {
-			if ((linestream >> i_VacMeanJumpCount).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_VAC_MEANJUMPCOUNT)
+		{
+			if ((linestream >> i_VacMeanJumpCount).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if (i_VacMeanJumpCount < 0.0) {
+			if (i_VacMeanJumpCount < 0.0)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_VAC_MEANDISPVEC) {
-			if ((linestream >> s_temp).fail() == true) {	// "("
+		}
+		else if (s_temp == KMCOUT_TRESULTS_VAC_MEANDISPVEC)
+		{
+			if ((linestream >> s_temp).fail() == true)
+			{	// "("
 				if_failed = true;
 				break;
 			}
 			i_VacMeanDispVec.Set(0.0, 0.0, 0.0);
-			if ((linestream >> i_VacMeanDispVec.x).fail() == true) {
+			if ((linestream >> i_VacMeanDispVec.x).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_VacMeanDispVec.y).fail() == true) {
+			if ((linestream >> i_VacMeanDispVec.y).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_VacMeanDispVec.z).fail() == true) {
+			if ((linestream >> i_VacMeanDispVec.z).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_VAC_DISPPARALLEL) {
-			if ((linestream >> i_VacDispParallel).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_VAC_DISPPARALLEL)
+		{
+			if ((linestream >> i_VacDispParallel).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_VAC_DISPPERPENDICULAR) {
-			if ((linestream >> i_VacDispPerpendicular).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_VAC_DISPPERPENDICULAR)
+		{
+			if ((linestream >> i_VacDispPerpendicular).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_VAC_MEANDISP) {
-			if ((linestream >> i_VacMeanDisp).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_VAC_MEANDISP)
+		{
+			if ((linestream >> i_VacMeanDisp).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if (i_VacMeanDisp < 0.0) {
+			if (i_VacMeanDisp < 0.0)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_VAC_MEANSQUAREDDISP) {
-			if ((linestream >> i_VacMeanSquaredDisp).fail() == true) {
+		}
+		else if (s_temp == KMCOUT_TRESULTS_VAC_MEANSQUAREDDISP)
+		{
+			if ((linestream >> i_VacMeanSquaredDisp).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if (i_VacMeanSquaredDisp < 0.0) {
+			if (i_VacMeanSquaredDisp < 0.0)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_VAC_COMDISPVEC) {
-			if ((linestream >> s_temp).fail() == true) {	// "("
+		}
+		else if (s_temp == KMCOUT_TRESULTS_VAC_COMDISPVEC)
+		{
+			if ((linestream >> s_temp).fail() == true)
+			{	// "("
 				if_failed = true;
 				break;
 			}
 			i_VacComDispVec.Set(0.0, 0.0, 0.0);
-			if ((linestream >> i_VacComDispVec.x).fail() == true) {
+			if ((linestream >> i_VacComDispVec.x).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_VacComDispVec.y).fail() == true) {
+			if ((linestream >> i_VacComDispVec.y).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-			if ((linestream >> i_VacComDispVec.z).fail() == true) {
+			if ((linestream >> i_VacComDispVec.z).fail() == true)
+			{
 				if_failed = true;
 				break;
 			}
-		} else if (s_temp == KMCOUT_TRESULTS_END) break;
+		}
+		else if (s_temp == KMCOUT_TRESULTS_END) break;
 	}
-	if (if_failed == true) {
+	if (if_failed == true)
+	{
 		cout << "Error: Invalid file format" << endl << endl;
 		return KMCERR_INVALID_FILE_FORMAT;
 	}
@@ -538,7 +656,7 @@ int TResultsBase::LoadFromStream (istream &input) {
 	JumpAttempts = i_JumpAttempts;
 	NonsenseJumpAttempts = i_NonsenseJumpAttempts;
 	OverkillJumpAttempts = i_OverkillJumpAttempts;
-	SiteBlockingCounter = i_SiteBlockingCounter;	
+	SiteBlockingCounter = i_SiteBlockingCounter;
 	Normalization = i_Normalization;
 	Runtime = i_Runtime;
 	SimulatedTime = i_SimulatedTime;
@@ -560,7 +678,7 @@ int TResultsBase::LoadFromStream (istream &input) {
 	VacMeanSquaredDisp = i_VacMeanSquaredDisp;
 	VacComDispVec = i_VacComDispVec;
 
-	Ready = true;	
+	Ready = true;
 	return KMCERR_OK;
 }
 

@@ -1,12 +1,13 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSimJump												//
-//	Autor: Philipp Hein												//
-//	Datum: 14.03.2014												//
-//  Aufgabe:														//
-//    Minimalklasse fuer eine Sprungumgebung wahrend der Simulation	//
+//	Class: TSimJump													//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Data class for a jump environment during the simulation		//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -23,10 +24,11 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TSimJump::TSimJump () {
+TSimJump::TSimJump()
+{
 
-	back_jump = NULL;						
-	unique_jump = NULL;	
+	back_jump = NULL;
+	unique_jump = NULL;
 	efield_contrib = 1.0;
 	code_envpos_size = 0;
 	add_envpos_size = 0;
@@ -36,19 +38,21 @@ TSimJump::TSimJump () {
 }
 
 // Destructor
-TSimJump::~TSimJump () {
-	
+TSimJump::~TSimJump()
+{
+
 	Clear();
 }
-		
+
 // ************************* MEMBER FUNCTIONS****************************** //
 
 // Alle dynamisch erzeugten Arrays loeschen, uebrige Daten auf Standardwerte setzen
-void TSimJump::Clear() {
+void TSimJump::Clear()
+{
 
-	delete [] code_envpos;
+	delete[] code_envpos;
 	code_envpos = NULL;
-	delete [] add_envpos;
+	delete[] add_envpos;
 	add_envpos = NULL;
 
 	// Do not delete, these objects belong to other objects, only clear references

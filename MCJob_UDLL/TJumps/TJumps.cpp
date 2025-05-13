@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TJumps	(TJumps Layer 3)								//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Erstellung und Beschreibung aller möglichen 		//
-//	  Gittersprünge fuer Mov- und Vac- in der Elementarzelle		//
-//	  Layer 3: Top class										 	//
+//	Class: TJumps	(TJumps Layer 3)								//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for creating and describing all possible jumps	 		//
+//	  for moving species and vacancies in the unit cell				//
+//	  Layer 3: Top class											//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -27,12 +27,14 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TJumps::TJumps (TKMCJob * pJob): TJumpsOut (pJob) {
+TJumps::TJumps(TKMCJob* pJob) : TJumpsOut(pJob)
+{
 
 }
 
 // Destructor
-TJumps::~TJumps () {
+TJumps::~TJumps()
+{
 
 }
 

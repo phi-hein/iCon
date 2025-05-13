@@ -1,15 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSimulationBase	(TSimulation Layer 0)					//
-//	Autor: Philipp Hein												//
-//	Datum: 14.03.2014												//
-//  Aufgabe:														//
-//    Klasse zur Durchfuehrung der Simulation						//
-//	  Layer 0: Base class, d.h. Member-Variablen, abgesicherter 	//
-//	  Input, Funktionen die zu Ready == true fuehren, Speichern		//
-//	  und Laden zu/von Stream, Rueckgabe von Ready					//
+//	Class: TSimulationBase	(TSimulation Layer 0)					//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for carrying out the simulation							//
+//	  Layer 0: Base class = protected input of member variables,	//
+//	  methods required for Ready == true, saving and loading		//
+//	  to/from stream, signaling if Ready							//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -2300,7 +2301,7 @@ int TSimulationBase::LatticeProbabilitiesAnalysis(string i_space, const vector<v
 	// Remark: This analysis cannot be used to evaluate all probabilities that could occur in a simulation
 	// because the jump environments typically change because they also contain moving species positions
 	// -> Therefore, this analysis just reflects the momentary state of the lattice (and it cannot be used for normalization)
-	
+
 	// Initialize analysis results (see further below for their meaning)
 	unsigned long long blocked_jumps = 0;
 	unsigned long long normal_jumps = 0;
@@ -2342,7 +2343,7 @@ int TSimulationBase::LatticeProbabilitiesAnalysis(string i_space, const vector<v
 						while (s_end >= spStackSize) s_end -= spStackSize;
 
 						// Skip if vacancy at jump end position
-						if (i_lattice->at(x_end)[y_end][z_end][s_end] == 1) 
+						if (i_lattice->at(x_end)[y_end][z_end][s_end] == 1)
 						{
 							blocked_jumps++;
 							continue;
@@ -2400,7 +2401,7 @@ int TSimulationBase::LatticeProbabilitiesAnalysis(string i_space, const vector<v
 
 							jump_prob *= analyzed_unique_jump->add_energies[i_env][i_lattice->at(x_env)[y_env][z_env][s_env]];
 						}
-						
+
 						// Pointer to the respective reverse jump object
 						const TSimJump* analyzed_backjump = analyzed_jump->back_jump;
 
@@ -2436,7 +2437,7 @@ int TSimulationBase::LatticeProbabilitiesAnalysis(string i_space, const vector<v
 						{
 							backjump_prob *= analyzed_unique_backjump->code_energies[hash_idx];
 						}
-						
+
 						// Add additive contributions
 						for (int i_env = 0; i_env < analyzed_backjump->add_envpos_size; ++i_env)
 						{
@@ -2488,7 +2489,7 @@ int TSimulationBase::LatticeProbabilitiesAnalysis(string i_space, const vector<v
 							// -> Category 3
 							overkill_jumps++;
 						}
-						
+
 						// Analyze jump probability 
 						// (only category 1 = normal jumps that can be a Monte-Carlo step)
 						if ((jump_prob < 1.0) && (backjump_prob < 1.0))
@@ -2501,7 +2502,7 @@ int TSimulationBase::LatticeProbabilitiesAnalysis(string i_space, const vector<v
 			}
 		}
 	}
-	
+
 	// Print statistics
 	cout << i_space << "Normal jumps: " << normal_jumps << endl;
 	cout << i_space << "Blocked (vacancy on destination): " << blocked_jumps << endl;

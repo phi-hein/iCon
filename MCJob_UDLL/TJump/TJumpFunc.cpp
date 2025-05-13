@@ -1,17 +1,17 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TJumpFunc	(TJump Layer 1)								//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung eines Gittersprungs eines Atoms in  	//
-//	  der Elementarzelle und Erstellung der Sprungumgebung			//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TJumpFunc	(TJump Layer 1)								//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for describing a jump of an atom in the unit cell 		//
+//	  and its jump environment										//
+//	  Layer 1: Functionality class = helper methods 				//
+//	  -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -35,13 +35,15 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TJumpFunc::TJumpFunc (TKMCJob * pJob): TJumpBase (pJob) {
-	
+TJumpFunc::TJumpFunc(TKMCJob* pJob) : TJumpBase(pJob)
+{
+
 }
 
 // Destructor
-TJumpFunc::~TJumpFunc () {
-	
+TJumpFunc::~TJumpFunc()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
@@ -51,7 +53,8 @@ TJumpFunc::~TJumpFunc () {
 // ***************************** PUBLIC *********************************** //
 
 // absolute 4D-Position des Startatoms zurueckgeben (Vektor von (0,0,0,0) zu Startatom)
-int TJumpFunc::GetStartPos (T4DLatticeVector &pos) {
+int TJumpFunc::GetStartPos(T4DLatticeVector& pos)
+{
 	if (StartPos.s == -1) return KMCERR_INVALID_INPUT_CRIT;
 	pos = StartPos;
 
@@ -59,7 +62,8 @@ int TJumpFunc::GetStartPos (T4DLatticeVector &pos) {
 }
 
 // absolute 4D-Position des Zielatoms zurueckgeben (Vektor von (0,0,0,0) zu Zielatom)
-int TJumpFunc::GetDestPos (T4DLatticeVector &pos) {
+int TJumpFunc::GetDestPos(T4DLatticeVector& pos)
+{
 	if (StartPos.s == -1) return KMCERR_INVALID_INPUT_CRIT;
 	if ((DestPos.x == 0) && (DestPos.y == 0) && (DestPos.z == 0) && (DestPos.s == 0)) return KMCERR_INVALID_INPUT_CRIT;
 	pos = StartPos + DestPos;
@@ -68,13 +72,15 @@ int TJumpFunc::GetDestPos (T4DLatticeVector &pos) {
 }
 
 // absolute 4D-Positionen der Umgebungsatome zurueckgeben (Vektoren von (0,0,0,0) zu Umgebungsatomen)
-int TJumpFunc::GetEnvPos (vector<T4DLatticeVector> *envpos) {
+int TJumpFunc::GetEnvPos(vector<T4DLatticeVector>* envpos)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 	if (envpos == NULL) return KMCERR_INVALID_INPUT_CRIT;
 
 	envpos->clear();
-	for (int i = 0; i < (int) EnvPos.size(); i++) {
+	for (int i = 0; i < (int)EnvPos.size(); i++)
+	{
 		envpos->push_back(StartPos + EnvPos[i]);
 	}
 
@@ -82,7 +88,8 @@ int TJumpFunc::GetEnvPos (vector<T4DLatticeVector> *envpos) {
 }
 
 // UniqueJumpID ausgeben
-int TJumpFunc::GetUniqueJumpID (int &ID) {
+int TJumpFunc::GetUniqueJumpID(int& ID)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 	if (UniqueJumpID < 0) return KMCERR_READY_NOT_TRUE;
@@ -93,10 +100,12 @@ int TJumpFunc::GetUniqueJumpID (int &ID) {
 }
 
 // Skalarprodukt [V] von E-Feld-Vektor [V/cm] und halbem Sprungvektor [cm] ausgeben
-int TJumpFunc::GetEFieldProjection (T3DVector &efield, double &proj) {
+int TJumpFunc::GetEFieldProjection(T3DVector& efield, double& proj)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
-	if (efield.Length() < T3DVector::zero_threshold) {
+	if (efield.Length() < T3DVector::zero_threshold)
+	{
 		proj = 0;
 		return KMCERR_OK;
 	}
@@ -104,7 +113,7 @@ int TJumpFunc::GetEFieldProjection (T3DVector &efield, double &proj) {
 	if (m_Job == NULL) return KMCERR_INVALID_POINTER;
 	if (m_Job->m_Structure == NULL) return KMCERR_INVALID_POINTER;
 	if (m_Job->m_Structure->IfReady() != true) return KMCERR_OBJECT_NOT_READY;
-	
+
 	// Anmerkung: Sprungvektor-Umrechnung: Angstrom [1.0E-10 m] -> cm [1.0E-2 m]
 	// Anmerkung: Faktor 0.5 noetig, da Aktivierungsenergiesenkung durch das E-Feld nur bis zum Uebergangszustand (ca. Sprungmitte) erfolgt
 	proj = 0.5 * (efield * (m_Job->m_Structure->Get3DVector(StartPos + DestPos) - m_Job->m_Structure->Get3DVector(StartPos))) * 1.0E-8;
@@ -112,7 +121,8 @@ int TJumpFunc::GetEFieldProjection (T3DVector &efield, double &proj) {
 }
 
 // Minimalbeschreibung fuer die Simulation erstellen
-int TJumpFunc::CreateSimJump(TSimJump &o_simjump) {
+int TJumpFunc::CreateSimJump(TSimJump& o_simjump)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 	if (m_Job == NULL) return KMCERR_INVALID_POINTER;
@@ -152,18 +162,20 @@ int TJumpFunc::CreateSimJump(TSimJump &o_simjump) {
 	ErrorCode = GetEFieldProjection(t_efield, t_proj);
 	if (ErrorCode != KMCERR_OK) return ErrorCode;
 
-	o_simjump.efield_contrib = pow(double(NATCONST_E), -t_proj * t_charge /( double(NATCONST_KB)*t_temperature ));
-	
+	o_simjump.efield_contrib = pow(double(NATCONST_E), -t_proj * t_charge / (double(NATCONST_KB) * t_temperature));
+
 	// Additive Sprungumgebung setzen
 	vector<int> t_addenvids;
 	ErrorCode = m_Job->m_UniqueJumps->GetAddEnvIDs(UniqueJumpID, &t_addenvids);
 	if (ErrorCode != KMCERR_OK) return ErrorCode;
-	if (t_addenvids.size() != 0) {
-		o_simjump.add_envpos = new (nothrow) T4DLatticeVector [t_addenvids.size()];
+	if (t_addenvids.size() != 0)
+	{
+		o_simjump.add_envpos = new (nothrow) T4DLatticeVector[t_addenvids.size()];
 		if (o_simjump.add_envpos == NULL) return KMCERR_MAXIMUM_INPUT_REACHED;
-		o_simjump.add_envpos_size = (int) t_addenvids.size();
+		o_simjump.add_envpos_size = (int)t_addenvids.size();
 
-		for (int i = 0; i < (int) t_addenvids.size(); i++) {
+		for (int i = 0; i < (int)t_addenvids.size(); i++)
+		{
 			o_simjump.add_envpos[i] = EnvPos[t_addenvids[i]];
 		}
 	}
@@ -172,16 +184,18 @@ int TJumpFunc::CreateSimJump(TSimJump &o_simjump) {
 	vector<int> t_codeenvids;
 	ErrorCode = m_Job->m_UniqueJumps->GetCodeEnvIDs(UniqueJumpID, &t_codeenvids);
 	if (ErrorCode != KMCERR_OK) return ErrorCode;
-	if (t_codeenvids.size() != 0) {
-		o_simjump.code_envpos = new (nothrow) T4DLatticeVector [t_codeenvids.size()];
+	if (t_codeenvids.size() != 0)
+	{
+		o_simjump.code_envpos = new (nothrow) T4DLatticeVector[t_codeenvids.size()];
 		if (o_simjump.code_envpos == NULL) return KMCERR_MAXIMUM_INPUT_REACHED;
-		o_simjump.code_envpos_size = (int) t_codeenvids.size();
+		o_simjump.code_envpos_size = (int)t_codeenvids.size();
 
-		for (int i = 0; i < (int) t_codeenvids.size(); i++) {
+		for (int i = 0; i < (int)t_codeenvids.size(); i++)
+		{
 			o_simjump.code_envpos[i] = EnvPos[t_codeenvids[i]];
 		}
 	}
-	
+
 	return KMCERR_OK;
 }
 

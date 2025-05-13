@@ -1,13 +1,14 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TMCJobWrapper											//
-//	Autor: Philipp Hein												//
-//	Datum: 02.09.2012												//
-//  Aufgabe:														//
-//    Managed C++/CLI-Assembly (Managed DLL) als Wrapper fuer die	//
-//	  TKMCJob-Klasse der unmanaged DLL								//
+//	Class: TMCJobWrapper											//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Managed C++/CLI assembly (managed DLL) as wrapper for the		//
+//	  TKMCJob class of the unmanaged DLL							//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 

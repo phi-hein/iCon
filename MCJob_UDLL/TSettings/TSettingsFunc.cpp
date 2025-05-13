@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSettingsFunc	(TSettings Layer 1)						//
-//	Autor: Philipp Hein												//
-//	Datum: 16.10.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der Job-Spezifikationen					//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TSettingsFunc	(TSettings Layer 1)						//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the job settings							//
+//	  Layer 1: Functionality class = helper methods 				//
+//	  -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -31,13 +31,15 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TSettingsFunc::TSettingsFunc (TKMCJob * pJob): TSettingsBase (pJob) {
-	
+TSettingsFunc::TSettingsFunc(TKMCJob* pJob) : TSettingsBase(pJob)
+{
+
 }
 
 // Destructor
-TSettingsFunc::~TSettingsFunc () {
-	
+TSettingsFunc::~TSettingsFunc()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
@@ -47,7 +49,8 @@ TSettingsFunc::~TSettingsFunc () {
 // ***************************** PUBLIC *********************************** //
 
 // Dopandenanzahlen ausgeben
-int TSettingsFunc::GetDopandCounts(vector<long long> *o_dopcounts) {
+int TSettingsFunc::GetDopandCounts(vector<long long>* o_dopcounts)
+{
 
 	*o_dopcounts = DopandAnz;
 
@@ -55,33 +58,39 @@ int TSettingsFunc::GetDopandCounts(vector<long long> *o_dopcounts) {
 }
 
 // Ausgeben, ob Checkpoint geschrieben werden soll
-bool TSettingsFunc::IfWriteCheckpoint() {
+bool TSettingsFunc::IfWriteCheckpoint()
+{
 
 	return WriteCheckpoint;
 }
 
 // Ausgeben, ob Checkpoint geladen werden soll
-bool TSettingsFunc::IfLoadCheckpoint() {
+bool TSettingsFunc::IfLoadCheckpoint()
+{
 
 	return LoadCheckpoint;
 }
 
 // Beschreibung der GetShortSummary-Ausgabe ausgeben
-int TSettingsFunc::GetShortSummaryDesc(string i_ValDelimiter, string &o_SummaryDesc) {
+int TSettingsFunc::GetShortSummaryDesc(string i_ValDelimiter, string& o_SummaryDesc)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 	int ErrorCode = KMCERR_OK;
 
 	// Leerstellenbeschreibung ermitteln
-	if (m_Job == NULL) {
+	if (m_Job == NULL)
+	{
 		cout << "Critical Error: m_Job is null pointer (in TSettingsFunc::GetShortSummaryDesc)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
-	if (m_Job->m_Structure == NULL) {
+	if (m_Job->m_Structure == NULL)
+	{
 		cout << "Critical Error: m_Structure is null pointer (in TSettingsFunc::GetShortSummaryDesc)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
-	if (m_Job->m_Structure->IfReady() == false) {
+	if (m_Job->m_Structure->IfReady() == false)
+	{
 		cout << "Critical Error: TStructure not ready (in TSettingsFunc::GetShortSummaryDesc)" << endl << endl;
 		return KMCERR_OBJECT_NOT_READY;
 	}
@@ -91,9 +100,11 @@ int TSettingsFunc::GetShortSummaryDesc(string i_ValDelimiter, string &o_SummaryD
 
 	// Dotierungsbeschreibungen ermitteln
 	vector<string> t_dopdescs;
-	if ((int) DopandConc.size() != 0) {
+	if ((int)DopandConc.size() != 0)
+	{
 		string t_dopdesc = "";
-		for (int i = 0; i < (int) DopandConc.size(); i++) {
+		for (int i = 0; i < (int)DopandConc.size(); i++)
+		{
 			ErrorCode = m_Job->m_Structure->GetDopingDesc(i, t_dopdesc);
 			if (ErrorCode != KMCERR_OK) return ErrorCode;
 			t_dopdescs.push_back(t_dopdesc);
@@ -110,16 +121,20 @@ int TSettingsFunc::GetShortSummaryDesc(string i_ValDelimiter, string &o_SummaryD
 	t_result << "Vol. conc. of mov. species [cm^-3]" << i_ValDelimiter;
 	t_result << "x(" << t_vacdesc << ")" << i_ValDelimiter;
 	t_result << "N(" << t_vacdesc << ")";
-	if ((int) t_dopdescs.size() != 0) {
-		for (int i = 0; i < (int) t_dopdescs.size(); i++) {
+	if ((int)t_dopdescs.size() != 0)
+	{
+		for (int i = 0; i < (int)t_dopdescs.size(); i++)
+		{
 			t_result << i_ValDelimiter << "x(" << t_dopdescs[i] << ")";
 			t_result << i_ValDelimiter << "N(" << t_dopdescs[i] << ")";
 		}
 	}
-	if (DoPrerun == true) {
+	if (DoPrerun == true)
+	{
 		t_result << i_ValDelimiter << "Prerun-MCSP";
 	}
-	if (DoDynNorm == true) {
+	if (DoDynNorm == true)
+	{
 		t_result << i_ValDelimiter << "Dyn. Norm. Jump Attempts";
 	}
 	t_result.flush();
@@ -129,7 +144,8 @@ int TSettingsFunc::GetShortSummaryDesc(string i_ValDelimiter, string &o_SummaryD
 }
 
 // Wichtigste Einstellungen mit ValDelimiter getrennt ausgeben
-int TSettingsFunc::GetShortSummary(string i_ValDelimiter, string &o_Summary) {
+int TSettingsFunc::GetShortSummary(string i_ValDelimiter, string& o_Summary)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 	// Einstellungen schreiben
@@ -143,16 +159,20 @@ int TSettingsFunc::GetShortSummary(string i_ValDelimiter, string &o_Summary) {
 	t_result << MovVolConc << i_ValDelimiter;
 	t_result << TotalVacConc << i_ValDelimiter;
 	t_result << TotalVacAnz;
-	if ((int) DopandConc.size() != 0) {
-		for (int i = 0; i < (int) DopandConc.size(); i++) {
+	if ((int)DopandConc.size() != 0)
+	{
+		for (int i = 0; i < (int)DopandConc.size(); i++)
+		{
 			t_result << i_ValDelimiter << DopandConc[i];
 			t_result << i_ValDelimiter << DopandAnz[i];
 		}
 	}
-	if (DoPrerun == true) {
+	if (DoPrerun == true)
+	{
 		t_result << i_ValDelimiter << PreMCSP;
 	}
-	if (DoDynNorm == true) {
+	if (DoDynNorm == true)
+	{
 		t_result << i_ValDelimiter << DynAttemptAnz;
 	}
 	t_result.flush();

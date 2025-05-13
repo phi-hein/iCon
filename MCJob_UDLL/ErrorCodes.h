@@ -1,12 +1,13 @@
 // **************************************************************** //
 //																	//
 //	ErrorCodes														//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Zentrale Verwaltung der KMC-Fehlercodes						//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Global definition of KMC error codes							//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 

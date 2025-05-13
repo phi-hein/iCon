@@ -25,7 +25,7 @@
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATORS ******************** //
 
 // Constructor
-TConsole::TConsole () 
+TConsole::TConsole()
 {
 	// Initialize member variables
 	Console_Buffer_Rows = 500;
@@ -46,7 +46,7 @@ TConsole::TConsole ()
 	handle_save_err = INVALID_HANDLE_VALUE;
 	handle_save_in = INVALID_HANDLE_VALUE;
 
-	try 
+	try
 	{
 		// Set error handler for CRT functions
 		_set_invalid_parameter_handler(CRTInvalidParameterHandler);
@@ -65,31 +65,31 @@ TConsole::TConsole ()
 		handle_save_out = GetStdHandle(STD_OUTPUT_HANDLE);
 		handle_save_err = GetStdHandle(STD_ERROR_HANDLE);
 		handle_save_in = GetStdHandle(STD_INPUT_HANDLE);
-        
+
 		// Create and open new console
 		if (AllocConsole() == 0) return;
 
 		// Remove X-button and "Close" from Pop-Up menu
 		HWND hWnd = GetConsoleWindow();
 		if (hWnd == NULL) return;
-		HMENU hMenu = GetSystemMenu(hWnd,false);
+		HMENU hMenu = GetSystemMenu(hWnd, false);
 		if (hMenu == NULL) return;
-		EnableMenuItem(hMenu,SC_CLOSE,MF_BYCOMMAND | MF_GRAYED);
-		RemoveMenu(hMenu,SC_CLOSE,MF_BYCOMMAND);
+		EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+		RemoveMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
 
 		// Prevent STRG+C
-		SetConsoleCtrlHandler(NULL,true);
+		SetConsoleCtrlHandler(NULL, true);
 
 		// Set size of the console screen buffer
 		CONSOLE_SCREEN_BUFFER_INFO consoleinfo;
-		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&consoleinfo) == 0) return;
+		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleinfo) == 0) return;
 		consoleinfo.dwSize.X = Console_Buffer_Columns;
 		consoleinfo.dwSize.Y = Console_Buffer_Rows;
-		if (SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),consoleinfo.dwSize) == 0) return;
-        
+		if (SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), consoleinfo.dwSize) == 0) return;
+
 		// Set title
 		if (SetConsoleTitleA(Console_Title.c_str()) == 0) return;
-		
+
 		// Redirect standard CRT streams to console buffers
 		if (freopen_s(&stream_out, "CONOUT$", "w", stdout) != 0) return;
 		if (freopen_s(&stream_err, "CONOUT$", "w", stderr) != 0) return;
@@ -99,10 +99,10 @@ TConsole::TConsole ()
 		if (setvbuf(stdout, NULL, _IONBF, 0) != 0) return;
 		if (setvbuf(stderr, NULL, _IONBF, 0) != 0) return;
 		if (setvbuf(stdin, NULL, _IONBF, 0) != 0) return;
-		
+
 		// Synchronize std::cout, std::cin, std::cerr (etc.) with the new stdout, stderr, stdin streams
 		std::ios::sync_with_stdio();
-		
+
 		// Remove eventual badbit and failbit flags
 		std::cout.clear();
 		std::cerr.clear();
@@ -111,24 +111,24 @@ TConsole::TConsole ()
 		Ready = true;
 		Visible = true;
 	}
-	catch (std::exception& e) 
-	{ 
-		Ready = false; 
-		StdExceptionHandler(e); 
-		throw; 
+	catch (std::exception& e)
+	{
+		Ready = false;
+		StdExceptionHandler(e);
+		throw;
 	}
-	catch (...) 
-	{ 
-		Ready = false; 
-		ExceptionHandler(); 
-		throw; 
+	catch (...)
+	{
+		Ready = false;
+		ExceptionHandler();
+		throw;
 	}
 }
 
 // Destructor
-TConsole::~TConsole () 
+TConsole::~TConsole()
 {
-	try 
+	try
 	{
 		// Close console
 		FreeConsole();
@@ -140,14 +140,14 @@ TConsole::~TConsole ()
 		stream_out = NULL;
 		stream_err = NULL;
 		stream_in = NULL;
-		
+
 		// Restore standard file descriptors
 		fflush(stdout);
 		fflush(stderr);
 		fflush(stdin);
-		if (fd_save_out != -1) std::ignore = _dup2(fd_save_out,_fileno(stdout));
+		if (fd_save_out != -1) std::ignore = _dup2(fd_save_out, _fileno(stdout));
 		if (fd_save_err != -1) std::ignore = _dup2(fd_save_err, _fileno(stderr));
-		if (fd_save_in != -1) std::ignore = _dup2(fd_save_in,_fileno(stdin));
+		if (fd_save_in != -1) std::ignore = _dup2(fd_save_in, _fileno(stdin));
 		if (fd_save_out != -1) _close(fd_save_out);
 		if (fd_save_err != -1) _close(fd_save_err);
 		if (fd_save_in != -1) _close(fd_save_in);
@@ -165,15 +165,15 @@ TConsole::~TConsole ()
 		handle_save_out = INVALID_HANDLE_VALUE;
 		handle_save_err = INVALID_HANDLE_VALUE;
 		handle_save_in = INVALID_HANDLE_VALUE;
-	} 
-	catch (std::exception &e) 
+	}
+	catch (std::exception& e)
 	{
-		Ready = false; 
+		Ready = false;
 		StdExceptionHandler(e);
-	} 
-	catch (...) 
+	}
+	catch (...)
 	{
-		Ready = false; 
+		Ready = false;
 		ExceptionHandler();
 	}
 }
@@ -181,73 +181,73 @@ TConsole::~TConsole ()
 // **************************** PUBLISHED ********************************* //
 
 // Destructor method against memory leaks (instance suicide)
-void TConsole::Release() 
+void TConsole::Release()
 {
-	try 
+	try
 	{
 		delete this;
-	} 
-	catch (std::exception &e) 
+	}
+	catch (std::exception& e)
 	{
 		StdExceptionHandler(e);
-	} 
-	catch (...) 
+	}
+	catch (...)
 	{
 		ExceptionHandler();
 	}
 }
 
 // Show console window
-int TConsole::Show() 
+int TConsole::Show()
 {
-	try 
+	try
 	{
 		if (Ready != true) return KMCERR_READY_NOT_TRUE;
-	
+
 		HWND hWnd = GetConsoleWindow();
-		if (hWnd == NULL) 
+		if (hWnd == NULL)
 		{
 			Ready = false;
 			return KMCERR_NO_CONSOLE;
 		}
-		ShowWindow(hWnd,SW_SHOW);
+		ShowWindow(hWnd, SW_SHOW);
 
 		Visible = true;
 		return KMCERR_OK;
-	} 
-	catch (std::exception &e) 
+	}
+	catch (std::exception& e)
 	{
 		return StdExceptionHandler(e);
-	} 
-	catch (...) 
+	}
+	catch (...)
 	{
 		return ExceptionHandler();
 	}
 }
 
 // Hide console window
-int TConsole::Hide() 
+int TConsole::Hide()
 {
-	try 
+	try
 	{
 		if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 		HWND hWnd = GetConsoleWindow();
-		if (hWnd == NULL) 
+		if (hWnd == NULL)
 		{
 			Ready = false;
 			return KMCERR_NO_CONSOLE;
 		}
-		ShowWindow(hWnd,SW_HIDE);
+		ShowWindow(hWnd, SW_HIDE);
 
 		Visible = false;
 		return KMCERR_OK;
-	} 
-	catch (std::exception &e) 
+	}
+	catch (std::exception& e)
 	{
 		return StdExceptionHandler(e);
-	} 
-	catch (...) 
+	}
+	catch (...)
 	{
 		return ExceptionHandler();
 	}
@@ -255,32 +255,32 @@ int TConsole::Hide()
 
 // Return status of the console
 int TConsole::Status() const
-{	
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;		// d.h. Ready == false
 	if (Visible == false) return KMCERR_NO_CONSOLE;			// d.h. Ready == true && Visible == false
 	return KMCERR_OK;										// d.h. Ready == true && Visible == true
 }
 
 // Change size of console screen buffer
-int TConsole::SetBufferSize(int rows, int columns) 
+int TConsole::SetBufferSize(int rows, int columns)
 {
-	try 
+	try
 	{
 		if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 		CONSOLE_SCREEN_BUFFER_INFO consoleinfo;
-		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&consoleinfo) == 0) 
+		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleinfo) == 0)
 		{
 			Ready = false;
 			return KMCERR_NO_CONSOLE;
 		}
 		consoleinfo.dwSize.X = columns;
 		consoleinfo.dwSize.Y = rows;
-		if (SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),consoleinfo.dwSize) == 0) 
+		if (SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), consoleinfo.dwSize) == 0)
 		{
 			consoleinfo.dwSize.X = Console_Buffer_Columns;
 			consoleinfo.dwSize.Y = Console_Buffer_Rows;
-			if (SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),consoleinfo.dwSize) == 0) 
+			if (SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), consoleinfo.dwSize) == 0)
 			{
 				Ready = false;
 				return KMCERR_NO_CONSOLE;
@@ -291,25 +291,25 @@ int TConsole::SetBufferSize(int rows, int columns)
 		Console_Buffer_Rows = rows;
 
 		return KMCERR_OK;
-	} 
-	catch (std::exception &e) 
+	}
+	catch (std::exception& e)
 	{
 		return StdExceptionHandler(e);
-	} 
-	catch (...) 
+	}
+	catch (...)
 	{
 		return ExceptionHandler();
 	}
 }
 
 // Set console title
-int TConsole::SetTitle(std::string title) 
+int TConsole::SetTitle(std::string title)
 {
-	try 
+	try
 	{
 		if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
-		if (SetConsoleTitleA(title.c_str()) == 0) 
+		if (SetConsoleTitleA(title.c_str()) == 0)
 		{
 			if (SetConsoleTitleA(Console_Title.c_str()) == 0) return KMCERR_NO_CONSOLE;
 			return KMCERR_INVALID_INPUT;
@@ -317,12 +317,12 @@ int TConsole::SetTitle(std::string title)
 		Console_Title = title;
 
 		return KMCERR_OK;
-	} 
-	catch (std::exception &e) 
+	}
+	catch (std::exception& e)
 	{
 		return StdExceptionHandler(e);
-	} 
-	catch (...) 
+	}
+	catch (...)
 	{
 		return ExceptionHandler();
 	}
@@ -335,20 +335,20 @@ int TConsole::SetTitle(std::string title)
 // ***************************** PRIVATE ********************************** //
 
 // CRT error handler
-void TConsole::CRTInvalidParameterHandler (const wchar_t * expression,const wchar_t * function,const wchar_t * file,unsigned int line,uintptr_t pReserved) 
+void TConsole::CRTInvalidParameterHandler(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t pReserved)
 {
 	// do nothing
 }
 
 // Global standard exception handler
-int TConsole::StdExceptionHandler(const std::exception &e) const 
+int TConsole::StdExceptionHandler(const std::exception& e) const
 {
 	std::cerr << KMCERRSTR_STDERR << " " << e.what() << std::endl;
 	return KMCERR_EXCEPTION_OCCURED;
 }
 
 // Global exception handler for unknown exceptions
-int TConsole::ExceptionHandler () const 
+int TConsole::ExceptionHandler() const
 {
 	std::cerr << KMCERRSTR_UNKNOWNERR << std::endl;
 	return KMCERR_EXCEPTION_OCCURED;

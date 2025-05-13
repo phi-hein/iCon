@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSettings	(TSettings Layer 3)							//
-//	Autor: Philipp Hein												//
-//	Datum: 16.10.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der Job-Spezifikationen					//
-//	  Layer 3: Top class										 	//
+//	Class: TSettings	(TSettings Layer 3)							//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the job settings							//
+//	  Layer 3: Top class											//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -26,12 +26,14 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TSettings::TSettings (TKMCJob *pJob): TSettingsOut (pJob) {
+TSettings::TSettings(TKMCJob* pJob) : TSettingsOut(pJob)
+{
 
 }
 
 // Destructor
-TSettings::~TSettings () {
+TSettings::~TSettings()
+{
 
 }
 

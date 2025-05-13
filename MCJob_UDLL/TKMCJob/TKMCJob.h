@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TKMCJob	(TKMCJob Layer 3)								//
-//	Autor: Philipp Hein												//
-//	Datum: 27.08.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung eines KMC-Jobs							//
-//	  Layer 3: Top class										 	//
+//	Class: TKMCJob	(TKMCJob Layer 3)								//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for managing a KMC job									//
+//	  Layer 3: Top class											//
+//    -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -25,15 +25,16 @@
 using namespace std;
 
 // Klassendeklaration:
-class TKMCJob: public TKMCJobOut {
+class TKMCJob : public TKMCJobOut
+{
 	// Member functions
-	public:
-		// PUBLISHED
-		void Release();									// Wichtig: Destructor-Methode gegen Memory Leaks (Instance suicide)
-		
-		// NON-PUBLISHED
-		TKMCJob ();					// Constructor
-		virtual ~TKMCJob ();		// Destructor
+public:
+	// PUBLISHED
+	void Release();									// Wichtig: Destructor-Methode gegen Memory Leaks (Instance suicide)
+
+	// NON-PUBLISHED
+	TKMCJob();					// Constructor
+	virtual ~TKMCJob();		// Destructor
 };
 
 #endif

@@ -21,13 +21,13 @@
 #include "..\MCMisc_UDLL\TConsole\IConsole.h"
 
 // Class declaration:
-public ref class TConsoleWrapper 
+public ref class TConsoleWrapper
 {
 protected:
-	IConsole * m_Console;
+	IConsole* m_Console;
 
-	void String_M2U(System::String ^ in_str, std::string & out_str);
-	void String_U2M(std::string in_str, System::String ^ % out_str);
+	void String_M2U(System::String^ in_str, std::string& out_str);
+	void String_U2M(std::string in_str, System::String^% out_str);
 
 public:
 	TConsoleWrapper();		// Constructor
@@ -38,7 +38,7 @@ public:
 	int Hide();										// Hide console window
 	int Status();									// Get console status
 	int SetBufferSize(int rows, int columns);		// Change size of console screen buffer
-	int SetTitle(System::String ^title);			// Set console window title
+	int SetTitle(System::String^ title);			// Set console window title
 };
 
 #endif

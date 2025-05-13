@@ -1,12 +1,13 @@
 // **************************************************************** //
 //																	//
 //	GlobalDefinitions												//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Globale Makro-, Funktionen- und Wertdefinitionen				//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Global constants and helper functions							//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -730,27 +731,27 @@ using namespace std::literals;
 template<std::size_t N>
 std::ostream& operator<<(std::ostream& os, const std::array<std::string_view, N>& arr)
 {
-    // Use the first identifier for output
-    os << arr.front();
-    return os;
+	// Use the first identifier for output
+	os << arr.front();
+	return os;
 }
 
 template<std::size_t N>
 constexpr bool operator==(std::string_view lhs, const std::array<std::string_view, N>& rhs)
 {
-    // Use all identifiers for input comparison (true if any match)
-    for (std::string_view rstr : rhs)
-        if (lhs == rstr)
-            return true;
+	// Use all identifiers for input comparison (true if any match)
+	for (std::string_view rstr : rhs)
+		if (lhs == rstr)
+			return true;
 
-    return false;
+	return false;
 }
 
 template<std::size_t N>
 constexpr bool operator!=(std::string_view lhs, const std::array<std::string_view, N>& rhs)
 {
-    // Use all identifiers for input comparison (false if any match)
-    return !(lhs == rhs);
+	// Use all identifiers for input comparison (false if any match)
+	return !(lhs == rhs);
 }
 
 // ************************* Hilfsfunktionen *************************** //

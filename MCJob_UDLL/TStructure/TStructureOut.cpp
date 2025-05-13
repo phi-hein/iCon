@@ -1,16 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TStructureOut	(TStructure Layer 2)					//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der eingegebenen Struktur der			//
-//	  untersuchten Verbindung										//
-//	  Layer 2: Output class, d.h. Ausgabe generierter Daten		 	//
+//	Class: TStructureOut	(TStructure Layer 2)					//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the structure of the investigated material	//
+//	  Layer 2: Output class = get generated data					//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -30,19 +29,22 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TStructureOut::TStructureOut (TKMCJob * pJob): TStructureFunc (pJob) {
-	
+TStructureOut::TStructureOut(TKMCJob* pJob) : TStructureFunc(pJob)
+{
+
 }
 
 // Destructor
-TStructureOut::~TStructureOut () {
-	
+TStructureOut::~TStructureOut()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
 
 // Name der Struktur ausgeben
-int TStructureOut::GetStructureName (string &o_name) {
+int TStructureOut::GetStructureName(string& o_name)
+{
 
 	// Strukturnamen ausgeben
 	o_name = Name;
@@ -51,21 +53,23 @@ int TStructureOut::GetStructureName (string &o_name) {
 }
 
 // Basis ausgeben als 6 double (Längen, Winkel)
-int TStructureOut::GetBasisByLatticeParam (double &length_a, double &length_b, double &length_c, double &angle_alpha, double &angle_beta, double &angle_gamma) {
+int TStructureOut::GetBasisByLatticeParam(double& length_a, double& length_b, double& length_c, double& angle_alpha, double& angle_beta, double& angle_gamma)
+{
 
 	// Gitterparameter ausgeben
 	length_a = a.Length();
 	length_b = b.Length();
 	length_c = c.Length();
-	angle_alpha = T3DVector::Angle(b,c);
-	angle_beta = T3DVector::Angle(a,c);
-	angle_gamma = T3DVector::Angle(a,b);
+	angle_alpha = T3DVector::Angle(b, c);
+	angle_beta = T3DVector::Angle(a, c);
+	angle_gamma = T3DVector::Angle(a, b);
 
 	return KMCERR_OK;
 }
 
 // Basis ausgeben als 9 double (Vektoren)
-int TStructureOut::GetBasisByLatticeVectors (double &ax, double &ay, double &az, double &bx, double &by, double &bz, double &cx, double &cy, double &cz) {
+int TStructureOut::GetBasisByLatticeVectors(double& ax, double& ay, double& az, double& bx, double& by, double& bz, double& cx, double& cy, double& cz)
+{
 
 	// Gitterparameter ausgeben
 	ax = a.x;
@@ -82,21 +86,25 @@ int TStructureOut::GetBasisByLatticeVectors (double &ax, double &ay, double &az,
 }
 
 // Anzahl an Elementarzellatomen ausgeben
-int TStructureOut::GetAtomCount (int &o_count) {
+int TStructureOut::GetAtomCount(int& o_count)
+{
 
 	// Atomanzahl ausgeben
-	o_count = (int) Coord.size();
+	o_count = (int)Coord.size();
 
 	return KMCERR_OK;
 }
 
 // Anzahl der Mov- und Vac-Atome in der Elementarzelle ausgeben
-int TStructureOut::GetMovCount (int &o_count) {
+int TStructureOut::GetMovCount(int& o_count)
+{
 
 	// Mov- und Vac-Atome zaehlen
 	int Count = 0;
-	if ((int) ElemID.size() != 0) {
-		for (int i = 0; i < (int) ElemID.size(); i++) {
+	if ((int)ElemID.size() != 0)
+	{
+		for (int i = 0; i < (int)ElemID.size(); i++)
+		{
 			if (ElemID[i] == 0) Count++;
 		}
 	}
@@ -108,14 +116,17 @@ int TStructureOut::GetMovCount (int &o_count) {
 }
 
 // Atom ausgeben
-int TStructureOut::GetAtom (int i_atom, double &xrel, double &yrel, double &zrel, int &elemid) {
+int TStructureOut::GetAtom(int i_atom, double& xrel, double& yrel, double& zrel, int& elemid)
+{
 
 	// Input pruefen
-	if (i_atom < 0) {
+	if (i_atom < 0)
+	{
 		cout << "Critical Error: Negative vector index (in TStructureOut::GetAtom)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
-	if ((i_atom >= (int) ElemID.size()) || (i_atom >= (int) Coord.size())) {
+	if ((i_atom >= (int)ElemID.size()) || (i_atom >= (int)Coord.size()))
+	{
 		cout << "Critical Error: Index exceeds vector size (in TStructureOut::GetAtom)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -130,23 +141,27 @@ int TStructureOut::GetAtom (int i_atom, double &xrel, double &yrel, double &zrel
 }
 
 // Anzahl an Dotierungen ausgeben
-int TStructureOut::GetDopingCount (int &o_count) {
+int TStructureOut::GetDopingCount(int& o_count)
+{
 
 	// Dotierungsanzahl ausgeben
-	o_count = (int) DopandID.size();
+	o_count = (int)DopandID.size();
 
 	return KMCERR_OK;
 }
 
 // Dotierung ausgeben
-int TStructureOut::GetDoping (int i_doping, int &doped_elemid, int &dopand_elemid, double &vac_dop_ratio) {
+int TStructureOut::GetDoping(int i_doping, int& doped_elemid, int& dopand_elemid, double& vac_dop_ratio)
+{
 
 	// Input pruefen
-	if (i_doping < 0) {
+	if (i_doping < 0)
+	{
 		cout << "Critical Error: Negative vector index (in TStructureOut::GetDoping)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
-	if ((i_doping >= (int) DopedID.size()) || (i_doping >= (int) DopandID.size()) || (i_doping >= (int) VacDopRatio.size())) {
+	if ((i_doping >= (int)DopedID.size()) || (i_doping >= (int)DopandID.size()) || (i_doping >= (int)VacDopRatio.size()))
+	{
 		cout << "Critical Error: Index exceeds vector size (in TStructureOut::GetDoping)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -158,7 +173,7 @@ int TStructureOut::GetDoping (int i_doping, int &doped_elemid, int &dopand_elemi
 
 	return KMCERR_OK;
 }
-		
+
 // ***************************** PUBLIC *********************************** //
 
 

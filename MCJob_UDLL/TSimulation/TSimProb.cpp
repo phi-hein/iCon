@@ -1,12 +1,13 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSimProb												//
-//	Autor: Philipp Hein												//
-//	Datum: 14.03.2014												//
-//  Aufgabe:														//
-//    Klasse fuer eine Sprungwahrscheinlichkeitshaeufigkeit 		//
+//	Class: TSimProb													//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Data class for counting jumps with a certain probability 		//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -22,13 +23,15 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TSimProb::TSimProb () : prob(0.0), count(0ULL) {
+TSimProb::TSimProb() : prob(0.0), count(0ULL)
+{
 
 }
 
 // Destructor
-TSimProb::~TSimProb () {
+TSimProb::~TSimProb()
+{
 
 }
-		
+
 // ************************* MEMBER FUNCTIONS****************************** //

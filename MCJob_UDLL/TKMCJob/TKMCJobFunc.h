@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TKMCJobFunc	(TKMCJob Layer 1)							//
-//	Autor: Philipp Hein												//
-//	Datum: 27.08.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung eines KMC-Jobs							//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TKMCJobFunc	(TKMCJob Layer 1)							//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for managing a KMC job									//
+//	  Layer 1: Functionality class = helper methods 				//
+//    -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -26,14 +26,15 @@
 using namespace std;
 
 // Klassendeklaration:
-class TKMCJobFunc: public TKMCJobBase {
+class TKMCJobFunc : public TKMCJobBase
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		TKMCJobFunc ();			// Constructor
+public:
+	// NON-PUBLISHED
+	TKMCJobFunc();			// Constructor
 
-	protected:
-		~TKMCJobFunc ();		// Destructor
+protected:
+	~TKMCJobFunc();		// Destructor
 };
 
 #endif

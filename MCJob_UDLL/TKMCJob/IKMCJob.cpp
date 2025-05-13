@@ -1,14 +1,14 @@
 // **************************************************************** //
 //																	//
-//	Klasse: IKMCJob													//
-//	Autor: Philipp Hein												//
-//	Datum: 27.08.2012												//
-//  Aufgabe:														//
-//    Abstract base class zur Abstraktion der internen Klassen von	//
-//	  den aufrufbaren Methoden (sodass kein Export aller internen	//
-//	  Klassen noetig)												//
+//	Class: IKMCJob													//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Abstract base class for separating internal classes from		//
+//	  callable methods (to avoid exposing of internal classes)		//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -25,7 +25,7 @@ using namespace std;
 #pragma comment (linker, "/export:CreateKMCJob=_CreateKMCJob@0")
 
 // Exportierte Funktion zur Erstellung einer Instanz der Klasse
-DECLSPEC IKMCJob * __stdcall CreateKMCJob () 
+DECLSPEC IKMCJob* __stdcall CreateKMCJob()
 {
 	IKMCJob* o_Job = nullptr;
 	try

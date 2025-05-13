@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TInteractionOut		(TInteraction Layer 2)				//
-//	Autor: Philipp Hein												//
-//	Datum: 30.03.2013												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung einer Wechselwirkung		 			//
-//	  Layer 2: Output class, d.h. Ausgabe generierter Daten		 	//
+//	Class: TInteractionOut	(TInteraction Layer 2)					//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for describing a pair interaction						//
+//	  Layer 2: Output class = get generated data					//
+//    -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -29,23 +29,26 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TInteractionOut::TInteractionOut (TKMCJob * pJob): TInteractionFunc (pJob) {
-	
+TInteractionOut::TInteractionOut(TKMCJob* pJob) : TInteractionFunc(pJob)
+{
+
 }
 
 // Destructor
-TInteractionOut::~TInteractionOut () {
-	
+TInteractionOut::~TInteractionOut()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
 
 
-		
+
 // ***************************** PUBLIC *********************************** //
 
 // Grundelementbesetzung und Abstände ausgeben
-int TInteractionOut::GetInteractionDesc (int &o_ElemID, double &SDist, double &DDist) {
+int TInteractionOut::GetInteractionDesc(int& o_ElemID, double& SDist, double& DDist)
+{
 
 	// Informationen setzen
 	o_ElemID = ElemID;
@@ -56,28 +59,32 @@ int TInteractionOut::GetInteractionDesc (int &o_ElemID, double &SDist, double &D
 }
 
 // Anzahl an Atomen in StartAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-int TInteractionOut::GetInteractionStartEnvCount (int &Count) {
+int TInteractionOut::GetInteractionStartEnvCount(int& Count)
+{
 
 	// Anzahl ausgeben
-	Count = (int) StartWWCoord.size();
+	Count = (int)StartWWCoord.size();
 
 	return KMCERR_OK;
 }
 
 // Anzahl an Atomen in DestAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-int TInteractionOut::GetInteractionDestEnvCount (int &Count) {
+int TInteractionOut::GetInteractionDestEnvCount(int& Count)
+{
 
 	// Anzahl ausgeben
-	Count = (int) DestWWCoord.size();
+	Count = (int)DestWWCoord.size();
 
 	return KMCERR_OK;
 }
 
 // Atom aus der StartAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-int TInteractionOut::GetInteractionStartEnvAtom (int ID, int &o_ElemID, double &o_X, double &o_Y, double &o_Z) {
+int TInteractionOut::GetInteractionStartEnvAtom(int ID, int& o_ElemID, double& o_X, double& o_Y, double& o_Z)
+{
 
 	// Input pruefen
-	if ((ID < 0) || (ID >= (int) StartWWCoord.size()) || (ID >= (int) StartWWElemID.size())) {
+	if ((ID < 0) || (ID >= (int)StartWWCoord.size()) || (ID >= (int)StartWWElemID.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TInteractionOut::GetInteractionStartEnvAtom)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -92,10 +99,12 @@ int TInteractionOut::GetInteractionStartEnvAtom (int ID, int &o_ElemID, double &
 }
 
 // Atom aus der DestAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-int TInteractionOut::GetInteractionDestEnvAtom (int ID, int &o_ElemID, double &o_X, double &o_Y, double &o_Z) {
+int TInteractionOut::GetInteractionDestEnvAtom(int ID, int& o_ElemID, double& o_X, double& o_Y, double& o_Z)
+{
 
 	// Input pruefen
-	if ((ID < 0) || (ID >= (int) DestWWCoord.size()) || (ID >= (int) DestWWElemID.size())) {
+	if ((ID < 0) || (ID >= (int)DestWWCoord.size()) || (ID >= (int)DestWWElemID.size()))
+	{
 		cout << "Critical Error: Invalid vector index (in TInteractionOut::GetInteractionDestEnvAtom)" << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}

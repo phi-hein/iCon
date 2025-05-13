@@ -1,16 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TStructure	(TStructure Layer 3)						//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der eingegebenen Struktur der			//
-//	  untersuchten Verbindung										//
-//	  Layer 3: Top class										 	//
+//	Class: TStructure	(TStructure Layer 3)						//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the structure of the investigated material	//
+//	  Layer 3: Top class											//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -29,14 +28,15 @@ using namespace std;
 class TKMCJob;
 
 // Klasse zur Verwaltung der Struktur der untersuchten Verbindung
-class TStructure: public TStructureOut {
+class TStructure : public TStructureOut
+{
 	// Member functions
-	public:
-		// PUBLISHED
+public:
+	// PUBLISHED
 
-		// NON-PUBLISHED
-		TStructure (TKMCJob * pJob);	// Constructor
-		~TStructure ();					// Destructor
+	// NON-PUBLISHED
+	TStructure(TKMCJob* pJob);	// Constructor
+	~TStructure();					// Destructor
 };
 
 #endif

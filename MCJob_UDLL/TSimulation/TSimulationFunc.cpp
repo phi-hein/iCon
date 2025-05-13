@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSimulationFunc	(TSimulation Layer 1)					//
-//	Autor: Philipp Hein												//
-//	Datum: 19.03.2014												//
-//  Aufgabe:														//
-//    Klasse zur Durchfuehrung der Simulation						//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TSimulationFunc	(TSimulation Layer 1)					//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for carrying out the simulation							//
+//	  Layer 1: Functionality class = helper methods 				//
+//	  -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -28,13 +28,15 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TSimulationFunc::TSimulationFunc (TKMCJob * pJob): TSimulationBase (pJob) {
-	
+TSimulationFunc::TSimulationFunc(TKMCJob* pJob) : TSimulationBase(pJob)
+{
+
 }
 
 // Destructor
-TSimulationFunc::~TSimulationFunc () {
-	
+TSimulationFunc::~TSimulationFunc()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
@@ -44,24 +46,30 @@ TSimulationFunc::~TSimulationFunc () {
 // ***************************** PUBLIC *********************************** //
 
 // Ergebnisse der Hauptsimulation ausgeben
-int TSimulationFunc::GetMovementResults(vector<double> *o_results) const {
-	if (Ready != true) {
+int TSimulationFunc::GetMovementResults(vector<double>* o_results) const
+{
+	if (Ready != true)
+	{
 		cout << "Critical Error: Object is not ready (TSimulationFunc::GetMovementResults)" << endl << endl;
 		return KMCERR_READY_NOT_TRUE;
 	}
-	if (Completed != true) {
+	if (Completed != true)
+	{
 		cout << "Critical Error: Simulation incomplete (TSimulationFunc::GetMovementResults)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
-	if (MainPhaseData.HasValidData == false) {
+	if (MainPhaseData.HasValidData == false)
+	{
 		cout << "Critical Error: Invalid simulation data (TSimulationFunc::GetMovementResults)" << endl << endl;
 		return KMCERR_INVALID_INPUT;
 	}
-	if (MainPhaseData.CurrentJumpAttempts == 0ULL) {
+	if (MainPhaseData.CurrentJumpAttempts == 0ULL)
+	{
 		cout << "Critical Error: Invalid simulation progress (TSimulationFunc::GetMovementResults)" << endl << endl;
 		return KMCERR_INVALID_INPUT;
 	}
-	if (o_results == NULL) {
+	if (o_results == NULL)
+	{
 		cout << "Critical Error: Invalid vector pointer (TSimulationFunc::GetMovementResults)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
@@ -91,7 +99,8 @@ int TSimulationFunc::GetMovementResults(vector<double> *o_results) const {
 	double t_mov_comp_perpendicular = 0.0;
 	double t_vac_comp_parallel = 0.0;
 	double t_vac_comp_perpendicular = 0.0;
-	if (spCanCalcCond == true) {
+	if (spCanCalcCond == true)
+	{
 		ErrorCode = GetProjOnEField(T3DVector(t_MovAnalysis[1], t_MovAnalysis[2], t_MovAnalysis[3]), t_mov_comp_parallel, t_mov_comp_perpendicular);
 		if (ErrorCode != KMCERR_OK) return ErrorCode;
 		ErrorCode = GetProjOnEField(T3DVector(t_MovAnalysis[10], t_MovAnalysis[11], t_MovAnalysis[12]), t_vac_comp_parallel, t_vac_comp_perpendicular);
@@ -103,7 +112,8 @@ int TSimulationFunc::GetMovementResults(vector<double> *o_results) const {
 
 	// Leitfaehigkeit berechnen (sigma = spCondFactor * Projection((<x>, <y>, <z>), E-Feld-Vektor) / Zeit)
 	double t_conductivity = 0.0;
-	if (spCanCalcCond == true) {
+	if (spCanCalcCond == true)
+	{
 		t_conductivity = spCondFactor * spFrequency * t_mov_comp_parallel / (MainPhaseData.CurrentAttemptPathRatioSum * MainPhaseData.UsedNorm);
 	}
 
@@ -142,8 +152,10 @@ int TSimulationFunc::GetMovementResults(vector<double> *o_results) const {
 }
 
 // Status der Hauptsimulation ausgeben
-int TSimulationFunc::GetMainSimStatus(TSimPhaseInfo &o_phase) const {
-	if (Ready != true) {
+int TSimulationFunc::GetMainSimStatus(TSimPhaseInfo& o_phase) const
+{
+	if (Ready != true)
+	{
 		cout << "Critical Error: Object is not ready (TSimulationFunc::GetMainSimStatus)" << endl << endl;
 		return KMCERR_READY_NOT_TRUE;
 	}

@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TResultsOut		(TResults Layer 2)						//
-//	Autor: Philipp Hein												//
-//	Datum: 16.10.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der Simulationsergebnisse				//
-//	  Layer 2: Output class, d.h. Ausgabe generierter Daten		 	//
+//	Class: TResultsOut		(TResults Layer 2)						//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the simulation results						//
+//	  Layer 2: Output class = get generated data					//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -31,20 +31,24 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TResultsOut::TResultsOut (TKMCJob * pJob): TResultsFunc (pJob) {
-	
+TResultsOut::TResultsOut(TKMCJob* pJob) : TResultsFunc(pJob)
+{
+
 }
 
 // Destructor
-TResultsOut::~TResultsOut () {
-	
+TResultsOut::~TResultsOut()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
 
 // Beschreibung der GetSummary-Ausgabe ausgeben
-int TResultsOut::GetSummaryDesc(string i_ValDelimiter, string &o_SummaryDesc) {
-	if (Ready != true) {
+int TResultsOut::GetSummaryDesc(string i_ValDelimiter, string& o_SummaryDesc)
+{
+	if (Ready != true)
+	{
 		o_SummaryDesc = "No results available.";
 		return KMCERR_NO_RESULTS;
 	}
@@ -52,21 +56,25 @@ int TResultsOut::GetSummaryDesc(string i_ValDelimiter, string &o_SummaryDesc) {
 	int ErrorCode = KMCERR_OK;
 
 	// Dotierungsbeschreibungen ermitteln
-	if (m_Job == NULL) {
+	if (m_Job == NULL)
+	{
 		cout << "Critical Error: m_Job is null pointer (in TResultsOut::GetSummaryDesc)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
-	if (m_Job->m_Settings == NULL) {
+	if (m_Job->m_Settings == NULL)
+	{
 		cout << "Critical Error: m_Settings is null pointer (in TResultsOut::GetSummaryDesc)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
-	if (m_Job->m_Settings->IfReady() == false) {
+	if (m_Job->m_Settings->IfReady() == false)
+	{
 		cout << "Critical Error: TSettings not ready (in TResultsOut::GetSummaryDesc)" << endl << endl;
 		return KMCERR_OBJECT_NOT_READY;
 	}
 	string t_settingssummarydesc = "";
 	ErrorCode = m_Job->m_Settings->GetShortSummaryDesc(i_ValDelimiter, t_settingssummarydesc);
-	if (ErrorCode != KMCERR_OK) {
+	if (ErrorCode != KMCERR_OK)
+	{
 		cout << "Critical Error: Settings desc retrieval failed (in TResultsOut::GetSummaryDesc)" << endl << endl;
 		return ErrorCode;
 	}
@@ -85,7 +93,7 @@ int TResultsOut::GetSummaryDesc(string i_ValDelimiter, string &o_SummaryDesc) {
 	t_result << "Startpos. nondef. (Eakt,for<=0)" << i_ValDelimiter;
 	t_result << "Normalization" << i_ValDelimiter;
 	t_result << "Runtime" << i_ValDelimiter;
-	
+
 	// Mov-Bewegung ausgeben
 	t_result << "Mov-<Sprunganzahl>" << i_ValDelimiter;
 	t_result << "Mov-<x> [cm]" << i_ValDelimiter << "Mov-<y> [cm]" << i_ValDelimiter << "Mov-<z> [cm]" << i_ValDelimiter;
@@ -111,8 +119,10 @@ int TResultsOut::GetSummaryDesc(string i_ValDelimiter, string &o_SummaryDesc) {
 }
 
 // Wichtigste Einstellungen und Ergebnisse mit ValDelimiter getrennt ausgeben
-int TResultsOut::GetSummary(string i_ValDelimiter, string &o_Summary) {
-	if (Ready != true) {
+int TResultsOut::GetSummary(string i_ValDelimiter, string& o_Summary)
+{
+	if (Ready != true)
+	{
 		o_Summary = "No results available.";
 		return KMCERR_NO_RESULTS;
 	}
@@ -120,20 +130,23 @@ int TResultsOut::GetSummary(string i_ValDelimiter, string &o_Summary) {
 	int ErrorCode = KMCERR_OK;
 
 	// Projektname ermitteln
-	if (m_Job == NULL) {
+	if (m_Job == NULL)
+	{
 		cout << "Critical Error: m_Job is null pointer (in TResultsOut::GetSummary)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
 	string t_projectname = "";
 	ErrorCode = m_Job->GetProjectName(t_projectname);
-	if (ErrorCode != KMCERR_OK) return ErrorCode;	
+	if (ErrorCode != KMCERR_OK) return ErrorCode;
 
 	// Strukturname ermitteln
-	if (m_Job->m_Structure == NULL) {
+	if (m_Job->m_Structure == NULL)
+	{
 		cout << "Critical Error: m_Structure is null pointer (in TResultsOut::GetSummary)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
-	if (m_Job->m_Structure->IfReady() == false) {
+	if (m_Job->m_Structure->IfReady() == false)
+	{
 		cout << "Critical Error: TStructure not ready (in TResultsOut::GetSummary)" << endl << endl;
 		return KMCERR_OBJECT_NOT_READY;
 	}
@@ -142,17 +155,20 @@ int TResultsOut::GetSummary(string i_ValDelimiter, string &o_Summary) {
 	if (ErrorCode != KMCERR_OK) return ErrorCode;
 
 	// Einstellungen ermitteln
-	if (m_Job->m_Settings == NULL) {
+	if (m_Job->m_Settings == NULL)
+	{
 		cout << "Critical Error: m_Settings is null pointer (in TResultsOut::GetSummary)" << endl << endl;
 		return KMCERR_INVALID_POINTER;
 	}
-	if (m_Job->m_Settings->IfReady() == false) {
+	if (m_Job->m_Settings->IfReady() == false)
+	{
 		cout << "Critical Error: TSettings not ready (in TResultsOut::GetSummary)" << endl << endl;
 		return KMCERR_OBJECT_NOT_READY;
 	}
 	string t_settingssummary = "";
 	ErrorCode = m_Job->m_Settings->GetShortSummary(i_ValDelimiter, t_settingssummary);
-	if (ErrorCode != KMCERR_OK) {
+	if (ErrorCode != KMCERR_OK)
+	{
 		cout << "Critical Error: Settings retrieval failed (in TResultsOut::GetSummary)" << endl << endl;
 		return ErrorCode;
 	}
@@ -172,7 +188,7 @@ int TResultsOut::GetSummary(string i_ValDelimiter, string &o_Summary) {
 	t_result << OverkillJumpAttempts << i_ValDelimiter;
 	t_result << Normalization << i_ValDelimiter;
 	t_result << Runtime.ToString() << i_ValDelimiter;
-	
+
 	// Mov-Bewegung ausgeben
 	t_result << MovMeanJumpCount << i_ValDelimiter;
 	t_result << MovMeanDispVec.x << i_ValDelimiter << MovMeanDispVec.y << i_ValDelimiter << MovMeanDispVec.z << i_ValDelimiter;

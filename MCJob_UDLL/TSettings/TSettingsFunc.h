@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSettingsFunc	(TSettings Layer 1)						//
-//	Autor: Philipp Hein												//
-//	Datum: 16.10.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der Job-Spezifikationen					//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TSettingsFunc	(TSettings Layer 1)						//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the job settings							//
+//	  Layer 1: Functionality class = helper methods 				//
+//	  -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -29,20 +29,21 @@ using namespace std;
 class TKMCJob;
 
 // Klassendeklaration:
-class TSettingsFunc: public TSettingsBase {
+class TSettingsFunc : public TSettingsBase
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		int GetDopandCounts(vector<long long> *o_dopcounts);	// Dopandenanzahlen ausgeben
-		bool IfWriteCheckpoint();								// Ausgeben, ob Checkpoint geschrieben werden soll
-		bool IfLoadCheckpoint();								// Ausgeben, ob Checkpoint geladen werden soll
-		int GetShortSummaryDesc(string i_ValDelimiter, string &o_SummaryDesc);	// Beschreibung der GetShortSummary-Ausgabe ausgeben
-		int GetShortSummary(string i_ValDelimiter, string &o_Summary);			// Wichtigste Einstellungen mit ValDelimiter getrennt ausgeben
+public:
+	// NON-PUBLISHED
+	int GetDopandCounts(vector<long long>* o_dopcounts);	// Dopandenanzahlen ausgeben
+	bool IfWriteCheckpoint();								// Ausgeben, ob Checkpoint geschrieben werden soll
+	bool IfLoadCheckpoint();								// Ausgeben, ob Checkpoint geladen werden soll
+	int GetShortSummaryDesc(string i_ValDelimiter, string& o_SummaryDesc);	// Beschreibung der GetShortSummary-Ausgabe ausgeben
+	int GetShortSummary(string i_ValDelimiter, string& o_Summary);			// Wichtigste Einstellungen mit ValDelimiter getrennt ausgeben
 
-		TSettingsFunc (TKMCJob * pJob);			// Constructor
+	TSettingsFunc(TKMCJob* pJob);			// Constructor
 
-	protected:
-		~TSettingsFunc ();						// Destructor
+protected:
+	~TSettingsFunc();						// Destructor
 };
 
 #endif

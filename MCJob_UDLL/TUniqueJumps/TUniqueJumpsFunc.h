@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TUniqueJumpsFunc	(TUniqueJumps Layer 1)				//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der einzigartigen Gitterspruenge 		//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TUniqueJumpsFunc	(TUniqueJumps Layer 1)					//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the unique jumps in the material	 		//
+//	  Layer 1: Functionality class = helper methods 				//
+//	  -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -31,18 +31,19 @@ class TKMCJob;
 class TSimUniqueJump;
 
 // Klassendeklaration:
-class TUniqueJumpsFunc: public TUniqueJumpsBase {
+class TUniqueJumpsFunc : public TUniqueJumpsBase
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		int CreateSimUniqueJumps (TSimUniqueJump *&o_simuniquejumps, vector<int> *o_newuniqueidmap);	// Minimalbeschreibung aller einzigartigen Spruenge fuer die Simulation und Map: (alte UniqueID -> ID in Array) erstellen
-		int GetAddEnvIDs (int JumpID, vector<int> *o_addenvids);										// Liste ausgeben, die jede CoordID eines UniqueJump angibt, fuer die das Atom nicht-ignoriert und additiv ist (d.h. Teil der additiven Umgebung)
-		int GetCodeEnvIDs (int JumpID, vector<int> *o_codeenvids);										// Liste ausgeben, die jede CoordID eines UniqueJump angibt, fuer die das Atom nicht-ignoriert und nicht-additiv ist (d.h. Teil der kodierten Umgebung)
+public:
+	// NON-PUBLISHED
+	int CreateSimUniqueJumps(TSimUniqueJump*& o_simuniquejumps, vector<int>* o_newuniqueidmap);	// Minimalbeschreibung aller einzigartigen Spruenge fuer die Simulation und Map: (alte UniqueID -> ID in Array) erstellen
+	int GetAddEnvIDs(int JumpID, vector<int>* o_addenvids);										// Liste ausgeben, die jede CoordID eines UniqueJump angibt, fuer die das Atom nicht-ignoriert und additiv ist (d.h. Teil der additiven Umgebung)
+	int GetCodeEnvIDs(int JumpID, vector<int>* o_codeenvids);										// Liste ausgeben, die jede CoordID eines UniqueJump angibt, fuer die das Atom nicht-ignoriert und nicht-additiv ist (d.h. Teil der kodierten Umgebung)
 
-		TUniqueJumpsFunc (TKMCJob * pJob);			// Constructor
+	TUniqueJumpsFunc(TKMCJob* pJob);			// Constructor
 
-	protected:
-		~TUniqueJumpsFunc ();						// Destructor
+protected:
+	~TUniqueJumpsFunc();						// Destructor
 
 };
 

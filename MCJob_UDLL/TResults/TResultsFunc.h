@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TResultsFunc	(TResults Layer 1)						//
-//	Autor: Philipp Hein												//
-//	Datum: 16.10.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der Simulationsergebnisse				//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TResultsFunc	(TResults Layer 1)							//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for managing the simulation results						//
+//	  Layer 1: Functionality class = helper methods 				//
+//	  -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -29,14 +29,15 @@ using namespace std;
 class TKMCJob;
 
 // Klassendeklaration:
-class TResultsFunc: public TResultsBase {
+class TResultsFunc : public TResultsBase
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		TResultsFunc (TKMCJob * pJob);			// Constructor
+public:
+	// NON-PUBLISHED
+	TResultsFunc(TKMCJob* pJob);			// Constructor
 
-	protected:
-		~TResultsFunc ();						// Destructor
+protected:
+	~TResultsFunc();						// Destructor
 };
 
 #endif

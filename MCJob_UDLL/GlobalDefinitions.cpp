@@ -1,12 +1,13 @@
 // **************************************************************** //
 //																	//
 //	GlobalDefinitions												//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Globale Makro-, Funktionen- und Wertdefinitionen				//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Global constants and helper functions							//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -43,7 +44,7 @@ std::string_view Trim(std::string_view input)
 	if (last != std::string::npos)
 	{
 		std::string_view::size_type first = input.find_first_not_of(' ');
-		
+
 		return input.substr(first, last - first + 1);
 	}
 	else
@@ -117,7 +118,7 @@ std::string DoubleToStr(double input)
 }
 
 // Funktion zur Umwandlung eines string in einen int
-int StrToInt (string input, int error_val) 
+int StrToInt(string input, int error_val)
 {
 	stringstream inp(input);
 	int out = 0;

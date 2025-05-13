@@ -21,7 +21,8 @@
 #pragma comment (linker, "/export:CreateConsole=_CreateConsole@0")
 
 // Exported factory function for creating a TConsole object
-DECLSPEC IConsole * __stdcall CreateConsole () {
+DECLSPEC IConsole* __stdcall CreateConsole()
+{
 	IConsole* o_Console = nullptr;
 	try
 	{

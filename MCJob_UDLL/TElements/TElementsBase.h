@@ -1,15 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TElementsBase	(TElements Layer 0)						//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der verwendeten Elemente/Spezies		//
-//	  Layer 0: Base class, d.h. Member-Variablen, abgesicherter 	//
-//	  Input, Funktionen die zu Ready == true fuehren, Speichern		//
-//	  und Laden zu/von Stream, Rueckgabe von Ready					//
+//	Class: TElementsBase	(TElements Layer 0)						//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for managing the used elements							//
+//	  Layer 0: Base class = protected input of member variables,	//
+//	  methods required for Ready == true, saving and loading		//
+//	  to/from stream, signaling if Ready							//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 

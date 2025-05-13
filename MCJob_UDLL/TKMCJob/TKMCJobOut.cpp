@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TKMCJobOut	(TKMCJob Layer 2)							//
-//	Autor: Philipp Hein												//
-//	Datum: 27.08.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung eines KMC-Jobs							//
-//	  Layer 2: Output class, d.h. Ausgabe generierter Daten		 	//
+//	Class: TKMCJobOut	(TKMCJob Layer 2)							//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for managing a KMC job									//
+//	  Layer 2: Output class = get generated data					//
+//    -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 

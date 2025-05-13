@@ -1,17 +1,17 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TJumpFunc	(TJump Layer 1)								//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung eines Gittersprungs eines Atoms in  	//
-//	  der Elementarzelle und Erstellung der Sprungumgebung			//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TJumpFunc	(TJump Layer 1)								//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for describing a jump of an atom in the unit cell 		//
+//	  and its jump environment										//
+//	  Layer 1: Functionality class = helper methods 				//
+//	  -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -33,21 +33,22 @@ class TKMCJob;
 class TSimJump;
 
 // Klassendeklaration:
-class TJumpFunc: public TJumpBase {
+class TJumpFunc : public TJumpBase
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		TJumpFunc (TKMCJob * pJob);			// Constructor
+public:
+	// NON-PUBLISHED
+	TJumpFunc(TKMCJob* pJob);			// Constructor
 
-		int GetStartPos (T4DLatticeVector &pos);					// absolute 4D-Position des Startatoms zurueckgeben (Vektor von (0,0,0,0) zu Startatom)
-		int GetDestPos (T4DLatticeVector &pos);						// absolute 4D-Position des Zielatoms zurueckgeben (Vektor von (0,0,0,0) zu Zielatom)
-		int GetEnvPos (vector<T4DLatticeVector> *envpos);			// absolute 4D-Positionen der Umgebungsatome zurueckgeben (Vektoren von (0,0,0,0) zu Umgebungsatomen)
-		int GetUniqueJumpID (int &ID);								// UniqueJumpID ausgeben
-		int GetEFieldProjection (T3DVector &efield, double &proj);	// Skalarprodukt [V] von E-Feld-Vektor [V/cm] und Sprungvektor [cm] ausgeben
-		int CreateSimJump(TSimJump &o_simjump);						// Minimalbeschreibung fuer die Simulation erstellen
+	int GetStartPos(T4DLatticeVector& pos);					// absolute 4D-Position des Startatoms zurueckgeben (Vektor von (0,0,0,0) zu Startatom)
+	int GetDestPos(T4DLatticeVector& pos);						// absolute 4D-Position des Zielatoms zurueckgeben (Vektor von (0,0,0,0) zu Zielatom)
+	int GetEnvPos(vector<T4DLatticeVector>* envpos);			// absolute 4D-Positionen der Umgebungsatome zurueckgeben (Vektoren von (0,0,0,0) zu Umgebungsatomen)
+	int GetUniqueJumpID(int& ID);								// UniqueJumpID ausgeben
+	int GetEFieldProjection(T3DVector& efield, double& proj);	// Skalarprodukt [V] von E-Feld-Vektor [V/cm] und Sprungvektor [cm] ausgeben
+	int CreateSimJump(TSimJump& o_simjump);						// Minimalbeschreibung fuer die Simulation erstellen
 
-	protected:
-		~TJumpFunc();						// Destructor
+protected:
+	~TJumpFunc();						// Destructor
 };
 
 #endif

@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TInteractionFunc	(TInteraction Layer 1)				//
-//	Autor: Philipp Hein												//
-//	Datum: 30.03.2013												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung einer Wechselwirkung		 			//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TInteractionFunc	(TInteraction Layer 1)					//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for describing a pair interaction						//
+//	  Layer 1: Functionality class = helper methods					//
+//    -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -28,13 +28,15 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TInteractionFunc::TInteractionFunc (TKMCJob * pJob): TInteractionBase (pJob) {
-	
+TInteractionFunc::TInteractionFunc(TKMCJob* pJob) : TInteractionBase(pJob)
+{
+
 }
 
 // Destructor
-TInteractionFunc::~TInteractionFunc () {
-	
+TInteractionFunc::~TInteractionFunc()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
@@ -44,7 +46,8 @@ TInteractionFunc::~TInteractionFunc () {
 // ***************************** PUBLIC *********************************** //
 
 // Basis-Charakteristika der WW zurückgeben
-int TInteractionFunc::GetWWDesc (int &o_ElemID, double &o_StartDist, double &o_DestDist) {
+int TInteractionFunc::GetWWDesc(int& o_ElemID, double& o_StartDist, double& o_DestDist)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 	o_ElemID = ElemID;
@@ -55,7 +58,8 @@ int TInteractionFunc::GetWWDesc (int &o_ElemID, double &o_StartDist, double &o_D
 }
 
 // WW-Schalen zurückgeben
-int TInteractionFunc::GetWWShells (vector<T3DVector> *o_StartWWCoord, vector<int> *o_StartWWElemID, vector<T3DVector> *o_DestWWCoord, vector<int> *o_DestWWElemID) {
+int TInteractionFunc::GetWWShells(vector<T3DVector>* o_StartWWCoord, vector<int>* o_StartWWElemID, vector<T3DVector>* o_DestWWCoord, vector<int>* o_DestWWElemID)
+{
 	if (Ready != true) return KMCERR_READY_NOT_TRUE;
 
 	*o_StartWWCoord = StartWWCoord;

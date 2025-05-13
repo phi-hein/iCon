@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TElementsOut	(TElements Layer 2)						//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der verwendeten Elemente/Spezies		//
-//	  Layer 2: Output class, d.h. Ausgabe generierter Daten		 	//
+//	Class: TElementsOut	(TElements Layer 2)							//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for managing the used elements							//
+//	  Layer 2: Output class = get generated data					//
+//    -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -27,35 +27,41 @@ using namespace std;
 // ***************** CONSTRUCTOR/DESTRUCTOR/OPERATOREN ******************** //
 
 // Constructor
-TElementsOut::TElementsOut (TKMCJob * pJob): TElementsFunc (pJob) {
-	
+TElementsOut::TElementsOut(TKMCJob* pJob) : TElementsFunc(pJob)
+{
+
 }
 
 // Destructor
-TElementsOut::~TElementsOut () {
-	
+TElementsOut::~TElementsOut()
+{
+
 }
 
 // **************************** PUBLISHED ********************************* //
 
 // Anzahl der Elemente ausgeben
-int TElementsOut::GetElementCount (int &o_count) {
+int TElementsOut::GetElementCount(int& o_count)
+{
 
 	// Elementanzahl ausgeben
-	o_count = (int) Symbol.size();
+	o_count = (int)Symbol.size();
 
 	return KMCERR_OK;
 }
 
 // Ausgabe eines Elements
-int TElementsOut::GetElement (int i_elemid, string &o_symbol, string &o_name, double &o_charge) {
+int TElementsOut::GetElement(int i_elemid, string& o_symbol, string& o_name, double& o_charge)
+{
 
 	// Check, ob Element vorhanden
-	if (i_elemid < 0) {
+	if (i_elemid < 0)
+	{
 		cout << "Critical Error: Negative vector index (in TElementsOut::GetElement)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
-	if (i_elemid >= (int) Symbol.size()) {
+	if (i_elemid >= (int)Symbol.size())
+	{
 		cout << "Critical Error: Index exceeds vector size (in TElementsOut::GetElement)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -69,14 +75,17 @@ int TElementsOut::GetElement (int i_elemid, string &o_symbol, string &o_name, do
 }
 
 // Ausgabe eines Elements
-int TElementsOut::GetElement (int i_elemid, string &o_symbol, string &o_name, double &o_charge, double &o_radius, double &o_red, double &o_green, double &o_blue) {
+int TElementsOut::GetElement(int i_elemid, string& o_symbol, string& o_name, double& o_charge, double& o_radius, double& o_red, double& o_green, double& o_blue)
+{
 
 	// Check, ob Element vorhanden
-	if (i_elemid < 0) {
+	if (i_elemid < 0)
+	{
 		cout << "Critical Error: Negative vector index (in TElementsOut::GetElement)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
-	if (i_elemid >= (int) Symbol.size()) {
+	if (i_elemid >= (int)Symbol.size())
+	{
 		cout << "Critical Error: Index exceeds vector size (in TElementsOut::GetElement)" << endl << endl;
 		return KMCERR_INVALID_INPUT_CRIT;
 	}
@@ -94,7 +103,8 @@ int TElementsOut::GetElement (int i_elemid, string &o_symbol, string &o_name, do
 }
 
 // Ausgabe des MovingElement
-int TElementsOut::GetMovingElement (string &o_symbol, string &o_name, double &o_charge) {
+int TElementsOut::GetMovingElement(string& o_symbol, string& o_name, double& o_charge)
+{
 
 	// MovingElement ausgeben
 	o_symbol = MovSymbol;
@@ -105,7 +115,8 @@ int TElementsOut::GetMovingElement (string &o_symbol, string &o_name, double &o_
 }
 
 // Ausgabe des MovingElement
-int TElementsOut::GetMovingElement (string &o_symbol, string &o_name, double &o_charge, double &o_radius, double &o_red, double &o_green, double &o_blue) {
+int TElementsOut::GetMovingElement(string& o_symbol, string& o_name, double& o_charge, double& o_radius, double& o_red, double& o_green, double& o_blue)
+{
 
 	// MovingElement ausgeben
 	o_symbol = MovSymbol;
@@ -120,7 +131,8 @@ int TElementsOut::GetMovingElement (string &o_symbol, string &o_name, double &o_
 }
 
 // Ausgabe des VacancyElement
-int TElementsOut::GetVacancyElement (string &o_symbol, string &o_name, double &o_charge) {
+int TElementsOut::GetVacancyElement(string& o_symbol, string& o_name, double& o_charge)
+{
 
 	// MovingElement ausgeben
 	o_symbol = VacSymbol;
@@ -131,7 +143,8 @@ int TElementsOut::GetVacancyElement (string &o_symbol, string &o_name, double &o
 }
 
 // Ausgabe des VacancyElement
-int TElementsOut::GetVacancyElement (string &o_symbol, string &o_name, double &o_charge, double &o_radius, double &o_red, double &o_green, double &o_blue) {
+int TElementsOut::GetVacancyElement(string& o_symbol, string& o_name, double& o_charge, double& o_radius, double& o_red, double& o_green, double& o_blue)
+{
 
 	// MovingElement ausgeben
 	o_symbol = VacSymbol;

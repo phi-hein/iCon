@@ -1,16 +1,16 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TElementsFunc	(TElements Layer 1)						//
-//	Autor: Philipp Hein												//
-//	Datum: 01.09.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung der verwendeten Elemente/Spezies		//
-//	  Layer 1: Functionality class, d.h. Hilfsfunktionen		 	//
+//	Class: TElementsFunc	(TElements Layer 1)						//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for managing the used elements							//
+//	  Layer 1: Functionality class = helper methods					//
+//    -> no modification of member variables						//
+//	  -> no published methods										//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//	  -> keine published-Funktionen !!								//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 

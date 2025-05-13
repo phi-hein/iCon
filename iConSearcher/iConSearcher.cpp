@@ -1,12 +1,13 @@
 // **************************************************************** //
 //																	//
-//	Hauptquelldatei von: iConSearcher								//
-//	Autor: Philipp Hein												//
-//	Datum: 14.03.2014												//
-//  Aufgabe:														//
-//    Laden und Zusammenfassen fertiger Simulationen				//
+//	Main source file of iConSearcher								//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Loading and summarizing KMC simulations						//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -223,7 +224,7 @@ int main(int argc, char* argv[])
 			continue;
 		}
 		if (doping_count == -1)		// d.h. noch kein Job geschrieben
-		{     
+		{
 			// Kopfzeile ermitteln
 			string t_summarydesc = "";
 			ErrorCode = KMCJob.GetResultSummaryDesc(" ; ", t_summarydesc);

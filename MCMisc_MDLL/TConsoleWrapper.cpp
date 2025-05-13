@@ -22,15 +22,16 @@
 // *********************** CONSTRUCTOR/DESTRUCTOR ************************* //
 
 // Constructor
-TConsoleWrapper::TConsoleWrapper() {
-	try 
+TConsoleWrapper::TConsoleWrapper()
+{
+	try
 	{
 		m_Console = NULL;
 		m_Console = CreateConsole();
 	}
-	catch (System::Exception ^e) 
-	{ 
-		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); 
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
 	}
 	if (m_Console == NULL)
 	{
@@ -39,103 +40,103 @@ TConsoleWrapper::TConsoleWrapper() {
 }
 
 // Destructor
-TConsoleWrapper::~TConsoleWrapper() 
+TConsoleWrapper::~TConsoleWrapper()
 {
-	try 
+	try
 	{
 		if (m_Console != NULL) m_Console->Release();
 		m_Console = NULL;
 	}
-	catch (System::Exception ^e) 
-	{ 
-		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); 
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
 	}
 }
 
 // Finalizer
-TConsoleWrapper::!TConsoleWrapper() 
+TConsoleWrapper::!TConsoleWrapper()
 {
-	try 
+	try
 	{
 		if (m_Console != NULL) m_Console->Release();
 		m_Console = NULL;
 	}
-	catch (System::Exception ^e) 
-	{ 
-		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); 
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
 	}
 }
 
 // **************************** PUBLISHED ********************************** //
 
 // Show console window
-int TConsoleWrapper::Show() 
+int TConsoleWrapper::Show()
 {
-	try 
+	try
 	{
 		if (m_Console == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Console->Show();
 	}
-	catch (System::Exception ^e) 
-	{ 
-		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); 
-		return KMCERR_EXCEPTION_OCCURED; 
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
+		return KMCERR_EXCEPTION_OCCURED;
 	}
 }
 
 // Hide console window
-int TConsoleWrapper::Hide() 
+int TConsoleWrapper::Hide()
 {
-	try 
+	try
 	{
 		if (m_Console == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Console->Hide();
 	}
-	catch (System::Exception ^e) 
-	{ 
-		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); 
-		return KMCERR_EXCEPTION_OCCURED; 
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
+		return KMCERR_EXCEPTION_OCCURED;
 	}
 }
 
 // Get console status
-int TConsoleWrapper::Status() 
+int TConsoleWrapper::Status()
 {
-	try 
+	try
 	{
 		if (m_Console == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Console->Status();
 	}
-	catch (System::Exception ^e) 
-	{ 
-		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); 
-		return KMCERR_EXCEPTION_OCCURED; 
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
+		return KMCERR_EXCEPTION_OCCURED;
 	}
 }
 
 // Change size of console screen buffer
-int TConsoleWrapper::SetBufferSize(int rows, int columns) 
+int TConsoleWrapper::SetBufferSize(int rows, int columns)
 {
-	try 
+	try
 	{
 		if (m_Console == NULL) return KMCERR_INVALID_POINTER;
 
 		return m_Console->SetBufferSize(rows, columns);
 	}
-	catch (System::Exception ^e) 
-	{ 
-		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); 
-		return KMCERR_EXCEPTION_OCCURED; 
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
+		return KMCERR_EXCEPTION_OCCURED;
 	}
 }
 
 // Set console window title
-int TConsoleWrapper::SetTitle(System::String ^title) 
+int TConsoleWrapper::SetTitle(System::String^ title)
 {
-	try 
+	try
 	{
 		if (m_Console == NULL) return KMCERR_INVALID_POINTER;
 
@@ -144,10 +145,10 @@ int TConsoleWrapper::SetTitle(System::String ^title)
 
 		return m_Console->SetTitle(U_title);
 	}
-	catch (System::Exception ^e) 
-	{ 
-		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e); 
-		return KMCERR_EXCEPTION_OCCURED; 
+	catch (System::Exception^ e)
+	{
+		System::Console::WriteLine("{0} {1}", KMCERRSTR_STDERR, e);
+		return KMCERR_EXCEPTION_OCCURED;
 	}
 }
 
@@ -164,15 +165,15 @@ int TConsoleWrapper::SetTitle(System::String ^title)
 //		  change the original managed variable
 
 // Transfer of managed String^ to unmanaged std::string
-void TConsoleWrapper::String_M2U(System::String ^ in_str, std::string & out_str) 
+void TConsoleWrapper::String_M2U(System::String^ in_str, std::string& out_str)
 {
-	const char * cstr = (const char *)(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(in_str)).ToPointer();
+	const char* cstr = (const char*)(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(in_str)).ToPointer();
 	out_str = cstr;
 	System::Runtime::InteropServices::Marshal::FreeHGlobal(System::IntPtr((void*)cstr));
 }
 
 // Transfer of unmanaged std::string to managed String^
-void TConsoleWrapper::String_U2M(std::string in_str, System::String ^ % out_str) 
+void TConsoleWrapper::String_U2M(std::string in_str, System::String^% out_str)
 {
 	out_str = gcnew System::String(in_str.c_str());
 }

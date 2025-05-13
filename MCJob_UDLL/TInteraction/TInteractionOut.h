@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TInteractionOut		(TInteraction Layer 2)				//
-//	Autor: Philipp Hein												//
-//	Datum: 30.03.2013												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung einer Wechselwirkung		 			//
-//	  Layer 2: Output class, d.h. Ausgabe generierter Daten		 	//
+//	Class: TInteractionOut	(TInteraction Layer 2)					//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for describing a pair interaction						//
+//	  Layer 2: Output class = get generated data					//
+//    -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -28,20 +28,21 @@ using namespace std;
 class TKMCJob;
 
 // Klassendeklaration:
-class TInteractionOut: public TInteractionFunc {
+class TInteractionOut : public TInteractionFunc
+{
 	// Member functions
-	public:
-		// NON-PUBLISHED
-		int GetInteractionDesc (int &o_ElemID, double &SDist, double &DDist);								// Grundelementbesetzung und Abstände ausgeben
-		int GetInteractionStartEnvCount (int &Count);														// Anzahl an Atomen in StartAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-		int GetInteractionDestEnvCount (int &Count);														// Anzahl an Atomen in DestAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-		int GetInteractionStartEnvAtom (int ID, int &o_ElemID, double &o_X, double &o_Y, double &o_Z);		// Atom aus der StartAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
-		int GetInteractionDestEnvAtom (int ID, int &o_ElemID, double &o_X, double &o_Y, double &o_Z);		// Atom aus der DestAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
+public:
+	// NON-PUBLISHED
+	int GetInteractionDesc(int& o_ElemID, double& SDist, double& DDist);								// Grundelementbesetzung und Abstände ausgeben
+	int GetInteractionStartEnvCount(int& Count);														// Anzahl an Atomen in StartAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
+	int GetInteractionDestEnvCount(int& Count);														// Anzahl an Atomen in DestAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
+	int GetInteractionStartEnvAtom(int ID, int& o_ElemID, double& o_X, double& o_Y, double& o_Z);		// Atom aus der StartAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
+	int GetInteractionDestEnvAtom(int ID, int& o_ElemID, double& o_X, double& o_Y, double& o_Z);		// Atom aus der DestAtom-EnvAtom-Wechselwirkungsumgebung ausgeben
 
-		TInteractionOut (TKMCJob * pJob);		// Constructor
+	TInteractionOut(TKMCJob* pJob);		// Constructor
 
-	protected:
-		~TInteractionOut ();					// Destructor
+protected:
+	~TInteractionOut();					// Destructor
 };
 
 #endif

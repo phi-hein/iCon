@@ -1,12 +1,13 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TElementsDesc											//
-//	Autor: Philipp Hein												//
-//	Datum: 27.08.2012												//
-//  Aufgabe:														//
-//    Klasse zur Beschreibung der Elementdarstellung				//
+//	Class: TElementsDesc											//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for providing visualization info for elements			//
 //																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 

@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TKMCJob	(TKMCJob Layer 3)								//
-//	Autor: Philipp Hein												//
-//	Datum: 27.08.2012												//
-//  Aufgabe:														//
-//    Klasse zur Verwaltung eines KMC-Jobs							//
-//	  Layer 3: Top class										 	//
+//	Class: TKMCJob	(TKMCJob Layer 3)								//
+//	Author: Philipp Hein											//
+//  Description:													//
+//    Class for managing a KMC job									//
+//	  Layer 3: Top class											//
+//    -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//  Distributed under GPL v3 license								//
+//  (see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -74,13 +74,13 @@ TKMCJob::TKMCJob() : TKMCJobOut()
 	}
 	catch (exception& e)
 	{
-		Ready = false; 
+		Ready = false;
 		StdExceptionHandler(e);
 		throw;
 	}
 	catch (...)
 	{
-		Ready = false; 
+		Ready = false;
 		ExceptionHandler();
 		throw;
 	}

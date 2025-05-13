@@ -1,15 +1,15 @@
 // **************************************************************** //
 //																	//
-//	Klasse: TSimulation	(TSimulation Layer 3)						//
-//	Autor: Philipp Hein												//
-//	Datum: 19.03.2014												//
-//  Aufgabe:														//
-//    Klasse zur Durchfuehrung der Simulation						//
-//	  Layer 3: Top class										 	//
+//	Class: TSimulation	(TSimulation Layer 3)						//
+//	Author: Philipp Hein											//
+//	Description:													//
+//    Class for carrying out the simulation							//
+//	  Layer 3: Top class											//
+//	  -> no modification of member variables						//
 //																	//
-//	  -> keine Veraenderung von Member-Variablen !!					//
-//																	//
-//	-- Property of Work Group Martin, RWTH Aachen University --		//
+//	Copyright (c) P. Hein, IPC, RWTH Aachen University				//
+//	Distributed under GPL v3 license								//
+//	(see LICENSE.txt file in the solution root folder)				//
 //																	//
 // **************************************************************** //
 
@@ -28,14 +28,15 @@ using namespace std;
 class TKMCJob;
 
 // Klassendeklaration:
-class TSimulation: public TSimulationOut {
+class TSimulation : public TSimulationOut
+{
 	// Member functions
-	public:
-		// PUBLISHED
+public:
+	// PUBLISHED
 
-		// NON-PUBLISHED
-		TSimulation (TKMCJob * pJob);			// Constructor
-		~TSimulation ();						// Destructor
+	// NON-PUBLISHED
+	TSimulation(TKMCJob* pJob);			// Constructor
+	~TSimulation();						// Destructor
 };
 
 #endif
