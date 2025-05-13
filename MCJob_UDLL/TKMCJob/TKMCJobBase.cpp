@@ -1999,8 +1999,8 @@ int TKMCJobBase::SaveToStream(ostream& output, int offset)
 		// Dateiheader schreiben
 		output << s_offset << "JOB FILE" << endl;
 		output << s_offset << "iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity" << endl;
-		output << s_offset << "Copyright 2014" << endl;
-		output << s_offset << "RWTH Aachen, IPC, Workgroup Martin" << endl;
+		output << s_offset << "Copyright 2016-2025, P. Hein, Workgroup Martin, IPC, RWTH Aachen" << endl;
+		output << s_offset << "Distributed under GPL v3 license. Publication of results requires proper attribution." << endl;
 		output << s_offset << KMCOUT_VERSION << " " << KMC_VERSION << endl;
 		output << s_offset << "File creation time: " << TCustomTime::GetCurrentTimeStr() << endl;
 		output << endl;

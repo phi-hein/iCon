@@ -54,6 +54,8 @@ int main(int argc, char* argv[])
 		{
 			cout << "iConSearcher" << endl;
 			cout << "Retrieval tool for iConSimulator results." << endl;
+			cout << "Copyright 2016-2025, P. Hein, Workgroup Martin, IPC, RWTH Aachen" << endl;
+			cout << "Distributed under GPL v3 license. Publication of results requires proper attribution." << endl;
 			cout << KMCOUT_VERSION << " " << KMC_VERSION << endl;
 			cout << "Collects the KMC results from a certain directory and from all sub-directories into a summary file." << endl;
 			cout << endl;
@@ -85,6 +87,8 @@ int main(int argc, char* argv[])
 
 	cout << "iConSearcher" << endl;
 	cout << "Retrieval tool for iConSimulator results." << endl;
+	cout << "Copyright 2016-2025, P. Hein, Workgroup Martin, IPC, RWTH Aachen" << endl;
+	cout << "Distributed under GPL v3 license. Publication of results requires proper attribution." << endl;
 	cout << KMCOUT_VERSION << " " << KMC_VERSION << endl;
 	cout << endl;
 

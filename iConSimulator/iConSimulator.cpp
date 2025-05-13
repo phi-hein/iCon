@@ -34,6 +34,7 @@ int main (int argc, char *argv[]) {
 	if ((CmdArg == "-help") || (CmdArg == "-h")) {
 		cout << "iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity" << endl;
 		cout << "Copyright 2016-2025, P. Hein, Workgroup Martin, IPC, RWTH Aachen" << endl;
+		cout << "Distributed under GPL v3 license. Publication of results requires proper attribution." << endl;
 		cout << KMCOUT_VERSION << " " << KMC_VERSION << endl;
 		cout << endl;
 		cout << "Available command line arguments:" << endl;
@@ -53,6 +54,7 @@ int main (int argc, char *argv[]) {
 	cout << "SIMULATION LOG" << endl;
 	cout << "iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity" << endl;
 	cout << "Copyright 2016-2025, P. Hein, Workgroup Martin, IPC, RWTH Aachen" << endl;
+	cout << "Distributed under GPL v3 license. Publication of results requires proper attribution." << endl;
 	cout << KMCOUT_VERSION << " " << KMC_VERSION << endl;
 	cout << "Start-Time: ";
 	TCustomTime StartTime = TCustomTime::GetCurrentTime(true);

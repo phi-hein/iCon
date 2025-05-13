@@ -3524,8 +3524,8 @@ void TSimulationBase::SaveCheckPoint(string i_space, string i_chkpath)
 	// Dateiheader schreiben
 	outfile << "CHECKPOINT FILE" << endl;
 	outfile << "iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity" << endl;
-	outfile << "Copyright 2014" << endl;
-	outfile << "RWTH Aachen, IPC, Workgroup Martin" << endl;
+	outfile << "Copyright 2016-2025, P. Hein, Workgroup Martin, IPC, RWTH Aachen" << endl;
+	outfile << "Distributed under GPL v3 license. Publication of results requires proper attribution." << endl;
 	outfile << KMCOUT_VERSION << " " << KMC_VERSION << endl;
 	outfile << "File creation time: " << TCustomTime::GetCurrentTimeStr() << endl;
 	outfile << endl;
