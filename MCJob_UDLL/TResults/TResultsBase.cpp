@@ -75,6 +75,14 @@ bool TResultsBase::IfReady () {
 	return Ready;
 }
 
+// Rueckgabe von Ready und genuegend MCSP
+bool TResultsBase::IfCompleted(long long required_MCSP)
+{
+	if (Ready == false) return false;
+
+	return (MCSP >= required_MCSP);
+}
+
 // Ergebnisse aus abgeschlossener Simulation laden
 int TResultsBase::MakeResults () {
 	Ready = false;

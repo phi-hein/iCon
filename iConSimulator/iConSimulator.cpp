@@ -33,8 +33,7 @@ int main (int argc, char *argv[]) {
 	string_view CmdArg = Trim(argv[1]);
 	if ((CmdArg == "-help") || (CmdArg == "-h")) {
 		cout << "iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity" << endl;
-		cout << "Copyright 2014" << endl;
-		cout << "RWTH Aachen, IPC, Workgroup Martin" << endl;
+		cout << "Copyright 2016-2025, P. Hein, Workgroup Martin, IPC, RWTH Aachen" << endl;
 		cout << KMCOUT_VERSION << " " << KMC_VERSION << endl;
 		cout << endl;
 		cout << "Available command line arguments:" << endl;
@@ -53,8 +52,7 @@ int main (int argc, char *argv[]) {
 	// Log-File-Header ausgeben
 	cout << "SIMULATION LOG" << endl;
 	cout << "iCon - Kinetic Monte-Carlo Simulation of Ionic Conductivity" << endl;
-	cout << "Copyright 2014" << endl;
-	cout << "RWTH Aachen, IPC, Workgroup Martin" << endl;
+	cout << "Copyright 2016-2025, P. Hein, Workgroup Martin, IPC, RWTH Aachen" << endl;
 	cout << KMCOUT_VERSION << " " << KMC_VERSION << endl;
 	cout << "Start-Time: ";
 	TCustomTime StartTime = TCustomTime::GetCurrentTime(true);
@@ -91,6 +89,12 @@ int main (int argc, char *argv[]) {
 		cout << "Error: The job configuration in the input file is incomplete." << endl;
 		cout << "Cannot start simulation due to missing settings." << endl;
 		cout << endl;
+		cout << "Program terminated." << endl;
+		return 1;
+	}
+	if (JobStatus >= 9)
+	{
+		cout << "The simulation is already complete." << endl;
 		cout << "Program terminated." << endl;
 		return 1;
 	}

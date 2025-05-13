@@ -74,8 +74,9 @@ class TResultsBase {
 		// NON-PUBLISHED
 		int MakeResults ();				// Ergebnisse aus abgeschlossener Simulation laden
 
-		TResultsBase (TKMCJob * pJob);			// Constructor, Ready = false setzen
-		bool IfReady ();						// Rueckgabe von Ready
+		TResultsBase (TKMCJob * pJob);				// Constructor, Ready = false setzen
+		bool IfReady ();							// Rueckgabe von Ready
+		bool IfCompleted(long long required_MCSP);	// Rueckgabe von Ready und genuegend MCSP
 		int SaveToStream (ostream &output, int offset);		// Ergebnisse in einen Stream schreiben, nur bei Ready == true moeglich (offset = zusaetzliche Leerstellen vor jeder Zeile)
 		int LoadFromStream (istream &input);				// Ergebnisse aus einem Stream laden
 

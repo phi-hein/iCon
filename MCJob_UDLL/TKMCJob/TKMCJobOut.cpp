@@ -213,7 +213,14 @@ int TKMCJobOut::GetProjectState(int& State)
 			cout << "Critical Error: Invalid results pointer (in TKMCJobOut::GetProjectState)" << endl << endl;
 			return KMCERR_INVALID_POINTER;
 		}
-		if (m_Results->IfReady() == true) State = 9; else return KMCERR_OK;
+		long long required_MCSP;
+		int rec_anz;
+		if (m_Settings->GetMainKMCOptions(required_MCSP, rec_anz) != KMCERR_OK)
+		{
+			cout << "Critical Error: Cannot get required MCSP (in TKMCJobOut::GetProjectState)" << endl << endl;
+			return KMCERR_INVALID_INPUT_CRIT;
+		}
+		if (m_Results->IfCompleted(required_MCSP) == true) State = 9; else return KMCERR_OK;
 
 		return KMCERR_OK;
 	}
