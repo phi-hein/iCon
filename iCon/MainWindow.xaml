@@ -2632,14 +2632,22 @@
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Style="{StaticResource StdInputStackpanelStyle}">
                                     <Label Content="Local Simulation:" Style="{StaticResource StdInputLabelStyle}"/>
-                                    <customContr:HorizontalLabeledControl LabelText="Workspace:" LabelMargin="5 0 5 0">
-                                        <TextBox Grid.Column="1" Text="{Binding VMGUISettings.LocalWorkspace, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="250">
-                                            <local:ToolTipHelper.MyToolTip>
-                                                <TextBlock Text="Local workspace directory which is used as default working directory and should be used for all locally saved project or job files. Absolute and relative paths allowed. Relative paths are based on the default iCon-Workspace directory in the user's Documents folder. Locally submitted jobs will be saved to a workspace sub-directory if the base directory is a relative path (see also Job Settings tab)." 
-                                                           Style="{StaticResource StdToolTipStyle}"/>
-                                            </local:ToolTipHelper.MyToolTip>
-                                        </TextBox>
-                                    </customContr:HorizontalLabeledControl>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <customContr:HorizontalLabeledControl Grid.Column="0" LabelText="Workspace:" LabelMargin="5 0 5 0">
+                                            <TextBox Grid.Column="1" Text="{Binding VMGUISettings.LocalWorkspace, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="250">
+                                                <local:ToolTipHelper.MyToolTip>
+                                                    <TextBlock Text="Local workspace directory which is used as default working directory and should be used for all locally saved project or job files. Absolute and relative paths allowed. Relative paths are based on the default iCon-Workspace directory in the user's Documents folder. Locally submitted jobs will be saved to a workspace sub-directory if the base directory is a relative path (see also Job Settings tab)." 
+                                                               Style="{StaticResource StdToolTipStyle}"/>
+                                                </local:ToolTipHelper.MyToolTip>
+                                            </TextBox>
+                                        </customContr:HorizontalLabeledControl>
+                                        <Button Grid.Column="1" Content="..." Style="{StaticResource StdMiniButtonStyle}" Padding="0 -2 0 0"
+                                                Click="BtnCmd_VMGUISettings_SetLocalWorkspacePath"/>
+                                    </Grid>
                                 </StackPanel>
                                 <Rectangle Grid.Row="1" Style="{StaticResource StdSepInTabRectangleStyle}"/>
                                 <StackPanel Grid.Row="2" Style="{StaticResource StdInputStackpanelStyle}">
@@ -2820,7 +2828,7 @@
                                                 <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.PrivateKeyPath, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdReadOnlyTextBoxStyle}"
                                                          IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                     <local:ToolTipHelper.MyToolTip>
-                                                        <TextBlock Text="Remote workspace directory which is used for remote simulations with a relative base directory (see also Job Settings tab). Absolute and relative paths allowed. Relative paths are based on the remote user home directory." 
+                                                        <TextBlock Text="Path to the private key file." 
                                                            Style="{StaticResource StdToolTipStyle}"/>
                                                     </local:ToolTipHelper.MyToolTip>
                                                 </TextBox>

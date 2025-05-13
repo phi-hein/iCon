@@ -806,9 +806,15 @@ namespace iCon_General
             MCViewModel.Settings.ClearJobList();
         }
 
-#endregion KMC Job Input Handling
+        #endregion KMC Job Input Handling
 
-#region Additional Input Handling
+        #region Additional Input Handling
+
+        private void BtnCmd_VMGUISettings_SetLocalWorkspacePath(object sender, RoutedEventArgs e)
+        {
+            UpdateCurrentInputBox();
+            MCViewModel.VMGUISettings.SelectLocalWorkspace();
+        }
 
         private void BtnCmd_VMGUISettings_SetPrivateKeyPath(object sender, RoutedEventArgs e)
         {

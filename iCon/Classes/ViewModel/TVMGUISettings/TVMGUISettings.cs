@@ -209,6 +209,33 @@ namespace iCon_General
         }
 
         /// <summary>
+        /// Show open folder dialog for local workspace selection
+        /// </summary>
+        public void SelectLocalWorkspace()
+        {
+            OpenFolderDialog opendlg = new OpenFolderDialog
+            {
+                InitialDirectory = Directory.GetCurrentDirectory(),
+                Title = "Select Local Workspace Directory",
+                Multiselect = false,
+                ValidateNames = true
+            };
+            if (opendlg.ShowDialog() == true)
+            {
+                // Make relative to the default workspace (if possible)
+                string path = Path.GetRelativePath(GetLocalWorkspacePath(""), opendlg.FolderName);
+
+                // Clear if equal to default workspace
+                if (path == ".") path = "";
+
+                // Use full path if not below default workspace
+                if (path.StartsWith("..")) path = opendlg.FolderName;
+
+                LocalWorkspace = path;
+            }
+        }
+
+        /// <summary>
         /// Show file open dialog for private key selection
         /// </summary>
         public void SelectPrivateKeyFile()
@@ -217,11 +244,13 @@ namespace iCon_General
             if (_SelectedRemoteProfile == null) return;
 
             // Get key file path
-            OpenFileDialog opendlg = new OpenFileDialog();
-            opendlg.InitialDirectory = Directory.GetCurrentDirectory();
-            opendlg.Title = "Select OpenSSH Private Key File";
-            opendlg.Multiselect = false;
-            opendlg.ValidateNames = true;
+            OpenFileDialog opendlg = new OpenFileDialog
+            {
+                InitialDirectory = Directory.GetCurrentDirectory(),
+                Title = "Select OpenSSH Private Key File",
+                Multiselect = false,
+                ValidateNames = true
+            };
             if (opendlg.ShowDialog() == true)
             {
                 _SelectedRemoteProfile.PrivateKeyPath = opendlg.FileName;
