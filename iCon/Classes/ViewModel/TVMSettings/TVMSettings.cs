@@ -159,7 +159,7 @@ namespace iCon_General
             }
             set
             {
-                ValidateNotify("BaseDirectory", value, ref _BaseDirectory);
+                ValidateNotify("BaseDirectory", value.Trim(), ref _BaseDirectory);
             }
         }
 
@@ -178,7 +178,7 @@ namespace iCon_General
             }
             set
             {
-                ValidateNotify("JobNamePrefix", value, ref _JobNamePrefix);
+                ValidateNotify("JobNamePrefix", value.Trim(), ref _JobNamePrefix);
             }
         }
 
@@ -416,6 +416,22 @@ namespace iCon_General
         #region Submit Methods
 
         /// <summary>
+        /// Constructs an exemplary directory path for the submission 
+        /// (according to the conventions in the submit methods, just for displaying in GUI)
+        /// </summary>
+        public static string GetFullSubmitPath(bool IsRemoteCalc, string BaseDir, string JobPfx, string RemoteWsp, string LocalWsp)
+        {
+            if (IsRemoteCalc)
+            {
+                return RemotePaths.Combine(RemotePaths.Combine("~", RemoteWsp, BaseDir), JobPfx + "_0001");
+            }
+            else
+            {
+                return Path.Combine(TVMGUISettings.GetLocalWorkspacePath(LocalWsp), BaseDir);
+            }
+        }
+
+        /// <summary>
         /// Start local simulations for the jobs in the job list (use only on a background worker thread)
         /// </summary>
         protected void SubmitLocalJobs(TMCJobWrapper MCDLL, TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e)
@@ -429,21 +445,9 @@ namespace iCon_General
 
             // Local, BaseDirectory = rel, Workspace = abs: LocalWorkspace\BaseDirectory\Job_XXXX\JobNamePrefix_XXXX.kmc
 
-            // Local, BaseDirectory = rel, Workspace = rel: AppDirectory\Workspace\LocalWorkspace\BaseDirectory\Job_XXXX\JobNamePrefix_XXXX.kmc
+            // Local, BaseDirectory = rel, Workspace = rel: (MyDocuments)\iCon-Workspace\LocalWorkspace\BaseDirectory\Job_XXXX\JobNamePrefix_XXXX.kmc
 
-            bool IfPreTotalAbsolute = false;
-            string PreTotalBasePath = "";
-            try
-            {
-                PreTotalBasePath = Path.Combine(ExtendedSettings.LocalWorkspace.Trim(), _BaseDirectory.Trim()).Trim();
-                IfPreTotalAbsolute = Path.IsPathRooted(PreTotalBasePath);
-            }
-            catch (Exception ex)
-            {
-                e.Result = new BWorkerResultMessage("Invalid Input", "Invalid submit paths\n",
-                        Constants.KMCERR_INVALID_INPUT, false);
-                return;
-            }
+            string totalBasePath = Path.Combine(ExtendedSettings.GetLocalWorkspacePath(), _BaseDirectory);
             */
         }
 

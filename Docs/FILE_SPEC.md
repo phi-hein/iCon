@@ -22,7 +22,7 @@ The following simulation results are written between `<Results>` and `</Results>
 	- `Mov-<ParallelDisplacement>`: Mean displacement parallel to the electric field in cm.
 	- `Mov-<PerpendicularDisplacement>`: Mean displacement perpendicular to the electric field in cm.
 	- `Mov-<sqrt(x*x+y*y+z*z)>`: Mean displacement in cm (= average displacement distance).
-	- `Mov-<x*x+y*y+z*z>`: Mean squared displacement in cm^2^.
+	- `Mov-<x*x+y*y+z*z>`: Mean squared displacement in cm^2.
 	- `Mov-(sum(x),sum(y),sum(z))`: Center of gravity displacement vector in cm (= sum of the individual displacement vectors).
 - Movement statistics of the vacancies:
 	- `Vac-<JumpCount>`: Average number of jumps.
@@ -30,7 +30,7 @@ The following simulation results are written between `<Results>` and `</Results>
 	- `Vac-<ParallelDisplacement>`: Mean displacement parallel to the electric field in cm.
 	- `Vac-<PerpendicularDisplacement>`: Mean displacement perpendicular to the electric field in cm.
 	- `Vac-<sqrt(x*x+y*y+z*z)>`: Mean displacement in cm (= average displacement distance).
-	- `Vac-<x*x+y*y+z*z>`: Mean squared displacement in cm^2^.
+	- `Vac-<x*x+y*y+z*z>`: Mean squared displacement in cm^2.
 	- `Vac-(sum(x),sum(y),sum(z))`: Center of gravity displacement vector in cm (= sum of the individual displacement vectors).
 
 ## Checkpoint file (*.mcp)
@@ -56,5 +56,5 @@ Each phase section contains the following quantities:
 - `Attempts-Paths-Ratio`: Cumulative ratio between the jump attempts and the number of jump directions (for time calculation).
 - `<CurrentLattice>` to `</CurrentLattice>`: Current (or final) placement of the atoms and vacancies (same format as initial lattice).
 - `<AtomMovements>` to `</AtomMovements>`: List of the individual movement of each mobile particle (atoms + vacancies, in the order in which they occur in the current lattice). Each line contains the particle's number of jumps and its displacement in x-, y- and z-direction.
-- `<AttemptProbabilities>` to `</AttemptProbabilities>`: Sorted list of jump attempt probabilities (if `Recorded Prob.` > 0 in the job settings). Each line contains the probability, followed by the number of respective jump attempts.
-- `<JumpProbabilities>` to `</JumpProbabilities>`: Sorted list of Monte-Carlo step probabilities (if `Recorded Prob.` > 0 in the job settings). Each line contains the probability, followed by the number of respective jumps.
+- `<AttemptProbabilities>` to `</AttemptProbabilities>`: Sorted list of jump attempt probabilities (if `Recorded Prob. > 0` in the job settings). Each line contains the probability, followed by the number of respective jump attempts.
+- `<JumpProbabilities>` to `</JumpProbabilities>`: Sorted list of Monte-Carlo step probabilities (if `Recorded Prob. > 0` in the job settings). Each line contains the probability, followed by the number of respective jumps.

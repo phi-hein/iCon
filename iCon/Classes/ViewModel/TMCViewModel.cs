@@ -908,6 +908,18 @@ namespace iCon_General
             _VMProjectFile = new TVMProjectFile(this);
             _VMGUISettings = new TVMGUISettings(this);
 
+            // Create default local workspace and set current directory
+            try
+            {
+                string workspace_path = TVMGUISettings.GetLocalWorkspacePath("");
+                Directory.CreateDirectory(workspace_path);
+                Directory.SetCurrentDirectory(workspace_path);
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException("Failed to create/set default local workspace directory (TMCViewModel constructor)", e);
+            }
+
             // Create new project
             New();
         }

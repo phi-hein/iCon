@@ -86,6 +86,7 @@ namespace iCon_General
         /// </summary>
         [StringLength(250, ErrorMessage = "Local workspace directory path has to contain 250 characters or less.")]
         [RegularExpression(@"^[A-Za-z0-9_\\~:\-\(\)\s]*$", ErrorMessage = @"Allowed characters: a-z, A-Z, 0-9, _~:\-() and space.")]
+        [LocalWorkspaceExists(ErrorMessage = "Local workspace directory does not exist.")]
         public string LocalWorkspace
         {
             get
@@ -94,7 +95,7 @@ namespace iCon_General
             }
             set
             {
-                ValidateNotify("LocalWorkspace", value, ref _LocalWorkspace);
+                ValidateNotify("LocalWorkspace", value.Trim(), ref _LocalWorkspace);
             }
         }
 
@@ -188,17 +189,23 @@ namespace iCon_General
         /// </summary>
         public string GetLocalWorkspacePath()
         {
-            string t_workspace = _LocalWorkspace;
+            return GetLocalWorkspacePath(_LocalWorkspace);
+        }
 
-            if (string.IsNullOrWhiteSpace(t_workspace) || (Path.IsPathRooted(t_workspace) == false))
+        /// <summary>
+        /// Creates full path for local workspace
+        /// </summary>
+        public static string GetLocalWorkspacePath(string workspace)
+        {
+            if (string.IsNullOrWhiteSpace(workspace) || (Path.IsPathRooted(workspace) == false))
             {
-                t_workspace = Path.Combine(
+                workspace = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     Constants.SC_KMC_STD_WORKING_DIR,
-                    t_workspace.Trim());
+                    workspace.Trim());
             }
 
-            return t_workspace.Trim();
+            return workspace.Trim();
         }
 
         /// <summary>
@@ -333,16 +340,6 @@ namespace iCon_General
         /// <param name="isRemoteSimulation">true = check if valid for remote simulation</param>
         public bool ValidateForSubmit(bool isRemoteSimulation)
         {
-            if (ValidateProperty("LocalWorkspace", _LocalWorkspace) == false) return false;
-            try
-            {
-                Directory.CreateDirectory(GetLocalWorkspacePath());
-            }
-            catch (Exception e)
-            {
-                throw new ApplicationException("Failed to create local workspace directory (TVMGUISettings.ValidateForSubmit)", e);
-            }
-
             if (isRemoteSimulation == true)
             {
                 // Check if everything ready for remote simulation
@@ -357,7 +354,10 @@ namespace iCon_General
             }
             else
             {
-                // Check if everything ready for local simulation
+                // Check local workspace
+                if (ValidateProperty("LocalWorkspace", _LocalWorkspace) == false) return false;
+
+                // Check if executables exist
                 if (File.Exists(GetLocalSimExecutablePath()) == false) return false;
                 if (File.Exists(GetLocalSearchExecutablePath()) == false) return false;
             }
@@ -551,11 +551,10 @@ namespace iCon_General
             // Correct profile ordering and IDs
             AdjustProfileIDs();
 
-            // Set current directory to local workspace
-            string t_locpath = GetLocalWorkspacePath();
-            if (Directory.Exists(t_locpath) == true)
+            // Set current directory to local workspace (validation includes existence check)
+            if (ValidateProperty("LocalWorkspace", _LocalWorkspace))
             {
-                Directory.SetCurrentDirectory(t_locpath);
+                Directory.SetCurrentDirectory(GetLocalWorkspacePath());
             }
         }
 

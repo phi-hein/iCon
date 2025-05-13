@@ -50,6 +50,7 @@
     <local:StrToIntConverterClass x:Key="StrToIntConverter"/>
     <local:StrToLongConverterClass x:Key="StrToLongConverter"/>
     <local:StrToDoubleConverterClass x:Key="StrToDoubleConverter"/>
+    <local:FullSubmitPathConverterClass x:Key="FullSubmitPathConverter"/>
 
     <!-- Colors -->
     <Color x:Key="GUIMainGray">#FFCDCDCD</Color>

@@ -10,9 +10,9 @@
         Title="{x:Static txtRes:Resources.MainWindow_BaseTitle}" 
         Top="0"
         Left="0"
-        Width="1000"
+        Width="1200"
         Height="800"
-        MinWidth="1000"
+        MinWidth="1100"
         MinHeight="700"
         WindowState="Maximized"
         Loaded="Window_Loaded" 
@@ -1119,7 +1119,6 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
@@ -1381,41 +1380,62 @@
                                         </Grid>
                                     </StackPanel>
                                 </Grid>
-                                <StackPanel Grid.Row="2" Style="{StaticResource StdInputStackpanelStyle}">
-                                    <Grid Margin="0 8 0 2">
+                                <Rectangle Grid.Row="2" Style="{StaticResource StdSepInTabRectangleStyle}"/>
+                                <DockPanel Grid.Row="3" Style="{StaticResource MultilineInputDockpanelStyle}">
+                                    <Grid DockPanel.Dock="Top" Margin="0 0 0 2">
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button Grid.Column="1" Style="{StaticResource StdButtonStyle}" Content="{x:Static txtRes:Resources.Btn_Add}"
-                                                Click="BtnCmd_Settings_AddJob">
+                                        <Label Grid.Column="0" Content="Job List:" Style="{StaticResource StdInputLabelStyle}"/>
+                                        <Button Grid.Column="2" Style="{StaticResource StdButtonStyle}" Content="{x:Static txtRes:Resources.Btn_Add}"
+                                                Click="BtnCmd_Settings_AddJob" VerticalAlignment="Center">
                                             <local:ToolTipHelper.MyToolTip>
                                                 <TextBlock Text="Validate the job settings above and add the job to the job list below." 
                                                            Style="{StaticResource StdToolTipStyle}"/>
                                             </local:ToolTipHelper.MyToolTip>
                                         </Button>
-                                        <Button Grid.Column="2" Style="{StaticResource StdButtonStyle}" Content="{x:Static txtRes:Resources.Btn_Change}"
+                                        <Button Grid.Column="3" Style="{StaticResource StdButtonStyle}" Content="{x:Static txtRes:Resources.Btn_Change}"
                                                 IsEnabled="{Binding Settings.IsJobSelected, Mode=OneWay}" 
-                                                Click="BtnCmd_Settings_ChangeJob">
+                                                Click="BtnCmd_Settings_ChangeJob" VerticalAlignment="Center">
                                             <local:ToolTipHelper.MyToolTip>
                                                 <TextBlock Text="Validate the job settings above and change the selected job in the job list below to the new settings." 
                                                            Style="{StaticResource StdToolTipStyle}"/>
                                             </local:ToolTipHelper.MyToolTip>
                                         </Button>
-                                        <Button Grid.Column="3" Style="{StaticResource StdButtonStyle}" Content="{x:Static txtRes:Resources.Btn_Clear}"
-                                                Click="BtnCmd_Settings_ClearJob">
+                                        <Button Grid.Column="4" Style="{StaticResource StdButtonStyle}" Content="{x:Static txtRes:Resources.Btn_Clear}"
+                                                Click="BtnCmd_Settings_ClearJob" VerticalAlignment="Center">
                                             <local:ToolTipHelper.MyToolTip>
                                                 <TextBlock Text="Restore the last validated job settings above." 
                                                            Style="{StaticResource StdToolTipStyle}"/>
                                             </local:ToolTipHelper.MyToolTip>
                                         </Button>
                                     </Grid>
-                                </StackPanel>
-                                <Rectangle Grid.Row="3" Style="{StaticResource StdSepInTabRectangleStyle}"/>
-                                <DockPanel Grid.Row="4" Style="{StaticResource MultilineInputDockpanelStyle}">
-                                    <Label DockPanel.Dock="Top" Content="Job List:" Style="{StaticResource StdInputLabelStyle}"/>
+                                    <Grid DockPanel.Dock="Bottom">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="Job directory (example):" Style="{StaticResource StdInputLabelStyle}"/>
+                                        <TextBox Grid.Column="1" Style="{StaticResource StdReadOnlyTextBoxStyle}" VerticalAlignment="Center">
+                                            <TextBox.Text>
+                                                <MultiBinding Converter="{StaticResource FullSubmitPathConverter}">
+                                                    <Binding Path="Settings.CalcType" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                                    <Binding Path="Settings.BaseDirectory" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                                    <Binding Path="Settings.JobNamePrefix" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                                    <Binding Path="VMGUISettings.SelectedRemoteProfile.RemoteWorkspace" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                                    <Binding Path="VMGUISettings.LocalWorkspace" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                                </MultiBinding>
+                                            </TextBox.Text>
+                                            <local:ToolTipHelper.MyToolTip>
+                                                <TextBlock Text="Exemplary job directory path, based on the current workspace, base directory and job prefix settings." 
+                                                           Style="{StaticResource StdToolTipStyle}"/>
+                                            </local:ToolTipHelper.MyToolTip>
+                                        </TextBox>
+                                    </Grid>
                                     <Grid DockPanel.Dock="Bottom">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -1444,7 +1464,7 @@
                                                            Style="{StaticResource StdToolTipStyle}"/>
                                                 </local:ToolTipHelper.MyToolTip>
                                             </RadioButton>
-                                            <RadioButton IsEnabled="False" Content="Local" GroupName="CalcType" Style="{StaticResource StdInputRadioButtonStyle}" Margin="0 0 0 0">
+                                            <RadioButton Content="Local" GroupName="CalcType" Style="{StaticResource StdInputRadioButtonStyle}" Margin="0 0 0 0">
                                                 <local:ToolTipHelper.MyToolTip>
                                                     <TextBlock Text="The simulations will be executed on the local computer with an included queue system." 
                                                             Style="{StaticResource StdToolTipStyle}"/>
@@ -1546,7 +1566,7 @@
                                         </DataGrid.ContextMenu>
                                     </DataGrid>
                                 </DockPanel>
-                                <StackPanel Grid.Row="5" Style="{StaticResource StdInputStackpanelStyle}">
+                                <StackPanel Grid.Row="4" Style="{StaticResource StdInputStackpanelStyle}">
                                     <Grid Margin="0 8 0 2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -1807,7 +1827,7 @@
                                                                                 </CheckBox>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Scaling factor:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding CrystalModel.AtomScale, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding CrystalModel.AtomScale, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Scaling factor that is multiplied with the atom sizes." 
                                                                                                    Style="{StaticResource StdToolTipStyle}"/>
@@ -1819,7 +1839,7 @@
                                                                         <customContr:OptionsGroupBox LabelText="Unit cells:" Style="{StaticResource 3DOptionsGroupBoxStyle}">
                                                                             <StackPanel Orientation="Vertical" Width="110">
                                                                                 <customContr:HorizontalLabeledControl LabelText="a-Direction:">
-                                                                                    <TextBox Text="{Binding CrystalModel.UCCountA, Converter={StaticResource StrToIntConverter}}"
+                                                                                    <TextBox Text="{Binding CrystalModel.UCCountA, Converter={StaticResource StrToIntConverter}, ValidatesOnNotifyDataErrors=True}"
                                                                                              Style="{StaticResource StdInputTextBoxStyle}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Number of unit cells in a-direction." 
@@ -1828,7 +1848,7 @@
                                                                                     </TextBox>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="b-Direction:">
-                                                                                    <TextBox Text="{Binding CrystalModel.UCCountB, Converter={StaticResource StrToIntConverter}}"
+                                                                                    <TextBox Text="{Binding CrystalModel.UCCountB, Converter={StaticResource StrToIntConverter}, ValidatesOnNotifyDataErrors=True}"
                                                                                              Style="{StaticResource StdInputTextBoxStyle}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Number of unit cells in b-direction." 
@@ -1837,7 +1857,7 @@
                                                                                     </TextBox>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="c-Direction:">
-                                                                                    <TextBox Text="{Binding CrystalModel.UCCountC, Converter={StaticResource StrToIntConverter}}"
+                                                                                    <TextBox Text="{Binding CrystalModel.UCCountC, Converter={StaticResource StrToIntConverter}, ValidatesOnNotifyDataErrors=True}"
                                                                                              Style="{StaticResource StdInputTextBoxStyle}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Number of unit cells in c-direction." 
@@ -1860,7 +1880,7 @@
                                                                                 <CheckBox Content="Show lattice" Style="{StaticResource StdOptionsCheckBoxStyle}" 
                                                                                           IsChecked="{Binding CrystalModel.IsLatticeVisible, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Thickness:">
-                                                                                    <TextBox Text="{Binding CrystalModel.LatticeThickness, Converter={StaticResource StrToDoubleConverter}}"
+                                                                                    <TextBox Text="{Binding CrystalModel.LatticeThickness, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"
                                                                                              Style="{StaticResource StdInputTextBoxStyle}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
@@ -1880,7 +1900,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding CrystalModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}}"/>
+                                                                                             Text="{Binding CrystalModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -1962,7 +1982,7 @@
                                                                                 </CheckBox>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Scaling factor:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding JumpsModel.AtomScale, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding JumpsModel.AtomScale, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Scaling factor that is multiplied with the atoms sizes."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -1984,7 +2004,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding JumpsModel.VacancyOpacity, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding JumpsModel.VacancyOpacity, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Opacity of the vacancy."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2004,7 +2024,7 @@
                                                                                 </CheckBox>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding JumpsModel.IrrelevantAtomOpacity, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding JumpsModel.IrrelevantAtomOpacity, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Opacity of the non-environment atoms."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2027,7 +2047,7 @@
                                                                                             IsChecked="{Binding JumpsModel.IsLatticeVisible, UpdateSourceTrigger=PropertyChanged}"/>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Thickness:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding JumpsModel.LatticeThickness, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding JumpsModel.LatticeThickness, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Color:">
                                                                                     <usrContr:ColorPicker SelectedColor="{Binding JumpsModel.LatticeColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -2043,11 +2063,11 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                               Text="{Binding JumpsModel.ArrowDiameter, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                               Text="{Binding JumpsModel.ArrowDiameter, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Head length:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding JumpsModel.ArrowHeadLength, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding JumpsModel.ArrowHeadLength, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2063,7 +2083,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding JumpsModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}}"/>
+                                                                                             Text="{Binding JumpsModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2120,7 +2140,7 @@
                                                                             <StackPanel Orientation="Vertical" Width="150">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Scaling factor:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding UniqueJumpsModel.AtomScale, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding UniqueJumpsModel.AtomScale, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Scaling factor that is multiplied with the atom sizes."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2150,7 +2170,7 @@
                                                                                 </CheckBox>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity (additive):">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding UniqueJumpsModel.AdditiveAtomOpacity, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding UniqueJumpsModel.AdditiveAtomOpacity, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Opacity of additive environment atoms."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2159,7 +2179,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity (inactive):">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding UniqueJumpsModel.InactiveAtomOpacity, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding UniqueJumpsModel.InactiveAtomOpacity, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Opacity of inactive environment atoms."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2168,7 +2188,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity (ignored):">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding UniqueJumpsModel.IgnoredAtomOpacity, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding UniqueJumpsModel.IgnoredAtomOpacity, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Opacity of ignored environment atoms."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2190,7 +2210,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding UniqueJumpsModel.VacancyOpacity, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding UniqueJumpsModel.VacancyOpacity, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Opacity of the vacancy."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2216,11 +2236,11 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding UniqueJumpsModel.ArrowDiameter, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding UniqueJumpsModel.ArrowDiameter, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Head length:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding UniqueJumpsModel.ArrowHeadLength, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding UniqueJumpsModel.ArrowHeadLength, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2236,7 +2256,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding UniqueJumpsModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}}"/>
+                                                                                             Text="{Binding UniqueJumpsModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2315,7 +2335,7 @@
                                                                             <StackPanel Orientation="Vertical" Width="130">
                                                                                 <customContr:HorizontalLabeledControl LabelText="Scaling factor:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding CodesModel.AtomScale, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding CodesModel.AtomScale, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Scaling factor that is multiplied with the atom sizes."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2337,7 +2357,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding CodesModel.VacancyOpacity, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding CodesModel.VacancyOpacity, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Opacity of the vacancy."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2363,11 +2383,11 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding CodesModel.ArrowDiameter, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding CodesModel.ArrowDiameter, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Head length:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding CodesModel.ArrowHeadLength, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding CodesModel.ArrowHeadLength, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2383,7 +2403,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding CodesModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}}"/>
+                                                                                             Text="{Binding CodesModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2465,7 +2485,7 @@
                                                                                 </CheckBox>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Scaling factor:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding InteractionsModel.AtomScale, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding InteractionsModel.AtomScale, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Scaling factor that is multiplied with the atom sizes."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2487,7 +2507,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Opacity:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding InteractionsModel.VacancyOpacity, Converter={StaticResource StrToDoubleConverter}}">
+                                                                                             Text="{Binding InteractionsModel.VacancyOpacity, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}">
                                                                                         <local:ToolTipHelper.MyToolTip>
                                                                                             <TextBlock Text="Opacity of the vacancy."
                                                                                                        Style="{StaticResource StdToolTipStyle}"/>
@@ -2513,11 +2533,11 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding InteractionsModel.ArrowDiameter, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding InteractionsModel.ArrowDiameter, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Head length:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding InteractionsModel.ArrowHeadLength, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding InteractionsModel.ArrowHeadLength, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2530,11 +2550,11 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Diameter:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding InteractionsModel.WWArrowDiameter, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding InteractionsModel.WWArrowDiameter, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Head length:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding InteractionsModel.WWArrowHeadLength, Converter={StaticResource StrToDoubleConverter}}"/>
+                                                                                             Text="{Binding InteractionsModel.WWArrowHeadLength, Converter={StaticResource StrToDoubleConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2550,7 +2570,7 @@
                                                                                 </customContr:HorizontalLabeledControl>
                                                                                 <customContr:HorizontalLabeledControl LabelText="Font size:">
                                                                                     <TextBox Style="{StaticResource StdInputTextBoxStyle}"
-                                                                                             Text="{Binding InteractionsModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}}"/>
+                                                                                             Text="{Binding InteractionsModel.AtomLabelFontSize, Converter={StaticResource StrToIntConverter}, ValidatesOnNotifyDataErrors=True}"/>
                                                                                 </customContr:HorizontalLabeledControl>
                                                                             </StackPanel>
                                                                         </customContr:OptionsGroupBox>
@@ -2607,21 +2627,23 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Style="{StaticResource StdInputStackpanelStyle}">
                                     <Label Content="Local Simulation:" Style="{StaticResource StdInputLabelStyle}"/>
                                     <customContr:HorizontalLabeledControl LabelText="Workspace:" LabelMargin="5 0 5 0">
-                                        <TextBox Grid.Column="1" Text="{Binding VMGUISettings.LocalWorkspace}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="250">
+                                        <TextBox Grid.Column="1" Text="{Binding VMGUISettings.LocalWorkspace, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="250">
                                             <local:ToolTipHelper.MyToolTip>
-                                                <TextBlock Text="Local workspace directory which is used as default working directory and should be used for all locally saved project or job files. Absolute and relative paths allowed. Relative paths are based on the default %(iCon-Folder)\Workspace directory. Locally submitted jobs will be saved to a workspace sub-directory if the base directory is a relative path (see also Job Settings tab)." 
+                                                <TextBlock Text="Local workspace directory which is used as default working directory and should be used for all locally saved project or job files. Absolute and relative paths allowed. Relative paths are based on the default iCon-Workspace directory in the user's Documents folder. Locally submitted jobs will be saved to a workspace sub-directory if the base directory is a relative path (see also Job Settings tab)." 
                                                            Style="{StaticResource StdToolTipStyle}"/>
                                             </local:ToolTipHelper.MyToolTip>
                                         </TextBox>
                                     </customContr:HorizontalLabeledControl>
                                 </StackPanel>
-                                <StackPanel Grid.Row="1" Style="{StaticResource StdInputStackpanelStyle}">
-                                    <Label Content="Remote Simulation:" Style="{StaticResource StdInputLabelStyle}" Margin="0 5 0 0"/>
+                                <Rectangle Grid.Row="1" Style="{StaticResource StdSepInTabRectangleStyle}"/>
+                                <StackPanel Grid.Row="2" Style="{StaticResource StdInputStackpanelStyle}">
+                                    <Label Content="Remote Simulation:" Style="{StaticResource StdInputLabelStyle}"/>
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
@@ -2694,7 +2716,7 @@
                                             </Grid>
                                         </Grid>
                                         <customContr:HorizontalLabeledControl Grid.Row="0" Grid.Column="2" LabelText="Name:" LabelMargin="5 0 5 0">
-                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.Name}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="20"
+                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.Name, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="20"
                                                      IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                 <local:ToolTipHelper.MyToolTip>
                                                     <TextBlock Text="Name of the selected remote profile." 
@@ -2703,7 +2725,7 @@
                                             </TextBox>
                                         </customContr:HorizontalLabeledControl>
                                         <customContr:HorizontalLabeledControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" LabelText="Workspace:" LabelMargin="5 0 5 0">
-                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.RemoteWorkspace}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="250"
+                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.RemoteWorkspace, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="250"
                                                      IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                 <local:ToolTipHelper.MyToolTip>
                                                     <TextBlock Text="Remote workspace directory which is used for remote simulations with a relative base directory (see also Job Settings tab). Absolute and relative paths allowed. Relative paths are based on the remote user home directory." 
@@ -2712,7 +2734,7 @@
                                             </TextBox>
                                         </customContr:HorizontalLabeledControl>
                                         <customContr:HorizontalLabeledControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" LabelText="Build directory:" LabelMargin="5 0 5 0">
-                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.RemoteBuildDir}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="100"
+                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.RemoteBuildDir, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="100"
                                                      IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                 <local:ToolTipHelper.MyToolTip>
                                                     <TextBlock Text="Remote build directory where the required executables shall be stored (relative to remote workspace directory)." 
@@ -2721,7 +2743,7 @@
                                             </TextBox>
                                         </customContr:HorizontalLabeledControl>
                                         <customContr:HorizontalLabeledControl Grid.Row="3" Grid.Column="0" LabelText="Host:" LabelMargin="5 0 5 0">
-                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.HostAdress}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="100"
+                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.HostAdress, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="100"
                                                      IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                 <local:ToolTipHelper.MyToolTip>
                                                     <TextBlock Text="Adress (e.g. IP) of the remote cluster." 
@@ -2730,7 +2752,7 @@
                                             </TextBox>
                                         </customContr:HorizontalLabeledControl>
                                         <customContr:HorizontalLabeledControl Grid.Row="3" Grid.Column="2" LabelText="Port:" LabelMargin="5 0 5 0">
-                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.HostPort, Converter={StaticResource StrToIntConverter}}" 
+                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.HostPort, Converter={StaticResource StrToIntConverter}, ValidatesOnNotifyDataErrors=True}" 
                                                      Style="{StaticResource StdInputTextBoxStyle}"
                                                      IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                 <local:ToolTipHelper.MyToolTip>
@@ -2740,7 +2762,7 @@
                                             </TextBox>
                                         </customContr:HorizontalLabeledControl>
                                         <customContr:HorizontalLabeledControl Grid.Row="4" Grid.Column="0" LabelText="Username:" LabelMargin="5 0 5 0">
-                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.Username}" Style="{StaticResource StdInputTextBoxStyle}" 
+                                            <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.Username, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdInputTextBoxStyle}" 
                                                      MaxLength="50"
                                                      IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                 <local:ToolTipHelper.MyToolTip>
@@ -2795,7 +2817,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
                                             <customContr:HorizontalLabeledControl Grid.Column="0" LabelText="Private Key Path:" LabelMargin="5 0 5 0">
-                                                <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.PrivateKeyPath}" Style="{StaticResource StdReadOnlyTextBoxStyle}"
+                                                <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.PrivateKeyPath, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdReadOnlyTextBoxStyle}"
                                                          IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                     <local:ToolTipHelper.MyToolTip>
                                                         <TextBlock Text="Remote workspace directory which is used for remote simulations with a relative base directory (see also Job Settings tab). Absolute and relative paths allowed. Relative paths are based on the remote user home directory." 
@@ -2817,7 +2839,7 @@
                                         </CheckBox>
                                     </Grid>
                                 </StackPanel>
-                                <DockPanel Grid.Row="2" Style="{StaticResource MultilineInputDockpanelStyle}">
+                                <DockPanel Grid.Row="3" Style="{StaticResource MultilineInputDockpanelStyle}">
                                     <Label DockPanel.Dock="Top" Content="Remote scripts:" Style="{StaticResource StdInputLabelStyle}"/>
                                     <TabControl Style="{StaticResource MainTabControlStyle}" Margin="0 0 0 0"
                                                 IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">

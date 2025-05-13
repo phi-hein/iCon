@@ -9,6 +9,7 @@ The basic steps for setting up a KMC simulation with the iCon GUI are described 
 After adding KMC jobs to the list in iCon's `Job Settings` tab, these jobs can be submitted to a remote queue system. Before hitting the `Submit` button, several preparations are necessary, as will be described further [below](#preparations-for-remote-job-submission). 
 
 ### Automatic remote submission process of iCon:  
+For a proper understanding of the required settings, please see how iCon submits remote calculations:
 - Connects to the remote cluster via SSH and SFTP. This requires to authenticate twice, which can be accelerated by using private key authentication.
 - Checks whether the required `iConSimulator.exe` and `iConSearcher.exe` are present and up-to-date. If not, then their source code is uploaded to the specified `Build directory` and they are compiled by executing the specified `Build script`.
 - Copies the executables to the `Base directory` of the jobs.
