@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
-using System.Net.Sockets;
 using System.Reflection;
-using System.Text;
 using System.Windows;
-using System.Windows.Media.Media3D;
 using System.Windows.Threading;
-using Renci.SshNet;
 using Renci.SshNet.Common;
 
 
@@ -427,7 +425,7 @@ namespace iCon_General
             }
             else
             {
-                return Path.Combine(TVMGUISettings.GetLocalWorkspacePath(LocalWsp), BaseDir);
+                return Path.Combine(Path.Combine(TVMGUISettings.GetLocalWorkspacePath(LocalWsp), BaseDir), JobPfx + "_0001");
             }
         }
 
@@ -436,21 +434,231 @@ namespace iCon_General
         /// </summary>
         protected void SubmitLocalJobs(TMCJobWrapper MCDLL, TVMGUISettings ExtendedSettings, BackgroundWorker BWorker, DoWorkEventArgs e)
         {
-            e.Result = new BWorkerResultMessage("Implementation Error", "Local job submission not implemented\n",
-                            Constants.KMCERR_INVALID_INPUT, false);
+            int ErrorCode = Constants.KMCERR_OK;
+            BWorker.ReportProgress(5, "OK\n");
+            System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
+            if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
+            BWorker.ReportProgress(5, "Preparing executables and script ... ");
 
-            /*
             // Path Convention:
             // Local, BaseDirectory = abs: BaseDirectory\Job_XXXX\JobNamePrefix_XXXX.kmc
-
             // Local, BaseDirectory = rel, Workspace = abs: LocalWorkspace\BaseDirectory\Job_XXXX\JobNamePrefix_XXXX.kmc
-
             // Local, BaseDirectory = rel, Workspace = rel: (MyDocuments)\iCon-Workspace\LocalWorkspace\BaseDirectory\Job_XXXX\JobNamePrefix_XXXX.kmc
 
+            // Create full path for the job base directory
             string totalBasePath = Path.Combine(ExtendedSettings.GetLocalWorkspacePath(), _BaseDirectory);
 
-            // Do not overwrite existing jobs
-            */
+            // Create project base directory
+            Console.WriteLine("Project base path: " + totalBasePath);
+            Console.Write("Creating project base directory ... ");
+            if (!LocalCalc.CreateDirectory(e, totalBasePath)) return;
+            Console.WriteLine("OK.");
+
+            // Create paths for executables
+            string simExePath = Path.Combine(totalBasePath, Constants.SC_KMC_LOCALSIMEXE);
+            string searchExePath = Path.Combine(totalBasePath, Constants.SC_KMC_LOCALSEARCHEXE);
+
+            // Copy executables to job base directory
+            Console.Write("Copying executables ... ");
+            if (!LocalCalc.CopyFile(e, ExtendedSettings.GetLocalSimExecutablePath(), simExePath, true)) return;
+            if (!LocalCalc.CopyFile(e, ExtendedSettings.GetLocalSearchExecutablePath(), searchExePath, true)) return;
+            Console.WriteLine("OK.");
+
+            // Create script in job base directory
+            Console.Write("Writing batch script header ... ");
+            string runScriptPath = Path.Combine(totalBasePath, Constants.SC_KMC_LOCALSCRIPT);
+            if (File.Exists(runScriptPath))
+            {
+                Console.WriteLine("Exists already.");
+            }
+            else
+            {
+                string[] script_header = [
+                    @"# ====================== iCon powershell file ======================",
+                    @"# This simple script executes the specified iCon calculations in sequential order.",
+                    @"# Each calculation is started in a separate window, which allows to follow its progress.",
+                    @"# When the calculations are done, you may collect the results by starting the iConSearcher_Win.exe.",
+                    @"# ====================== ==================== ======================",
+                    @"",
+                    @"$SimExe = """ + simExePath + @"""",
+                    @"",
+                    @"function Start-Simulation {",
+                    @"  param (",
+                    @"    [int]$JobID,",
+                    @"    [string]$InputFile",
+                    @"  )",
+                    @"",
+                    @"  Write-Output ""Executing KMC job with ID = $JobID ($(Get-Date)):""",
+                    @"  Start-Sleep -Seconds 2",
+                    @"  $LogFile = [System.IO.Path]::ChangeExtension($InputFile, 'log')",
+                    @"  $SimCommand = ""-Command `""$SimExe`"" `""$InputFile`"" | Tee-Object -Append -FilePath `""$LogFile`""""",
+                    @"  $Proc = Start-Process ""powershell.exe"" -ArgumentList ""$SimCommand"" -PassThru -Wait",
+                    @"  Write-Output ""Finished with exit code $($Proc.ExitCode) ($(Get-Date)).""",
+                    @"  Write-Output """"",
+                    @"}",
+                    @"",
+                    @"Write-Output ""iCon - Local KMC calculations""",
+                    @"Write-Output """"",
+                    @""
+                    ];
+                if (!LocalCalc.WriteLinesToFile(e, runScriptPath, script_header)) return;
+                Console.WriteLine("OK.");
+            }
+            Console.WriteLine();
+
+            // Submit all jobs
+            BWorker.ReportProgress(15, "OK\n");
+            double jobPercInc = 80.0 / Convert.ToDouble(_JobList.Count);
+            double subProgress = 15.0;
+            List<int> skipped_IDs = [];
+            for (int i = 0; i < _JobList.Count; i++)
+            {
+                System.Threading.Thread.Sleep(Constants.THREAD_READING_DELAY);
+                if (BWorker.CancellationPending == true) { e.Cancel = true; return; }
+                BWorker.ReportProgress(Convert.ToInt32(Math.Floor(subProgress)), "Submitting job " + (i + 1).ToString() + " (JobID: " + _JobList[i].ID.ToString() + ") ... ");
+                Console.WriteLine("Job " + (i + 1).ToString() + " of " + _JobList.Count.ToString() + " (ID: " + _JobList[i].ID.ToString() + "):");
+
+                // Create paths
+                string jobName = _JobNamePrefix + "_" + _JobList[i].ID.ToString("0000");
+                string jobDirectory = Path.Combine(totalBasePath, jobName);
+                string jobInputPath = Path.Combine(jobDirectory, jobName + ".kmc");
+                string jobLogPath = Path.Combine(jobDirectory, jobName + ".log");
+
+                // Skip if folder and kmc file already exist
+                if ((Directory.Exists(jobDirectory)) && (File.Exists(jobInputPath)))
+                {
+                    skipped_IDs.Add(_JobList[i].ID);
+                    Console.WriteLine("Job directory: " + jobDirectory);
+                    Console.WriteLine("Job input file: " + jobInputPath);
+                    Console.WriteLine("Job directory and input file already exist. Skipping this KMC job.");
+                    Console.WriteLine();
+
+                    subProgress += jobPercInc;
+                    BWorker.ReportProgress(Convert.ToInt32(Math.Floor(subProgress)), "Skipped\n");
+                    continue;
+                }
+
+                // Load job settings
+                Console.Write("Loading job ... ");
+                if (_JobList[i].ApplyData(MCDLL, BWorker, e, false) == false) return;
+                Console.WriteLine("OK.");
+
+                // Create job folder
+                Console.Write("Creating job folder (" + jobDirectory + ") ... ");
+                if (!LocalCalc.CreateDirectory(e, jobDirectory)) return;
+                Console.WriteLine("OK.");
+
+                // Create input file
+                Console.Write("Writing job input file ... ");
+                ErrorCode = MCDLL.SaveToFile(jobInputPath);
+                switch (ErrorCode)
+                {
+                    case Constants.KMCERR_OK:
+                        break;
+                    case Constants.KMCERR_INVALID_INPUT:
+                        e.Result = new BWorkerResultMessage("KMC Error", "Cannot write job file\n(see console for details)\n",
+                                                            Constants.KMCERR_INVALID_INPUT, false);
+                        return;
+                    default:
+                        throw new ApplicationException("Cannot save job data to file (TVMSettings.SubmitLocalJobs, ErrorCode: " + ErrorCode.ToString() + ")");
+                }
+                Console.WriteLine("OK.");
+
+                // Append job to script
+                string[] script_job = [
+                    @"Start-Simulation -JobID " + _JobList[i].ID.ToString() + @" -InputFile """ + jobInputPath + @"""",
+                    @""
+                    ];
+                if (!LocalCalc.AppendLinesToFile(e, runScriptPath, script_job)) return;
+
+                subProgress += jobPercInc;
+                BWorker.ReportProgress(Convert.ToInt32(Math.Floor(subProgress)), "OK\n");
+                Console.WriteLine();
+            }
+            if (skipped_IDs.Count == _JobList.Count)
+            {
+                Console.WriteLine("All jobs skipped.");
+                Console.WriteLine("Overwriting existing jobs is not permitted.");
+                Console.WriteLine("Assign new unused IDs for the jobs and re-start the submission.");
+            }
+            else if (skipped_IDs.Count > 0)
+            {
+                Console.WriteLine("All jobs submitted except for the following IDs: " + skipped_IDs.ToRangeString());
+                Console.WriteLine("Overwriting existing jobs is not permitted.");
+                Console.WriteLine("Assign new unused IDs for these jobs and re-start their submission.");
+            }
+            else
+            {
+                Console.WriteLine("All jobs submitted.");
+            }
+
+            // Retrieve data from MCDLL
+            BWorker.ReportProgress(95, "Loading ... ");
+            e.Result = new TMCJob(MCDLL);
+
+            // Report completion
+            if (skipped_IDs.Count == _JobList.Count)
+            {
+                BWorker.ReportProgress(100, "All skipped\n(see console for details)\n");
+            }
+            else if (skipped_IDs.Count > 0)
+            {
+                BWorker.ReportProgress(100, "OK\n(see console for skipped IDs)\n");
+            }
+            else
+            {
+                BWorker.ReportProgress(100, "OK\n");
+            }
+
+            System.Threading.Thread.Sleep(Constants.THREAD_FINISH_DELAY);
+
+            // Return if nothing to start
+            if (skipped_IDs.Count == _JobList.Count) return;
+
+            // Write execution instructions to console
+            string runLogPath = Path.ChangeExtension(runScriptPath, "log");
+            Console.WriteLine();
+            Console.WriteLine("The script for executing the submitted local KMC calculations can be found under:");
+            Console.WriteLine(runScriptPath);
+            Console.WriteLine();
+            Console.WriteLine("Due to the typical execution policy restrictions of Powershell, it must be executed manually:");
+            Console.WriteLine();
+            Console.WriteLine(" - With file explorer: Right click + \"Run with Powershell\"");
+            Console.WriteLine("   (this executes the simulations and closes the Powershell window thereafter)");
+            Console.WriteLine();
+            Console.WriteLine(" - With Powershell shell:");
+            Console.WriteLine("   - This might require the following commands at first:");
+            Console.WriteLine("     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser");
+            Console.WriteLine("     Unblock-File -Path \"" + runScriptPath + "\"");
+            Console.WriteLine();
+            Console.WriteLine("   - Option 1: powershell.exe -NoExit \"" + runScriptPath + "\"");
+            Console.WriteLine("     (this executes the simulations and keeps the Powershell window open thereafter)");
+            Console.WriteLine();
+            Console.WriteLine("   - Option 2: powershell.exe \"" + runScriptPath + "\" | Tee-Object -Append -FilePath \""
+                + runLogPath + "\"");
+            Console.WriteLine("     (this executes the simulations and writes the Powershell output to a log file)");
+            Console.WriteLine();
+
+            // Note: Cannot start the script with:
+            //   string runLogPath = Path.ChangeExtension(runScriptPath, "log");
+            //   Process.Start("powershell.exe", @"-NoExit """ + runScriptPath
+            //      + @""" | Tee-Object -Append -FilePath """ + runLogPath + @"""");
+            // Reason: Execution of scripts is typically prevented by ExecutionPolicy (which the user would have to change interactively)
+
+            // Inform that simulation script can be started
+            Application.Current.Dispatcher.Invoke(
+                new Action<string, string>((string text, string title) =>
+                {
+                    MessageBox.Show(text, title, MessageBoxButton.OK, MessageBoxImage.Information);
+                }),
+                DispatcherPriority.Normal,
+                "Everything is ready for the local simulations, which will be carried out sequentially by the created Powershell script:\n\n"
+                + runScriptPath + "\n\nYou have to start this script by hand:\n" 
+                + " - File explorer: Right click + \"Run with Powershell\"\n"
+                + " - Command shell: \"powershell.exe -NoExit <script-path>\"\n\n"
+                + "Please see iCon's status window for further instructions.",
+                "Manual start of script required");
+
         }
 
         /// <summary>
@@ -690,7 +898,7 @@ namespace iCon_General
                     case Constants.KMCERR_OK:
                         break;
                     default:
-                        throw new ApplicationException("Cannot save job data to string (TVMSettings.SubmitJobs, ErrorCode: " + ErrorCode.ToString() + ")");
+                        throw new ApplicationException("Cannot save job data to string (TVMSettings.SubmitRemoteJobs, ErrorCode: " + ErrorCode.ToString() + ")");
                 }
                 Console.WriteLine("OK.");
 
@@ -711,8 +919,15 @@ namespace iCon_General
 
                 subProgress += jobPercInc;
                 BWorker.ReportProgress(Convert.ToInt32(Math.Floor(subProgress)), "OK\n");
+                Console.WriteLine();
             }
-            if (skipped_IDs.Count > 0)
+            if (skipped_IDs.Count == _JobList.Count)
+            {
+                Console.WriteLine("All jobs skipped.");
+                Console.WriteLine("Overwriting existing jobs is not permitted.");
+                Console.WriteLine("Assign new unused IDs for the jobs and re-start the submission.");
+            }
+            else if (skipped_IDs.Count > 0)
             {
                 Console.WriteLine("All jobs submitted except for the following IDs: " + skipped_IDs.ToRangeString());
                 Console.WriteLine("Overwriting existing jobs is not permitted.");
@@ -728,7 +943,11 @@ namespace iCon_General
             e.Result = new TMCJob(MCDLL);
 
             // Report completion
-            if (skipped_IDs.Count > 0)
+            if (skipped_IDs.Count == _JobList.Count)
+            {
+                BWorker.ReportProgress(100, "All skipped\n(see console for details)\n");
+            }
+            else if (skipped_IDs.Count > 0)
             {
                 BWorker.ReportProgress(100, "OK\n(see console for skipped IDs)\n");
             }

@@ -28,6 +28,7 @@ Compatibility of input/output files: 0.9.0.5 and later
 - Ignore revision number in file compatibility check
 
 ### Added:
+- Local simulations (sequential)
 - Remote cluster access via keyboard-interactive authentication (2FA)
 - SSH fingerprint check
 - User manual and further documentation

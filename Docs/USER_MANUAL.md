@@ -1,9 +1,33 @@
 # User manual
 
 The basic steps for setting up a KMC simulation with the iCon GUI are described in the [tutorial](https://www.icon.pc.rwth-aachen.de/tutorial.html). The underlying theory of the KMC simulations can be found in our [article](https://doi.org/10.1016/j.matchemphys.2020.123767) and in the [theory section](https://www.icon.pc.rwth-aachen.de/theory.html) of the homepage. Further clarifications are added through the frequent tooltips implemented in the GUI. Here, the focus is on
+- [How to execute simulations on the local system](#how-to-execute-simulations-on-the-local-system)
 - [How to execute simulations on a remote cluster](#how-to-execute-simulations-on-a-remote-cluster)
 - [How to retrieve the results](#how-to-retrieve-the-results)
 - [Advanced usage scenarios](#advanced-usage-scenarios)
+
+## How to execute simulations on the local system
+After adding KMC jobs to the list in iCon's `Job Settings` tab, these jobs can be submitted for local execution. 
+
+### Semi-automatic local submission process of iCon:
+For a proper understanding of the required settings, please see how iCon submits local calculations:
+- Copies the required `iConSimulator_Win.exe` and `iConSearcher_Win.exe` to the `Base directory` of the jobs.
+- Creates a basic Powershell script `Run_iCon_simulations.ps1` in the `Base directory`, which manages the execution of the KMC jobs.
+- For each KMC job in the job list:
+	- Creates an individual job directory (`Job prefix` + `ID`) in the `Base directory`.
+	- Places the input file of the job (*.kmc) in the job directory.
+	- Appends the execution command for the KMC job to the Powershell script.
+- Finally, the user has to execute the `Run_iCon_simulations.ps1` script manually, either by Right click + "Run with Powershell" or by shell commands. Instructions for this are written to iCon's status window.
+
+### Preparations for local job submission:
+In the `Extended Settings` tab, set the local `Workspace` directory, where the iCon simulations shall be stored. Leaving it blank leads to the default `iCon-Workspace` folder in the user's documents directory.
+
+Set the required options in the `Job Settings` tab:
+1. Select `Local` as submission type.
+2. Enter the `Job prefix` for the individual job directories (or use the default "Job").
+3. Specify the `Base directory` (typically relative to the local workspace), where the job directories will be created. If this directory already contains previous simulations, then it is important to adjust the `ID` of each new KMC jobs in the job list to an unused value.
+
+Now the submission process can be started by clicking `Submit Jobs` ! 
 
 ## How to execute simulations on a remote cluster
 After adding KMC jobs to the list in iCon's `Job Settings` tab, these jobs can be submitted to a remote queue system. Before hitting the `Submit` button, several preparations are necessary, as will be described further [below](#preparations-for-remote-job-submission). 
@@ -53,6 +77,7 @@ After the simulation, the KMC file contains a new element `<Results>`, which con
 In order to facilitate the collection of the results from a large number of KMC jobs, the `iConSearcher.exe` is provided in the base directory of the jobs.
 This tool searches all *.kmc files in the current working directory and its sub-directories, and collects their results in a `Summary.csv` file in the current working directory.
 Use it by navigating to the base directory with `cd ...` and by calling `./iConSearcher.exe` (in a remote shell, e.g. PuTTY).
+The Windows version `iConSearcher_Win.exe` can be started by double-click.
 
 ## Advanced usage scenarios
 Use `-help` to get further info on how to use `iConSimulator.exe` and `iConSearcher.exe`.

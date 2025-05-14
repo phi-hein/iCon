@@ -64,6 +64,9 @@ namespace iCon_General
         /// <summary> Filename of searcher executable for local execution </summary>
         public const string SC_KMC_LOCALSEARCHEXE = @"iConSearcher_Win.exe";
 
+        /// <summary> Name of the script for local execution </summary>
+        public const string SC_KMC_LOCALSCRIPT = @"Run_iCon_simulations.ps1";
+
         /// <summary> Standard working directory </summary>
         public const string SC_KMC_STD_WORKING_DIR = @"iCon-Workspace";
 

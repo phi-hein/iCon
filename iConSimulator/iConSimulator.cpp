@@ -180,7 +180,7 @@ int main(int argc, char* argv[])
 	cout << endl;
 	TCustomTime TotalRuntime = EndTime - StartTime;
 	cout << "Total runtime: " << TotalRuntime.ToString() << endl;
-	cout << "Job completed successfully." << endl;
+	cout << "Job completed successfully." << endl << endl;
 
 	return 0;
 }
