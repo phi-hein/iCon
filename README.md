@@ -8,7 +8,7 @@ This code was developed by Philipp Hein at the Institute of Physical Chemistry, 
 
 Project homepage: [www.icon.pc.rwth-aachen.de](https://www.icon.pc.rwth-aachen.de/)  
 DOI (scientific article): [10.1016/j.matchemphys.2020.123767](https://doi.org/10.1016/j.matchemphys.2020.123767)  
-DOI (citable archive): ...
+DOI (citable archive): [10.5281/zenodo.15426108](https://doi.org/10.5281/zenodo.15426108)
 
 <img src="./Docs/Images/GUI_example.png" width=90% height=90%>
 

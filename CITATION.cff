@@ -5,9 +5,9 @@ authors:
   given-names: "Philipp"
   orcid: "https://orcid.org/0000-0002-3029-9467"
 title: "iCon"
-version: 1.0.0-beta
-doi: none
-date-released: 2025-05-07
+version: 1.0.0
+doi: 10.5281/zenodo.15426108
+date-released: 2025-05-15
 url: "https://github.com/phi-hein/iCon"
 preferred-citation:
   type: article

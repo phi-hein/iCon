@@ -599,11 +599,11 @@ namespace iCon_General
             // Report completion
             if (skipped_IDs.Count == _JobList.Count)
             {
-                BWorker.ReportProgress(100, "All skipped\n(see console for details)\n");
+                BWorker.ReportProgress(100, "OK (all jobs were skipped)\n");
             }
             else if (skipped_IDs.Count > 0)
             {
-                BWorker.ReportProgress(100, "OK\n(see console for skipped IDs)\n");
+                BWorker.ReportProgress(100, "OK (some jobs were skipped)\n");
             }
             else
             {

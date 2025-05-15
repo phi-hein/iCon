@@ -1480,7 +1480,7 @@ namespace iCon_General
                 MCJob = (TMCJob)e.Result;
                 _VMProjectFile.GetData(MCJob);
                 ProgressStatus = "Complete";
-                ProgressDesc += "All simulations successfully submitted\n(see console for details)\n";
+                ProgressDesc += "Simulation submission complete\n(see console for details)\n";
                 ProgressDlg.btnCancel.Content = "OK";
             }
             else

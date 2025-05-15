@@ -36,7 +36,7 @@ Compatibility of input/output files: 0.9.0.5 and later
 ### Removed:
 - Restrictive licensing system removed in favor of open-source distribution
 - MergeModule of Visual C++ Redistributable removed from Setup, since deprecated by Microsoft  
-  (it was decided against a bundle with .NET framework and VC++ redist installers)
+  (it was decided against a bundle with .NET and VC++ redist installers)
 
 ### Fixed:
 - Simulations with all energies zero no longer run forever

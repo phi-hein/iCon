@@ -27,7 +27,7 @@ Set the required options in the `Job Settings` tab:
 2. Enter the `Job prefix` for the individual job directories (or use the default "Job").
 3. Specify the `Base directory` (typically relative to the local workspace), where the job directories will be created. If this directory already contains previous simulations, then it is important to adjust the `ID` of each new KMC jobs in the job list to an unused value.
 
-Now the submission process can be started by clicking `Submit Jobs` ! 
+Now the submission process can be started by clicking `Submit Jobs` ! Additional to the progress dialog window, the submission process is also visible in more detail in the console window, which is opened in the background.
 
 ## How to execute simulations on a remote cluster
 After adding KMC jobs to the list in iCon's `Job Settings` tab, these jobs can be submitted to a remote queue system. Before hitting the `Submit` button, several preparations are necessary, as will be described further [below](#preparations-for-remote-job-submission). 
@@ -67,7 +67,7 @@ Set the required options in the `Job Settings` tab:
 2. Enter the `Job prefix` for the individual job directories (or use the default "Job").
 3. Specify the `Base directory` (typically relative to the remote workspace), where the job directories will be created. If this directory already contains previous simulations, then it is important to adjust the `ID` of each new KMC jobs in the job list to an unused value.
 
-Now the submission process can be started by clicking `Submit Jobs` !
+Now the submission process can be started by clicking `Submit Jobs` ! Additional to the progress dialog window, the submission process is also visible in more detail in the console window, which is opened in the background.
 
 ## How to retrieve the results
 The `iConSimulator.exe` reads the KMC input file (*.kmc), carries out the simulation and then writes the results to the same file.
