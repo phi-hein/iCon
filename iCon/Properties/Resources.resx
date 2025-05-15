@@ -126,11 +126,23 @@
   <data name="AuthWindow_OKBtn" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="AuthWindow_PasswordLbl_Keyfile" xml:space="preserve">
+    <value>Key file password:</value>
+  </data>
+  <data name="AuthWindow_PasswordLbl_User" xml:space="preserve">
+    <value>User password:</value>
+  </data>
+  <data name="AuthWindow_PasswordPrompt" xml:space="preserve">
+    <value>Please enter the following information for remote SSH and SFTP authentication:</value>
+  </data>
   <data name="AuthWindow_ResponseLbl" xml:space="preserve">
     <value>Response:</value>
   </data>
-  <data name="AuthWindow_Title" xml:space="preserve">
+  <data name="AuthWindow_Title_Interactive" xml:space="preserve">
     <value>Keyboard-interactive authentication</value>
+  </data>
+  <data name="AuthWindow_Title_Passwords" xml:space="preserve">
+    <value>Authentication</value>
   </data>
   <data name="Btn_Add" xml:space="preserve">
     <value>Add</value>

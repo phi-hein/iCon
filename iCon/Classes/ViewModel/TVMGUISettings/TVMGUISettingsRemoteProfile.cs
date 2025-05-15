@@ -43,10 +43,8 @@ namespace iCon_General
                 HostPort = BaseProfile.HostPort;
                 Username = BaseProfile.Username;
                 WithPassword = BaseProfile.WithPassword;
-                UserPassword = BaseProfile.UserPassword;
                 WithPrivateKey = BaseProfile.WithPrivateKey;
                 PrivateKeyPath = BaseProfile.PrivateKeyPath;
-                PrivateKeyPassword = BaseProfile.PrivateKeyPassword;
                 WithKeyboardInteractive = BaseProfile.WithKeyboardInteractive;
                 HostFingerPrint = BaseProfile.HostFingerPrint;
                 SimSubmitScript = BaseProfile.SimSubmitScript;
@@ -221,27 +219,6 @@ namespace iCon_General
             }
         }
 
-        protected string _UserPassword = "";
-        /// <summary>
-        /// Password for password-only access to the cluster
-        /// (PasswordBox will display no validation)
-        /// </summary>
-        public string UserPassword
-        {
-            get
-            {
-                return _UserPassword;
-            }
-            set
-            {
-                if (value != _UserPassword)
-                {
-                    _UserPassword = value;
-                    Notify("UserPassword");
-                }
-            }
-        }
-
         protected bool _WithPrivateKey = false;
         /// <summary>
         /// Flag, true = access cluster with private key authentification
@@ -278,27 +255,6 @@ namespace iCon_General
                 {
                     _PrivateKeyPath = value;
                     Notify("PrivateKeyPath");
-                }
-            }
-        }
-
-        protected string _PrivateKeyPassword = "";
-        /// <summary>
-        /// Contains the password of the private key file
-        /// (PasswordBox will display no validation)
-        /// </summary>
-        public string PrivateKeyPassword
-        {
-            get
-            {
-                return _PrivateKeyPassword;
-            }
-            set
-            {
-                if (value != _PrivateKeyPassword)
-                {
-                    _PrivateKeyPassword = value;
-                    Notify("PrivateKeyPassword");
                 }
             }
         }
@@ -819,10 +775,8 @@ namespace iCon_General
             HostPort = tp_HostPort;
             Username = t_Username;
             WithPassword = tp_WithPassword;
-            UserPassword = "";
             WithPrivateKey = tp_WithPrivateKey;
             PrivateKeyPath = t_PrivateKeyPath;
-            PrivateKeyPassword = "";
             WithKeyboardInteractive = tp_WithKeyboardInteractive;
             HostFingerPrint = t_HostFingerPrint;
             AskConfigured = tp_AskConfigured;

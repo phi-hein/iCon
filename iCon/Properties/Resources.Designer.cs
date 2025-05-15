@@ -88,6 +88,33 @@ namespace iCon_General.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key file password: ähnelt.
+        /// </summary>
+        public static string AuthWindow_PasswordLbl_Keyfile {
+            get {
+                return ResourceManager.GetString("AuthWindow_PasswordLbl_Keyfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die User password: ähnelt.
+        /// </summary>
+        public static string AuthWindow_PasswordLbl_User {
+            get {
+                return ResourceManager.GetString("AuthWindow_PasswordLbl_User", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please enter the following information for remote SSH and SFTP authentication: ähnelt.
+        /// </summary>
+        public static string AuthWindow_PasswordPrompt {
+            get {
+                return ResourceManager.GetString("AuthWindow_PasswordPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Response: ähnelt.
         /// </summary>
         public static string AuthWindow_ResponseLbl {
@@ -99,9 +126,18 @@ namespace iCon_General.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Keyboard-interactive authentication ähnelt.
         /// </summary>
-        public static string AuthWindow_Title {
+        public static string AuthWindow_Title_Interactive {
             get {
-                return ResourceManager.GetString("AuthWindow_Title", resourceCulture);
+                return ResourceManager.GetString("AuthWindow_Title_Interactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Authentication ähnelt.
+        /// </summary>
+        public static string AuthWindow_Title_Passwords {
+            get {
+                return ResourceManager.GetString("AuthWindow_Title_Passwords", resourceCulture);
             }
         }
         
@@ -189,11 +225,11 @@ namespace iCon_General.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die                   END USER LICENSE AGREEMENT
         ///
-        ///  This software is © P. Hein, 2016, 2025, and it is made available under the GPL v3 license stated below, in combination with the following attribution requirement:
+        ///  This software is © P. Hein, 2016-2025, and it is made available under the GPL v3 license stated below, in combination with the following attribution requirement:
         ///
         ///  Over and above the legal restrictions imposed by the GPL license, if you use this software or modified variants of it, for example for an academic publication, then you are obliged to provide proper attribution by citing the following paper:
         ///
-        ///&quot;Kinetic Monte Carlo simulations of ionic conduct [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///&quot;Kinetic Monte Carlo simulations of ionic conducti [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string EULA {
             get {
@@ -300,16 +336,15 @@ namespace iCon_General.Properties {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Redistributed Microsoft libraries:
-        ///- Microsoft.Bcl.AsyncInterfaces (Version 9.0.4)
-        ///- Microsoft.Extensions.DependencyInjection.Abstractions (Version 9.0.4)
-        ///- Microsoft.Extensions.Logging.Abstractions (Version 9.0.4)
+        ///- Microsoft.Extensions.DependencyInjection.Abstractions (Version 8.0.2)
+        ///- Microsoft.Extensions.Logging.Abstractions (Version 8.0.3)
         ///- Microsoft.Xaml.Behaviors.Wpf (Version 1.1.31)
-        ///- System.Buffers (Version 4.6.1)
-        ///- System.Diagnostics.DiagnosticSource (Version 9.0.4)
-        ///- System.Formats.Asn1 (Version 9.0.4)
-        ///- System.Memory (Version 4.6.3)
-        ///- System.Numerics.Vectors (Version 4.6.1)
-        ///- System.Runtime.CompilerServices.Unsafe [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///
+        ///MIT License
+        ///
+        ///Copyright (c) Microsoft
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, mod [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string License_MicrosoftPackages {
             get {
@@ -486,7 +521,7 @@ namespace iCon_General.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Helix Toolkit (Version 2.27.0) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Helix Toolkit Core WPF (Version 2.27.0) ähnelt.
         /// </summary>
         public static string PackageTitle_HelixToolkit {
             get {

@@ -1419,7 +1419,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Content="Job directory (example):" Style="{StaticResource StdInputLabelStyle}"/>
+                                        <Label Grid.Column="0" Content="Job Directory (example):" Style="{StaticResource StdInputLabelStyle}"/>
                                         <TextBox Grid.Column="1" Style="{StaticResource StdReadOnlyTextBoxStyle}" VerticalAlignment="Center">
                                             <TextBox.Text>
                                                 <MultiBinding Converter="{StaticResource FullSubmitPathConverter}">
@@ -2662,7 +2662,6 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -2741,7 +2740,7 @@
                                                 </local:ToolTipHelper.MyToolTip>
                                             </TextBox>
                                         </customContr:HorizontalLabeledControl>
-                                        <customContr:HorizontalLabeledControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" LabelText="Build directory:" LabelMargin="5 0 5 0">
+                                        <customContr:HorizontalLabeledControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" LabelText="Build Directory:" LabelMargin="5 0 5 0">
                                             <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.RemoteBuildDir, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdInputTextBoxStyle}" MaxLength="100"
                                                      IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                                 <local:ToolTipHelper.MyToolTip>
@@ -2787,57 +2786,32 @@
                                                            Style="{StaticResource StdToolTipStyle}"/>
                                             </local:ToolTipHelper.MyToolTip>
                                         </CheckBox>
-                                        <customContr:HorizontalLabeledControl Grid.Row="5" Grid.Column="2" LabelText="Password:" LabelMargin="5 0 5 0">
-                                            <PasswordBox Style="{StaticResource StdInputPasswordBoxStyle}" MaxLength="50"
-                                                         local:PasswordBoxHelper.BindPassword="True"
-                                                         local:PasswordBoxHelper.BoundPassword="{Binding VMGUISettings.SelectedRemoteProfile.UserPassword,
-                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                                                <local:ToolTipHelper.MyToolTip>
-                                                    <TextBlock Text="User password for authentication at the remote cluster." 
-                                                           Style="{StaticResource StdToolTipStyle}"/>
-                                                </local:ToolTipHelper.MyToolTip>
-                                            </PasswordBox>
-                                        </customContr:HorizontalLabeledControl>
-                                        <CheckBox Grid.Row="6" Grid.Column="0" Content="Private Key Authentication" Style="{StaticResource StdCheckBoxStyle}"
-                                                  IsChecked="{Binding VMGUISettings.SelectedRemoteProfile.WithPrivateKey, UpdateSourceTrigger=PropertyChanged}"
-                                                  IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                                            <local:ToolTipHelper.MyToolTip>
-                                                <TextBlock Text="If checked, the private key file whose path is specified below, is used for authentication at the remote cluster." 
-                                                           Style="{StaticResource StdToolTipStyle}"/>
-                                            </local:ToolTipHelper.MyToolTip>
-                                        </CheckBox>
-                                        <customContr:HorizontalLabeledControl Grid.Row="6" Grid.Column="2" LabelText="Key Password:" LabelMargin="5 0 5 0">
-                                            <PasswordBox Style="{StaticResource StdInputPasswordBoxStyle}" MaxLength="50"
-                                                         local:PasswordBoxHelper.BindPassword="True"
-                                                         local:PasswordBoxHelper.BoundPassword="{Binding VMGUISettings.SelectedRemoteProfile.PrivateKeyPassword,
-                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                                                <local:ToolTipHelper.MyToolTip>
-                                                    <TextBlock Text="Password for the private key file." 
-                                                           Style="{StaticResource StdToolTipStyle}"/>
-                                                </local:ToolTipHelper.MyToolTip>
-                                            </PasswordBox>
-                                        </customContr:HorizontalLabeledControl>
-                                        <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3">
+                                        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <customContr:HorizontalLabeledControl Grid.Column="0" LabelText="Private Key Path:" LabelMargin="5 0 5 0">
-                                                <TextBox Text="{Binding VMGUISettings.SelectedRemoteProfile.PrivateKeyPath, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdReadOnlyTextBoxStyle}"
-                                                         IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                                                    <local:ToolTipHelper.MyToolTip>
-                                                        <TextBlock Text="Path to the private key file." 
-                                                           Style="{StaticResource StdToolTipStyle}"/>
-                                                    </local:ToolTipHelper.MyToolTip>
-                                                </TextBox>
-                                            </customContr:HorizontalLabeledControl>
-                                            <Button Grid.Column="1" Content="..." Style="{StaticResource StdMiniButtonStyle}" Padding="0 -2 0 0"
+                                            <CheckBox Grid.Column="0" Content="Private Key Authentication: " Style="{StaticResource StdCheckBoxStyle}"
+                                                      IsChecked="{Binding VMGUISettings.SelectedRemoteProfile.WithPrivateKey, UpdateSourceTrigger=PropertyChanged}"
+                                                      IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                                <local:ToolTipHelper.MyToolTip>
+                                                    <TextBlock Text="If checked, the private key file whose path is specified below, is used for authentication at the remote cluster." 
+                                                               Style="{StaticResource StdToolTipStyle}"/>
+                                                </local:ToolTipHelper.MyToolTip>
+                                            </CheckBox>
+                                            <TextBox Grid.Column="1" Text="{Binding VMGUISettings.SelectedRemoteProfile.PrivateKeyPath, ValidatesOnNotifyDataErrors=True}" Style="{StaticResource StdReadOnlyTextBoxStyle}"
+                                                     IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center">
+                                                <local:ToolTipHelper.MyToolTip>
+                                                    <TextBlock Text="Path to the private key file." 
+                                                               Style="{StaticResource StdToolTipStyle}"/>
+                                                </local:ToolTipHelper.MyToolTip>
+                                            </TextBox>
+                                            <Button Grid.Column="2" Content="..." Style="{StaticResource StdMiniButtonStyle}" Padding="0 -2 0 0"
                                                     Click="BtnCmd_VMGUISettings_SetPrivateKeyPath"
                                                     IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         </Grid>
-                                        <CheckBox Grid.Row="8" Grid.Column="0" Content="Keyboard-Interactive Authentication" Style="{StaticResource StdCheckBoxStyle}"
+                                        <CheckBox Grid.Row="7" Grid.Column="0" Content="Keyboard-Interactive Authentication" Style="{StaticResource StdCheckBoxStyle}"
                                                   IsChecked="{Binding VMGUISettings.SelectedRemoteProfile.WithKeyboardInteractive, UpdateSourceTrigger=PropertyChanged}"
                                                   IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                             <local:ToolTipHelper.MyToolTip>
@@ -2848,10 +2822,10 @@
                                     </Grid>
                                 </StackPanel>
                                 <DockPanel Grid.Row="3" Style="{StaticResource MultilineInputDockpanelStyle}">
-                                    <Label DockPanel.Dock="Top" Content="Remote scripts:" Style="{StaticResource StdInputLabelStyle}"/>
+                                    <Label DockPanel.Dock="Top" Content="Remote Scripts:" Style="{StaticResource StdInputLabelStyle}"/>
                                     <TabControl Style="{StaticResource MainTabControlStyle}" Margin="0 0 0 0"
                                                 IsEnabled="{Binding VMGUISettings.IsRemoteProfileSelected, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                                        <TabItem Style="{StaticResource MainTabItemStyle}" Header="Submit script">
+                                        <TabItem Style="{StaticResource MainTabItemStyle}" Header="Submit Script">
                                             <TextBox Style="{StaticResource MultilineInputTextBoxStyle}"
                                                     FontFamily="Global Monospace, Global User Interface"
                                                     Margin="5 5 5 0" TextWrapping="NoWrap"
@@ -2887,7 +2861,7 @@
                                                 </TextBox.ContextMenu>
                                             </TextBox>
                                         </TabItem>
-                                        <TabItem Style="{StaticResource MainTabItemStyle}" Header="Job script">
+                                        <TabItem Style="{StaticResource MainTabItemStyle}" Header="Job Script">
                                             <TextBox Style="{StaticResource MultilineInputTextBoxStyle}"
                                                     FontFamily="Global Monospace, Global User Interface"
                                                     Margin="5 5 5 0" TextWrapping="NoWrap"
@@ -2910,7 +2884,7 @@
                                                 </TextBox.ContextMenu>
                                             </TextBox>
                                         </TabItem>
-                                        <TabItem Style="{StaticResource MainTabItemStyle}" Header="Build script">
+                                        <TabItem Style="{StaticResource MainTabItemStyle}" Header="Build Script">
                                             <TextBox Style="{StaticResource MultilineInputTextBoxStyle}"
                                                     FontFamily="Global Monospace, Global User Interface"
                                                     Margin="5 5 5 0" TextWrapping="NoWrap"

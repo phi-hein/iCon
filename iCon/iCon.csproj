@@ -91,11 +91,22 @@ powershell.exe -nologo -noprofile -command "&amp; { Add-Type -A 'System.IO.Compr
     <Resource Include="Resources\ThirdPartyLicenses\License_MicrosoftPackages.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -109,5 +120,6 @@ powershell.exe -nologo -noprofile -command "&amp; { Add-Type -A 'System.IO.Compr
 	<PackageProjectUrl></PackageProjectUrl>
 	<RepositoryUrl>https://github.com/phi-hein/iCon</RepositoryUrl>
 	<NeutralLanguage>en</NeutralLanguage>
+	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>

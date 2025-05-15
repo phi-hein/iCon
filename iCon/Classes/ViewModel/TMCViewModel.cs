@@ -1467,9 +1467,13 @@ namespace iCon_General
             else if (e.Result is BWorkerResultMessage)
             {
                 BWorkerResultMessage returnmsg = (BWorkerResultMessage)e.Result;
-                ProgressStatus = returnmsg.MessageHeader;
-                ProgressDesc += returnmsg.MessageText;
-                ProgressDlg.btnCancel.Content = "OK";
+                if (returnmsg.IsUserCancelled == false)
+                {
+                    ProgressStatus = returnmsg.MessageHeader;
+                    ProgressDesc += returnmsg.MessageText;
+                    ProgressDlg.btnCancel.Content = "OK";
+                }
+                else ProgressDlg.Close();
             }
             else if (e.Result is TMCJob)
             {

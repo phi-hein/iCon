@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Net.Sockets;
+using System.Security;
 using System.Windows;
 using System.Windows.Threading;
 using Renci.SshNet;
@@ -64,6 +66,7 @@ namespace iCon_General
         {
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
+            GC.Collect();
         }
 
         #endregion
@@ -76,11 +79,70 @@ namespace iCon_General
         /// <returns>"true" if successful</returns>
         public bool Initialize(DoWorkEventArgs e, TVMGUISettingsRemoteProfile RemoteProfile)
         {
-            _sshcl = CreateSSHClient(e, RemoteProfile);
-            if (_sshcl == null) return false;
+            // Obtain required passwords
+            SecureString user_pw = null;
+            SecureString keyfile_pw = null;
+            if ((RemoteProfile.WithPassword) && (RemoteProfile.WithPrivateKey))
+            {
+                (user_pw, keyfile_pw) = Application.Current.Dispatcher.Invoke(
+                    new Func<(SecureString, SecureString)>(() =>
+                    {
+                        return AuthDialog.PasswordsPrompt();
+                    }),
+                    DispatcherPriority.Normal);
+                if ((user_pw == null) || (keyfile_pw == null))
+                {
+                    e.Result = new BWorkerResultMessage("Cancelled", "Password required\n",
+                        Constants.KMCERR_INVALID_INPUT, true);
+                    return false;
+                }
+            }
+            else
+            {
+                if (RemoteProfile.WithPassword)
+                {
+                    user_pw = Application.Current.Dispatcher.Invoke(
+                        new Func<SecureString>(() =>
+                        {
+                            return AuthDialog.UserPasswordPrompt();
+                        }),
+                        DispatcherPriority.Normal);
+                    if (user_pw == null)
+                    {
+                        e.Result = new BWorkerResultMessage("Cancelled", "Password required\n",
+                            Constants.KMCERR_INVALID_INPUT, true);
+                        return false;
+                    }
+                }
+                if (RemoteProfile.WithPrivateKey)
+                {
+                    keyfile_pw = Application.Current.Dispatcher.Invoke(
+                        new Func<SecureString>(() =>
+                        {
+                            return AuthDialog.KeyfilePasswordPrompt();
+                        }),
+                        DispatcherPriority.Normal);
+                    if (keyfile_pw == null)
+                    {
+                        e.Result = new BWorkerResultMessage("Cancelled", "Password required\n",
+                            Constants.KMCERR_INVALID_INPUT, true);
+                        return false;
+                    }
+                }
+            }
 
-            _sftpcl = CreateSFTPClient(e, RemoteProfile);
-            if (_sftpcl == null) return false;
+            using (user_pw)
+            {
+                using (keyfile_pw)
+                {
+                    // Create clients
+                    _sshcl = CreateSSHClient(e, RemoteProfile, user_pw, keyfile_pw);
+                    if (_sshcl == null) return false;
+
+                    _sftpcl = CreateSFTPClient(e, RemoteProfile, user_pw, keyfile_pw);
+                    if (_sftpcl == null) return false;
+                }
+            }
 
             return true;
         }
@@ -121,15 +183,25 @@ namespace iCon_General
             }
             catch (SshAuthenticationException ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
-                e.Result = new BWorkerResultMessage("Authentication Error", "Authentication of SSH session failed\n(see console for details)\n",
-                    Constants.KMCERR_INVALID_INPUT, false);
+                if (e.Result == null)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                    e.Result = new BWorkerResultMessage("Authentication Error", "Authentication of SSH session failed\n(see console for details)\n",
+                        Constants.KMCERR_INVALID_INPUT, false);
+                }
                 return false;
             }
             catch (SocketException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
                 e.Result = new BWorkerResultMessage("SSH Socket Error", "Socket connection could not be established\n(see console for details)\n",
+                    Constants.KMCERR_INVALID_INPUT, false);
+                return false;
+            }
+            catch (SshException ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                e.Result = new BWorkerResultMessage("SSH Error", "Connection failed\n(see console for details)\n",
                     Constants.KMCERR_INVALID_INPUT, false);
                 return false;
             }
@@ -547,10 +619,10 @@ namespace iCon_General
         /// Create SshClient object
         /// </summary>
         /// <returns>SshClient object (if successful) or null (if error)</returns>
-        protected static SshClient CreateSSHClient(DoWorkEventArgs e, TVMGUISettingsRemoteProfile RemoteProfile)
+        protected static SshClient CreateSSHClient(DoWorkEventArgs e, TVMGUISettingsRemoteProfile RemoteProfile, SecureString UserPW, SecureString KeyfilePW)
         {
             // Obtain ConnectionInfo
-            var coninfo = CreateConnectionInfo(e, RemoteProfile, "SSH");
+            var coninfo = CreateConnectionInfo(e, RemoteProfile, "SSH", UserPW, KeyfilePW);
             if (coninfo == null)
             {
                 if (e.Result == null)
@@ -612,10 +684,10 @@ namespace iCon_General
         /// Create SftpClient object
         /// </summary>
         /// <returns>SftpClient object (if successful) or null (if error)</returns>
-        protected static SftpClient CreateSFTPClient(DoWorkEventArgs e, TVMGUISettingsRemoteProfile RemoteProfile)
+        protected static SftpClient CreateSFTPClient(DoWorkEventArgs e, TVMGUISettingsRemoteProfile RemoteProfile, SecureString UserPW, SecureString KeyfilePW)
         {
             // Obtain ConnectionInfo
-            var coninfo = CreateConnectionInfo(e, RemoteProfile, "SFTP");
+            var coninfo = CreateConnectionInfo(e, RemoteProfile, "SFTP", UserPW, KeyfilePW);
             if (coninfo == null)
             {
                 if (e.Result == null)
@@ -677,19 +749,33 @@ namespace iCon_General
         /// Creates ConnectionInfo object with server authentication settings
         /// </summary>
         /// <returns>ConnectionInfo object (if successful) or null (if error)</returns>
-        protected static ConnectionInfo CreateConnectionInfo(DoWorkEventArgs e, TVMGUISettingsRemoteProfile RemoteProfile, string clienttype)
+        protected static ConnectionInfo CreateConnectionInfo(DoWorkEventArgs e, TVMGUISettingsRemoteProfile RemoteProfile, string clienttype, SecureString UserPW, SecureString KeyfilePW)
         {
             // Create desired authentication method list
             List<AuthenticationMethod> auth_methods = new List<AuthenticationMethod>();
 
             // Create password authentication method
+            string user_pw = null;
             if (RemoteProfile.WithPassword == true)
             {
                 // Add password authentication method
                 try
                 {
-                    auth_methods.Add(new PasswordAuthenticationMethod(RemoteProfile.Username.Trim(),
-                        RemoteProfile.UserPassword.Trim()));
+                    IntPtr ptr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR(UserPW);
+
+                    try
+                    {
+                        unsafe
+                        {
+                            user_pw = new string((char*)ptr);
+                        }
+                    }
+                    finally
+                    {
+                        System.Runtime.InteropServices.Marshal.ZeroFreeBSTR(ptr);
+                    }
+
+                    auth_methods.Add(new PasswordAuthenticationMethod(RemoteProfile.Username.Trim(), user_pw));
                 }
                 catch (ArgumentException)
                 {
@@ -716,8 +802,22 @@ namespace iCon_General
                 PrivateKeyFile keyfile = null;
                 try
                 {
-                    keyfile = new PrivateKeyFile(RemoteProfile.PrivateKeyPath.Trim(),
-                        RemoteProfile.PrivateKeyPassword.Trim());
+                    string keyfile_pw = null;
+                    IntPtr ptr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR(UserPW);
+
+                    try
+                    {
+                        unsafe
+                        {
+                            keyfile_pw = new string((char*)ptr);
+                        }
+                    }
+                    finally
+                    {
+                        System.Runtime.InteropServices.Marshal.ZeroFreeBSTR(ptr);
+                    }
+
+                    keyfile = new PrivateKeyFile(RemoteProfile.PrivateKeyPath.Trim(), keyfile_pw);
                 }
                 catch (SshException ex)
                 {
@@ -804,18 +904,47 @@ namespace iCon_General
                             if (string.IsNullOrWhiteSpace(prompt.Request)) continue;
 
                             if ((RemoteProfile.WithPassword == true) &&
-                                (string.IsNullOrWhiteSpace(RemoteProfile.UserPassword) == false) &&
+                                (string.IsNullOrWhiteSpace(user_pw) == false) &&
                                 (prompt.Request.IndexOf("password", StringComparison.InvariantCultureIgnoreCase) != -1))
                             {
-                                prompt.Response = RemoteProfile.UserPassword.Trim();
+                                prompt.Response = user_pw;
                             }
                             else
                             {
-                                prompt.Response = (string)Application.Current.Dispatcher.Invoke(
-                                    new Func<string, string, string>((string cltype, string question) =>
+                                SecureString response_sec = (SecureString)Application.Current.Dispatcher.Invoke(
+                                    new Func<string, string, SecureString>((string cltype, string question) =>
                                     {
-                                        return AuthDialog.Prompt("Server request (" + cltype + ")", question);
-                                    }), DispatcherPriority.Normal, clienttype, prompt.Request);
+                                        return AuthDialog.KeyboardInteractivePrompt("Server request (" + cltype + ")", question);
+                                    }), 
+                                    DispatcherPriority.Normal, 
+                                    clienttype, 
+                                    prompt.Request);
+
+                                if (response_sec == null)
+                                {
+                                    Console.WriteLine("Interactive authentication request cancelled by user.");
+                                    e.Result = new BWorkerResultMessage("Cancelled", "Response required\n",
+                                        Constants.KMCERR_INVALID_INPUT, true);
+                                    prompt.Response = "";
+                                    return;
+                                }
+
+                                string response = null;
+                                IntPtr ptr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR(response_sec);
+
+                                try
+                                {
+                                    unsafe
+                                    {
+                                        response = new string((char*)ptr);
+                                    }
+                                }
+                                finally
+                                {
+                                    System.Runtime.InteropServices.Marshal.ZeroFreeBSTR(ptr);
+                                }
+
+                                prompt.Response = response;
                             }
                         }
                     };
