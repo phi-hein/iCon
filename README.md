@@ -38,9 +38,11 @@ DOI (citable archive): [10.5281/zenodo.15426108](https://doi.org/10.5281/zenodo.
 - [Changelog](CHANGELOG.md)
 
 ## Related publications
-- S\. Grieshammer, S. Eisele, J. Koettgen, _Journal of Physical Chemistry C_ 2018, 122, 33, 18809–18817 ([DOI](https://doi.org/10.1021/acs.jpcc.8b04361))
+- F.\M. Draber, _Ph.D. thesis_, RWTH Aachen University, 2021 ([DOI](https://doi.org/10.18154/RWTH-2021-03399))
+- F.\M. Draber, C. Ader, J.P. Arnold, S. Eisele, S. Grieshammer, S. Yamaguchi and M. Martin, _Nature Materials_ 2020, 19, 338-346 ([DOI](https://doi.org/10.1038/s41563-019-0561-7))
+- S\. Grieshammer, S. Eisele, J. Koettgen, _Journal of Physical Chemistry C_ 2018, 122, 33, 18809â€“18817 ([DOI](https://doi.org/10.1021/acs.jpcc.8b04361))
 - J\. Koettgen, S. Grieshammer, P. Hein, B.O.H. Grope, M. Nakayama and M. Martin, _Physical Chemistry Chemical Physics_ 2018, 20, 14291-14321 ([DOI](https://dx.doi.org/10.1039/C7CP08535D))
-- J\.R. Köttgen, _Ph.D. thesis_, RWTH Aachen University, 2017 ([DOI](http://dx.doi.org/10.18154/RWTH-2017-01919))
+- J\.R. KÃ¶ttgen, _Ph.D. thesis_, RWTH Aachen University, 2017 ([DOI](http://dx.doi.org/10.18154/RWTH-2017-01919))
 - J\. Koettgen, T. Zacherle, S. Grieshammer and M. Martin, _Physical Chemistry Chemical Physics_ 2017, 19, 9957-9973 ([DOI](https://dx.doi.org/10.1039/C6CP04802A))
 - B\.O.H. Grope, _Ph.D. thesis_, RWTH Aachen University, 2015 ([RWTH Publications](https://publications.rwth-aachen.de/record/658793))
 - S\.P. Grieshammer, _Ph.D. thesis_, RWTH Aachen University, 2015 ([RWTH Publications](https://publications.rwth-aachen.de/record/481133))
