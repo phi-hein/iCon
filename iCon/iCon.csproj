@@ -19,7 +19,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <UseWindowsForms>False</UseWindowsForms>
@@ -121,5 +121,8 @@ powershell.exe -nologo -noprofile -command "&amp; { Add-Type -A 'System.IO.Compr
 	<RepositoryUrl>https://github.com/phi-hein/iCon</RepositoryUrl>
 	<NeutralLanguage>en</NeutralLanguage>
 	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	<AssemblyVersion>1.0.1.0</AssemblyVersion>
+	<FileVersion>1.0.1.0</FileVersion>
+	<Version>1.0.1</Version>
   </PropertyGroup>
 </Project>

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Diagnostics.Tracing;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -421,10 +419,20 @@ namespace iCon_General
         {
             if (IsRemoteCalc)
             {
+                if ((BaseDir is null) || (JobPfx is null))
+                {
+                    throw new ArgumentNullException("Base directory or job prefix cannot be null (GetFullSubmitPath).");
+                }
+
                 return RemotePaths.Combine(RemotePaths.Combine("~", RemoteWsp, BaseDir), JobPfx + "_0001");
             }
             else
             {
+                if ((BaseDir is null) || (JobPfx is null) || (LocalWsp is null))
+                {
+                    throw new ArgumentNullException("Base directory, job prefix or local workspace cannot be null (GetFullSubmitPath).");
+                }
+
                 return Path.Combine(Path.Combine(TVMGUISettings.GetLocalWorkspacePath(LocalWsp), BaseDir), JobPfx + "_0001");
             }
         }

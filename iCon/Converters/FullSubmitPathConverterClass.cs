@@ -13,10 +13,10 @@ namespace iCon_General
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             bool is_remote_calc = (bool)values[0];
-            string base_dir = (string)values[1];
-            string job_prefix = (string)values[2];
-            string remote_workspace = (string)values[3];
-            string local_workspace = (string)values[4];
+            string base_dir = values[1] as string;
+            string job_prefix = values[2] as string;
+            string remote_workspace = values[3] as string;
+            string local_workspace = values[4] as string;
 
             return TVMSettings.GetFullSubmitPath(is_remote_calc, base_dir, job_prefix, remote_workspace, local_workspace);
         }

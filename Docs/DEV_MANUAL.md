@@ -27,7 +27,7 @@
 - Update version number and file compatibility in `GlobalDefinitions.h`
 - Update version number in `*.rc` files of the C++ projects
 - Update version number in `AssemblyInfo.cpp` of C++/CLI projects
-- Update version number in iCon project settings (`Version` and `FileVersion`)
+- Update version number in iCon project settings (`Version`, `FileVersion`, `AssemblyVersion` and `ApplicationVersion`)
 
 ### How to handle updates of used NuGet packages
 - Update resource strings for "About" window with the new version number (`PackageTitle_...`)
